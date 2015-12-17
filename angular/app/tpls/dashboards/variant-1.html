@@ -4,57 +4,57 @@
 
 
 
-  		Metal: <span id="metal">{{metal.current_metal}}</span>
+  		Metal: <span id="metal">{{metal.current_owned}}</span>
   		<br />
 
 
-  		Mine: <span id="metalcursors">1</span>
+  		Mine: <span id="current_mine_level">{{metal.current_mine_level}}</span>
   		<br />
 
 
-  		Upgrade Cost: <span id="metalcursorCost">5</span>
+  		Upgrade Cost: <span id="metalcursorCost">{{metal.current_cost}}</span>
   		<br />
 
-  		<button ng-click="ClickMetal(1)">ADD Metal Cursor</button>
+  		<button ng-click="BuyMetalMine()">ADD Metal Cursor</button>
 
 
-  		<br />
-  		<br />
-
-
-
-
-  		Gas: <span id="gas">0</span>
-  		<br />
-
-
-  		GasMine: <span id="gascursors">1</span>
-  		<br />
-
-
-  		Upgrade Cost: <span id="gascursorCost">10</span>
-  		<br />
-
-  		<button onclick="buygasCursor()">ADD Gas Cursor</button>
-
-
-  		<br />
-  		<br />
-  		<br />
-  		<br />
   		<br />
   		<br />
 
 
 
 
-  		Level: <span id="level">1</span>
+  		Crystal: <span id="cystal">{{crystal.current_owned}}</span>
+  		<br />
+
+
+  		CrystalMine: <span id="cystalcursors">{{crystal.current_mine_level}}</span>
+  		<br />
+
+
+  		Upgrade Cost: <span id="cystalcursorCost">{{crystal.current_cost}}</span>
+  		<br />
+
+  		<button ng-click="BuyCrystalMine()">ADD Crystal Cursor</button>
+
+
+  		<br />
+  		<br />
+  		<br />
+  		<br />
+  		<br />
+  		<br />
+
+
+
+
+  		Level: <span id="level">{{level.current_level}}</span>
   		<br/>
-  		Metal Requirement: <span id="metal_req">40</span>
+  		Metal Requirement: <span id="metal_req">{{level.level_metal_req}}</span>
   		<br/>
-  		Gas Requirement: <span id="gas_req">30</span>
+  		Crystal Requirement: <span id="crystal_req">{{level.level_crystal_req}}</span>
   		<br />
-  		<button onclick="NextLevel()">Next Level</button>
+  		<button ng-click="NextLevel()">Next Level</button>
 
 
 
