@@ -1,5 +1,8 @@
 'use strict';
 
+
+
+
 angular.module('xenon.controllers', []).
 	controller('LoginCtrl', function($scope, $rootScope)
 	{
@@ -8,6 +11,45 @@ angular.module('xenon.controllers', []).
 		$rootScope.isLockscreenPage   = false;
 		$rootScope.isMainPage         = false;
 	}).
+	controller('GameCtrl', function($scope, $rootScope, $cookies, $modal, $sce)
+	{
+/*		var poll_notification = window.setInterval(function(){
+
+		var AUTHOR_URL = 'http://localhost:5000/get_notification/'.concat('Tyler');
+			$.ajax({
+				dataType: 'json',
+				type: 'GET',
+				url: AUTHOR_URL,
+				success: function(message) {
+					console.log(message);
+
+				}
+			});
+
+		}, 2000);
+
+		*/
+
+		var metal = {
+		  current_metal:0,
+		  current_mine_level:1
+		};
+
+		var crystal = {
+		  current_crystal:0,
+		  current_crystal:1
+		};
+		$scope.metal = metal;
+
+
+
+		$scope.ClickMetal = function(number){
+		    metal.current_metal = metal.current_metal + number;
+		};
+
+
+	}).
+
 	controller('LoginLightCtrl', function($scope, $rootScope, $cookies)
 	{
 		$rootScope.isLoginPage        = true;
@@ -28,6 +70,7 @@ angular.module('xenon.controllers', []).
 		$rootScope.isLockscreenPage   = true;
 		$rootScope.isMainPage         = false;
 	}).
+
 	controller('MainCtrl', function($scope, $rootScope, $location, $layout, $layoutToggles, $pageLoadingBar, Fullscreen)
 	{
 		$rootScope.isLoginPage        = false;
@@ -46,7 +89,7 @@ angular.module('xenon.controllers', []).
 			},
 			sidebar: {
 				isVisible		: true,
-				isCollapsed		: false,
+				isCollapsed		: true,
 				toggleOthers	: true,
 				isFixed			: true,
 				isRight			: false,
@@ -54,7 +97,7 @@ angular.module('xenon.controllers', []).
 				isMenuOpenMobile: false,
 
 				// Added in v1.3
-				userProfile		: true
+				userProfile		: false
 			},
 			chat: {
 				isOpen			: false,
@@ -170,8 +213,18 @@ angular.module('xenon.controllers', []).
 		}
 
 	}).
-	controller('SidebarMenuCtrl', function($scope, $rootScope, $menuItems, $timeout, $location, $state, $layout)
+	controller('SidebarMenuCtrl', function($scope, $rootScope, $menuItems, $timeout, $location, $state, $layout, $modal, $sce)
 	{
+
+
+		$scope.openModal = function(modal_id, modal_size, modal_backdrop)
+		{
+			$rootScope.currentModal = $modal.open({
+				templateUrl: modal_id,
+				size: modal_size,
+				backdrop: typeof modal_backdrop == 'undefined' ? true : modal_backdrop
+			});
+		};
 
 		// Menu Items
 		var $sidebarMenuItems = $menuItems.instantiate();
@@ -222,7 +275,7 @@ angular.module('xenon.controllers', []).
 		var $chat = jQuery($element),
 			$chat_conv = $chat.find('.chat-conversation');
 
-		$chat.find('.chat-inner').perfectScrollbar(); // perfect scrollbar for chat container
+		//$chat.find('.chat-inner').perfectScrollbar(); // perfect scrollbar for chat container
 
 
 		// Chat Conversation Window (sample)

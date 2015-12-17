@@ -31,7 +31,8 @@ app.run(function()
 
 app.config(function($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, ASSETS){
 
-	$urlRouterProvider.otherwise('/login-light');
+	//$urlRouterProvider.otherwise('/login-light');
+	$urlRouterProvider.otherwise('/app/dashboard-variant-1');
 
 	$stateProvider.
 		// Main Layout Structure
@@ -51,6 +52,7 @@ app.config(function($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, ASS
 		state('app.dashboard-variant-1', {
 			url: '/dashboard-variant-1',
 			templateUrl: appHelper.templatePath('dashboards/variant-1'),
+			controller: 'GameCtrl',
 			resolve: {
 				resources: function($ocLazyLoad){
 					return $ocLazyLoad.load([

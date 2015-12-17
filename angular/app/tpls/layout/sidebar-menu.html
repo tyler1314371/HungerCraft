@@ -1,13 +1,189 @@
+<script type="text/ng-template" id="modal-1">
+	<div class="modal-header">
+		<button type="button" class="close" ng-click="currentModal.close();" aria-hidden="true">&times;</button>
+		<h4 class="modal-title">Basic Modal</h4>
+	</div>
+
+	<div class="modal-body">
+		Hello I am a Modal!
+	</div>
+
+	<div class="modal-footer">
+		<button type="button" class="btn btn-white" ng-click="currentModal.close();">Close</button>
+		<button type="button" class="btn btn-info" ng-click="currentModal.dismiss();">Save changes</button>
+	</div>
+</script>
+
+<script type="text/ng-template" id="modal-2">
+	<div class="modal-header">
+		<button type="button" class="close" ng-click="currentModal.close();" aria-hidden="true">&times;</button>
+		<h4 class="modal-title">Custom Width Modal</h4>
+	</div>
+
+	<div class="modal-body">
+		You can apply <strong>lg</strong> or <strong>sm</strong> modal size.
+	</div>
+
+	<div class="modal-footer">
+		<button type="button" class="btn btn-white" ng-click="currentModal.close();">Close</button>
+		<button type="button" class="btn btn-info" ng-click="currentModal.dismiss();">Save changes</button>
+	</div>
+</script>
+
+<script type="text/ng-template" id="modal-3">
+	<div class="modal-header">
+		<h4 class="modal-title">Confirm Modal</h4>
+	</div>
+
+	<div class="modal-body">
+
+		You can close this modal when you click on button only!
+
+	</div>
+
+	<div class="modal-footer">
+		<button type="button" class="btn btn-info" ng-click="currentModal.dismiss();">Continue</button>
+	</div>
+</script>
+
+<script type="text/ng-template" id="modal-4">
+	<div class="modal-header">
+		<button type="button" class="close" ng-click="currentModal.close();" aria-hidden="true">&times;</button>
+		<h4 class="modal-title">Long Height Modal</h4>
+	</div>
+
+	<div class="modal-body">
+
+		<img src="assets/images/eiffel.jpg" alt="" class="img-responsive" />
+
+	</div>
+
+	<div class="modal-footer">
+		<button type="button" class="btn btn-white" ng-click="currentModal.close();">Close</button>
+		<button type="button" class="btn btn-info" ng-click="currentModal.dismiss();">Save changes</button>
+	</div>
+</script>
+
+<script type="text/ng-template" id="modal-5">
+	<div class="modal-header">
+		<button type="button" class="close" ng-click="currentModal.close();" aria-hidden="true">&times;</button>
+		<h4 class="modal-title">Modal Content is Responsive</h4>
+	</div>
+
+	<div class="modal-body">
+
+		<div class="row">
+			<div class="col-md-6">
+
+				<div class="form-group">
+					<label for="field-1" class="control-label">Name</label>
+
+					<input type="text" class="form-control" id="field-1" placeholder="John">
+				</div>
+
+			</div>
+
+			<div class="col-md-6">
+
+				<div class="form-group">
+					<label for="field-2" class="control-label">Surname</label>
+
+					<input type="text" class="form-control" id="field-2" placeholder="Doe">
+				</div>
+
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-12">
+
+				<div class="form-group">
+					<label for="field-3" class="control-label">Address</label>
+
+					<input type="text" class="form-control" id="field-3" placeholder="Address">
+				</div>
+
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-4">
+
+				<div class="form-group">
+					<label for="field-4" class="control-label">City</label>
+
+					<input type="text" class="form-control" id="field-4" placeholder="Boston">
+				</div>
+
+			</div>
+
+			<div class="col-md-4">
+
+				<div class="form-group">
+					<label for="field-5" class="control-label">Country</label>
+
+					<input type="text" class="form-control" id="field-5" placeholder="United States">
+				</div>
+
+			</div>
+
+			<div class="col-md-4">
+
+				<div class="form-group">
+					<label for="field-6" class="control-label">Zip</label>
+
+					<input type="text" class="form-control" id="field-6" placeholder="123456">
+				</div>
+
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-12">
+
+				<div class="form-group no-margin">
+					<label for="field-7" class="control-label">Personal Info</label>
+
+					<textarea class="form-control autogrow" id="field-7" placeholder="Write something about yourself"></textarea>
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+
+	<div class="modal-footer">
+		<button type="button" class="btn btn-white" ng-click="currentModal.close();">Close</button>
+		<button type="button" class="btn btn-info" ng-click="currentModal.dismiss();">Save changes</button>
+	</div>
+</script>
+
+<script type="text/ng-template" id="modal-6">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		<h4 class="modal-title">Dynamic Content</h4>
+	</div>
+
+	<div class="modal-body" ng-bind-html="modalContent">
+	</div>
+
+	<div class="modal-footer">
+		<button type="button" class="btn btn-white" ng-click="currentModal.close();">Close</button>
+		<button type="button" class="btn btn-info" ng-click="currentModal.dismiss();">Save changes</button>
+	</div>
+</script>
+
+
 <script type="text/ng-template" id="menu-item-link-tpl">
 	<i ng-if="item.icon" class="{{item.icon}}"></i>
-	<span class="title">{{item.title}}</span>			
+	<span class="title">{{item.title}}</span>
 	<span ng-if="item.label" class="label label-{{item.label.classname}} pull-right" ng-class="{'hidden-collapsed': item.label.collapsedHide}">{{item.label.text}}</span>
 </script>
 
 <script type="text/ng-template" id="menu-items-tpl">
-	<li ng-repeat="item in menuItems" ng-class="{'opened': item.isOpen, 'active': item.isActive, 'has-sub': item.menuItems.length}">
+	<li ng-repeat="item in menuItems" ng-class="{'opened': item.isOpen, 'active': item.isActive, 'has-sub': item.menuItems.length}" ng-click="openModal(item.modal, 'lg')">
 		<a href="#{{item.link}}" ng-include="'menu-item-link-tpl'"></a>
-		
+
 		<ul ng-if="item.menuItems.length" ng-init="subItems = item.menuItems" ng-include="'menu-items-recursive-tpl'"></ul>
 	</li>
 </script>
@@ -19,6 +195,6 @@
 	</li>
 </script>
 
-	
+
 <ul id="main-menu" class="main-menu" ng-class="{'mobile-is-visible': layoutOptions.sidebar.isMenuOpenMobile}" ng-include="'menu-items-tpl'">
 </ul>
