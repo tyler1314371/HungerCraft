@@ -1,6 +1,28 @@
 'use strict';
 
 
+var Specialization = {
+	Nemesis: 0
+};
+
+
+var metal = {
+	current_owned:0,
+	current_mine_level:1,
+	current_cost:5
+};
+
+var crystal = {
+	current_owned:0,
+	current_mine_level:1,
+	current_cost:10
+};
+
+var level = {
+	level_metal_req:40,
+	level_crystal_req:30,
+	current_level:1
+};
 
 
 angular.module('xenon.controllers', []).
@@ -30,27 +52,11 @@ angular.module('xenon.controllers', []).
 
 		*/
 
-		var metal = {
-		  current_owned:0,
-		  current_mine_level:1,
-			current_cost:5
-		};
 
-		var crystal = {
-		  current_owned:0,
-		  current_mine_level:1,
-			current_cost:10
-		};
-
-		var level = {
-			level_metal_req:0,
-			level_crystal_req:0,
-			current_level:1
-		};
 
 		$scope.metal = metal;
 		$scope.crystal = crystal;
-		$scope.level = level;
+
 
 
 		$scope.ClickMetal = function(number){
@@ -78,7 +84,7 @@ angular.module('xenon.controllers', []).
 
 		         crystal.current_mine_level = crystal.current_mine_level + 1;
 		    	   crystal.current_owned = crystal.current_owned - crystal.current_cost;
-						 crystal.current_cost = Math.floor(5 * Math.pow(1.1,crystal.current_mine_level));
+						 crystal.current_cost = Math.floor(10 * Math.pow(1.1,crystal.current_mine_level));
 
 		    };
 		};
@@ -87,28 +93,7 @@ angular.module('xenon.controllers', []).
 
 
 
-		$scope.NextLevel = function(){
-		    var level_metal_req_temp = Math.floor(40 * Math.pow(1.5,level.current_level));
-		    var level_crystal_req_temp = Math.floor(30 * Math.pow(1.4,level.current_level));       //works out the cost of this cursor
 
-		    if (level ==1){
-		      level_metal_req_temp = 40;
-		      level_crystal_req_temp = 30;
-		    }
-
-		    if((metal.current_owned >= level_metal_req_temp) && (crystal.current_owned >= level_crystal_req_temp)){
-		      level.current_level = level.current_level + 1
-		      crystal.current_owned = crystal.current_owned - level_crystal_req_temp;
-		      metal.current_metal = metal.current_metal - level_metal_req_temp;
-
-
-		      level.level_metal_req = Math.floor(40 * Math.pow(1.5,level.current_level));
-		      level.level_crystal_req = Math.floor(30 * Math.pow(1.4,level.current_level));
-
-		    };
-
-
-		};
 
 
 
@@ -153,9 +138,9 @@ angular.module('xenon.controllers', []).
 
 		$rootScope.layoutOptions = {
 			horizontalMenu: {
-				isVisible		: false,
+				isVisible		: true,
 				isFixed			: true,
-				minimal			: false,
+				minimal			: true,
 				clickToExpand	: false,
 
 				isMenuOpenMobile: false
@@ -173,7 +158,7 @@ angular.module('xenon.controllers', []).
 				userProfile		: false
 			},
 			chat: {
-				isOpen			: false,
+				isOpen			: true,
 			},
 			settingsPane: {
 				isOpen			: false,
@@ -318,24 +303,42 @@ angular.module('xenon.controllers', []).
 
 		ps_init(); // perfect scrollbar for sidebar
 	}).
-	controller('HorizontalMenuCtrl', function($scope, $rootScope, $menuItems, $timeout, $location, $state)
+	controller('HorizontalMenuCtrl', function($scope, $rootScope, $menuItems, $timeout, $location, $state,  $modal, $sce)
 	{
+
+		$scope.openModal = function(modal_id, modal_size, modal_backdrop)
+		{
+			$rootScope.currentModal = $modal.open({
+				templateUrl: modal_id,
+				size: modal_size,
+				backdrop: typeof modal_backdrop == 'undefined' ? true : modal_backdrop
+			});
+		};
+
+
 		var $horizontalMenuItems = $menuItems.instantiate();
 
 		$scope.menuItems = $horizontalMenuItems.prepareHorizontalMenu().getAll();
+		$scope.metal = metal;
+		$scope.crystal = crystal;
 
-		// Set Active Menu Item
-		$horizontalMenuItems.setActive( $location.path() );
 
-		$rootScope.$on('$stateChangeSuccess', function()
-		{
-			$horizontalMenuItems.setActive($state.current.name);
-
-			$(".navbar.horizontal-menu .navbar-nav .hover").removeClass('hover'); // Close Submenus when item is selected
-		});
 
 		// Trigger menu setup
 		$timeout(setup_horizontal_menu, 1);
+
+
+
+
+
+
+
+
+
+
+
+
+
 	}).
 	controller('SettingsPaneCtrl', function($rootScope)
 	{
@@ -345,32 +348,42 @@ angular.module('xenon.controllers', []).
 	}).
 	controller('ChatCtrl', function($scope, $element)
 	{
-		var $chat = jQuery($element),
-			$chat_conv = $chat.find('.chat-conversation');
-
-		//$chat.find('.chat-inner').perfectScrollbar(); // perfect scrollbar for chat container
 
 
-		// Chat Conversation Window (sample)
-		$chat.on('click', '.chat-group a', function(ev)
-		{
-			ev.preventDefault();
+		$scope.level = level;
+		$scope.metal = metal;
+		$scope.crystal = crystal;
+		$scope.NextLevel = function(){
 
-			$chat_conv.toggleClass('is-open');
 
-			if($chat_conv.is(':visible'))
-			{
-				$chat.find('.chat-inner').perfectScrollbar('update');
-				$chat_conv.find('textarea').autosize();
-			}
-		});
 
-		$chat_conv.on('click', '.conversation-close', function(ev)
-		{
-			ev.preventDefault();
 
-			$chat_conv.removeClass('is-open');
-		});
+
+				var level_metal_req_temp = Math.floor(40 * Math.pow(1.5,level.current_level));
+		    var level_crystal_req_temp = Math.floor(30 * Math.pow(1.4,level.current_level));       //works out the cost of this cursor
+
+				if (level.current_level ==1){
+		      level_metal_req_temp = 40;
+		      level_crystal_req_temp = 30;
+		    }
+
+
+
+
+		    if((metal.current_owned >= level_metal_req_temp) && (crystal.current_owned >= level_crystal_req_temp)){
+		      level.current_level = level.current_level + 1
+		      crystal.current_owned = crystal.current_owned - level_crystal_req_temp;
+		      metal.current_owned = metal.current_owned - level_metal_req_temp;
+
+					level.level_metal_req = Math.floor(40 * Math.pow(1.5,level.current_level));
+					level.level_crystal_req = Math.floor(30 * Math.pow(1.4,level.current_level));
+
+		    };
+
+
+		};
+
+
 	}).
 	controller('UIModalsCtrl', function($scope, $rootScope, $modal, $sce)
 	{

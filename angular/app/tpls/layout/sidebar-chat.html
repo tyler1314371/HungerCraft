@@ -1,45 +1,30 @@
 
 <div id="chat" class="fixed" ng-controller="ChatCtrl"><!-- start: Chat Section -->
-	
+
 	<div class="chat-inner">
-	
-		
+
+
 		<h2 class="chat-header">
-			
-			
+
+
 			Chat
 			<span class="badge badge-success is-hidden">0</span>
 		</h2>
-		
-		<script type="text/javascript">
-		// Here is just a sample how to open chat conversation box
-		jQuery(document).ready(function($)
-		{
-			var $chat_conversation = $(".chat-conversation");
-			
-			$(".chat-group a").on('click', function(ev)
-			{
-				ev.preventDefault();
-				
-				$chat_conversation.toggleClass('is-open');
-				
-				$(".chat-conversation textarea").trigger('autosize.resize').focus();
-			});
-			
-			$(".conversation-close").on('click', function(ev)
-			{
-				ev.preventDefault();
-				$chat_conversation.removeClass('is-open');
-			});
-		});
-		</script>
-		
-		
-		
-	
+
+		<br/>
+
+
+		Level: <span id="level">{{level.current_level}}</span>
+		<br/>
+		Metal Requirement: <span id="metal_req">{{level.level_metal_req}}</span>
+		<br/>
+		Crystal Requirement: <span id="crystal_req">{{level.level_crystal_req}}</span>
+		<br />
+		<button ng-click="NextLevel()">Next Level</button>
+
 	</div>
-	
-	
-	
+
+
+
 <!-- end: Chat Section -->
 </div>

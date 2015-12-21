@@ -10,7 +10,7 @@ from slackclient import *
 
 
 #using python flask framework to host our backend
-app = Flask(__name__, template_folder='C:\\Users\\Redirection\\NIUC3\\Desktop\\Archives\\MineCraft(Tyler)\\angular' , static_url_path='')
+app = Flask(__name__, template_folder='C:\\Users\\Redirection\\NIUC3\\Desktop\\Archives\\Tyler\\angular' , static_url_path='')
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
@@ -23,15 +23,15 @@ def index():
 
 @app.route('/app/js/<path:path>')
 def send_js(path):
-	return send_from_directory('C:\\Users\\Redirection\\NIUC3\\Desktop\\Archives\\MineCraft(Tyler)\\angular\\app\\js', path)
- 
+	return send_from_directory('C:\\Users\\Redirection\\NIUC3\\Desktop\\Archives\\Tyler\\angular\\app\\js', path)
+
 @app.route('/assets/<path:path>')
 def send_assets(path):
-	return send_from_directory('C:\\Users\\Redirection\\NIUC3\\Desktop\\Archives\\MineCraft(Tyler)\\angular\\assets', path)
- 
+	return send_from_directory('C:\\Users\\Redirection\\NIUC3\\Desktop\\Archives\\Tyler\\angular\\assets', path)
+
 @app.route('/app/tpls/<path:path>')
 def send_tpls(path):
-	return send_from_directory('C:\\Users\\Redirection\\NIUC3\\Desktop\\Archives\\MineCraft(Tyler)\\angular\\app\\tpls', path)
+	return send_from_directory('C:\\Users\\Redirection\\NIUC3\\Desktop\\Archives\\Tyler\\angular\\app\\tpls', path)
 
 
 

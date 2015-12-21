@@ -4,18 +4,19 @@
 
 
 
-  		Metal: <span id="metal">{{metal.current_owned}}</span>
   		<br />
 
 
-  		Mine: <span id="current_mine_level">{{metal.current_mine_level}}</span>
+  		Mine-<br /><br />
+
+      Level: <span id="current_mine_level">{{metal.current_mine_level}}</span>
   		<br />
 
 
   		Upgrade Cost: <span id="metalcursorCost">{{metal.current_cost}}</span>
   		<br />
 
-  		<button ng-click="BuyMetalMine()">ADD Metal Cursor</button>
+  		<button ng-click="BuyMetalMine()">Upgrade Mine</button>
 
 
   		<br />
@@ -24,18 +25,19 @@
 
 
 
-  		Crystal: <span id="cystal">{{crystal.current_owned}}</span>
   		<br />
 
 
-  		CrystalMine: <span id="cystalcursors">{{crystal.current_mine_level}}</span>
+  		CrystalMine-<br /><br />
+
+      Level: <span id="cystalcursors">{{crystal.current_mine_level}}</span>
   		<br />
 
 
   		Upgrade Cost: <span id="cystalcursorCost">{{crystal.current_cost}}</span>
   		<br />
 
-  		<button ng-click="BuyCrystalMine()">ADD Crystal Cursor</button>
+  		<button ng-click="BuyCrystalMine()">Upgrade Crystal Mine</button>
 
 
   		<br />
@@ -48,13 +50,7 @@
 
 
 
-  		Level: <span id="level">{{level.current_level}}</span>
-  		<br/>
-  		Metal Requirement: <span id="metal_req">{{level.level_metal_req}}</span>
-  		<br/>
-  		Crystal Requirement: <span id="crystal_req">{{level.level_crystal_req}}</span>
-  		<br />
-  		<button ng-click="NextLevel()">Next Level</button>
+
 
 
 
