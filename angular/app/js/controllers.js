@@ -1,8 +1,11 @@
 'use strict';
 
 
-var Specialization = {
-	Nemesis: 0
+var specialization = {
+	Nemesis: {
+		cost: 9000,
+		current_level: 0
+	}
 };
 
 
@@ -23,6 +26,21 @@ var level = {
 	level_crystal_req:30,
 	current_level:1
 };
+
+
+var update_state;
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 angular.module('xenon.controllers', []).
@@ -51,19 +69,30 @@ angular.module('xenon.controllers', []).
 		}, 2000);
 
 		*/
-
+		window.onbeforeunload = function (event) {
+	  var message = 'Sure you want to leave?';
+		console.log("leave");
+	  if (typeof event == 'undefined') {
+	    event = window.event;
+	  }
+	  if (event) {
+	    event.returnValue = message;
+	  }
+	  return message;
+	}
 
 
 		$scope.metal = metal;
 		$scope.crystal = crystal;
-
+		$scope.specialization = specialization;
 
 
 		$scope.ClickMetal = function(number){
-		    metal.current_owned = metal.current_owned + number;
+		    metal.current_owned = Math.round(metal.current_owned + number);
+
 		};
 		$scope.ClickCrystal = function(number){
-		    crystal.current_owned = crystal.current_owned + number;
+		    crystal.current_owned = Math.round(crystal.current_owned + number);
 		};
 
 
@@ -94,17 +123,42 @@ angular.module('xenon.controllers', []).
 
 
 
+		$scope.Research = function(research_name)
+		{
+			console.log(research_name);
+			specialization[research_name].current_level += 1;
 
 
+		};
 
-		var update_state = window.setInterval(function(){
+	
+
+		if (typeof update_state != 'number') {
+
+			update_state = window.setInterval(function(){
+
+			if (specialization["Nemesis"].current_level != 0){
+				if (Math.floor((Math.random() * 100) + 1) >80){
+					$scope.ClickMetal(crystal.current_mine_level * specialization["Nemesis"].current_level * 0.01);
+					$scope.ClickCrystal(metal.current_mine_level * specialization["Nemesis"].current_level * 0.01);
+				}
+
+			}
 
 
 			$scope.ClickMetal(metal.current_mine_level);
 			$scope.ClickCrystal(crystal.current_mine_level);
+
+
+
+
 			$scope.$apply();
 
 				}, 1000);
+
+			}
+
+
 
 	}).
 
@@ -283,6 +337,12 @@ angular.module('xenon.controllers', []).
 				backdrop: typeof modal_backdrop == 'undefined' ? true : modal_backdrop
 			});
 		};
+
+
+
+
+
+
 
 		// Menu Items
 		var $sidebarMenuItems = $menuItems.instantiate();

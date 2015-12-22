@@ -20,13 +20,14 @@
 		<h4 class="modal-title">Specialization</h4>
 	</div>
 
-	<div class="modal-body">
+	<div class="modal-body" ng-controller="GameCtrl">
 			<table style="width:100%">
 					<tr>
 						<td>Nemesis-<br />
-								Level: 1 <br />
-								<button ng-click="BuyMetalMine()">Research</button>
-								<span style="width:500px;">Pop-up text</span></td>
+								Level: {{specialization.Nemesis.current_level}} <br />
+								Research Cost: {{specialization.Nemesis.cost}} <br />
+								<button ng-click="Research('Nemesis')">Research</button>
+								</td>
 					</tr>
 
 
