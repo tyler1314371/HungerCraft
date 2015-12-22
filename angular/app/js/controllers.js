@@ -1,9 +1,11 @@
 'use strict';
-
+//INT((Base Costs) * (Cost Increase Factor) ^ (level - 1))
+//30 * (level) * 1.1 ^ (level) metal
 
 var specialization = {
 	Nemesis: {
-		cost: 9000,
+		metal_cost: 9000,
+		crystal_cost: 0,
 		current_level: 0
 	}
 };
@@ -12,28 +14,31 @@ var specialization = {
 var metal = {
 	current_owned:0,
 	current_mine_level:1,
-	current_cost:5
+	current_cost:50
 };
 
 var crystal = {
 	current_owned:0,
 	current_mine_level:1,
-	current_cost:10
+	current_cost:60
 };
 
+
+var food = {
+	current_owned:0,
+	current_food_level:1,
+	current_cost:15
+};
+
+
 var level = {
-	level_metal_req:40,
-	level_crystal_req:30,
+	level_metal_req:400,
+	level_crystal_req:300,
 	current_level:1
 };
 
 
 var update_state;
-
-
-
-
-
 
 
 
@@ -102,7 +107,7 @@ angular.module('xenon.controllers', []).
 
 		         metal.current_mine_level = metal.current_mine_level + 1;
 		    	   metal.current_owned = metal.current_owned - metal.current_cost;
-						 metal.current_cost = Math.floor(5 * Math.pow(1.1,metal.current_mine_level));
+						 metal.current_cost = Math.floor(50 * Math.pow(1.45,metal.current_mine_level));
 
 		    };
 		};
@@ -113,7 +118,7 @@ angular.module('xenon.controllers', []).
 
 		         crystal.current_mine_level = crystal.current_mine_level + 1;
 		    	   crystal.current_owned = crystal.current_owned - crystal.current_cost;
-						 crystal.current_cost = Math.floor(10 * Math.pow(1.1,crystal.current_mine_level));
+						 crystal.current_cost = Math.floor(60 * Math.pow(1.5,crystal.current_mine_level));
 
 		    };
 		};
@@ -123,15 +128,24 @@ angular.module('xenon.controllers', []).
 
 
 
+
+
+
+
 		$scope.Research = function(research_name)
 		{
-			console.log(research_name);
-			specialization[research_name].current_level += 1;
+			if((metal.current_owned >= specialization[research_name].metal_cost) && (crystal.current_owned >= specialization[research_name].crystal_cost)){
+
+					 specialization[research_name].current_level += 1;
+					 crystal.current_owned = crystal.current_owned - specialization[research_name].crystal_cost;
+					 metal.current_owned = metal.current_owned - specialization[research_name].metal_cost;
+			};
+
 
 
 		};
 
-	
+
 
 		if (typeof update_state != 'number') {
 
@@ -139,17 +153,27 @@ angular.module('xenon.controllers', []).
 
 			if (specialization["Nemesis"].current_level != 0){
 				if (Math.floor((Math.random() * 100) + 1) >80){
-					$scope.ClickMetal(crystal.current_mine_level * specialization["Nemesis"].current_level * 0.01);
-					$scope.ClickCrystal(metal.current_mine_level * specialization["Nemesis"].current_level * 0.01);
+					$scope.ClickMetal(3.5 * crystal.current_mine_level * Math.pow(1.1,crystal.current_mine_level) * specialization["Nemesis"].current_level * 0.01);
+					$scope.ClickCrystal(5 * metal.current_mine_level * Math.pow(1.1,metal.current_mine_level)* specialization["Nemesis"].current_level * 0.01);
 				}
 
 			}
 
 
-			$scope.ClickMetal(metal.current_mine_level);
-			$scope.ClickCrystal(crystal.current_mine_level);
+			$scope.ClickMetal(Math.floor(
+
+				5 * metal.current_mine_level * Math.pow(1.1,metal.current_mine_level)
 
 
+			));
+
+
+			$scope.ClickCrystal(Math.floor(
+
+				3.5 * crystal.current_mine_level * Math.pow(1.1,crystal.current_mine_level)
+
+
+			));
 
 
 			$scope.$apply();
@@ -419,12 +443,12 @@ angular.module('xenon.controllers', []).
 
 
 
-				var level_metal_req_temp = Math.floor(40 * Math.pow(1.5,level.current_level));
-		    var level_crystal_req_temp = Math.floor(30 * Math.pow(1.4,level.current_level));       //works out the cost of this cursor
+				var level_metal_req_temp = Math.floor(400 * Math.pow(1.5,level.current_level));
+		    var level_crystal_req_temp = Math.floor(300 * Math.pow(1.4,level.current_level));       //works out the cost of this cursor
 
 				if (level.current_level ==1){
-		      level_metal_req_temp = 40;
-		      level_crystal_req_temp = 30;
+		      level_metal_req_temp = 400;
+		      level_crystal_req_temp = 300;
 		    }
 
 
@@ -435,8 +459,8 @@ angular.module('xenon.controllers', []).
 		      crystal.current_owned = crystal.current_owned - level_crystal_req_temp;
 		      metal.current_owned = metal.current_owned - level_metal_req_temp;
 
-					level.level_metal_req = Math.floor(40 * Math.pow(1.5,level.current_level));
-					level.level_crystal_req = Math.floor(30 * Math.pow(1.4,level.current_level));
+					level.level_metal_req = Math.floor(400 * Math.pow(1.5,level.current_level));
+					level.level_crystal_req = Math.floor(300 * Math.pow(1.4,level.current_level));
 
 		    };
 
