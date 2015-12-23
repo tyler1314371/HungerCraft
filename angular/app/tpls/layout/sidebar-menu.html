@@ -1,3 +1,30 @@
+<style media="screen" type="text/css">
+
+
+#tooltip { position: relative; }
+#tooltip span { display: none; color: #FFFFFF; }
+#tooltip:hover span { 
+	display: block; 
+	position: absolute; 
+	width: 200px; 
+	background: #aaa; 
+	height: auto; 
+	left: 100px; 
+	top: -10px; 
+	color: #FFFFFF; 
+	padding: 0 5px; }
+
+</style>
+
+
+
+
+
+
+
+
+
+
 <script type="text/ng-template" id="modal-3">
 	<div class="modal-header">
 		<h4 class="modal-title">Confirm Modal</h4>
@@ -14,6 +41,24 @@
 	</div>
 </script>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <script type="text/ng-template" id="modal-4">
 	<div class="modal-header">
 		<button type="button" class="close" ng-click="currentModal.close();" aria-hidden="true">&times;</button>
@@ -23,11 +68,23 @@
 	<div class="modal-body" ng-controller="GameCtrl">
 			<table style="width:100%">
 					<tr>
-						<td>Nemesis-<br />
+						<td><div id="tooltip">Nemesis-<span>Introduction to HTML and CSS: tooltip with extra text</span></div>
+
+								<br />
 								Level: {{specialization.Nemesis.current_level}} <br />
 								Research Cost: {{specialization.Nemesis.metal_cost}} <br />
 								<button ng-click="Research('Nemesis')">Research</button>
-								</td>
+
+						</td>
+						<td><div id="tooltip">Nemesis-<span></span></div>
+
+								<br />
+								Level: {{specialization.Nemesis.current_level}} <br />
+								Research Cost: {{specialization.Nemesis.metal_cost}} <br />
+								<button ng-click="Research('Nemesis')">Research</button>
+
+						</td>
+						
 					</tr>
 
 
@@ -39,7 +96,45 @@
 		<button type="button" class="btn btn-white" ng-click="currentModal.close();">Close</button>
 		<button type="button" class="btn btn-info" ng-click="currentModal.dismiss();">Save changes</button>
 	</div>
+	<div id="two" class="popupBox">Hovered content and a long one too<br /> works with line breaks too</div>
 </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -83,7 +83,7 @@ angular.module('xenon.controllers', []).
 
 		}, 2000);
 
-		*/
+		
 		window.onbeforeunload = function (event) {
 	  var message = 'Sure you want to leave?';
 		console.log("leave");
@@ -95,7 +95,7 @@ angular.module('xenon.controllers', []).
 	  }
 	  return message;
 	}
-
+*/
 
 		$scope.metal = metal;
 		$scope.crystal = crystal;
