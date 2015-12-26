@@ -3,7 +3,28 @@
 
 <nav class="navbar horizontal-menu" ng-class="{'navbar-fixed-top': layoutOptions.horizontalMenu.isFixed, 'navbar-minimal': layoutOptions.horizontalMenu.minimal, 'click-to-expand': layoutOptions.horizontalMenu.clickToExpand}">
 
+<style media="screen" type="text/css">
 
+
+#tooltip_title { position: relative; }
+#tooltip_title span { display: none; color: #FFFFFF; }
+#tooltip_title:hover span {
+	display: block;
+	position: absolute;
+	width: 200px;
+	background: #5d5757;
+	height: auto;
+	left: 30px;
+	top: 50px;
+	color: #FFFFFF;
+	padding: 0 5px; }
+
+#attention {
+		display: inline;
+		color: #dea373;
+	}
+
+</style>
 
 
 
@@ -11,9 +32,13 @@
 
 
 	<script type="text/ng-template" id="menu-item-link-tpl">
+
 		<i ng-if="item.icon" class="{{item.icon}}"></i>
-		<span ng-if="item.title == 'M'" class="title">{{metal.current_owned}}</span>
-		<span ng-if="item.title == 'C'" class="title">{{crystal.current_owned}}</span>
+		<span ng-if="item.title == 'M'" class="title"><div id="tooltip_title">{{metal.current_owned}}<span>Metal, the most basic resource for any space expedition</span></div></span>
+		<span ng-if="item.title == 'C'" class="title"><div id="tooltip_title">{{crystal.current_owned}}<span>Crystal, rare resource that is used for research and trading</span></div></span>
+		<span ng-if="item.title == 'DM'" class="title"><div id="tooltip_title">{{dark_matter.current_owned}}<span>Dark matter, a hypothetical kind of matter that cannot be seen with <br/>
+																																																							telescopes but accounts for most of the matter in the universe. <br/>
+																																																							Increase your mine and crystal mine income by <div id="attention">{{dark_matter.current_increase}}%</div> for each dark matter you have</span></div></span>
 		<span ng-if="item.label" class="label label-{{item.label.classname}} pull-right" ng-class="{'hidden-collapsed': item.label.collapsedHide}">{{item.label.text}}</span>
 	</script>
 
@@ -48,9 +73,7 @@
 				<img src="assets/images/logo-white-bg@2x.png" width="80" alt="" class="hidden-xs" />
 				<img src="assets/images/logo@2x.png" width="80" alt="" class="visible-xs" />
 			</a>
-			<a href="" data-toggle="settings-pane" ng-click="settingsPaneToggle(true);">
-				<i class="linecons-cog"></i>
-			</a>
+
 		</div>
 
 		<!-- Mobile Toggles Links -->

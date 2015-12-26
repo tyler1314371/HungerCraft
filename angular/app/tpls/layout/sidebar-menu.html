@@ -3,16 +3,38 @@
 
 #tooltip { position: relative; }
 #tooltip span { display: none; color: #FFFFFF; }
-#tooltip:hover span { 
-	display: block; 
-	position: absolute; 
-	width: 200px; 
-	background: #aaa; 
-	height: auto; 
-	left: 100px; 
-	top: -10px; 
-	color: #FFFFFF; 
+#tooltip:hover span {
+	display: block;
+	position: absolute;
+	width: auto;
+	background: #5d5757;
+	height: auto;
+	left: 100px;
+	top: -10px;
+	color: #FFFFFF;
 	padding: 0 5px; }
+
+
+
+#attention {
+	display: inline;
+	color: #dea373;
+}
+
+
+#skill_tree td{
+	padding-bottom: 10em;
+}
+
+#modal-title{
+	text-align: center;
+	font-size: 28px;
+}
+#points-remaining{
+	text-align: right;
+	display: inline;
+	font-size: 15px;
+}
 
 </style>
 
@@ -62,29 +84,47 @@
 <script type="text/ng-template" id="modal-4">
 	<div class="modal-header">
 		<button type="button" class="close" ng-click="currentModal.close();" aria-hidden="true">&times;</button>
-		<h4 class="modal-title">Specialization</h4>
+		<h4 class="modal-title" id ="modal-title">Specialization </h4>    <div id="points-remaining">points remaining: 0</div>
 	</div>
 
 	<div class="modal-body" ng-controller="GameCtrl">
-			<table style="width:100%">
+			<table id="skill_tree" style="width:100%">
 					<tr>
-						<td><div id="tooltip">Nemesis-<span>Introduction to HTML and CSS: tooltip with extra text</span></div>
+						<td>
 
-								<br />
+						<div id="tooltip">Cargo Improvement-<span>Increases your metal mine income rate by some amount.<br />
+																								Current %: <div id="attention">{{specialization.Cargo_Improvement.current_level * 4}}%</div><br />
+																								Next Level %: <div id="attention">{{(specialization.Cargo_Improvement.current_level+1) * 4}}%</div></span>
+																								<br />
+						<img src="assets/images/icon/Cargo_Improvement.png" width="50" /></div>
+
+
+
+								Level: {{specialization.Cargo_Improvement.current_level}} <br />
+								Research Cost: {{specialization.Cargo_Improvement.metal_cost}} <br />
+								<button ng-click="Research('Cargo_Improvement')">Research</button>
+
+						</td>
+					</tr>
+
+
+					<tr>
+						<td>
+
+						<div id="tooltip">Resource Balancing-<span>Everytime you harvest metal, you have <div id="attention">20% </div> chance of getting some extra crystal.<br />
+																								Current %: <div id="attention">{{specialization.Nemesis.current_level * 2}}%</div> of metal harveted<br />
+																								Next Level %: <div id="attention">{{(specialization.Nemesis.current_level+1) * 2}}%</div> of metal harveted</span>
+																								<br />
+						<img src="assets/images/icon/Balance.png" width="50" /></div>
+
+
+
 								Level: {{specialization.Nemesis.current_level}} <br />
 								Research Cost: {{specialization.Nemesis.metal_cost}} <br />
 								<button ng-click="Research('Nemesis')">Research</button>
 
 						</td>
-						<td><div id="tooltip">Nemesis-<span></span></div>
 
-								<br />
-								Level: {{specialization.Nemesis.current_level}} <br />
-								Research Cost: {{specialization.Nemesis.metal_cost}} <br />
-								<button ng-click="Research('Nemesis')">Research</button>
-
-						</td>
-						
 					</tr>
 
 
@@ -96,7 +136,7 @@
 		<button type="button" class="btn btn-white" ng-click="currentModal.close();">Close</button>
 		<button type="button" class="btn btn-info" ng-click="currentModal.dismiss();">Save changes</button>
 	</div>
-	<div id="two" class="popupBox">Hovered content and a long one too<br /> works with line breaks too</div>
+
 </script>
 
 

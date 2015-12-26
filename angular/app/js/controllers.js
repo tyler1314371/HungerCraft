@@ -9,7 +9,15 @@ var specialization = {
 		crystal_cost: 0,
 		crystal_cost_ori: 0,
 		current_level: 0
+	},
+	Cargo_Improvement: {
+		metal_cost: 1000,
+		metal_cost_ori: 1000,
+		crystal_cost: 50,
+		crystal_cost_ori: 50,
+		current_level: 0
 	}
+
 };
 
 
@@ -30,12 +38,10 @@ var crystal = {
 };
 
 
-var food = {
+var dark_matter = {
 	current_owned:0,
-	current_food_level:1,
-	current_cost:15,
-	ori_cost: 15,
-	income: 0
+	based_increase: 2,
+	current_increase: 2
 };
 
 
@@ -83,7 +89,7 @@ angular.module('xenon.controllers', []).
 
 		}, 2000);
 
-		
+
 		window.onbeforeunload = function (event) {
 	  var message = 'Sure you want to leave?';
 		console.log("leave");
@@ -178,6 +184,13 @@ angular.module('xenon.controllers', []).
 			}
 
 
+
+
+
+
+
+
+
 			$scope.ClickMetal(Math.floor(
 
 				5 * metal.current_mine_level * Math.pow(1.1,metal.current_mine_level)
@@ -231,6 +244,13 @@ angular.module('xenon.controllers', []).
 		$rootScope.isLightLoginPage   = false;
 		$rootScope.isLockscreenPage   = false;
 		$rootScope.isMainPage         = true;
+
+		var $body = jQuery("body");
+		$layout.setOptions('skins.sidebarMenu', 'navy');
+		$body.attr('class', $body.attr('class').replace(/\shorizontal-menu-skin-[a-z]+/)).addClass('horizontal-menu-skin-' + 'navy');
+		$layout.setOptions('skins.sidebarMenu', 'navy');
+		$body.attr('class', $body.attr('class').replace(/\sskin-[a-z]+/)).addClass('skin-' + 'navy');
+
 
 		$rootScope.layoutOptions = {
 			horizontalMenu: {
@@ -423,7 +443,7 @@ angular.module('xenon.controllers', []).
 		$scope.menuItems = $horizontalMenuItems.prepareHorizontalMenu().getAll();
 		$scope.metal = metal;
 		$scope.crystal = crystal;
-
+		$scope.dark_matter = dark_matter;
 
 
 		// Trigger menu setup
