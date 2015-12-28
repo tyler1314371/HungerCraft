@@ -72,7 +72,7 @@ angular.module('xenon.controllers', []).
 		$rootScope.isLockscreenPage   = false;
 		$rootScope.isMainPage         = false;
 	}).
-	controller('GameCtrl', function($scope, $rootScope, $cookies, $modal, $sce)
+	controller('GameCtrl', function($scope, $rootScope, $cookies, $modal, $sce, $layout)
 	{
 /*		var poll_notification = window.setInterval(function(){
 
@@ -102,6 +102,7 @@ angular.module('xenon.controllers', []).
 	  return message;
 	}
 */
+		
 
 		$scope.metal = metal;
 		$scope.crystal = crystal;
@@ -223,7 +224,45 @@ angular.module('xenon.controllers', []).
 		$rootScope.isLightLoginPage   = true;
 		$rootScope.isLockscreenPage   = false;
 		$rootScope.isMainPage         = false;
+		$rootScope.layoutOptions = {
+			horizontalMenu: {
+				isVisible		: false,
+				isFixed			: true,
+				minimal			: true,
+				clickToExpand	: false,
 
+				isMenuOpenMobile: false
+			},
+			sidebar: {
+				isVisible		: false,
+				isCollapsed		: true,
+				toggleOthers	: true,
+				isFixed			: true,
+				isRight			: false,
+
+				isMenuOpenMobile: false,
+
+				// Added in v1.3
+				userProfile		: false
+			},
+			chat: {
+				isOpen			: false,
+			},
+			settingsPane: {
+				isOpen			: false,
+				useAnimation	: true
+			},
+			container: {
+				isBoxed			: false
+			},
+			skins: {
+				sidebarMenu		: '',
+				horizontalMenu	: '',
+				userInfoNavbar	: ''
+			},
+			pageTitles: true,
+			userInfoNavVisible	: false
+		};
 
 		//var current_user = $cookies['current_user'];;
 		$rootScope.setCurrentUser = function (user) {
@@ -240,16 +279,13 @@ angular.module('xenon.controllers', []).
 
 	controller('MainCtrl', function($scope, $rootScope, $location, $layout, $layoutToggles, $pageLoadingBar, Fullscreen)
 	{
+
 		$rootScope.isLoginPage        = false;
 		$rootScope.isLightLoginPage   = false;
 		$rootScope.isLockscreenPage   = false;
 		$rootScope.isMainPage         = true;
 
-		var $body = jQuery("body");
-		$layout.setOptions('skins.sidebarMenu', 'navy');
-		$body.attr('class', $body.attr('class').replace(/\shorizontal-menu-skin-[a-z]+/)).addClass('horizontal-menu-skin-' + 'navy');
-		$layout.setOptions('skins.sidebarMenu', 'navy');
-		$body.attr('class', $body.attr('class').replace(/\sskin-[a-z]+/)).addClass('skin-' + 'navy');
+		
 
 
 		$rootScope.layoutOptions = {
@@ -315,7 +351,6 @@ angular.module('xenon.controllers', []).
 
 		// Define Public Vars
 		public_vars.$body = jQuery("body");
-
 
 		// Init Layout Toggles
 		$layoutToggles.initToggles();

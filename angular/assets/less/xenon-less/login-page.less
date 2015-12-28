@@ -2,9 +2,8 @@
 	@main-border-color: lighten(#323435, 2%);
 	@padding: 30px;
 
-	background-image: url("../images/login_bkg.png");
 	
-	color: #fff;
+	color: #FFFFFF;
 	padding-top: 250px;
 	padding-left: 500px;
 
@@ -271,8 +270,13 @@
 
 
 	&.login-light {
-		background-image: url("../images/login_bkg.png");
-		background-size: 100%;
+		
+		background: url("../images/bkg/resource.jpg") no-repeat center center fixed; 
+		  -webkit-background-size: cover;
+		  -moz-background-size: cover;
+		  -o-background-size: cover;
+		  background-size: cover;
+	    
 
 		.errors-container, .external-login {
 			padding: 0;

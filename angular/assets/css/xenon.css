@@ -13146,8 +13146,7 @@ button.toast-close-button {
   display: inline-block !important;
 }
 .login-page {
-  background-image: url("../images/login_bkg.png");
-  color: #fff;
+  color: #FFFFFF;
   padding-top: 250px;
   padding-left: 500px;
 }
@@ -13432,8 +13431,11 @@ button.toast-close-button {
   background-color: #c23321;
 }
 .login-page.login-light {
-  background-image: url("../images/login_bkg.png");
-  background-size: 100%;
+  background: url("../images/bkg/resource.jpg") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
 .login-page.login-light .errors-container,
 .login-page.login-light .external-login {
