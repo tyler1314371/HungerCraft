@@ -26,7 +26,8 @@ var metal = {
 	current_mine_level:1,
 	current_cost:50,
 	ori_cost: 50,
-	income: 0
+	income: 5,
+	income_base : 5
 };
 
 var crystal = {
@@ -34,7 +35,8 @@ var crystal = {
 	current_mine_level:1,
 	current_cost:60,
 	ori_cost: 60,
-	income: 0
+	income: 3.5,
+	income_base: 3.5
 };
 
 
@@ -127,7 +129,7 @@ angular.module('xenon.controllers', []).
 
 		         metal.current_mine_level = metal.current_mine_level + 1;
 		    	   metal.current_owned = metal.current_owned - metal.current_cost;
-						 metal.current_cost = Math.floor(50 * Math.pow(1.45,metal.current_mine_level));
+						 metal.current_cost = Math.floor(metal.ori_cost * Math.pow(1.45,metal.current_mine_level));
 
 		    };
 		};
@@ -138,7 +140,7 @@ angular.module('xenon.controllers', []).
 
 		         crystal.current_mine_level = crystal.current_mine_level + 1;
 		    	   crystal.current_owned = crystal.current_owned - crystal.current_cost;
-						 crystal.current_cost = Math.floor(60 * Math.pow(1.5,crystal.current_mine_level));
+						 crystal.current_cost = Math.floor(crystal.ori_cost * Math.pow(1.5,crystal.current_mine_level));
 
 		    };
 		};
@@ -179,34 +181,25 @@ angular.module('xenon.controllers', []).
 			if (specialization["Nemesis"].current_level != 0){
 				if (Math.floor((Math.random() * 100) + 1) >80){
 
-					console.log("NEMESIS: add ".concat(5 * metal.current_mine_level * Math.pow(1.1,metal.current_mine_level)* specialization["Nemesis"].current_level * 0.02));
+					console.log("NEMESIS: add ".concat(metal.income_base * metal.current_mine_level * Math.pow(1.1,metal.current_mine_level)* specialization["Nemesis"].current_level * 0.02));
 
-					$scope.ClickMetal(3.5 * crystal.current_mine_level * Math.pow(1.1,crystal.current_mine_level) * specialization["Nemesis"].current_level * 0.02);
-					$scope.ClickCrystal(5 * metal.current_mine_level * Math.pow(1.1,metal.current_mine_level)* specialization["Nemesis"].current_level * 0.02);
+					$scope.ClickMetal(crystal.income_base  * crystal.current_mine_level * Math.pow(1.1,crystal.current_mine_level) * specialization["Nemesis"].current_level * 0.02);
+					$scope.ClickCrystal(metal.income_base  * metal.current_mine_level * Math.pow(1.1,metal.current_mine_level)* specialization["Nemesis"].current_level * 0.02);
 				}
 
 			}
 
 
 
+			metal.income = Math.floor(metal.income_base  * metal.current_mine_level * Math.pow(1.1,metal.current_mine_level));
+			crystal.income = Math.floor(crystal.income_base  * crystal.current_mine_level * Math.pow(1.1,crystal.current_mine_level));
 
 
 
-
-			$scope.ClickMetal(Math.floor(
-
-				5 * metal.current_mine_level * Math.pow(1.1,metal.current_mine_level)
+			$scope.ClickMetal(metal.income);
 
 
-			));
-
-
-			$scope.ClickCrystal(Math.floor(
-
-				3.5 * crystal.current_mine_level * Math.pow(1.1,crystal.current_mine_level)
-
-
-			));
+			$scope.ClickCrystal(crystal.income);
 
 
 			$scope.$apply();

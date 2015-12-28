@@ -86,10 +86,9 @@ angular.module('xenon.services', []).
 
 		this.prepareSidebarMenu = function()
 		{
-			var layouts      = this.addItem('Layout & Skins',	'/app/dashboard-variant-1',	'linecons-database', 'modal-4');
-			var dashboard    = this.addItem('Dashboard', 		'/app/dashboard-variant-1', 			'fa-question', 'modal-3');
-			var logout    =     this.addItem('Expedition', 		'/app/dashboard-variant-1', 			'linecons-desktop', 'modal-3');
-			var layouts      = this.addItem('Layout & Skins',	'/app/layout-and-skins',	'linecons-desktop', 'modal-3');
+			var talent_tree      = this.addItem('talent_tree',	'/app/dashboard-variant-1',	'linecons-database', 'talent_tree');
+			var armory    = this.addItem('armory', 		'/app/dashboard-variant-1', 			'fa-question', 'armory');
+			var expedition    =     this.addItem('expedition', 		'/app/dashboard-variant-1', 			'linecons-desktop', 'expedition');
 
 			return this;
 		};

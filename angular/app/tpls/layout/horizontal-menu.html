@@ -1,31 +1,24 @@
 
 
 
+
 <nav class="navbar horizontal-menu" ng-class="{'navbar-fixed-top': layoutOptions.horizontalMenu.isFixed, 'navbar-minimal': layoutOptions.horizontalMenu.minimal, 'click-to-expand': layoutOptions.horizontalMenu.clickToExpand}">
 
-<style media="screen" type="text/css">
+	<script type="text/ng-template" id="shop_modal">
+		<div class="modal-header">
+			<h4 class="modal-title">Confirm Modal</h4>
+		</div>
 
+		<div class="modal-body">
 
-#tooltip_title { position: relative; }
-#tooltip_title span { display: none; color: #FFFFFF; }
-#tooltip_title:hover span {
-	display: block;
-	position: absolute;
-	width: 200px;
-	background: #5d5757;
-	height: auto;
-	left: 30px;
-	top: 50px;
-	color: #FFFFFF;
-	padding: 0 5px; }
+			You can close this modal when you click on button only!
 
-#attention {
-		display: inline;
-		color: #dea373;
-	}
+		</div>
 
-</style>
-
+		<div class="modal-footer">
+			<button type="button" class="btn btn-info" ng-click="currentModal.dismiss();">Continue</button>
+		</div>
+	</script>
 
 
 
@@ -34,9 +27,9 @@
 	<script type="text/ng-template" id="menu-item-link-tpl">
 
 		<i ng-if="item.icon" class="{{item.icon}}"></i>
-		<span ng-if="item.title == 'M'" class="title"><div id="tooltip_title">{{metal.current_owned}}<span>Metal, the most basic resource for any space expedition</span></div></span>
-		<span ng-if="item.title == 'C'" class="title"><div id="tooltip_title">{{crystal.current_owned}}<span>Crystal, rare resource that is used for research and trading</span></div></span>
-		<span ng-if="item.title == 'DM'" class="title"><div id="tooltip_title">{{dark_matter.current_owned}}<span>Dark matter, a hypothetical kind of matter that cannot be seen with <br/>
+		<span ng-if="item.title == 'M'" class="title"><div id="tooltip_hori_title">{{metal.current_owned}}<span>Metal, the most basic resource for any space expedition</span></div></span>
+		<span ng-if="item.title == 'C'" class="title"><div id="tooltip_hori_title">{{crystal.current_owned}}<span>Crystal, rare resource that is used for research and trading</span></div></span>
+		<span ng-if="item.title == 'DM'" class="title"><div id="tooltip_hori_title">{{dark_matter.current_owned}}<span>Dark matter, a hypothetical kind of matter that cannot be seen with <br/>
 																																																							telescopes but accounts for most of the matter in the universe. <br/>
 																																																							Increase your mine and crystal mine income by <div id="attention">{{dark_matter.current_increase}}%</div> for each dark matter you have</span></div></span>
 		<span ng-if="item.label" class="label label-{{item.label.classname}} pull-right" ng-class="{'hidden-collapsed': item.label.collapsedHide}">{{item.label.text}}</span>
@@ -129,24 +122,16 @@
 
 
 
-			<li class="external">
-					<a href="#login-light">Logout</a>
-					<i class="fa-link-ext"></i>
+			<li id="hori_logout">
+					<a href="#login-light"><i class="linecons-lock"></i>Logout</a>
+
+			</li>
+
+			<li id="hori_shop">
+					<a href="" ng-click="openModal('shop_modal')"><i class="linecons-heart"></i>Shop</a>
 			</li>
 
 
-
-			<li class="search-form" ng-init="isFocused = false" ng-class="{focused: isFocused}"><!-- You can add "always-visible" to show make the search input visible -->
-
-				<form name="userinfo_search_form" ng-submit="userinfo_search_form.$valid" novalidate>
-					<input type="text" name="s" class="form-control search-field" placeholder="Type to search..." ng-blur="isFocused = false;" required />
-
-					<button type="submit" class="btn btn-link" ng-click="isFocused = ! isFocused; setFocusOnSearchField();">
-						<i class="linecons-search"></i>
-					</button>
-				</form>
-
-			</li>
 
 		</ul>
 

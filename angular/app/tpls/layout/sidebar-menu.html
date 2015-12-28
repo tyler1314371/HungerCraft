@@ -36,52 +36,43 @@
 	font-size: 15px;
 }
 
+
+
+#tooltip_hori_title { position: relative; }
+#tooltip_hori_title span { display: none; color: #FFFFFF; }
+#tooltip_hori_title:hover span {
+	display: block;
+	position: absolute;
+	background: #5d5757;
+	line-height: 150%;
+	width: 200px;
+	left: 30px;
+	top: 50px;
+	color: #FFFFFF;
+	text-align: justify;
+}
+
+
+#hori_logout a{
+    color: white;
+}
+#hori_logout:hover a{
+    color: black;
+}
+#hori_shop a{
+    color: white;
+}
+#hori_shop:hover a{
+    color: black;
+}
+
 </style>
 
 
 
 
 
-
-
-
-
-
-<script type="text/ng-template" id="modal-3">
-	<div class="modal-header">
-		<h4 class="modal-title">Confirm Modal</h4>
-	</div>
-
-	<div class="modal-body">
-
-		You can close this modal when you click on button only!
-
-	</div>
-
-	<div class="modal-footer">
-		<button type="button" class="btn btn-info" ng-click="currentModal.dismiss();">Continue</button>
-	</div>
-</script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<script type="text/ng-template" id="modal-4">
+<script type="text/ng-template" id="talent_tree">
 	<div class="modal-header">
 		<button type="button" class="close" ng-click="currentModal.close();" aria-hidden="true">&times;</button>
 		<h4 class="modal-title" id ="modal-title">Specialization </h4>    <div id="points-remaining">points remaining: 0</div>
@@ -147,6 +138,118 @@
 
 
 
+<script type="text/ng-template" id="armory">
+	<div class="modal-header">
+		<h4 class="modal-title">Armory</h4>
+	</div>
+
+	<div class="modal-body">
+
+			<table style="width:100%">
+					<tr>
+						<td style="width: 400px">
+							<img src="assets/images/Ships/1.jpg" width="400" height="300" /></div>
+						</td>
+						<td>
+							Level: sdfjosdf
+						</td>
+					</tr>
+					<tr>
+						<td style="width: 400px">
+							<img src="assets/images/Ships/2.jpg" width="400" height="300" /></div>
+						</td>
+						<td>
+							Level: sdfjosdf
+						</td>
+					</tr>
+					<tr>
+						<td style="width: 400px">
+							<img src="assets/images/Ships/3.jpg" width="400" height="300" /></div>
+						</td>
+						<td>
+							Level: sdfjosdf
+						</td>
+					</tr>
+					<tr>
+						<td style="width: 400px">
+							<img src="assets/images/Ships/4.jpg" width="400" height="300" /></div>
+						</td>
+						<td>
+							Level: sdfjosdf
+						</td>
+					</tr>
+					<tr>
+						<td style="width: 400px">
+							<img src="assets/images/Ships/5.jpg" width="400" height="300" /></div>
+						</td>
+						<td>
+							Level: sdfjosdf
+						</td>
+					</tr>
+					<tr>
+						<td style="width: 400px">
+							<img src="assets/images/Ships/6.jpg" width="400" height="300" /></div>
+						</td>
+						<td>
+							Level: sdfjosdf
+						</td>
+					</tr>
+					<tr>
+						<td style="width: 400px">
+							<img src="assets/images/Ships/7.jpg" width="400" height="300" /></div>
+						</td>
+						<td>
+							Level: sdfjosdf
+						</td>
+					</tr>
+					<tr>
+						<td style="width: 400px">
+							<img src="assets/images/Ships/9.jpg" width="400" height="300" /></div>
+						</td>
+						<td>
+							Level: sdfjosdf
+						</td>
+					</tr>
+					<tr>
+						<td style="width: 400px">
+							<img src="assets/images/Ships/10.jpg" width="400" height="300" /></div>
+						</td>
+						<td>
+							Level: sdfjosdf
+						</td>
+					</tr>
+
+			</table>
+
+	</div>
+
+	<div class="modal-footer">
+		<button type="button" class="btn btn-info" ng-click="currentModal.dismiss();">Continue</button>
+	</div>
+</script>
+
+
+
+
+
+
+<script type="text/ng-template" id="expedition">
+	<div class="modal-header">
+		<h4 class="modal-title">Expedition</h4>
+	</div>
+
+	<div class="modal-body">
+
+		You can close this modal when you click on button only!
+
+	</div>
+
+	<div class="modal-footer">
+		<button type="button" class="btn btn-info" ng-click="currentModal.dismiss();">Continue</button>
+	</div>
+</script>
+
+
 
 
 
@@ -180,9 +283,9 @@
 
 <script type="text/ng-template" id="menu-item-link-tpl">
 	<i ng-if="item.icon" class="{{item.icon}}"></i>
-	<span ng-if="item.title == 'M'" class="title"><div id="tooltip_title">{{metal.current_owned}}<span>Metal, the most basic resource for any space expedition</span></div></span>
-	<span ng-if="item.title == 'C'" class="title"><div id="tooltip_title">{{crystal.current_owned}}<span>Crystal, rare resource that is used for research and trading</span></div></span>
-	<span ng-if="item.title == 'DM'" class="title"><div id="tooltip_title">{{dark_matter.current_owned}}<span>Dark matter, a hypothetical kind of matter that cannot be seen with <br/>
+	<span ng-if="item.title == 'M'" class="title"><div id="tooltip_hori_title">{{metal.current_owned}}<span>Metal, the most basic resource for any space expedition</span></div></span>
+	<span ng-if="item.title == 'C'" class="title"><div id="tooltip_hori_title">{{crystal.current_owned}}<span>Crystal, rare resource that is used for research and trading</span></div></span>
+	<span ng-if="item.title == 'DM'" class="title"><div id="tooltip_hori_title">{{dark_matter.current_owned}}<span>Dark matter, a hypothetical kind of matter that cannot be seen with <br/>
 																																																						telescopes but accounts for most of the matter in the universe. <br/>
 																																																						Increase your mine and crystal mine income by <div id="attention">{{dark_matter.current_increase}}%</div> for each dark matter you have</span></div></span>
 	<span ng-if="item.label" class="label label-{{item.label.classname}} pull-right" ng-class="{'hidden-collapsed': item.label.collapsedHide}">{{item.label.text}}</span>
