@@ -915,7 +915,7 @@ body {
   display: table-cell;
   position: relative;
   width: 340px;
-  background: #2c2e2f;
+  background: #000000;
   z-index: 1;
 }
 .sidebar-menu .logo-env {
@@ -1267,7 +1267,7 @@ body {
 .navbar.horizontal-menu {
   position: relative;
   height: 85px;
-  background: #ffffff;
+  background: #000000;
   margin: 0;
   padding: 0;
   z-index: 101;

@@ -88,16 +88,17 @@ angular.module('xenon.services', []).
 		{
 			var layouts      = this.addItem('Layout & Skins',	'/app/dashboard-variant-1',	'linecons-database', 'modal-4');
 			var dashboard    = this.addItem('Dashboard', 		'/app/dashboard-variant-1', 			'fa-question', 'modal-3');
-			var logout    =     this.addItem('Expedition', 		'/login-light', 			'linecons-desktop', 'modal-3');
+			var logout    =     this.addItem('Expedition', 		'/app/dashboard-variant-1', 			'linecons-desktop', 'modal-3');
+			var layouts      = this.addItem('Layout & Skins',	'/app/layout-and-skins',	'linecons-desktop', 'modal-3');
 
 			return this;
 		};
 
 		this.prepareHorizontalMenu = function()
 		{
-			var metal      = this.addItem('M',	'/app/dashboard-variant-1',	'linecons-food', 'modal-4');
-			var crystal      = this.addItem('C',	'/app/dashboard-variant-1',	'linecons-diamond', 'modal-4');
-			var dark_matter      = this.addItem('DM',	'/app/dashboard-variant-1',	'linecons-fire', 'modal-4');
+			var metal      = this.addItem('M',	'/app/dashboard-variant-1',	'linecons-food', '');
+			var crystal      = this.addItem('C',	'/app/dashboard-variant-1',	'linecons-diamond', '');
+			var dark_matter      = this.addItem('DM',	'/app/dashboard-variant-1',	'linecons-fire', '');
 			//var condition      = this.addItem('CON',	'/app/dashboard-variant-1',	'', 'modal-4');
 
 

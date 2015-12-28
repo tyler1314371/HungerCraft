@@ -72,8 +72,11 @@ angular.module('xenon.controllers', []).
 		$rootScope.isLockscreenPage   = false;
 		$rootScope.isMainPage         = false;
 	}).
-	controller('GameCtrl', function($scope, $rootScope, $cookies, $modal, $sce, $layout)
+	controller('GameCtrl', function($scope, $rootScope, $cookies, $modal, $sce, $layout, $location)
 	{
+		$rootScope.layoutOptions.horizontalMenu.isVisible = true;
+
+
 /*		var poll_notification = window.setInterval(function(){
 
 		var AUTHOR_URL = 'http://localhost:5000/get_notification/'.concat('Tyler');
@@ -102,7 +105,7 @@ angular.module('xenon.controllers', []).
 	  return message;
 	}
 */
-		
+
 
 		$scope.metal = metal;
 		$scope.crystal = crystal;
@@ -190,8 +193,6 @@ angular.module('xenon.controllers', []).
 
 
 
-
-
 			$scope.ClickMetal(Math.floor(
 
 				5 * metal.current_mine_level * Math.pow(1.1,metal.current_mine_level)
@@ -214,60 +215,128 @@ angular.module('xenon.controllers', []).
 
 			}
 
+			var destroy = $rootScope.$watch(function() {
+      return $location.path();
+	    },
+	    function(a){
+	      //console.log('url has changed: ' + a);
 
+			if (a.indexOf("dashboard-variant") > -1 ){
+
+
+
+			}else
+			{
+				clearInterval(update_state);
+				destroy();
+				update_state='';
+			}
+
+
+	      // show loading div, etc...
+	    });
 
 	}).
 
-	controller('LoginLightCtrl', function($scope, $rootScope, $cookies)
+	controller('LoginLightCtrl', function($scope, $rootScope, $cookies, $modal)
 	{
+
+
 		$rootScope.isLoginPage        = true;
 		$rootScope.isLightLoginPage   = true;
 		$rootScope.isLockscreenPage   = false;
 		$rootScope.isMainPage         = false;
-		$rootScope.layoutOptions = {
-			horizontalMenu: {
-				isVisible		: false,
-				isFixed			: true,
-				minimal			: true,
-				clickToExpand	: false,
-
-				isMenuOpenMobile: false
-			},
-			sidebar: {
-				isVisible		: false,
-				isCollapsed		: true,
-				toggleOthers	: true,
-				isFixed			: true,
-				isRight			: false,
-
-				isMenuOpenMobile: false,
-
-				// Added in v1.3
-				userProfile		: false
-			},
-			chat: {
-				isOpen			: false,
-			},
-			settingsPane: {
-				isOpen			: false,
-				useAnimation	: true
-			},
-			container: {
-				isBoxed			: false
-			},
-			skins: {
-				sidebarMenu		: '',
-				horizontalMenu	: '',
-				userInfoNavbar	: ''
-			},
-			pageTitles: true,
-			userInfoNavVisible	: false
-		};
+		$rootScope.layoutOptions.horizontalMenu.isVisible = false;
 
 		//var current_user = $cookies['current_user'];;
 		$rootScope.setCurrentUser = function (user) {
 			$cookies.current_user= user;
 		};
+
+		$scope.openModal = function(modal_id, modal_size, modal_backdrop)
+		{
+			$rootScope.currentModal = $modal.open({
+				templateUrl: modal_id,
+				size: modal_size,
+				backdrop: typeof modal_backdrop == 'undefined' ? true : modal_backdrop
+			});
+		};
+
+		$rootScope.forgot_pwd = function(){
+			var email = $("#forgot_pwd_email").val();
+
+							var opts = {
+								"closeButton": true,
+								"debug": false,
+								"positionClass": "toast-top-full-width",
+								"onclick": null,
+								"showDuration": "300",
+								"hideDuration": "1000",
+								"timeOut": "5000",
+								"extendedTimeOut": "1000",
+								"showEasing": "swing",
+								"hideEasing": "linear",
+								"showMethod": "fadeIn",
+								"hideMethod": "fadeOut"
+								};
+
+
+
+			if (!email){
+					toastr.error("Please fill in Email"
+					, "Email is empty"
+					, opts);
+				return false;
+			}
+
+			toastr.success("Your password has been emailed to your email address", "Success", opts);
+			$rootScope.currentModal.close();
+		};
+
+
+		$rootScope.register = function(){
+			var username = $("#reg_username").val();
+			var password = $("#reg_password").val();
+			var email = $("#reg_email").val();
+
+			var opts = {
+				"closeButton": true,
+				"debug": false,
+				"positionClass": "toast-top-full-width",
+				"onclick": null,
+				"showDuration": "300",
+				"hideDuration": "1000",
+				"timeOut": "5000",
+				"extendedTimeOut": "1000",
+				"showEasing": "swing",
+				"hideEasing": "linear",
+				"showMethod": "fadeIn",
+				"hideMethod": "fadeOut"
+				};
+
+			if (!username){
+					toastr.error("Please fill in Username"
+					, "Username is empty"
+					, opts);
+				return false;
+			}
+			if (!password){
+					toastr.error("Please fill in Password"
+					, "Password is empty"
+					, opts);
+				return false;
+			}
+			if (!email){
+					toastr.error("Please fill in Email"
+					, "Email is empty"
+					, opts);
+				return false;
+			}
+			 toastr.success("Account created", "Success", opts);
+			 $rootScope.currentModal.close();
+		};
+
+
 	}).
 	controller('LockscreenCtrl', function($scope, $rootScope)
 	{
@@ -285,12 +354,12 @@ angular.module('xenon.controllers', []).
 		$rootScope.isLockscreenPage   = false;
 		$rootScope.isMainPage         = true;
 
-		
+
 
 
 		$rootScope.layoutOptions = {
 			horizontalMenu: {
-				isVisible		: true,
+				isVisible		: false,
 				isFixed			: true,
 				minimal			: true,
 				clickToExpand	: false,
@@ -328,7 +397,7 @@ angular.module('xenon.controllers', []).
 			userInfoNavVisible	: false
 		};
 
-		$layout.loadOptionsFromCookies(); // remove this line if you don't want to support cookies that remember layout changes
+		//$layout.loadOptionsFromCookies(); // remove this line if you don't want to support cookies that remember layout changes
 
 
 		$scope.updatePsScrollbars = function()
@@ -462,7 +531,6 @@ angular.module('xenon.controllers', []).
 	}).
 	controller('HorizontalMenuCtrl', function($scope, $rootScope, $menuItems, $timeout, $location, $state,  $modal, $sce)
 	{
-
 		$scope.openModal = function(modal_id, modal_size, modal_backdrop)
 		{
 			$rootScope.currentModal = $modal.open({

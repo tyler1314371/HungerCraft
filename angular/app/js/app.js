@@ -31,8 +31,8 @@ app.run(function()
 
 app.config(function($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, ASSETS){
 
-	//$urlRouterProvider.otherwise('/login-light');
-	$urlRouterProvider.otherwise('/app/dashboard-variant-1');
+	$urlRouterProvider.otherwise('/login-light');
+	//$urlRouterProvider.otherwise('/app/dashboard-variant-1');
 
 	$stateProvider.
 		// Main Layout Structure

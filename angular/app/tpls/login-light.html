@@ -1,41 +1,210 @@
+<script type="text/ng-template" id="register_form">
+	<div class="modal-header">
+		<button type="button" class="close" ng-click="currentModal.close();" aria-hidden="true">&times;</button>
+		<h4 class="modal-title"><font color=grey>Register</font></h4>
+	</div>
 
-<div>
+	<div class="modal-body">
+
+		<div class="row">
+			<div class="col-md-6">
+
+				<div class="form-group">
+					<label for="field-1" class="control-label"><font color=black>UserName</font></label>
+
+					<input type="text" class="form-control" id="reg_username" placeholder="Enter Here..">
+				</div>
+
+			</div>
+
+			<div class="col-md-6">
+
+				<div class="form-group">
+					<label for="field-2" class="control-label"><font color=black>Password</font></label>
+
+					<input type="password" class="form-control" id="reg_password" placeholder="Enter Here..">
+				</div>
+
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-12">
+
+				<div class="form-group">
+					<label for="field-3" class="control-label"><font color=black>Email Address</font></label>
+
+					<input type="text" class="form-control" id="reg_email" placeholder="Enter Here..">
+				</div>
+
+			</div>
+		</div>
+
+
+	</div>
+
+	<div class="modal-footer">
+		<button type="button" class="btn btn-white" ng-click="currentModal.close();">Close</button>
+		<button type="button" class="btn btn-info" ng-click="register();">Register</button>
+	</div>
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/ng-template" id="forgot_pwd_form">
+
+			<div class="modal-header">
+				<button type="button" class="close" ng-click="currentModal.close();" aria-hidden="true">&times;</button>
+				<h4 class="modal-title"><font color=grey>Password Recovery</font></h4>
+			</div>
+
+			<div class="modal-body">
+
+				<div class="row">
+					<div class="col-md-12">
+
+						<div class="form-group">
+							<label for="field-3" class="control-label"><font color=black>Email Address</font></label>
+
+							<input type="text" class="form-control" id="forgot_pwd_email" placeholder="Enter Here..">
+						</div>
+
+					</div>
+				</div>
+
+
+			</div>
+
+			<div class="modal-footer">
+				<button type="button" class="btn btn-white" ng-click="currentModal.close();">Close</button>
+				<button type="button" class="btn btn-info" ng-click="forgot_pwd();">Recover Password</button>
+			</div>
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	<div class="row">
 
 		<div class="col-sm-6">
-			
-			<script type="text/javascript">
+			<script>
 				jQuery(document).ready(function($)
 				{
 					// Reveal Login form
 					setTimeout(function(){ $(".fade-in-effect").addClass('in'); }, 1);
+					//window.location.hash = '#/app/dashboard-variant-1';
 
-					// Set Form focus
+
+
+
 					$("form#login .form-group:has(.form-control):first .form-control").focus();
 				});
+
+
+
+				function login() {
+    			var username = document.forms["LoginForm"]["username"].value;
+					var password = document.forms["LoginForm"]["password"].value;
+					if (username == null || username == "") {
+		        var opts = {
+							"closeButton": true,
+							"debug": false,
+							"positionClass": "toast-top-full-width",
+							"onclick": null,
+							"showDuration": "300",
+							"hideDuration": "1000",
+							"timeOut": "5000",
+							"extendedTimeOut": "1000",
+							"showEasing": "swing",
+							"hideEasing": "linear",
+							"showMethod": "fadeIn",
+							"hideMethod": "fadeOut"
+							};
+							toastr.error("Please fill in Username"
+							, "Username is empty"
+							, opts);
+
+							return false;
+		    	}
+					if (password == null || password == "") {
+						var opts = {
+							"closeButton": true,
+							"debug": false,
+							"positionClass": "toast-top-full-width",
+							"onclick": null,
+							"showDuration": "300",
+							"hideDuration": "1000",
+							"timeOut": "5000",
+							"extendedTimeOut": "1000",
+							"showEasing": "swing",
+							"hideEasing": "linear",
+							"showMethod": "fadeIn",
+							"hideMethod": "fadeOut"
+							};
+							toastr.error("Please fill in Password"
+							, "Password is empty"
+							, opts);
+						return false;
+		    	}
+
+					//connect to server
+
+					window.location.hash = '#/app/dashboard-variant-1';
+				};
+
+
+
 			</script>
 
 			<!-- Errors container -->
 			<div class="errors-container">
 
-				
+
 			</div>
 
 			<!-- Add class "fade-in-effect" for login form effect -->
-			<form method="post" role="form" id="login" class="login-form fade-in-effect">
+			<form method="post" role="form" id="login" class="login-form fade-in-effect" onsubmit="login()" name="LoginForm">
 
 				<div class="login-header">
-					<img src="assets/images/HungerCraft.png" alt="" width="350"/>
-			
-					<p>Discover, optimize, and warp!</p>
+					<img src="assets/images/WarpGate.png" alt="" width="350"/>
+
+					<p><font color=white>Discover, optimize, and warp!</font></p>
 				</div>
 
 
 				<div class="form-group">
-					<label class="control-label" for="username">Name</label>
-					<input type="text" class="form-control" name="username" id="username" autocomplete="off" />
+					<label class="control-label" for="username">UserName</label>
+					<input type="text" class="form-control"  id="username" autocomplete="off" name="username"/>
+
 				</div>
+
+				<div class="form-group">
+					<label class="control-label" for="password">Password</label>
+					<input type="text" class="form-control" id="password" autocomplete="off" name="password"/>
+				</div>
+
 
 
 				<div class="form-group">
@@ -46,10 +215,12 @@
 				</div>
 
 				<div class="login-footer">
-					
+
 					<div class="info-links">
-						<a href="">Powered By</a> -
-						<a href="">Tyler Niu</a>
+						<a href="" ng-click="openModal('register_form')" class="btn btn-primary btn-single btn-sm"><font color=white>Register</font></a>
+					</div>
+					<div class="info-links">
+						<a href="" ng-click="openModal('forgot_pwd_form')"><font color=white>Forgot Password</font></a>
 					</div>
 
 				</div>
@@ -61,5 +232,3 @@
 		</div>
 
 	</div>
-
-</div>

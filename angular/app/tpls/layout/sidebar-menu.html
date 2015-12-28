@@ -180,13 +180,18 @@
 
 <script type="text/ng-template" id="menu-item-link-tpl">
 	<i ng-if="item.icon" class="{{item.icon}}"></i>
-	<span class="title">{{item.title}}</span>
+	<span ng-if="item.title == 'M'" class="title"><div id="tooltip_title">{{metal.current_owned}}<span>Metal, the most basic resource for any space expedition</span></div></span>
+	<span ng-if="item.title == 'C'" class="title"><div id="tooltip_title">{{crystal.current_owned}}<span>Crystal, rare resource that is used for research and trading</span></div></span>
+	<span ng-if="item.title == 'DM'" class="title"><div id="tooltip_title">{{dark_matter.current_owned}}<span>Dark matter, a hypothetical kind of matter that cannot be seen with <br/>
+																																																						telescopes but accounts for most of the matter in the universe. <br/>
+																																																						Increase your mine and crystal mine income by <div id="attention">{{dark_matter.current_increase}}%</div> for each dark matter you have</span></div></span>
 	<span ng-if="item.label" class="label label-{{item.label.classname}} pull-right" ng-class="{'hidden-collapsed': item.label.collapsedHide}">{{item.label.text}}</span>
 </script>
 
 <script type="text/ng-template" id="menu-items-tpl">
-	<li ng-repeat="item in menuItems" ng-class="{'opened': item.isOpen, 'active': item.isActive, 'has-sub': item.menuItems.length}" ng-click="openModal(item.modal, 'lg')">
-		<a href="#{{item.link}}" ng-include="'menu-item-link-tpl'"></a>
+	<li ng-repeat="item in menuItems" ng-class="{'opened': item.isOpen, 'active': item.isActive, 'has-sub': item.menuItems.length}" >
+		<a ng-if="item.modal != ''"href="#{{item.link}}" ng-include="'menu-item-link-tpl'" ng-click="openModal(item.modal, 'lg')"></a>
+		<a ng-if="item.modal == ''"href="#{{item.link}}" ng-include="'menu-item-link-tpl'"></a>
 
 		<ul ng-if="item.menuItems.length" ng-init="subItems = item.menuItems" ng-include="'menu-items-recursive-tpl'"></ul>
 	</li>
