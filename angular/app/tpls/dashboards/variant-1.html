@@ -6,10 +6,6 @@
   background-size: cover;
 }
 
-table, tr, td {
-    border: 1px solid black;
-    border-collapse: collapse;
-}
 
 .spinner {
   height: 80px;
@@ -147,6 +143,44 @@ table, tr, td {
       </table>
 
 
+      <br />
+
+      <table style="width:100%">
+        <tr>
+            <td style="text-align: center; width: auto">
+              Research Lab <br/>
+            </td>
+        </tr>
+      </table>
+      <table style="width:100%">
+        <tr>
+            <td>
+              Metal is the main resource for conducting research and the construction of buildings, ships, and defensive units. Exceptions are Solar Satellites, Espionage Probes, Energy Technology, Hyperspace Technology, Computer Technology and Graviton Technology. If you do not have a Metal Mine yet, you will be producing 30 units per hour (in normal universes). In speed universes the basic amount is higher, depending on the speed factor.
+            </td>
+          </tr>
+      </table>
+      <table style="width:100%">
+          <tr>
+            <td style="width: 500px">
+              <img src="assets/images/icon/research_lab.jpg" width="500" /></div>
+            </td>
+
+            <td>
+              Level: <span id="lablevel">{{research_lab.current_lab_level}}</span>
+              <br />
+
+
+              Upgrade Cost: <br/>
+              <span id="labupgradecost">Metal: {{research_lab.current_cost_metal}}</span>
+              <br/>
+              <span id="labupgradecost">Crtstal: {{research_lab.current_cost_crystal}}</span>
+              <br />
+
+              <button ng-click="UpgradeLab()">Upgrade Research Lab</button>
+            </td>
+          </tr>
+
+      </table>
 
 
 

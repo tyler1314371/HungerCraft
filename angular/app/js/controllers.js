@@ -21,6 +21,28 @@ var specialization = {
 };
 
 
+var specialization = {
+	Nemesis: {
+		metal_cost: 9000,
+		metal_cost_ori: 9000,
+		crystal_cost: 0,
+		crystal_cost_ori: 0,
+		current_level: 0
+	},
+	Cargo_Improvement: {
+		metal_cost: 1000,
+		metal_cost_ori: 1000,
+		crystal_cost: 50,
+		crystal_cost_ori: 50,
+		current_level: 0
+	}
+
+};
+
+
+
+
+
 var metal = {
 	current_owned:0,
 	current_mine_level:1,
@@ -37,6 +59,16 @@ var crystal = {
 	ori_cost: 60,
 	income: 3.5,
 	income_base: 3.5
+};
+
+
+
+var research_lab = {
+	current_lab_level: 1,
+	current_cost_metal:150,
+	base_cost_metal: 150,
+	current_cost_crystal:70,
+	base_cost_crystal: 70
 };
 
 
@@ -111,6 +143,7 @@ angular.module('xenon.controllers', []).
 
 		$scope.metal = metal;
 		$scope.crystal = crystal;
+		$scope.research_lab = research_lab;
 		$scope.specialization = specialization;
 
 
@@ -145,6 +178,18 @@ angular.module('xenon.controllers', []).
 		    };
 		};
 
+		$scope.UpgradeLab = function(){
+		    if((metal.current_owned >= research_lab.current_cost_metal) && (crystal.current_owned >= research_lab.current_cost_crystal)){
+
+		         research_lab.current_lab_level = research_lab.current_lab_level +1;
+						 metal.current_owned = metal.current_owned - research_lab.current_cost_metal;
+						 crystal.current_owned = crystal.current_owned - research_lab.current_cost_crystal;
+
+						 research_lab.current_cost_metal = Math.floor(research_lab.base_cost_metal * Math.pow(1.5,research_lab.current_lab_level));
+						 research_lab.current_cost_crystal = Math.floor(research_lab.base_cost_crystal * Math.pow(1.5,research_lab.current_lab_level));
+
+		    };
+		};
 
 
 
