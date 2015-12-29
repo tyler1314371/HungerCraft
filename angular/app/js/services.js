@@ -86,18 +86,18 @@ angular.module('xenon.services', []).
 
 		this.prepareSidebarMenu = function()
 		{
-			var shipyard    = this.addItem('shipyard', 		'/app/dashboard-variant-1', 			'fa-question', 'shipyard');
-			var expedition    =     this.addItem('expedition', 		'/app/dashboard-variant-1', 			'linecons-desktop', 'expedition');
-			var talent_tree      = this.addItem('talent_tree',	'/app/dashboard-variant-1',	'linecons-database', 'talent_tree');
+			var shipyard    = this.addItem('shipyard', 		'/app/dashboard-variant-1', 			'assets/images/ship.png', 'shipyard');
+			var expedition    =     this.addItem('expedition', 		'/app/dashboard-variant-1', 			'assets/images/raid.png', 'expedition');
+			var talent_tree      = this.addItem('talent_tree',	'/app/dashboard-variant-1',	'assets/images/artifacts.png', 'talent_tree');
 
 			return this;
 		};
 
 		this.prepareHorizontalMenu = function()
 		{
-			var metal      = this.addItem('M',	'/app/dashboard-variant-1',	'linecons-food', '');
-			var crystal      = this.addItem('C',	'/app/dashboard-variant-1',	'linecons-diamond', '');
-			var dark_matter      = this.addItem('DM',	'/app/dashboard-variant-1',	'linecons-fire', '');
+			var metal      = this.addItem('M',	'/app/dashboard-variant-1',	'assets/images/mineral.png', '');
+			var crystal      = this.addItem('C',	'/app/dashboard-variant-1',	'assets/images/crystal.png', '');
+			var dark_matter      = this.addItem('DM',	'/app/dashboard-variant-1',	'assets/images/dark_matter.png', '');
 			//var condition      = this.addItem('CON',	'/app/dashboard-variant-1',	'', 'modal-4');
 
 
