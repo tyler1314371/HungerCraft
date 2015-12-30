@@ -1,9 +1,9 @@
 <style media="screen" type="text/css">
 
 
-#tooltip { position: relative; }
-#tooltip span { display: none; color: #FFFFFF; }
-#tooltip:hover span {
+.artifact_tooltip_uncommon { position: relative; }
+.artifact_tooltip_uncommon span { display: none; color: #FFFFFF; }
+.artifact_tooltip_uncommon:hover span {
 	display: block;
 	position: absolute;
 	width: auto;
@@ -12,7 +12,61 @@
 	left: 60px;
 	top: -10px;
 	color: #FFFFFF;
-	padding: 0 5px; }
+	padding: 0 5px;
+	border-style: solid;
+    border-color: #6AEB6A;
+    border-radius: 7px; }
+.artifact_tooltip_rare { position: relative; }
+.artifact_tooltip_rare span { display: none; color: #FFFFFF; }
+.artifact_tooltip_rare:hover span {
+	display: block;
+	position: absolute;
+	width: auto;
+	background: #5d5757;
+	height: auto;
+	left: 60px;
+	top: -10px;
+	color: #FFFFFF;
+	padding: 0 5px;
+	border-style: solid;
+    border-color: #4646F3;
+    border-radius: 7px; }
+.artifact_tooltip_epic { position: relative; }
+.artifact_tooltip_epic span { display: none; color: #FFFFFF; }
+.artifact_tooltip_epic:hover span {
+	display: block;
+	position: absolute;
+	width: auto;
+	background: #5d5757;
+	height: auto;
+	left: 60px;
+	top: -10px;
+	color: #FFFFFF;
+	padding: 0 5px;
+	border-style: solid;
+    border-color: #C741C7;
+    border-radius: 7px; }
+.artifact_tooltip_legendary { position: relative; }
+.artifact_tooltip_legendary span { display: none; color: #FFFFFF; }
+.artifact_tooltip_legendary:hover span {
+	display: block;
+	position: absolute;
+	width: auto;
+	background: #5d5757;
+	height: auto;
+	left: 60px;
+	top: -10px;
+	color: #FFFFFF;
+	padding: 0 5px;
+	border-style: solid;
+    border-color: #FBB93F;
+    border-radius: 7px; }
+
+
+
+
+
+
 
 #tooltip_raid { position: relative; }
 #tooltip_raid span { display: none; color: #FFFFFF; }
@@ -55,9 +109,13 @@
 
 
 #skill_tree td{
-	padding-bottom: 10em;
+	padding-bottom: 1em;
 }
 
+
+.raid_table td{
+	padding-bottom: 10em;
+}
 
 #points-remaining{
 	text-align: right;
@@ -95,6 +153,7 @@
 
 .artifact_img{
 	border-radius: 10px 10px 10px 10px;
+
 }
 .raid_img{
 	border-radius: 7px 7px 7px 7px;
@@ -123,17 +182,92 @@
 <script type="text/ng-template" id="talent_tree">
 	<div class="modal-header">
 		<button type="button" class="close" ng-click="currentModal.close();" aria-hidden="true">&times;</button>
-		<h4 class="modal-title" id ="modal-title">Artifacts </h4>
+		<h3 class="modal-title" id ="modal-title">Artifacts </h3> 
 		<div>Artifacts are scattered throughout the universe and wield great power, collect them and improve your empire</div>
 	</div>
 
+
 	<div class="modal-body" ng-controller="GameCtrl">
+
+			<button ng-click="unlock_test()">unlock_test</button>
+			<button ng-click="lock_test()">lock_test</button>		
 			<table id="skill_tree" style="width:100%">
+
 					<tr>
 						<td>
 
-						<div id="tooltip"><img src="assets/images/artifacts/blue_stone.png" width="50" class ="artifact_img"/>
-																								<span>Cargo Improvement-<br/>
+						<div ng-if="artifacts.1.unlocked" class="artifact_tooltip_uncommon"><img src="assets/images/artifacts/blue_stone.png" width="50" class ="artifact_img"/>
+																								<span>Title-<br/>
+																								Increases your metal mine income rate by some amount.<br />
+																								Current %: <div id="attention">{{specialization.Cargo_Improvement.current_level * 4}}%</div><br />
+																								Next Level %: <div id="attention">{{(specialization.Cargo_Improvement.current_level+1) * 4}}%</div></span>
+																								<br />
+						</div>
+						<div ng-if="!artifacts.1.unlocked" class="artifact_tooltip_uncommon"><img src="assets/images/locked.png" width="50" class ="artifact_img"/>
+																								<span>Locked<br/>
+																								</span>
+																								<br />
+						</div>
+
+						</td>
+						<td>
+
+						<div ng-if="artifacts.2.unlocked" class="artifact_tooltip_rare"><img src="assets/images/artifacts/blue_stone.png" width="50" class ="artifact_img"/>
+																								<span>Title-<br/>
+																								Increases your metal mine income rate by some amount.<br />
+																								Current %: <div id="attention">{{specialization.Cargo_Improvement.current_level * 4}}%</div><br />
+																								Next Level %: <div id="attention">{{(specialization.Cargo_Improvement.current_level+1) * 4}}%</div></span>
+																								<br />
+						</div>
+						<div ng-if="!artifacts.2.unlocked" class="artifact_tooltip_rare"><img src="assets/images/locked.png" width="50" class ="artifact_img"/>
+																								<span>Locked<br/>
+																								</span>
+																								<br />
+						</div>
+
+
+						</td>
+						<td>
+
+						<div ng-if="artifacts.3.unlocked" class="artifact_tooltip_epic"><img src="assets/images/artifacts/blue_stone.png" width="50" class ="artifact_img"/>
+																								<span>Title-<br/>
+																								Increases your metal mine income rate by some amount.<br />
+																								Current %: <div id="attention">{{specialization.Cargo_Improvement.current_level * 4}}%</div><br />
+																								Next Level %: <div id="attention">{{(specialization.Cargo_Improvement.current_level+1) * 4}}%</div></span>
+																								<br />
+						</div>
+
+
+						<div ng-if="!artifacts.2.unlocked" class="artifact_tooltip_epic"><img src="assets/images/locked.png" width="50" class ="artifact_img"/>
+																								<span>Locked<br/>
+																								</span>
+																								<br />
+						</div>
+
+						</td>
+						<td>
+
+						<div ng-if="artifacts.4.unlocked" class="artifact_tooltip_legendary"><img src="assets/images/artifacts/blue_stone.png" width="50" class ="artifact_img"/>
+																								<span>Title-<br/>
+																								Increases your metal mine income rate by some amount.<br />
+																								Current %: <div id="attention">{{specialization.Cargo_Improvement.current_level * 4}}%</div><br />
+																								Next Level %: <div id="attention">{{(specialization.Cargo_Improvement.current_level+1) * 4}}%</div></span>
+																								<br />
+						</div>
+						<div ng-if="!artifacts.4.unlocked" class="artifact_tooltip_legendary"><img src="assets/images/locked.png" width="50" class ="artifact_img"/>
+																								<span>Locked<br/>
+																								</span>
+																								<br />
+						</div>
+
+
+						</td>
+					</tr>
+					<tr>
+						<td>
+
+						<div class="artifact_tooltip_uncommon"><img src="assets/images/artifacts/blue_stone.png" width="50" class ="artifact_img"/>
+																								<span>Title-<br/>
 																								Increases your metal mine income rate by some amount.<br />
 																								Current %: <div id="attention">{{specialization.Cargo_Improvement.current_level * 4}}%</div><br />
 																								Next Level %: <div id="attention">{{(specialization.Cargo_Improvement.current_level+1) * 4}}%</div></span>
@@ -143,8 +277,8 @@
 						</td>
 						<td>
 
-						<div id="tooltip"><img src="assets/images/artifacts/Belt.png" width="50" class ="artifact_img"/>
-																								<span>Cargo Improvement-<br/>
+						<div class="artifact_tooltip_rare"><img src="assets/images/artifacts/blue_stone.png" width="50" class ="artifact_img"/>
+																								<span>Title-<br/>
 																								Increases your metal mine income rate by some amount.<br />
 																								Current %: <div id="attention">{{specialization.Cargo_Improvement.current_level * 4}}%</div><br />
 																								Next Level %: <div id="attention">{{(specialization.Cargo_Improvement.current_level+1) * 4}}%</div></span>
@@ -154,8 +288,19 @@
 						</td>
 						<td>
 
-						<div id="tooltip"><img src="assets/images/artifacts/Belt.png" width="50" class ="artifact_img"/>
-																								<span>Cargo Improvement-<br/>
+						<div class="artifact_tooltip_epic"><img src="assets/images/artifacts/blue_stone.png" width="50" class ="artifact_img"/>
+																								<span>Title-<br/>
+																								Increases your metal mine income rate by some amount.<br />
+																								Current %: <div id="attention">{{specialization.Cargo_Improvement.current_level * 4}}%</div><br />
+																								Next Level %: <div id="attention">{{(specialization.Cargo_Improvement.current_level+1) * 4}}%</div></span>
+																								<br />
+						</div>
+
+						</td>
+						<td>
+
+						<div class="artifact_tooltip_legendary"><img src="assets/images/artifacts/blue_stone.png" width="50" class ="artifact_img"/>
+																								<span>Title-<br/>
 																								Increases your metal mine income rate by some amount.<br />
 																								Current %: <div id="attention">{{specialization.Cargo_Improvement.current_level * 4}}%</div><br />
 																								Next Level %: <div id="attention">{{(specialization.Cargo_Improvement.current_level+1) * 4}}%</div></span>
@@ -168,8 +313,8 @@
 					<tr>
 						<td>
 
-						<div id="tooltip"><img src="assets/images/artifacts/Belt.png" width="50" class ="artifact_img"/>
-																								<span>Cargo Improvement-<br/>
+						<div class="artifact_tooltip_uncommon"><img src="assets/images/artifacts/blue_stone.png" width="50" class ="artifact_img"/>
+																								<span>Title-<br/>
 																								Increases your metal mine income rate by some amount.<br />
 																								Current %: <div id="attention">{{specialization.Cargo_Improvement.current_level * 4}}%</div><br />
 																								Next Level %: <div id="attention">{{(specialization.Cargo_Improvement.current_level+1) * 4}}%</div></span>
@@ -179,8 +324,8 @@
 						</td>
 						<td>
 
-						<div id="tooltip"><img src="assets/images/artifacts/Belt.png" width="50" class ="artifact_img"/>
-																								<span>Cargo Improvement-<br/>
+						<div class="artifact_tooltip_rare"><img src="assets/images/artifacts/blue_stone.png" width="50" class ="artifact_img"/>
+																								<span>Title-<br/>
 																								Increases your metal mine income rate by some amount.<br />
 																								Current %: <div id="attention">{{specialization.Cargo_Improvement.current_level * 4}}%</div><br />
 																								Next Level %: <div id="attention">{{(specialization.Cargo_Improvement.current_level+1) * 4}}%</div></span>
@@ -190,8 +335,66 @@
 						</td>
 						<td>
 
-						<div id="tooltip"><img src="assets/images/artifacts/Belt.png" width="50" class ="artifact_img"/>
-																								<span>Cargo Improvement-<br/>
+						<div class="artifact_tooltip_epic"><img src="assets/images/artifacts/blue_stone.png" width="50" class ="artifact_img"/>
+																								<span>Title-<br/>
+																								Increases your metal mine income rate by some amount.<br />
+																								Current %: <div id="attention">{{specialization.Cargo_Improvement.current_level * 4}}%</div><br />
+																								Next Level %: <div id="attention">{{(specialization.Cargo_Improvement.current_level+1) * 4}}%</div></span>
+																								<br />
+						</div>
+
+						</td>
+						<td>
+
+						<div class="artifact_tooltip_legendary"><img src="assets/images/artifacts/blue_stone.png" width="50" class ="artifact_img"/>
+																								<span>Title-<br/>
+																								Increases your metal mine income rate by some amount.<br />
+																								Current %: <div id="attention">{{specialization.Cargo_Improvement.current_level * 4}}%</div><br />
+																								Next Level %: <div id="attention">{{(specialization.Cargo_Improvement.current_level+1) * 4}}%</div></span>
+																								<br />
+						</div>
+
+						</td>
+					</tr>
+
+					<tr>
+						<td>
+
+						<div class="artifact_tooltip_uncommon"><img src="assets/images/artifacts/blue_stone.png" width="50" class ="artifact_img"/>
+																								<span>Title-<br/>
+																								Increases your metal mine income rate by some amount.<br />
+																								Current %: <div id="attention">{{specialization.Cargo_Improvement.current_level * 4}}%</div><br />
+																								Next Level %: <div id="attention">{{(specialization.Cargo_Improvement.current_level+1) * 4}}%</div></span>
+																								<br />
+						</div>
+
+						</td>
+						<td>
+
+						<div class="artifact_tooltip_rare"><img src="assets/images/artifacts/blue_stone.png" width="50" class ="artifact_img"/>
+																								<span>Title-<br/>
+																								Increases your metal mine income rate by some amount.<br />
+																								Current %: <div id="attention">{{specialization.Cargo_Improvement.current_level * 4}}%</div><br />
+																								Next Level %: <div id="attention">{{(specialization.Cargo_Improvement.current_level+1) * 4}}%</div></span>
+																								<br />
+						</div>
+
+						</td>
+						<td>
+
+						<div class="artifact_tooltip_epic"><img src="assets/images/artifacts/blue_stone.png" width="50" class ="artifact_img"/>
+																								<span>Title-<br/>
+																								Increases your metal mine income rate by some amount.<br />
+																								Current %: <div id="attention">{{specialization.Cargo_Improvement.current_level * 4}}%</div><br />
+																								Next Level %: <div id="attention">{{(specialization.Cargo_Improvement.current_level+1) * 4}}%</div></span>
+																								<br />
+						</div>
+
+						</td>
+						<td>
+
+						<div class="artifact_tooltip_legendary"><img src="assets/images/artifacts/blue_stone.png" width="50" class ="artifact_img"/>
+																								<span>Title-<br/>
 																								Increases your metal mine income rate by some amount.<br />
 																								Current %: <div id="attention">{{specialization.Cargo_Improvement.current_level * 4}}%</div><br />
 																								Next Level %: <div id="attention">{{(specialization.Cargo_Improvement.current_level+1) * 4}}%</div></span>
@@ -201,11 +404,10 @@
 						</td>
 					</tr>
 					<tr>
-
 						<td>
 
-						<div id="tooltip"><img src="assets/images/artifacts/Belt.png" width="50" class ="artifact_img"/>
-																								<span>Cargo Improvement-<br/>
+						<div class="artifact_tooltip_uncommon"><img src="assets/images/artifacts/blue_stone.png" width="50" class ="artifact_img"/>
+																								<span>Title-<br/>
 																								Increases your metal mine income rate by some amount.<br />
 																								Current %: <div id="attention">{{specialization.Cargo_Improvement.current_level * 4}}%</div><br />
 																								Next Level %: <div id="attention">{{(specialization.Cargo_Improvement.current_level+1) * 4}}%</div></span>
@@ -215,8 +417,30 @@
 						</td>
 						<td>
 
-						<div id="tooltip"><img src="assets/images/artifacts/Belt.png" width="50" class ="artifact_img"/>
-																								<span>Cargo Improvement-<br/>
+						<div class="artifact_tooltip_rare"><img src="assets/images/artifacts/blue_stone.png" width="50" class ="artifact_img"/>
+																								<span>Title-<br/>
+																								Increases your metal mine income rate by some amount.<br />
+																								Current %: <div id="attention">{{specialization.Cargo_Improvement.current_level * 4}}%</div><br />
+																								Next Level %: <div id="attention">{{(specialization.Cargo_Improvement.current_level+1) * 4}}%</div></span>
+																								<br />
+						</div>
+
+						</td>
+						<td>
+
+						<div class="artifact_tooltip_epic"><img src="assets/images/artifacts/blue_stone.png" width="50" class ="artifact_img"/>
+																								<span>Title-<br/>
+																								Increases your metal mine income rate by some amount.<br />
+																								Current %: <div id="attention">{{specialization.Cargo_Improvement.current_level * 4}}%</div><br />
+																								Next Level %: <div id="attention">{{(specialization.Cargo_Improvement.current_level+1) * 4}}%</div></span>
+																								<br />
+						</div>
+
+						</td>
+						<td>
+
+						<div class="artifact_tooltip_legendary"><img src="assets/images/artifacts/blue_stone.png" width="50" class ="artifact_img"/>
+																								<span>Title-<br/>
 																								Increases your metal mine income rate by some amount.<br />
 																								Current %: <div id="attention">{{specialization.Cargo_Improvement.current_level * 4}}%</div><br />
 																								Next Level %: <div id="attention">{{(specialization.Cargo_Improvement.current_level+1) * 4}}%</div></span>
@@ -225,14 +449,12 @@
 
 						</td>
 					</tr>
-
 
 					<tr>
-
 						<td>
 
-						<div id="tooltip"><img src="assets/images/artifacts/Belt.png" width="50" class ="artifact_img"/>
-																								<span>Cargo Improvement-<br/>
+						<div class="artifact_tooltip_uncommon"><img src="assets/images/artifacts/blue_stone.png" width="50" class ="artifact_img"/>
+																								<span>Title-<br/>
 																								Increases your metal mine income rate by some amount.<br />
 																								Current %: <div id="attention">{{specialization.Cargo_Improvement.current_level * 4}}%</div><br />
 																								Next Level %: <div id="attention">{{(specialization.Cargo_Improvement.current_level+1) * 4}}%</div></span>
@@ -242,8 +464,8 @@
 						</td>
 						<td>
 
-						<div id="tooltip"><img src="assets/images/artifacts/Belt.png" width="50" class ="artifact_img"/>
-																								<span>Cargo Improvement-<br/>
+						<div class="artifact_tooltip_rare"><img src="assets/images/artifacts/blue_stone.png" width="50" class ="artifact_img"/>
+																								<span>Title-<br/>
 																								Increases your metal mine income rate by some amount.<br />
 																								Current %: <div id="attention">{{specialization.Cargo_Improvement.current_level * 4}}%</div><br />
 																								Next Level %: <div id="attention">{{(specialization.Cargo_Improvement.current_level+1) * 4}}%</div></span>
@@ -253,8 +475,8 @@
 						</td>
 						<td>
 
-						<div id="tooltip"><img src="assets/images/artifacts/Belt.png" width="50" class ="artifact_img"/>
-																								<span>Cargo Improvement-<br/>
+						<div class="artifact_tooltip_epic"><img src="assets/images/artifacts/blue_stone.png" width="50" class ="artifact_img"/>
+																								<span>Title-<br/>
 																								Increases your metal mine income rate by some amount.<br />
 																								Current %: <div id="attention">{{specialization.Cargo_Improvement.current_level * 4}}%</div><br />
 																								Next Level %: <div id="attention">{{(specialization.Cargo_Improvement.current_level+1) * 4}}%</div></span>
@@ -264,8 +486,8 @@
 						</td>
 						<td>
 
-						<div id="tooltip"><img src="assets/images/artifacts/Belt.png" width="50" class ="artifact_img"/>
-																								<span>Cargo Improvement-<br/>
+						<div class="artifact_tooltip_legendary"><img src="assets/images/artifacts/blue_stone.png" width="50" class ="artifact_img"/>
+																								<span>Title-<br/>
 																								Increases your metal mine income rate by some amount.<br />
 																								Current %: <div id="attention">{{specialization.Cargo_Improvement.current_level * 4}}%</div><br />
 																								Next Level %: <div id="attention">{{(specialization.Cargo_Improvement.current_level+1) * 4}}%</div></span>
@@ -274,15 +496,220 @@
 
 						</td>
 					</tr>
+					<tr>
+						<td>
+
+						<div class="artifact_tooltip_uncommon"><img src="assets/images/artifacts/blue_stone.png" width="50" class ="artifact_img"/>
+																								<span>Title-<br/>
+																								Increases your metal mine income rate by some amount.<br />
+																								Current %: <div id="attention">{{specialization.Cargo_Improvement.current_level * 4}}%</div><br />
+																								Next Level %: <div id="attention">{{(specialization.Cargo_Improvement.current_level+1) * 4}}%</div></span>
+																								<br />
+						</div>
+
+						</td>
+						<td>
+
+						<div class="artifact_tooltip_rare"><img src="assets/images/artifacts/blue_stone.png" width="50" class ="artifact_img"/>
+																								<span>Title-<br/>
+																								Increases your metal mine income rate by some amount.<br />
+																								Current %: <div id="attention">{{specialization.Cargo_Improvement.current_level * 4}}%</div><br />
+																								Next Level %: <div id="attention">{{(specialization.Cargo_Improvement.current_level+1) * 4}}%</div></span>
+																								<br />
+						</div>
+
+						</td>
+						<td>
+
+						<div class="artifact_tooltip_epic"><img src="assets/images/artifacts/blue_stone.png" width="50" class ="artifact_img"/>
+																								<span>Title-<br/>
+																								Increases your metal mine income rate by some amount.<br />
+																								Current %: <div id="attention">{{specialization.Cargo_Improvement.current_level * 4}}%</div><br />
+																								Next Level %: <div id="attention">{{(specialization.Cargo_Improvement.current_level+1) * 4}}%</div></span>
+																								<br />
+						</div>
+
+						</td>
+					</tr>
+					<tr>
+						<td>
+
+						<div class="artifact_tooltip_uncommon"><img src="assets/images/artifacts/blue_stone.png" width="50" class ="artifact_img"/>
+																								<span>Title-<br/>
+																								Increases your metal mine income rate by some amount.<br />
+																								Current %: <div id="attention">{{specialization.Cargo_Improvement.current_level * 4}}%</div><br />
+																								Next Level %: <div id="attention">{{(specialization.Cargo_Improvement.current_level+1) * 4}}%</div></span>
+																								<br />
+						</div>
+
+						</td>
+						<td>
+
+						<div class="artifact_tooltip_rare"><img src="assets/images/artifacts/blue_stone.png" width="50" class ="artifact_img"/>
+																								<span>Title-<br/>
+																								Increases your metal mine income rate by some amount.<br />
+																								Current %: <div id="attention">{{specialization.Cargo_Improvement.current_level * 4}}%</div><br />
+																								Next Level %: <div id="attention">{{(specialization.Cargo_Improvement.current_level+1) * 4}}%</div></span>
+																								<br />
+						</div>
+
+						</td>
+						<td>
+
+						<div class="artifact_tooltip_epic"><img src="assets/images/artifacts/blue_stone.png" width="50" class ="artifact_img"/>
+																								<span>Title-<br/>
+																								Increases your metal mine income rate by some amount.<br />
+																								Current %: <div id="attention">{{specialization.Cargo_Improvement.current_level * 4}}%</div><br />
+																								Next Level %: <div id="attention">{{(specialization.Cargo_Improvement.current_level+1) * 4}}%</div></span>
+																								<br />
+						</div>
+
+						</td>
+						
+					</tr>
+					<tr>
+						<td>
+
+						<div class="artifact_tooltip_uncommon"><img src="assets/images/artifacts/blue_stone.png" width="50" class ="artifact_img"/>
+																								<span>Title-<br/>
+																								Increases your metal mine income rate by some amount.<br />
+																								Current %: <div id="attention">{{specialization.Cargo_Improvement.current_level * 4}}%</div><br />
+																								Next Level %: <div id="attention">{{(specialization.Cargo_Improvement.current_level+1) * 4}}%</div></span>
+																								<br />
+						</div>
+
+						</td>
+						<td>
+
+						<div class="artifact_tooltip_rare"><img src="assets/images/artifacts/blue_stone.png" width="50" class ="artifact_img"/>
+																								<span>Title-<br/>
+																								Increases your metal mine income rate by some amount.<br />
+																								Current %: <div id="attention">{{specialization.Cargo_Improvement.current_level * 4}}%</div><br />
+																								Next Level %: <div id="attention">{{(specialization.Cargo_Improvement.current_level+1) * 4}}%</div></span>
+																								<br />
+						</div>
+
+						</td>
+						<td>
+
+						<div class="artifact_tooltip_epic"><img src="assets/images/artifacts/blue_stone.png" width="50" class ="artifact_img"/>
+																								<span>Title-<br/>
+																								Increases your metal mine income rate by some amount.<br />
+																								Current %: <div id="attention">{{specialization.Cargo_Improvement.current_level * 4}}%</div><br />
+																								Next Level %: <div id="attention">{{(specialization.Cargo_Improvement.current_level+1) * 4}}%</div></span>
+																								<br />
+						</div>
+
+						</td>
+						
+					</tr>
+					<tr>
+						<td>
+
+						<div class="artifact_tooltip_uncommon"><img src="assets/images/artifacts/blue_stone.png" width="50" class ="artifact_img"/>
+																								<span>Title-<br/>
+																								Increases your metal mine income rate by some amount.<br />
+																								Current %: <div id="attention">{{specialization.Cargo_Improvement.current_level * 4}}%</div><br />
+																								Next Level %: <div id="attention">{{(specialization.Cargo_Improvement.current_level+1) * 4}}%</div></span>
+																								<br />
+						</div>
+
+						</td>
+						<td>
+
+						<div class="artifact_tooltip_rare"><img src="assets/images/artifacts/blue_stone.png" width="50" class ="artifact_img"/>
+																								<span>Title-<br/>
+																								Increases your metal mine income rate by some amount.<br />
+																								Current %: <div id="attention">{{specialization.Cargo_Improvement.current_level * 4}}%</div><br />
+																								Next Level %: <div id="attention">{{(specialization.Cargo_Improvement.current_level+1) * 4}}%</div></span>
+																								<br />
+						</div>
+
+						</td>
+
+						
+					</tr>
+					<tr>
+						<td>
+
+						<div class="artifact_tooltip_uncommon"><img src="assets/images/artifacts/blue_stone.png" width="50" class ="artifact_img"/>
+																								<span>Title-<br/>
+																								Increases your metal mine income rate by some amount.<br />
+																								Current %: <div id="attention">{{specialization.Cargo_Improvement.current_level * 4}}%</div><br />
+																								Next Level %: <div id="attention">{{(specialization.Cargo_Improvement.current_level+1) * 4}}%</div></span>
+																								<br />
+						</div>
+
+						</td>
+						<td>
+
+						<div class="artifact_tooltip_rare"><img src="assets/images/artifacts/blue_stone.png" width="50" class ="artifact_img"/>
+																								<span>Title-<br/>
+																								Increases your metal mine income rate by some amount.<br />
+																								Current %: <div id="attention">{{specialization.Cargo_Improvement.current_level * 4}}%</div><br />
+																								Next Level %: <div id="attention">{{(specialization.Cargo_Improvement.current_level+1) * 4}}%</div></span>
+																								<br />
+						</div>
+
+						</td>
+					
+						
+					</tr>
+					<tr>
+						<td>
+
+						<div class="artifact_tooltip_uncommon"><img src="assets/images/artifacts/blue_stone.png" width="50" class ="artifact_img"/>
+																								<span>Title-<br/>
+																								Increases your metal mine income rate by some amount.<br />
+																								Current %: <div id="attention">{{specialization.Cargo_Improvement.current_level * 4}}%</div><br />
+																								Next Level %: <div id="attention">{{(specialization.Cargo_Improvement.current_level+1) * 4}}%</div></span>
+																								<br />
+						</div>
+
+						</td>
+		
+					</tr>
+					<tr>
+						<td>
+
+						<div class="artifact_tooltip_uncommon"><img src="assets/images/artifacts/blue_stone.png" width="50" class ="artifact_img"/>
+																								<span>Title-<br/>
+																								Increases your metal mine income rate by some amount.<br />
+																								Current %: <div id="attention">{{specialization.Cargo_Improvement.current_level * 4}}%</div><br />
+																								Next Level %: <div id="attention">{{(specialization.Cargo_Improvement.current_level+1) * 4}}%</div></span>
+																								<br />
+						</div>
+
+						</td>
+		
+					</tr>
+					<tr>
+						<td>
+
+						<div class="artifact_tooltip_uncommon"><img src="assets/images/artifacts/blue_stone.png" width="50" class ="artifact_img"/>
+																								<span>Title-<br/>
+																								Increases your metal mine income rate by some amount.<br />
+																								Current %: <div id="attention">{{specialization.Cargo_Improvement.current_level * 4}}%</div><br />
+																								Next Level %: <div id="attention">{{(specialization.Cargo_Improvement.current_level+1) * 4}}%</div></span>
+																								<br />
+						</div>
+
+						</td>
+		
+					</tr>
+
 
 
 			</table>
+
+
+
 
 	</div>
 
 	<div class="modal-footer">
 		<button type="button" class="btn btn-white" ng-click="currentModal.close();">Close</button>
-		<button type="button" class="btn btn-info" ng-click="currentModal.dismiss();">Save changes</button>
+
 	</div>
 
 </script>
@@ -475,7 +902,7 @@
 	</div>
 
 	<div class="modal-body">
-			<table id="skill_tree" style="width:100%">
+			<table class="raid_table" style="width:100%">
 					<tr>
 						<td>
 									Raid1

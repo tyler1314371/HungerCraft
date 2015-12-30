@@ -21,19 +21,25 @@ var specialization = {
 };
 
 
-var specialization = {
-	Nemesis: {
-		metal_cost: 9000,
-		metal_cost_ori: 9000,
-		crystal_cost: 0,
-		crystal_cost_ori: 0,
+var artifacts = {
+	1: {
+		rarity:"uncommon",
+		unlocked: 0,
 		current_level: 0
 	},
-	Cargo_Improvement: {
-		metal_cost: 1000,
-		metal_cost_ori: 1000,
-		crystal_cost: 50,
-		crystal_cost_ori: 50,
+	2: {
+		rarity:"rare",
+		unlocked: 0,
+		current_level: 0
+	},
+	3: {
+		rarity:"epic",
+		unlocked: 0,
+		current_level: 0
+	},
+	4: {
+		rarity:"legendary",
+		unlocked: 0,
 		current_level: 0
 	}
 
@@ -144,6 +150,7 @@ angular.module('xenon.controllers', []).
 		$scope.metal = metal;
 		$scope.crystal = crystal;
 		$scope.research_lab = research_lab;
+		$scope.artifacts = artifacts;
 		$scope.specialization = specialization;
 
 
@@ -192,7 +199,18 @@ angular.module('xenon.controllers', []).
 		};
 
 
+		$scope.unlock_test = function(){
 
+		    for (var key in artifacts) {
+				 artifacts[key]["unlocked"] = 1;
+				}
+		};
+		$scope.lock_test = function(){
+
+		    for (var key in artifacts) {
+				 artifacts[key]["unlocked"] = 0;
+				}
+		};
 
 
 
