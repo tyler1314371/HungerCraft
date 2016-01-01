@@ -22,6 +22,121 @@ var specialization = {
 };
 
 
+//ships
+var ships ={
+	light_fighter:{
+		unlocked:0,
+		current_owned:0,
+		metal_cost:100,
+		crystal_cost:100,
+		stats:{
+			HP:0,
+			shield:0,
+			attack:0
+		}
+	},
+	heavy_fighter:{
+		unlocked:0,
+		current_owned:0,
+		metal_cost:0,
+		crystal_cost:0,
+		stats:{
+			HP:0,
+			shield:0,
+			attack:0
+		}
+	},
+	succubus:{
+		unlocked:0,
+		current_owned:0,
+		metal_cost:0,
+		crystal_cost:0,
+		stats:{
+			HP:0,
+			shield:0,
+			attack:0
+		}
+	},
+	worg:{
+		unlocked:0,
+		current_owned:0,
+		metal_cost:0,
+		crystal_cost:0,
+		stats:{
+			HP:0,
+			shield:0,
+			attack:0
+		}
+	},
+	destroyer:{
+		unlocked:0,
+		current_owned:0,
+		metal_cost:0,
+		crystal_cost:0,
+		stats:{
+			HP:0,
+			shield:0,
+			attack:0
+		}
+	},
+	colossus:{
+		unlocked:0,
+		current_owned:0,
+		metal_cost:0,
+		crystal_cost:0,
+		stats:{
+			HP:0,
+			shield:0,
+			attack:0
+		}
+	},
+	science_vessel:{
+		unlocked:0,
+		current_owned:0,
+		metal_cost:0,
+		crystal_cost:0,
+		stats:{
+			HP:0,
+			shield:0,
+			attack:0
+		}
+	},
+	pantheon:{
+		unlocked:0,
+		current_owned:0,
+		metal_cost:0,
+		crystal_cost:0,
+		stats:{
+			HP:0,
+			shield:0,
+			attack:0
+		}
+	},
+	medusa:{
+		unlocked:0,
+		current_owned:0,
+		metal_cost:0,
+		crystal_cost:0,
+		stats:{
+			HP:0,
+			shield:0,
+			attack:0
+		}
+	},
+	wormhole_device:{
+		unlocked:0,
+		current_owned:0,
+		metal_cost:0,
+		crystal_cost:0,
+		stats:{
+			HP:0,
+			shield:0,
+			attack:0
+		}
+	},
+}
+
+
 
 //ARTIFACTS
 var artifacts = {
@@ -298,6 +413,9 @@ angular.module('xenon.controllers', []).
 		    for (var key in artifacts) {
 				 artifacts[key]["unlocked"] = 1;
 				}
+			for (var key in ships) {
+				 ships[key]["unlocked"] = 1;
+				}
 		};
 		$scope.lock_test = function(){
 
@@ -343,6 +461,7 @@ angular.module('xenon.controllers', []).
 		$scope.artifacts = artifacts;
 		$scope.specialization = specialization;
 		$scope.raids = raids;
+		$scope.ships = ships;
 		var opts = {
 				"closeButton": true,
 				"debug": false,
@@ -471,13 +590,58 @@ angular.module('xenon.controllers', []).
 			    	raids[instance_name]['timer']= "00:00:00";
 			    }
 
-
-			    
-
 		    }
 
 		    
 		};
+
+
+
+
+
+
+		$scope.BuildShip = function(ship_name){
+		    
+			if(ships[ship_name]['unlocked']!=1){
+
+				toastr.error("Ship is Locked"
+						, opts);
+				return false;
+				
+		    }else{
+
+		    	if(ships[ship_name]['metal_cost']>metal.current_owned){
+
+				toastr.error("Not enough metal"
+						, opts);
+				return false;
+					
+			    }
+			    if(ships[ship_name]['crystal_cost']>crystal.current_owned){
+
+				toastr.error("Not enough crystal"
+						, opts);
+				return false;
+					
+			    }
+
+			    metal.current_owned -= ships[ship_name]['metal_cost'];
+			    crystal.current_owned -= ships[ship_name]['crystal_cost'];
+
+			    ships[ship_name]['current_owned'] +=1;
+
+				return false;
+		    }
+
+		    
+		};
+
+
+
+
+
+
+
 
 
 		$scope.Research = function(research_name)

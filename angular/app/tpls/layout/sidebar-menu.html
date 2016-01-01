@@ -141,10 +141,31 @@
 }
 
 
-
 #shipyard_table td{
 	padding-bottom: 10em;
 }
+#shipyard_table td:nth-of-type(2){
+	padding-bottom: 10em;
+	padding-left: 15px;
+}
+.build_ship_btn{
+	position: absolute;
+    top: 64%;
+    left: 40%;
+}
+.ship_info{
+	top: 15%;
+}
+.ships_locked_image{
+	position: absolute;
+	border-radius: 30px 30px 30px 30px;
+	top: 36%;
+	left: 45%;
+	background-color:white;
+}
+
+
+
 
 #shipyard{
 	background-color: black;
@@ -157,7 +178,6 @@
 }
 .raid_img{
 	border-radius: 7px 7px 7px 7px;
-	cursor: pointer;
 }
 .raid_locked_image{
 	border-radius: 30px 30px 30px 30px;
@@ -165,7 +185,11 @@
 	top: 150px;
 	left: 380px;
 	background-color:white;
-	cursor: pointer;
+}
+.ships_img{
+	border-radius: 7px 7px 7px 7px;
+	width: 500px;
+	height: 300px;
 }
 .image-grey {
     display:block;
@@ -756,108 +780,534 @@
 
 <script type="text/ng-template" id="shipyard">
 	<div class="modal-header">
-		<h4 class="modal-title">Shipyard</h4>
+		<h3 class="modal-title">Shipyard</h3>
 	</div>
 
-	<div class="modal-body">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	<div class="modal-body" ng-controller="GameCtrl">
+			<button ng-click="unlock_test()">unlock_test</button>
 			<table id="shipyard_table" style="width:100%">
 					<tr>
-						<td style="width: 400px">
-							<img src="assets/images/Ships/light_fighter.jpg" width="400" height="300" /></div>
+						<td style="width: 500px; position: relative;">
+							<h4>Light Fighter</h4>
+							<small>Lore here</small><br/>
+							<img ng-if="ships['light_fighter']['unlocked']==0" src="assets/images/Ships/light_fighter.jpg" class="ships_img image-grey" />
+							<div ng-if="ships['light_fighter']['unlocked']==0" class="ships_locked_image">
+								<img src="assets/images/locked.png" width="50" />
+							</div>
+							<img ng-if="ships['light_fighter']['unlocked']==1" src="assets/images/Ships/light_fighter.jpg" class="ships_img" />
+							
 						</td>
-						<td>
-							Light Fighter
+						<td ng-if="ships['light_fighter']['unlocked']==1" class="ship_info" style="position: relative;">
+							<h5>
+							<b>HP</b>: {{ships.light_fighter.stats.HP}}<br/>
+							<b>Shield</b>: {{ships.light_fighter.stats.shield}}<br/>
+							<b>Attack</b>: {{ships.light_fighter.stats.attack}}<br/><br/>
+
+
+							<b>Abilities</b>:<br/>
+							None<br/><br/><br/>
+
+
+							<b>Cost</b>:<br/>
+							{{ships.light_fighter.metal_cost}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/><br/>
+							{{ships.light_fighter.crystal_cost}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/><br/><br/>
+
+
+							<b>Currently Owned</b>:<br/>
+							{{ships.light_fighter.current_owned}}<br/><br/>
+							</h5>
+
+
+
+
+							<div class="build_ship_btn">
+								<button class="btn btn-success btn-icon btn-icon-standalone btn-icon-standalone-right" ng-click="BuildShip('light_fighter')">
+									<i class="fa-plane"></i>
+									<span>Build</span>
+								</button>
+							</div>
 						</td>
-						<td>
-							Light Fighter
+						<td ng-if="ships['light_fighter']['unlocked']==0" class="ship_info">
+							<h5>
+							<b>Requirements</b>:<br/>
+							Requirement1<br/>
+							Requirement2<br/>
+							Requirement3<br/>
 						</td>
+
+						
 					</tr>
+
 					<tr>
-						<td style="width: 400px">
-							<img src="assets/images/Ships/heavy_fighter.jpg" width="400" height="300" /></div>
+						<td style="width: 500px; position: relative;">
+							<h4>Heavy Fighter</h4>
+							<small>Lore here</small><br/>
+							<img ng-if="ships['heavy_fighter']['unlocked']==0" src="assets/images/Ships/heavy_fighter.jpg" class="ships_img image-grey" />
+							<div ng-if="ships['heavy_fighter']['unlocked']==0" class="ships_locked_image">
+								<img src="assets/images/locked.png" width="50" />
+							</div>
+							<img ng-if="ships['heavy_fighter']['unlocked']==1" src="assets/images/Ships/heavy_fighter.jpg" class="ships_img" />
+							
 						</td>
-						<td>
-							Heavy Fighter
+						<td ng-if="ships['heavy_fighter']['unlocked']==1" class="ship_info" style="position: relative;">
+							<h5>
+							<b>HP</b>: {{ships.heavy_fighter.stats.HP}}<br/>
+							<b>Shield</b>: {{ships.heavy_fighter.stats.shield}}<br/>
+							<b>Attack</b>: {{ships.heavy_fighter.stats.attack}}<br/><br/>
+
+
+							<b>Abilities</b>:<br/>
+							None<br/><br/><br/>
+
+
+							<b>Cost</b>:<br/>
+							{{ships.heavy_fighter.metal_cost}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/><br/>
+							{{ships.heavy_fighter.crystal_cost}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/><br/><br/>
+
+
+							<b>Currently Owned</b>:<br/>
+							{{ships.heavy_fighter.current_owned}}<br/><br/>
+							</h5>
+
+
+
+
+							<div class="build_ship_btn">
+								<button class="btn btn-success btn-icon btn-icon-standalone btn-icon-standalone-right" ng-click="BuildShip('heavy_fighter')">
+									<i class="fa-plane"></i>
+									<span>Build</span>
+								</button>
+							</div>
 						</td>
+						<td ng-if="ships['heavy_fighter']['unlocked']==0" class="ship_info">
+							<h5>
+							<b>Requirements</b>:<br/>
+							Requirement1<br/>
+							Requirement2<br/>
+							Requirement3<br/>
+						</td>
+
+						
 					</tr>
+
+
 					<tr>
-						<td style="width: 400px">
-							<img src="assets/images/Ships/cargo_ship.jpg" width="400" height="300" /></div>
+						<td style="width: 500px; position: relative;">
+							<h4>Worg</h4>
+							<small>Lore here</small><br/>
+							<img ng-if="ships['worg']['unlocked']==0" src="assets/images/Ships/worg.jpg" class="ships_img image-grey" />
+							<div ng-if="ships['worg']['unlocked']==0" class="ships_locked_image">
+								<img src="assets/images/locked.png" width="50" />
+							</div>
+							<img ng-if="ships['worg']['unlocked']==1" src="assets/images/Ships/worg.jpg" class="ships_img" />
+							
 						</td>
-						<td>
-							Cargo Ship
+						<td ng-if="ships['worg']['unlocked']==1" class="ship_info" style="position: relative;">
+							<h5>
+							<b>HP</b>: {{ships.worg.stats.HP}}<br/>
+							<b>Shield</b>: {{ships.worg.stats.shield}}<br/>
+							<b>Attack</b>: {{ships.worg.stats.attack}}<br/><br/>
+
+
+							<b>Abilities</b>:<br/>
+							None<br/><br/><br/>
+
+
+							<b>Cost</b>:<br/>
+							{{ships.worg.metal_cost}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/><br/>
+							{{ships.worg.crystal_cost}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/><br/><br/>
+
+
+							<b>Currently Owned</b>:<br/>
+							{{ships.worg.current_owned}}<br/><br/>
+							</h5>
+
+
+
+
+							<div class="build_ship_btn">
+								<button class="btn btn-success btn-icon btn-icon-standalone btn-icon-standalone-right" ng-click="BuildShip('worg')">
+									<i class="fa-plane"></i>
+									<span>Build</span>
+								</button>
+							</div>
 						</td>
+						<td ng-if="ships['worg']['unlocked']==0" class="ship_info">
+							<h5>
+							<b>Requirements</b>:<br/>
+							Requirement1<br/>
+							Requirement2<br/>
+							Requirement3<br/>
+						</td>
+
+						
 					</tr>
+
+
 					<tr>
-						<td style="width: 400px">
-							<img src="assets/images/Ships/worg.jpg" width="400" height="300" /></div>
+						<td style="width: 500px; position: relative;">
+							<h4>Destroyer</h4>
+							<small>Lore here</small><br/>
+							<img ng-if="ships['destroyer']['unlocked']==0" src="assets/images/Ships/destroyer.jpg" class="ships_img image-grey" />
+							<div ng-if="ships['destroyer']['unlocked']==0" class="ships_locked_image">
+								<img src="assets/images/locked.png" width="50" />
+							</div>
+							<img ng-if="ships['destroyer']['unlocked']==1" src="assets/images/Ships/destroyer.jpg" class="ships_img" />
+							
 						</td>
-						<td>
-							Worg
+						<td ng-if="ships['destroyer']['unlocked']==1" class="ship_info" style="position: relative;">
+							<h5>
+							<b>HP</b>: {{ships.destroyer.stats.HP}}<br/>
+							<b>Shield</b>: {{ships.destroyer.stats.shield}}<br/>
+							<b>Attack</b>: {{ships.destroyer.stats.attack}}<br/><br/>
+
+
+							<b>Abilities</b>:<br/>
+							None<br/><br/><br/>
+
+
+							<b>Cost</b>:<br/>
+							{{ships.destroyer.metal_cost}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/><br/>
+							{{ships.destroyer.crystal_cost}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/><br/><br/>
+
+
+							<b>Currently Owned</b>:<br/>
+							{{ships.destroyer.current_owned}}<br/><br/>
+							</h5>
+
+
+
+
+							<div class="build_ship_btn">
+								<button class="btn btn-success btn-icon btn-icon-standalone btn-icon-standalone-right" ng-click="BuildShip('destroyer')">
+									<i class="fa-plane"></i>
+									<span>Build</span>
+								</button>
+							</div>
 						</td>
+						<td ng-if="ships['destroyer']['unlocked']==0" class="ship_info">
+							<h5>
+							<b>Requirements</b>:<br/>
+							Requirement1<br/>
+							Requirement2<br/>
+							Requirement3<br/>
+						</td>
+
+						
 					</tr>
+
+
 					<tr>
-						<td style="width: 400px">
-							<img src="assets/images/Ships/destroyer.jpg" width="400" height="300" /></div>
+						<td style="width: 500px; position: relative;">
+							<h4>Succubus</h4>
+							<small>Lore here</small><br/>
+							<img ng-if="ships['succubus']['unlocked']==0" src="assets/images/Ships/succubus.jpg" class="ships_img image-grey" />
+							<div ng-if="ships['succubus']['unlocked']==0" class="ships_locked_image">
+								<img src="assets/images/locked.png" width="50" />
+							</div>
+							<img ng-if="ships['heavy_fighter']['unlocked']==1" src="assets/images/Ships/succubus.jpg" class="ships_img" />
+							
 						</td>
-						<td>
-							Destroyer
+						<td ng-if="ships['succubus']['unlocked']==1" class="ship_info" style="position: relative;">
+							<h5>
+							<b>HP</b>: {{ships.succubus.stats.HP}}<br/>
+							<b>Shield</b>: {{ships.succubus.stats.shield}}<br/>
+							<b>Attack</b>: {{ships.succubus.stats.attack}}<br/><br/>
+
+
+							<b>Abilities</b>:<br/>
+							None<br/><br/><br/>
+
+
+							<b>Cost</b>:<br/>
+							{{ships.succubus.metal_cost}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/><br/>
+							{{ships.succubus.crystal_cost}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/><br/><br/>
+
+
+							<b>Currently Owned</b>:<br/>
+							{{ships.succubus.current_owned}}<br/><br/>
+							</h5>
+
+
+
+
+							<div class="build_ship_btn">
+								<button class="btn btn-success btn-icon btn-icon-standalone btn-icon-standalone-right" ng-click="BuildShip('succubus')">
+									<i class="fa-plane"></i>
+									<span>Build</span>
+								</button>
+							</div>
 						</td>
+						<td ng-if="ships['succubus']['unlocked']==0" class="ship_info">
+							<h5>
+							<b>Requirements</b>:<br/>
+							Requirement1<br/>
+							Requirement2<br/>
+							Requirement3<br/>
+						</td>
+
+						
 					</tr>
+
+
 					<tr>
-						<td style="width: 400px">
-							<img src="assets/images/Ships/colossus.jpg" width="400" height="300" /></div>
+						<td style="width: 500px; position: relative;">
+							<h4>Colossus</h4>
+							<small>Lore here</small><br/>
+							<img ng-if="ships['colossus']['unlocked']==0" src="assets/images/Ships/colossus.jpg" class="ships_img image-grey" />
+							<div ng-if="ships['colossus']['unlocked']==0" class="ships_locked_image">
+								<img src="assets/images/locked.png" width="50" />
+							</div>
+							<img ng-if="ships['colossus']['unlocked']==1" src="assets/images/Ships/colossus.jpg" class="ships_img" />
+							
 						</td>
-						<td>
-							Colossus
+						<td ng-if="ships['colossus']['unlocked']==1" class="ship_info" style="position: relative;">
+							<h5>
+							<b>HP</b>: {{ships.colossus.stats.HP}}<br/>
+							<b>Shield</b>: {{ships.colossus.stats.shield}}<br/>
+							<b>Attack</b>: {{ships.colossus.stats.attack}}<br/><br/>
+
+
+							<b>Abilities</b>:<br/>
+							None<br/><br/><br/>
+
+
+							<b>Cost</b>:<br/>
+							{{ships.colossus.metal_cost}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/><br/>
+							{{ships.colossus.crystal_cost}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/><br/><br/>
+
+
+							<b>Currently Owned</b>:<br/>
+							{{ships.colossus.current_owned}}<br/><br/>
+							</h5>
+
+
+
+
+							<div class="build_ship_btn">
+								<button class="btn btn-success btn-icon btn-icon-standalone btn-icon-standalone-right" ng-click="BuildShip('colossus')">
+									<i class="fa-plane"></i>
+									<span>Build</span>
+								</button>
+							</div>
 						</td>
+						<td ng-if="ships['colossus']['unlocked']==0" class="ship_info">
+							<h5>
+							<b>Requirements</b>:<br/>
+							Requirement1<br/>
+							Requirement2<br/>
+							Requirement3<br/>
+						</td>
+
+						
 					</tr>
+
 					<tr>
-						<td style="width: 400px">
-							<img src="assets/images/Ships/science_v.jpg" width="400" height="300" /></div>
+						<td style="width: 500px; position: relative;">
+							<h4>Medusa</h4>
+							<small>Lore here</small><br/>
+							<img ng-if="ships['medusa']['unlocked']==0" src="assets/images/Ships/medusa.jpg" class="ships_img image-grey" />
+							<div ng-if="ships['medusa']['unlocked']==0" class="ships_locked_image">
+								<img src="assets/images/locked.png" width="50" />
+							</div>
+							<img ng-if="ships['heavy_fighter']['unlocked']==1" src="assets/images/Ships/medusa.jpg" class="ships_img" />
+							
 						</td>
-						<td>
-							Science Vessel
+						<td ng-if="ships['medusa']['unlocked']==1" class="ship_info" style="position: relative;">
+							<h5>
+							<b>HP</b>: {{ships.medusa.stats.HP}}<br/>
+							<b>Shield</b>: {{ships.medusa.stats.shield}}<br/>
+							<b>Attack</b>: {{ships.medusa.stats.attack}}<br/><br/>
+
+
+							<b>Abilities</b>:<br/>
+							None<br/><br/><br/>
+
+
+							<b>Cost</b>:<br/>
+							{{ships.medusa.metal_cost}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/><br/>
+							{{ships.medusa.crystal_cost}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/><br/><br/>
+
+
+							<b>Currently Owned</b>:<br/>
+							{{ships.medusa.current_owned}}<br/><br/>
+							</h5>
+
+
+
+
+							<div class="build_ship_btn">
+								<button class="btn btn-success btn-icon btn-icon-standalone btn-icon-standalone-right" ng-click="BuildShip('medusa')">
+									<i class="fa-plane"></i>
+									<span>Build</span>
+								</button>
+							</div>
 						</td>
+						<td ng-if="ships['medusa']['unlocked']==0" class="ship_info">
+							<h5>
+							<b>Requirements</b>:<br/>
+							Requirement1<br/>
+							Requirement2<br/>
+							Requirement3<br/>
+						</td>
+
+						
 					</tr>
+
 					<tr>
-						<td style="width: 400px">
-							<img src="assets/images/Ships/panthon.jpg" width="400" height="300" /></div>
+						<td style="width: 500px; position: relative;">
+							<h4>Science Vessel</h4>
+							<small>Lore here</small><br/>
+							<img ng-if="ships['science_vessel']['unlocked']==0" src="assets/images/Ships/science_vessel.jpg" class="ships_img image-grey" />
+							<div ng-if="ships['science_vessel']['unlocked']==0" class="ships_locked_image">
+								<img src="assets/images/locked.png" width="50" />
+							</div>
+							<img ng-if="ships['heavy_fighter']['unlocked']==1" src="assets/images/Ships/science_vessel.jpg" class="ships_img" />
+							
 						</td>
-						<td>
-							Pantheon
+						<td ng-if="ships['science_vessel']['unlocked']==1" class="ship_info" style="position: relative;">
+							<h5>
+							<b>HP</b>: {{ships.science_vessel.stats.HP}}<br/>
+							<b>Shield</b>: {{ships.science_vessel.stats.shield}}<br/>
+							<b>Attack</b>: {{ships.science_vessel.stats.attack}}<br/><br/>
+
+
+							<b>Abilities</b>:<br/>
+							None<br/><br/><br/>
+
+
+							<b>Cost</b>:<br/>
+							{{ships.science_vessel.metal_cost}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/><br/>
+							{{ships.science_vessel.crystal_cost}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/><br/><br/>
+
+
+							<b>Currently Owned</b>:<br/>
+							{{ships.science_vessel.current_owned}}<br/><br/>
+							</h5>
+
+
+
+
+							<div class="build_ship_btn">
+								<button class="btn btn-success btn-icon btn-icon-standalone btn-icon-standalone-right" ng-click="BuildShip('science_vessel')">
+									<i class="fa-plane"></i>
+									<span>Build</span>
+								</button>
+							</div>
 						</td>
+						<td ng-if="ships['science_vessel']['unlocked']==0" class="ship_info">
+							<h5>
+							<b>Requirements</b>:<br/>
+							Requirement1<br/>
+							Requirement2<br/>
+							Requirement3<br/>
+						</td>
+
+						
 					</tr>
+
 					<tr>
-						<td style="width: 400px">
-							<img src="assets/images/Ships/medusa.jpg" width="400" height="300" /></div>
+						<td style="width: 500px; position: relative;">
+							<h4>pantheon</h4>
+							<small>Lore here</small><br/>
+							<img ng-if="ships['pantheon']['unlocked']==0" src="assets/images/Ships/pantheon.jpg" class="ships_img image-grey" />
+							<div ng-if="ships['pantheon']['unlocked']==0" class="ships_locked_image">
+								<img src="assets/images/locked.png" width="50" />
+							</div>
+							<img ng-if="ships['heavy_fighter']['unlocked']==1" src="assets/images/Ships/pantheon.jpg" class="ships_img" />
+							
 						</td>
-						<td>
-							Medusa
+						<td ng-if="ships['pantheon']['unlocked']==1" class="ship_info" style="position: relative;">
+							<h5>
+							<b>HP</b>: {{ships.pantheon.stats.HP}}<br/>
+							<b>Shield</b>: {{ships.pantheon.stats.shield}}<br/>
+							<b>Attack</b>: {{ships.pantheon.stats.attack}}<br/><br/>
+
+
+							<b>Abilities</b>:<br/>
+							None<br/><br/><br/>
+
+
+							<b>Cost</b>:<br/>
+							{{ships.pantheon.metal_cost}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/><br/>
+							{{ships.pantheon.crystal_cost}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/><br/><br/>
+
+
+							<b>Currently Owned</b>:<br/>
+							{{ships.pantheon.current_owned}}<br/><br/>
+							</h5>
+
+
+
+
+							<div class="build_ship_btn">
+								<button class="btn btn-success btn-icon btn-icon-standalone btn-icon-standalone-right" ng-click="BuildShip('pantheon')">
+									<i class="fa-plane"></i>
+									<span>Build</span>
+								</button>
+							</div>
 						</td>
+						<td ng-if="ships['pantheon']['unlocked']==0" class="ship_info">
+							<h5>
+							<b>Requirements</b>:<br/>
+							Requirement1<br/>
+							Requirement2<br/>
+							Requirement3<br/>
+						</td>
+
+						
 					</tr>
+
 					<tr>
-						<td style="width: 400px">
-							<img src="assets/images/Ships/wormhole_generator.jpg" width="400" height="300" /></div>
+						<td style="width: 500px; position: relative;">
+							<h4>Wormhole Device</h4>
+							<small>Lore here</small><br/>
+							<img ng-if="ships['wormhole_device']['unlocked']==0" src="assets/images/Ships/wormhole_device.jpg" class="ships_img image-grey" />
+							<div ng-if="ships['wormhole_device']['unlocked']==0" class="ships_locked_image">
+								<img src="assets/images/locked.png" width="50" />
+							</div>
+							<img ng-if="ships['heavy_fighter']['unlocked']==1" src="assets/images/Ships/wormhole_device.jpg" class="ships_img" />
+							
 						</td>
-						<td>
-							Wormhole Ring
+						<td ng-if="ships['wormhole_device']['unlocked']==1" class="ship_info" style="position: relative;">
+							<h5>
+							<b>HP</b>: {{ships.wormhole_device.stats.HP}}<br/>
+							<b>Shield</b>: {{ships.wormhole_device.stats.shield}}<br/>
+							<b>Attack</b>: {{ships.wormhole_device.stats.attack}}<br/><br/>
+
+
+							<b>Abilities</b>:<br/>
+							None<br/><br/><br/>
+
+
+							<b>Cost</b>:<br/>
+							{{ships.wormhole_device.metal_cost}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/><br/>
+							{{ships.wormhole_device.crystal_cost}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/><br/><br/>
+
+
+							<b>Currently Owned</b>:<br/>
+							{{ships.wormhole_device.current_owned}}<br/><br/>
+							</h5>
+
+
+
+
+							<div class="build_ship_btn">
+								<button class="btn btn-success btn-icon btn-icon-standalone btn-icon-standalone-right" ng-click="BuildShip('wormhole_device')">
+									<i class="fa-plane"></i>
+									<span>Build</span>
+								</button>
+							</div>
 						</td>
+						<td ng-if="ships['wormhole_device']['unlocked']==0" class="ship_info">
+							<h5>
+							<b>Requirements</b>:<br/>
+							Requirement1<br/>
+							Requirement2<br/>
+							Requirement3<br/>
+						</td>
+
+						
 					</tr>
 
 			</table>
