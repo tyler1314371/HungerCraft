@@ -184,7 +184,7 @@ var raids = {
 		timer:"00:00:00",
 		difficulty:0,
 		unlocked:0,
-		required_level:20,
+		required_level:2,
 		enemy:{
 			1:{
 				light_fighter:1
@@ -416,11 +416,20 @@ angular.module('xenon.controllers', []).
 			for (var key in ships) {
 				 ships[key]["unlocked"] = 1;
 				}
+			for (var key in raids) {
+				 raids[key]["unlocked"] = 1;
+				}
 		};
 		$scope.lock_test = function(){
 
 		    for (var key in artifacts) {
 				 artifacts[key]["unlocked"] = 0;
+				}
+			for (var key in ships) {
+				 ships[key]["unlocked"] = 0;
+				}
+			for (var key in raids) {
+				 raids[key]["unlocked"] = 0;
 				}
 		};
 
@@ -580,7 +589,17 @@ angular.module('xenon.controllers', []).
 						, opts);
 				return false;
 					
-			    }else{
+			    }
+
+
+			    if(raids[instance_name]['timer']== "00:00:00"){
+
+				toastr.error(instance_name+" is already ready"
+						, opts);
+				return false;
+					
+			    }
+
 
 
 			    	dark_matter['current_owned'] -=2;
@@ -588,7 +607,7 @@ angular.module('xenon.controllers', []).
 						, opts);
 
 			    	raids[instance_name]['timer']= "00:00:00";
-			    }
+			    
 
 		    }
 

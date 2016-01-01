@@ -178,6 +178,7 @@
 }
 .raid_img{
 	border-radius: 7px 7px 7px 7px;
+	cursor: pointer;
 }
 .raid_locked_image{
 	border-radius: 30px 30px 30px 30px;
@@ -185,6 +186,7 @@
 	top: 150px;
 	left: 380px;
 	background-color:white;
+	cursor: pointer;
 }
 .ships_img{
 	border-radius: 7px 7px 7px 7px;
@@ -195,6 +197,7 @@
     display:block;
     -webkit-filter: grayscale(100%);
 }
+
 
 
 </style>
@@ -784,7 +787,6 @@
 	</div>
 
 	<div class="modal-body" ng-controller="GameCtrl">
-			<button ng-click="unlock_test()">unlock_test</button>
 			<table id="shipyard_table" style="width:100%">
 					<tr>
 						<td style="width: 500px; position: relative;">
@@ -1369,7 +1371,6 @@
 						<td>
 									<h4>Oatis-Rugged Paradise</h4>
 									<small>Lore here</small>
-
 									
 									<div id="tooltip_raid">
 
@@ -1411,113 +1412,411 @@
 									<h4>Clade-Lost City</h4>
 									<small>Lore here</small>
 
+									
+									<div id="tooltip_raid">
 
-									<div id="tooltip_raid"><img src="assets/images/raids/city_of_the_lost.jpg" width="835" height= "350" class ="raid_img"/>
-									<span>Clade-The Lost City<br/>
-									Increases your metal mine income rate by some amount.<br />
-									Current %: <div id="attention">{{specialization.Cargo_Improvement.current_level * 4}}%</div><br />
-									Next Level %: <div id="attention">{{(specialization.Cargo_Improvement.current_level+1) * 4}}%</div></span></div>
+										
+
+										<img ng-if="(raids['Clade']['timer']!='00:00:00') || (raids['Clade']['unlocked']==0)" src="assets/images/raids/city_of_the_lost.jpg" width="835" height= "350" class ="raid_img image-grey" ng-click="EnterInstance('Clade');"/>
+										<img ng-if="raids['Clade']['unlocked']==0" src="assets/images/locked.png" width="50" class ="raid_locked_image" ng-click="EnterInstance('Clade');"/>
+										<img ng-if="(raids['Clade']['timer']=='00:00:00') && (raids['Clade']['unlocked']==1)" src="assets/images/raids/city_of_the_lost.jpg" width="835" height= "350" class ="raid_img" ng-click="EnterInstance('Clade');"/>
+
+										<span>
+											Require Zone Level:<br/> 
+											<font ng-if="(raids['Clade']['unlocked']==1)" color="#64CA64">{{raids['Clade']['required_level']}}</font>
+											<font ng-if="(raids['Clade']['unlocked']==0)" color="#FD3636">{{raids['Clade']['required_level']}}</font>
+											<br /><br />
+
+											Remaining Cooldown Time: </br>
+											<font ng-if="(raids['Clade']['timer']=='00:00:00')" color="64CA64">{{raids['Clade']['timer']}}</font>
+											<font ng-if="(raids['Clade']['timer']!='00:00:00')" color="FD3636">{{raids['Clade']['timer']}}</font><br />
+											<button class="btn btn-purple" ng-click="RefreshRaidCD('Clade');">Refresh cooldown</button>2<img src="assets/images/dark_matter.png" width="25" class ="artifact_img"/>
+											<br /><br />
+
+											Limitation1<br />
+											Limitation1<br />
+											Limitation1<br /><br />
+
+											Enemies:<br />
+											Enemy1<br />
+											Enemy2<br />
+											Enemy3<br />
+										</span>
+
+									</div>
+									
 
 						</td>
 					</tr>
 					<tr>
 						<td>
 									<h4>Neibos-Noxious Coliseum</h4>
-									<div id="tooltip_raid"><img src="assets/images/raids/the_noxious_coliseum.jpg" width="835" height= "350" class ="raid_img"/>
-									<span>Neibos-The Noxious Coliseum<br/>
-									Increases your metal mine income rate by some amount.<br />
-									Current %: <div id="attention">{{specialization.Cargo_Improvement.current_level * 4}}%</div><br />
-									Next Level %: <div id="attention">{{(specialization.Cargo_Improvement.current_level+1) * 4}}%</div></span></div>
+									<small>Lore here</small>
+
+									
+									<div id="tooltip_raid">
+
+										
+
+										<img ng-if="(raids['Neibos']['timer']!='00:00:00') || (raids['Neibos']['unlocked']==0)" src="assets/images/raids/the_noxious_coliseum.jpg" width="835" height= "350" class ="raid_img image-grey" ng-click="EnterInstance('Neibos');"/>
+										<img ng-if="raids['Neibos']['unlocked']==0" src="assets/images/locked.png" width="50" class ="raid_locked_image" ng-click="EnterInstance('Neibos');"/>
+										<img ng-if="(raids['Neibos']['timer']=='00:00:00') && (raids['Neibos']['unlocked']==1)" src="assets/images/raids/the_noxious_coliseum.jpg" width="835" height= "350" class ="raid_img" ng-click="EnterInstance('Neibos');"/>
+
+										<span>
+											Require Zone Level:<br/> 
+											<font ng-if="(raids['Neibos']['unlocked']==1)" color="#64CA64">{{raids['Neibos']['required_level']}}</font>
+											<font ng-if="(raids['Neibos']['unlocked']==0)" color="#FD3636">{{raids['Neibos']['required_level']}}</font>
+											<br /><br />
+
+											Remaining Cooldown Time: </br>
+											<font ng-if="(raids['Neibos']['timer']=='00:00:00')" color="64CA64">{{raids['Neibos']['timer']}}</font>
+											<font ng-if="(raids['Neibos']['timer']!='00:00:00')" color="FD3636">{{raids['Neibos']['timer']}}</font><br />
+											<button class="btn btn-purple" ng-click="RefreshRaidCD('Neibos');">Refresh cooldown</button>2<img src="assets/images/dark_matter.png" width="25" class ="artifact_img"/>
+											<br /><br />
+
+											Limitation1<br />
+											Limitation1<br />
+											Limitation1<br /><br />
+
+											Enemies:<br />
+											Enemy1<br />
+											Enemy2<br />
+											Enemy3<br />
+										</span>
+
+									</div>
+									
 
 						</td>
 					</tr>
 					<tr>
 						<td>
 									<h4>Veotis-Planet of Blackice</h4>
-									<div id="tooltip_raid"><img src="assets/images/raids/mountain_of_black_ice.jpg" width="835" height= "350" class ="raid_img"/>
-									<span>Cargo Improvement-<br/>
-									Increases your metal mine income rate by some amount.<br />
-									Current %: <div id="attention">{{specialization.Cargo_Improvement.current_level * 4}}%</div><br />
-									Next Level %: <div id="attention">{{(specialization.Cargo_Improvement.current_level+1) * 4}}%</div></span></div>
+									<small>Lore here</small>
+
+									
+									<div id="tooltip_raid">
+
+										
+
+										<img ng-if="(raids['Veotis']['timer']!='00:00:00') || (raids['Veotis']['unlocked']==0)" src="assets/images/raids/mountain_of_black_ice.jpg" width="835" height= "350" class ="raid_img image-grey" ng-click="EnterInstance('Veotis');"/>
+										<img ng-if="raids['Veotis']['unlocked']==0" src="assets/images/locked.png" width="50" class ="raid_locked_image" ng-click="EnterInstance('Veotis');"/>
+										<img ng-if="(raids['Veotis']['timer']=='00:00:00') && (raids['Veotis']['unlocked']==1)" src="assets/images/raids/mountain_of_black_ice.jpg" width="835" height= "350" class ="raid_img" ng-click="EnterInstance('Veotis');"/>
+
+										<span>
+											Require Zone Level:<br/> 
+											<font ng-if="(raids['Veotis']['unlocked']==1)" color="#64CA64">{{raids['Veotis']['required_level']}}</font>
+											<font ng-if="(raids['Veotis']['unlocked']==0)" color="#FD3636">{{raids['Veotis']['required_level']}}</font>
+											<br /><br />
+
+											Remaining Cooldown Time: </br>
+											<font ng-if="(raids['Veotis']['timer']=='00:00:00')" color="64CA64">{{raids['Veotis']['timer']}}</font>
+											<font ng-if="(raids['Veotis']['timer']!='00:00:00')" color="FD3636">{{raids['Veotis']['timer']}}</font><br />
+											<button class="btn btn-purple" ng-click="RefreshRaidCD('Veotis');">Refresh cooldown</button>2<img src="assets/images/dark_matter.png" width="25" class ="artifact_img"/>
+											<br /><br />
+
+											Limitation1<br />
+											Limitation1<br />
+											Limitation1<br /><br />
+
+											Enemies:<br />
+											Enemy1<br />
+											Enemy2<br />
+											Enemy3<br />
+										</span>
+
+									</div>
+									
 
 						</td>
 					</tr>
 					<tr>
 						<td>
 									<h4>Shora-Crimson Prison</h4>
-									<div id="tooltip_raid"><img src="assets/images/raids/crimson_prison.jpg" width="835" height= "350" class ="raid_img"/>
-									<span>Cargo Improvement-<br/>
-									Increases your metal mine income rate by some amount.<br />
-									Current %: <div id="attention">{{specialization.Cargo_Improvement.current_level * 4}}%</div><br />
-									Next Level %: <div id="attention">{{(specialization.Cargo_Improvement.current_level+1) * 4}}%</div></span></div>
+									<small>Lore here</small>
+
+									
+									<div id="tooltip_raid">
+
+										
+
+										<img ng-if="(raids['Shora']['timer']!='00:00:00') || (raids['Shora']['unlocked']==0)" src="assets/images/raids/crimson_prison.jpg" width="835" height= "350" class ="raid_img image-grey" ng-click="EnterInstance('Shora');"/>
+										<img ng-if="raids['Shora']['unlocked']==0" src="assets/images/locked.png" width="50" class ="raid_locked_image" ng-click="EnterInstance('Shora');"/>
+										<img ng-if="(raids['Shora']['timer']=='00:00:00') && (raids['Shora']['unlocked']==1)" src="assets/images/raids/crimson_prison.jpg" width="835" height= "350" class ="raid_img" ng-click="EnterInstance('Shora');"/>
+
+										<span>
+											Require Zone Level:<br/> 
+											<font ng-if="(raids['Shora']['unlocked']==1)" color="#64CA64">{{raids['Shora']['required_level']}}</font>
+											<font ng-if="(raids['Shora']['unlocked']==0)" color="#FD3636">{{raids['Shora']['required_level']}}</font>
+											<br /><br />
+
+											Remaining Cooldown Time: </br>
+											<font ng-if="(raids['Shora']['timer']=='00:00:00')" color="64CA64">{{raids['Shora']['timer']}}</font>
+											<font ng-if="(raids['Shora']['timer']!='00:00:00')" color="FD3636">{{raids['Shora']['timer']}}</font><br />
+											<button class="btn btn-purple" ng-click="RefreshRaidCD('Shora');">Refresh cooldown</button>2<img src="assets/images/dark_matter.png" width="25" class ="artifact_img"/>
+											<br /><br />
+
+											Limitation1<br />
+											Limitation1<br />
+											Limitation1<br /><br />
+
+											Enemies:<br />
+											Enemy1<br />
+											Enemy2<br />
+											Enemy3<br />
+										</span>
+
+									</div>
+									
 
 						</td>
 					</tr>
 					<tr>
 						<td>
 									<h4>Dasloth-City of Black Angels</h4>
-									<div id="tooltip_raid"><img src="assets/images/raids/the_black_angel.jpg" width="835" height= "350" class ="raid_img"/>
-									<span>Cargo Improvement-<br/>
-									Increases your metal mine income rate by some amount.<br />
-									Current %: <div id="attention">{{specialization.Cargo_Improvement.current_level * 4}}%</div><br />
-									Next Level %: <div id="attention">{{(specialization.Cargo_Improvement.current_level+1) * 4}}%</div></span></div>
+									<small>Lore here</small>
+
+									
+									<div id="tooltip_raid">
+
+										
+
+										<img ng-if="(raids['Dasloth']['timer']!='00:00:00') || (raids['Dasloth']['unlocked']==0)" src="assets/images/raids/the_black_angel.jpg" width="835" height= "350" class ="raid_img image-grey" ng-click="EnterInstance('Dasloth');"/>
+										<img ng-if="raids['Dasloth']['unlocked']==0" src="assets/images/locked.png" width="50" class ="raid_locked_image" ng-click="EnterInstance('Dasloth');"/>
+										<img ng-if="(raids['Dasloth']['timer']=='00:00:00') && (raids['Dasloth']['unlocked']==1)" src="assets/images/raids/the_black_angel.jpg" width="835" height= "350" class ="raid_img" ng-click="EnterInstance('Dasloth');"/>
+
+										<span>
+											Require Zone Level:<br/> 
+											<font ng-if="(raids['Dasloth']['unlocked']==1)" color="#64CA64">{{raids['Dasloth']['required_level']}}</font>
+											<font ng-if="(raids['Dasloth']['unlocked']==0)" color="#FD3636">{{raids['Dasloth']['required_level']}}</font>
+											<br /><br />
+
+											Remaining Cooldown Time: </br>
+											<font ng-if="(raids['Dasloth']['timer']=='00:00:00')" color="64CA64">{{raids['Dasloth']['timer']}}</font>
+											<font ng-if="(raids['Dasloth']['timer']!='00:00:00')" color="FD3636">{{raids['Dasloth']['timer']}}</font><br />
+											<button class="btn btn-purple" ng-click="RefreshRaidCD('Dasloth');">Refresh cooldown</button>2<img src="assets/images/dark_matter.png" width="25" class ="artifact_img"/>
+											<br /><br />
+
+											Limitation1<br />
+											Limitation1<br />
+											Limitation1<br /><br />
+
+											Enemies:<br />
+											Enemy1<br />
+											Enemy2<br />
+											Enemy3<br />
+										</span>
+
+									</div>
+									
 
 						</td>
 					</tr>
 					<tr>
 						<td>
 									<h4>Aria-Planet of Infinity</h4>
-									<div id="tooltip_raid"><img src="assets/images/raids/the_infinity_coliseum.jpg" width="835" height= "350" class ="raid_img"/>
-									<span>Cargo Improvement-<br/>
-									Increases your metal mine income rate by some amount.<br />
-									Current %: <div id="attention">{{specialization.Cargo_Improvement.current_level * 4}}%</div><br />
-									Next Level %: <div id="attention">{{(specialization.Cargo_Improvement.current_level+1) * 4}}%</div></span></div>
+									<small>Lore here</small>
+
+									
+									<div id="tooltip_raid">
+
+										
+
+										<img ng-if="(raids['Aria']['timer']!='00:00:00') || (raids['Aria']['unlocked']==0)" src="assets/images/raids/the_infinity_coliseum.jpg" width="835" height= "350" class ="raid_img image-grey" ng-click="EnterInstance('Aria');"/>
+										<img ng-if="raids['Aria']['unlocked']==0" src="assets/images/locked.png" width="50" class ="raid_locked_image" ng-click="EnterInstance('Aria');"/>
+										<img ng-if="(raids['Aria']['timer']=='00:00:00') && (raids['Aria']['unlocked']==1)" src="assets/images/raids/the_infinity_coliseum.jpg" width="835" height= "350" class ="raid_img" ng-click="EnterInstance('Aria');"/>
+
+										<span>
+											Require Zone Level:<br/> 
+											<font ng-if="(raids['Aria']['unlocked']==1)" color="#64CA64">{{raids['Aria']['required_level']}}</font>
+											<font ng-if="(raids['Aria']['unlocked']==0)" color="#FD3636">{{raids['Aria']['required_level']}}</font>
+											<br /><br />
+
+											Remaining Cooldown Time: </br>
+											<font ng-if="(raids['Aria']['timer']=='00:00:00')" color="64CA64">{{raids['Aria']['timer']}}</font>
+											<font ng-if="(raids['Aria']['timer']!='00:00:00')" color="FD3636">{{raids['Aria']['timer']}}</font><br />
+											<button class="btn btn-purple" ng-click="RefreshRaidCD('Aria');">Refresh cooldown</button>2<img src="assets/images/dark_matter.png" width="25" class ="artifact_img"/>
+											<br /><br />
+
+											Limitation1<br />
+											Limitation1<br />
+											Limitation1<br /><br />
+
+											Enemies:<br />
+											Enemy1<br />
+											Enemy2<br />
+											Enemy3<br />
+										</span>
+
+									</div>
+									
 
 						</td>
 					</tr>
 					<tr>
 						<td>
 									<h4>Juiria-Cloud Temple</h4>
-									<div id="tooltip_raid"><img src="assets/images/raids/cloud_temple.jpg" width="835" height= "350" class ="raid_img"/>
-									<span>Cargo Improvement-<br/>
-									Increases your metal mine income rate by some amount.<br />
-									Current %: <div id="attention">{{specialization.Cargo_Improvement.current_level * 4}}%</div><br />
-									Next Level %: <div id="attention">{{(specialization.Cargo_Improvement.current_level+1) * 4}}%</div></span></div>
+									<small>Lore here</small>
+
+									
+									<div id="tooltip_raid">
+
+										
+
+										<img ng-if="(raids['Juiria']['timer']!='00:00:00') || (raids['Juiria']['unlocked']==0)" src="assets/images/raids/cloud_temple.jpg" width="835" height= "350" class ="raid_img image-grey" ng-click="EnterInstance('Juiria');"/>
+										<img ng-if="raids['Juiria']['unlocked']==0" src="assets/images/locked.png" width="50" class ="raid_locked_image" ng-click="EnterInstance('Juiria');"/>
+										<img ng-if="(raids['Juiria']['timer']=='00:00:00') && (raids['Juiria']['unlocked']==1)" src="assets/images/raids/cloud_temple.jpg" width="835" height= "350" class ="raid_img" ng-click="EnterInstance('Juiria');"/>
+
+										<span>
+											Require Zone Level:<br/> 
+											<font ng-if="(raids['Juiria']['unlocked']==1)" color="#64CA64">{{raids['Juiria']['required_level']}}</font>
+											<font ng-if="(raids['Juiria']['unlocked']==0)" color="#FD3636">{{raids['Juiria']['required_level']}}</font>
+											<br /><br />
+
+											Remaining Cooldown Time: </br>
+											<font ng-if="(raids['Juiria']['timer']=='00:00:00')" color="64CA64">{{raids['Juiria']['timer']}}</font>
+											<font ng-if="(raids['Juiria']['timer']!='00:00:00')" color="FD3636">{{raids['Juiria']['timer']}}</font><br />
+											<button class="btn btn-purple" ng-click="RefreshRaidCD('Juiria');">Refresh cooldown</button>2<img src="assets/images/dark_matter.png" width="25" class ="artifact_img"/>
+											<br /><br />
+
+											Limitation1<br />
+											Limitation1<br />
+											Limitation1<br /><br />
+
+											Enemies:<br />
+											Enemy1<br />
+											Enemy2<br />
+											Enemy3<br />
+										</span>
+
+									</div>
+									
 
 						</td>
 					</tr>
 					<tr>
 						<td>
 									<h4>Stara-Factory of Fear</h4>
-									<div id="tooltip_raid"><img src="assets/images/raids/factory_of_fear.jpg" width="835" height= "350" class ="raid_img"/>
-									<span>Cargo Improvement-<br/>
-									Increases your metal mine income rate by some amount.<br />
-									Current %: <div id="attention">{{specialization.Cargo_Improvement.current_level * 4}}%</div><br />
-									Next Level %: <div id="attention">{{(specialization.Cargo_Improvement.current_level+1) * 4}}%</div></span></div>
+									<small>Lore here</small>
+
+									
+									<div id="tooltip_raid">
+
+										
+
+										<img ng-if="(raids['Stara']['timer']!='00:00:00') || (raids['Stara']['unlocked']==0)" src="assets/images/raids/factory_of_fear.jpg" width="835" height= "350" class ="raid_img image-grey" ng-click="EnterInstance('Stara');"/>
+										<img ng-if="raids['Stara']['unlocked']==0" src="assets/images/locked.png" width="50" class ="raid_locked_image" ng-click="EnterInstance('Stara');"/>
+										<img ng-if="(raids['Stara']['timer']=='00:00:00') && (raids['Stara']['unlocked']==1)" src="assets/images/raids/factory_of_fear.jpg" width="835" height= "350" class ="raid_img" ng-click="EnterInstance('Stara');"/>
+
+										<span>
+											Require Zone Level:<br/> 
+											<font ng-if="(raids['Stara']['unlocked']==1)" color="#64CA64">{{raids['Stara']['required_level']}}</font>
+											<font ng-if="(raids['Stara']['unlocked']==0)" color="#FD3636">{{raids['Stara']['required_level']}}</font>
+											<br /><br />
+
+											Remaining Cooldown Time: </br>
+											<font ng-if="(raids['Stara']['timer']=='00:00:00')" color="64CA64">{{raids['Stara']['timer']}}</font>
+											<font ng-if="(raids['Stara']['timer']!='00:00:00')" color="FD3636">{{raids['Stara']['timer']}}</font><br />
+											<button class="btn btn-purple" ng-click="RefreshRaidCD('Stara');">Refresh cooldown</button>2<img src="assets/images/dark_matter.png" width="25" class ="artifact_img"/>
+											<br /><br />
+
+											Limitation1<br />
+											Limitation1<br />
+											Limitation1<br /><br />
+
+											Enemies:<br />
+											Enemy1<br />
+											Enemy2<br />
+											Enemy3<br />
+										</span>
+
+									</div>
+									
 
 						</td>
 					</tr>
 					<tr>
 						<td>
 									<h4>Quamia-City of Salvation</h4>
-									<div id="tooltip_raid"><img src="assets/images/raids/the_salvation_stadium.jpg" width="835" height= "350" class ="raid_img"/>
-									<span>Cargo Improvement-<br/>
-									Increases your metal mine income rate by some amount.<br />
-									Current %: <div id="attention">{{specialization.Cargo_Improvement.current_level * 4}}%</div><br />
-									Next Level %: <div id="attention">{{(specialization.Cargo_Improvement.current_level+1) * 4}}%</div></span></div>
+									<small>Lore here</small>
+
+									
+									<div id="tooltip_raid">
+
+										
+
+										<img ng-if="(raids['Quamia']['timer']!='00:00:00') || (raids['Quamia']['unlocked']==0)" src="assets/images/raids/the_salvation_stadium.jpg" width="835" height= "350" class ="raid_img image-grey" ng-click="EnterInstance('Quamia');"/>
+										<img ng-if="raids['Quamia']['unlocked']==0" src="assets/images/locked.png" width="50" class ="raid_locked_image" ng-click="EnterInstance('Quamia');"/>
+										<img ng-if="(raids['Quamia']['timer']=='00:00:00') && (raids['Quamia']['unlocked']==1)" src="assets/images/raids/the_salvation_stadium.jpg" width="835" height= "350" class ="raid_img" ng-click="EnterInstance('Quamia');"/>
+
+										<span>
+											Require Zone Level:<br/> 
+											<font ng-if="(raids['Quamia']['unlocked']==1)" color="#64CA64">{{raids['Quamia']['required_level']}}</font>
+											<font ng-if="(raids['Quamia']['unlocked']==0)" color="#FD3636">{{raids['Quamia']['required_level']}}</font>
+											<br /><br />
+
+											Remaining Cooldown Time: </br>
+											<font ng-if="(raids['Quamia']['timer']=='00:00:00')" color="64CA64">{{raids['Quamia']['timer']}}</font>
+											<font ng-if="(raids['Quamia']['timer']!='00:00:00')" color="FD3636">{{raids['Quamia']['timer']}}</font><br />
+											<button class="btn btn-purple" ng-click="RefreshRaidCD('Quamia');">Refresh cooldown</button>2<img src="assets/images/dark_matter.png" width="25" class ="artifact_img"/>
+											<br /><br />
+
+											Limitation1<br />
+											Limitation1<br />
+											Limitation1<br /><br />
+
+											Enemies:<br />
+											Enemy1<br />
+											Enemy2<br />
+											Enemy3<br />
+										</span>
+
+									</div>
+									
 
 						</td>
 					</tr>
 					<tr>
 						<td>
-									<h4>Nosmov-Demigod's Laststand</h4>
-									<div id="tooltip_raid"><img src="assets/images/raids/the_demigod_stadium.jpg" width="835" height= "350" class ="raid_img"/>
-									<span>Cargo Improvement-<br/>
-									Increases your metal mine income rate by some amount.<br />
-									Current %: <div id="attention">{{specialization.Cargo_Improvement.current_level * 4}}%</div><br />
-									Next Level %: <div id="attention">{{(specialization.Cargo_Improvement.current_level+1) * 4}}%</div></span></div>
+									<h4>Nosmov-Demigod&#39s Laststand</h4>
+									<small>Lore here</small>
+
+									
+									<div id="tooltip_raid">
+
+										
+
+										<img ng-if="(raids['Nosmov']['timer']!='00:00:00') || (raids['Nosmov']['unlocked']==0)" src="assets/images/raids/the_demigod_stadium.jpg" width="835" height= "350" class ="raid_img image-grey" ng-click="EnterInstance('Nosmov');"/>
+										<img ng-if="raids['Nosmov']['unlocked']==0" src="assets/images/locked.png" width="50" class ="raid_locked_image" ng-click="EnterInstance('Nosmov');"/>
+										<img ng-if="(raids['Nosmov']['timer']=='00:00:00') && (raids['Nosmov']['unlocked']==1)" src="assets/images/raids/the_demigod_stadium.jpg" width="835" height= "350" class ="raid_img" ng-click="EnterInstance('Nosmov');"/>
+
+										<span>
+											Require Zone Level:<br/> 
+											<font ng-if="(raids['Nosmov']['unlocked']==1)" color="#64CA64">{{raids['Nosmov']['required_level']}}</font>
+											<font ng-if="(raids['Nosmov']['unlocked']==0)" color="#FD3636">{{raids['Nosmov']['required_level']}}</font>
+											<br /><br />
+
+											Remaining Cooldown Time: </br>
+											<font ng-if="(raids['Nosmov']['timer']=='00:00:00')" color="64CA64">{{raids['Nosmov']['timer']}}</font>
+											<font ng-if="(raids['Nosmov']['timer']!='00:00:00')" color="FD3636">{{raids['Nosmov']['timer']}}</font><br />
+											<button class="btn btn-purple" ng-click="RefreshRaidCD('Nosmov');">Refresh cooldown</button>2<img src="assets/images/dark_matter.png" width="25" class ="artifact_img"/>
+											<br /><br />
+
+											Limitation1<br />
+											Limitation1<br />
+											Limitation1<br /><br />
+
+											Enemies:<br />
+											Enemy1<br />
+											Enemy2<br />
+											Enemy3<br />
+										</span>
+
+									</div>
+									
 
 						</td>
+					</tr>
 					</tr>
 			</table>
 
