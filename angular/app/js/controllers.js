@@ -2,6 +2,7 @@
 //INT((Base Costs) * (Cost Increase Factor) ^ (level - 1))
 //30 * (level) * 1.1 ^ (level) metal
 
+
 var specialization = {
 	Nemesis: {
 		metal_cost: 9000,
@@ -21,6 +22,8 @@ var specialization = {
 };
 
 
+
+//ARTIFACTS
 var artifacts = {
 	1: {
 		rarity:"uncommon",
@@ -46,9 +49,170 @@ var artifacts = {
 };
 
 
+//RAIDS
+var raids = {
+	Oatis:{
+		timer:"00:00:00",
+		difficulty:0,
+		unlocked:0,
+		required_level:2,
+		enemy:{
+			1:{
+				light_fighter:1
+			},
+			2:{
+				light_fighter:2
+			}
+		}
+	},
+	Clade:{
+		timer:"00:00:00",
+		difficulty:0,
+		unlocked:0,
+		required_level:20,
+		enemy:{
+			1:{
+				light_fighter:1
+			},
+			2:{
+				light_fighter:2
+			}
+		}
+	},
+	Neibos:{
+		timer:"00:00:00",
+		difficulty:0,
+		unlocked:0,
+		required_level:20,
+		enemy:{
+			1:{
+				light_fighter:1
+			},
+			2:{
+				light_fighter:2
+			}
+		}
+	},
+	Veotis:{
+		timer:"00:00:00",
+		difficulty:0,
+		unlocked:0,
+		required_level:20,
+		enemy:{
+			1:{
+				light_fighter:1
+			},
+			2:{
+				light_fighter:2
+			}
+		}
+	},
+	Shora:{
+		timer:"00:00:00",
+		difficulty:0,
+		unlocked:0,
+		required_level:20,
+		enemy:{
+			1:{
+				light_fighter:1
+			},
+			2:{
+				light_fighter:2
+			}
+		}
+	},
+	Dasloth:{
+		timer:"00:00:00",
+		difficulty:0,
+		unlocked:0,
+		required_level:20,
+		enemy:{
+			1:{
+				light_fighter:1
+			},
+			2:{
+				light_fighter:2
+			}
+		}
+	},
+	Aria:{
+		timer:"00:00:00",
+		difficulty:0,
+		unlocked:0,
+		required_level:20,
+		enemy:{
+			1:{
+				light_fighter:1
+			},
+			2:{
+				light_fighter:2
+			}
+		}
+	},
+	Juiria:{
+		timer:"00:00:00",
+		difficulty:0,
+		unlocked:0,
+		required_level:20,
+		enemy:{
+			1:{
+				light_fighter:1
+			},
+			2:{
+				light_fighter:2
+			}
+		}
+	},
+	Stara:{
+		timer:"00:00:00",
+		difficulty:0,
+		unlocked:0,
+		required_level:20,
+		enemy:{
+			1:{
+				light_fighter:1
+			},
+			2:{
+				light_fighter:2
+			}
+		}
+	},
+	Quamia:{
+		timer:"00:00:00",
+		difficulty:0,
+		unlocked:0,
+		required_level:20,
+		enemy:{
+			1:{
+				light_fighter:1
+			},
+			2:{
+				light_fighter:2
+			}
+		}
+	},
+	Nosmov:{
+		timer:"00:00:00",
+		difficulty:0,
+		unlocked:0,
+		required_level:20,
+		enemy:{
+			1:{
+				light_fighter:1
+			},
+			2:{
+				light_fighter:2
+			}
+		}
+	},
+}
 
 
 
+
+
+
+//RESOURCES
 var metal = {
 	current_owned:0,
 	current_mine_level:1,
@@ -67,8 +231,16 @@ var crystal = {
 	income_base: 3.5
 };
 
+var dark_matter = {
+	current_owned:2,
+	based_increase: 2,
+	current_increase: 2
+};
 
 
+
+
+//BUILDING
 var research_lab = {
 	current_lab_level: 1,
 	current_cost_metal:150,
@@ -77,12 +249,17 @@ var research_lab = {
 	base_cost_crystal: 70
 };
 
-
-var dark_matter = {
-	current_owned:0,
-	based_increase: 2,
-	current_increase: 2
+var dm_lab = {
+	current_lab_level: 1,
+	current_cost_metal:550000,
+	base_cost_metal: 550000,
+	current_cost_crystal:260000,
+	base_cost_crystal: 260000,
+	income:1
 };
+
+
+
 
 
 var level = {
@@ -114,8 +291,20 @@ angular.module('xenon.controllers', []).
 	}).
 	controller('GameCtrl', function($scope, $rootScope, $cookies, $modal, $sce, $layout, $location)
 	{
-		$rootScope.layoutOptions.horizontalMenu.isVisible = true;
+//REMOVE LATER, TEST CODE
 
+		$scope.unlock_test = function(){
+
+		    for (var key in artifacts) {
+				 artifacts[key]["unlocked"] = 1;
+				}
+		};
+		$scope.lock_test = function(){
+
+		    for (var key in artifacts) {
+				 artifacts[key]["unlocked"] = 0;
+				}
+		};
 
 /*		var poll_notification = window.setInterval(function(){
 
@@ -145,13 +334,33 @@ angular.module('xenon.controllers', []).
 	  return message;
 	}
 */
-
+		$rootScope.layoutOptions.horizontalMenu.isVisible = true;
 
 		$scope.metal = metal;
 		$scope.crystal = crystal;
 		$scope.research_lab = research_lab;
+		$scope.dm_lab = dm_lab;
 		$scope.artifacts = artifacts;
 		$scope.specialization = specialization;
+		$scope.raids = raids;
+		var opts = {
+				"closeButton": true,
+				"debug": false,
+				"positionClass": "toast-top-full-width",
+				"onclick": null,
+				"showDuration": "300",
+				"hideDuration": "1000",
+				"timeOut": "5000",
+				"extendedTimeOut": "1000",
+				"showEasing": "swing",
+				"hideEasing": "linear",
+				"showMethod": "fadeIn",
+				"hideMethod": "fadeOut"
+				};
+
+
+
+
 
 
 		$scope.ClickMetal = function(number){
@@ -197,24 +406,78 @@ angular.module('xenon.controllers', []).
 
 		    };
 		};
+		$scope.UpgradeDMLab = function(){
+		    if((metal.current_owned >= dm_lab.current_cost_metal) && (crystal.current_owned >= dm_lab.current_cost_crystal)){
 
+		         dm_lab.current_lab_level = dm_lab.current_lab_level +1;
+						 metal.current_owned = metal.current_owned - dm_lab.current_cost_metal;
+						 crystal.current_owned = crystal.current_owned - dm_lab.current_cost_crystal;
 
-		$scope.unlock_test = function(){
+						 dm_lab.current_cost_metal = Math.floor(dm_lab.base_cost_metal * Math.pow(1.8,dm_lab.current_lab_level));
+						 dm_lab.current_cost_crystal = Math.floor(dm_lab.base_cost_crystal * Math.pow(1.8,dm_lab.current_lab_level));
 
-		    for (var key in artifacts) {
-				 artifacts[key]["unlocked"] = 1;
-				}
+		    };
 		};
-		$scope.lock_test = function(){
+	
+		$scope.EnterInstance = function(instance_name){
+		    
+			if(raids[instance_name]['unlocked']!=1){
 
-		    for (var key in artifacts) {
-				 artifacts[key]["unlocked"] = 0;
-				}
+				toastr.error("Instance is Locked"
+						, opts);
+				return false;
+				
+		    }else{
+
+		    	if(raids[instance_name]['timer']!="00:00:00"){
+
+				toastr.error("Instance is on cooldown"
+						, opts);
+				return false;
+					
+			    }
+
+
+			    raids[instance_name]['timer']= "02:00:00";
+
+		    }
+
+		    
 		};
 
+		$scope.RefreshRaidCD = function(instance_name){
+		    
+			if(raids[instance_name]['unlocked']!=1){
+
+				toastr.error("Instance is Locked"
+						, opts);
+				return false;
+				
+		    }else{
+
+		    	if(dark_matter['current_owned']<2){
+
+				toastr.error("Not enough dark matter"
+						, opts);
+				return false;
+					
+			    }else{
 
 
+			    	dark_matter['current_owned'] -=2;
+			    	toastr.success(instance_name+" refreshed!"
+						, opts);
 
+			    	raids[instance_name]['timer']= "00:00:00";
+			    }
+
+
+			    
+
+		    }
+
+		    
+		};
 
 
 		$scope.Research = function(research_name)
@@ -260,9 +523,91 @@ angular.module('xenon.controllers', []).
 
 
 			$scope.ClickMetal(metal.income);
-
-
 			$scope.ClickCrystal(crystal.income);
+
+
+
+
+
+
+			for (var key in raids) {
+				var current_time = raids[key]["timer"].split(":");
+				var hour = Number(current_time[0]);
+				var minute = Number(current_time[1]);
+				var second = Number(current_time[2]);
+
+				
+
+				if(second == 0 && minute ==0 && hour ==0){
+					continue;
+				}
+
+				second -= 1;
+				
+				if(second < 0){
+					second = 0;
+					minute -=1;
+					if(minute<0){
+						minute = 0;
+						if(hour!=0){
+							hour-=1;
+							minute+=59;
+							second+=59;
+						}
+					}else
+					{
+						second+=59;
+					}
+				}
+
+
+
+				//parse back
+
+				if(hour<10){
+					hour = "0"+String(hour);
+				}else{
+					hour = String(hour);
+				}
+				if(minute<10){
+					minute = "0"+String(minute);
+				}else{
+					minute = String(minute);
+				}
+				if(second<10){
+					second = "0"+String(second);
+				}else{
+					second = String(second);
+				}
+
+
+				raids[key]["timer"] = hour+":"+minute+":"+second
+
+			}
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			
+
+
+
+
+
+
+
+
 
 
 			$scope.$apply();
@@ -634,13 +979,15 @@ angular.module('xenon.controllers', []).
 		$scope.level = level;
 		$scope.metal = metal;
 		$scope.crystal = crystal;
+		$scope.raids = raids;
+
 		$scope.NextLevel = function(){
 
 
+			
 
 
-
-				var level_metal_req_temp = Math.floor(level.level_metal_req_ori * Math.pow(1.5,level.current_level));
+			var level_metal_req_temp = Math.floor(level.level_metal_req_ori * Math.pow(1.5,level.current_level));
 		    var level_crystal_req_temp = Math.floor(level.level_crystal_req_ori  * Math.pow(1.4,level.current_level));       //works out the cost of this cursor
 
 				if (level.current_level ==1){
@@ -652,12 +999,22 @@ angular.module('xenon.controllers', []).
 
 
 		    if((metal.current_owned >= level_metal_req_temp) && (crystal.current_owned >= level_crystal_req_temp)){
+		    	//LEVEL UP
 		      level.current_level = level.current_level + 1
 		      crystal.current_owned = crystal.current_owned - level_crystal_req_temp;
 		      metal.current_owned = metal.current_owned - level_metal_req_temp;
 
-					level.level_metal_req = Math.floor(level.level_metal_req_ori* Math.pow(1.5,level.current_level));
-					level.level_crystal_req = Math.floor(level.level_crystal_req_ori * Math.pow(1.4,level.current_level));
+				level.level_metal_req = Math.floor(level.level_metal_req_ori* Math.pow(1.5,level.current_level));
+				level.level_crystal_req = Math.floor(level.level_crystal_req_ori * Math.pow(1.4,level.current_level));
+
+				//CHECK RAIDS
+
+				for (var key in raids) {
+					if(level.current_level>=raids[key]['required_level'])
+					{
+						raids[key]['unlocked']=1;
+					}
+				}
 
 		    };
 

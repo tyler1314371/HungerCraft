@@ -157,8 +157,20 @@
 }
 .raid_img{
 	border-radius: 7px 7px 7px 7px;
+	cursor: pointer;
 }
-
+.raid_locked_image{
+	border-radius: 30px 30px 30px 30px;
+	position: absolute;
+	top: 150px;
+	left: 380px;
+	background-color:white;
+	cursor: pointer;
+}
+.image-grey {
+    display:block;
+    -webkit-filter: grayscale(100%);
+}
 
 
 </style>
@@ -898,15 +910,81 @@
 
 <script type="text/ng-template" id="expedition">
 	<div class="modal-header">
-		<h4 class="modal-title">Raids</h4>
+		<h3 class="modal-title">Raids</h3>
 	</div>
 
-	<div class="modal-body">
+	<div class="modal-body" ng-controller="GameCtrl">
 			<table class="raid_table" style="width:100%">
 					<tr>
 						<td>
-									Raid1
-									<div id="tooltip_raid"><img src="assets/images/raids/raid1.jpg" width="835" height= "350" class ="raid_img"/>
+									<h4>Oatis-Rugged Paradise</h4>
+									<small>Lore here</small>
+
+									
+									<div id="tooltip_raid">
+
+										
+
+										<img ng-if="(raids['Oatis']['timer']!='00:00:00') || (raids['Oatis']['unlocked']==0)" src="assets/images/raids/rugged_paradise.jpg" width="835" height= "350" class ="raid_img image-grey" ng-click="EnterInstance('Oatis');"/>
+										<img ng-if="raids['Oatis']['unlocked']==0" src="assets/images/locked.png" width="50" class ="raid_locked_image" ng-click="EnterInstance('Oatis');"/>
+										<img ng-if="(raids['Oatis']['timer']=='00:00:00') && (raids['Oatis']['unlocked']==1)" src="assets/images/raids/rugged_paradise.jpg" width="835" height= "350" class ="raid_img" ng-click="EnterInstance('Oatis');"/>
+
+										<span>
+											Require Zone Level:<br/> 
+											<font ng-if="(raids['Oatis']['unlocked']==1)" color="#64CA64">{{raids['Oatis']['required_level']}}</font>
+											<font ng-if="(raids['Oatis']['unlocked']==0)" color="#FD3636">{{raids['Oatis']['required_level']}}</font>
+											<br /><br />
+
+											Remaining Cooldown Time: </br>
+											<font ng-if="(raids['Oatis']['timer']=='00:00:00')" color="64CA64">{{raids['Oatis']['timer']}}</font>
+											<font ng-if="(raids['Oatis']['timer']!='00:00:00')" color="FD3636">{{raids['Oatis']['timer']}}</font><br />
+											<button class="btn btn-purple" ng-click="RefreshRaidCD('Oatis');">Refresh cooldown</button>2<img src="assets/images/dark_matter.png" width="25" class ="artifact_img"/>
+											<br /><br />
+
+											Limitation1<br />
+											Limitation1<br />
+											Limitation1<br /><br />
+
+											Enemies:<br />
+											Enemy1<br />
+											Enemy2<br />
+											Enemy3<br />
+										</span>
+
+									</div>
+									
+
+						</td>
+					</tr>
+					<tr>
+						<td>
+									<h4>Clade-Lost City</h4>
+									<small>Lore here</small>
+
+
+									<div id="tooltip_raid"><img src="assets/images/raids/city_of_the_lost.jpg" width="835" height= "350" class ="raid_img"/>
+									<span>Clade-The Lost City<br/>
+									Increases your metal mine income rate by some amount.<br />
+									Current %: <div id="attention">{{specialization.Cargo_Improvement.current_level * 4}}%</div><br />
+									Next Level %: <div id="attention">{{(specialization.Cargo_Improvement.current_level+1) * 4}}%</div></span></div>
+
+						</td>
+					</tr>
+					<tr>
+						<td>
+									<h4>Neibos-Noxious Coliseum</h4>
+									<div id="tooltip_raid"><img src="assets/images/raids/the_noxious_coliseum.jpg" width="835" height= "350" class ="raid_img"/>
+									<span>Neibos-The Noxious Coliseum<br/>
+									Increases your metal mine income rate by some amount.<br />
+									Current %: <div id="attention">{{specialization.Cargo_Improvement.current_level * 4}}%</div><br />
+									Next Level %: <div id="attention">{{(specialization.Cargo_Improvement.current_level+1) * 4}}%</div></span></div>
+
+						</td>
+					</tr>
+					<tr>
+						<td>
+									<h4>Veotis-Planet of Blackice</h4>
+									<div id="tooltip_raid"><img src="assets/images/raids/mountain_of_black_ice.jpg" width="835" height= "350" class ="raid_img"/>
 									<span>Cargo Improvement-<br/>
 									Increases your metal mine income rate by some amount.<br />
 									Current %: <div id="attention">{{specialization.Cargo_Improvement.current_level * 4}}%</div><br />
@@ -916,8 +994,8 @@
 					</tr>
 					<tr>
 						<td>
-									Raid2
-									<div id="tooltip_raid"><img src="assets/images/raids/raid2.jpg" width="835" height= "350" class ="raid_img"/>
+									<h4>Shora-Crimson Prison</h4>
+									<div id="tooltip_raid"><img src="assets/images/raids/crimson_prison.jpg" width="835" height= "350" class ="raid_img"/>
 									<span>Cargo Improvement-<br/>
 									Increases your metal mine income rate by some amount.<br />
 									Current %: <div id="attention">{{specialization.Cargo_Improvement.current_level * 4}}%</div><br />
@@ -927,8 +1005,8 @@
 					</tr>
 					<tr>
 						<td>
-									Raid3
-									<div id="tooltip_raid"><img src="assets/images/raids/raid3.jpg" width="835" height= "350" class ="raid_img"/>
+									<h4>Dasloth-City of Black Angels</h4>
+									<div id="tooltip_raid"><img src="assets/images/raids/the_black_angel.jpg" width="835" height= "350" class ="raid_img"/>
 									<span>Cargo Improvement-<br/>
 									Increases your metal mine income rate by some amount.<br />
 									Current %: <div id="attention">{{specialization.Cargo_Improvement.current_level * 4}}%</div><br />
@@ -938,8 +1016,8 @@
 					</tr>
 					<tr>
 						<td>
-									Raid4
-									<div id="tooltip_raid"><img src="assets/images/raids/raid4.jpg" width="835" height= "350" class ="raid_img"/>
+									<h4>Aria-Planet of Infinity</h4>
+									<div id="tooltip_raid"><img src="assets/images/raids/the_infinity_coliseum.jpg" width="835" height= "350" class ="raid_img"/>
 									<span>Cargo Improvement-<br/>
 									Increases your metal mine income rate by some amount.<br />
 									Current %: <div id="attention">{{specialization.Cargo_Improvement.current_level * 4}}%</div><br />
@@ -949,8 +1027,8 @@
 					</tr>
 					<tr>
 						<td>
-									Raid5
-									<div id="tooltip_raid"><img src="assets/images/raids/raid5.jpg" width="835" height= "350" class ="raid_img"/>
+									<h4>Juiria-Cloud Temple</h4>
+									<div id="tooltip_raid"><img src="assets/images/raids/cloud_temple.jpg" width="835" height= "350" class ="raid_img"/>
 									<span>Cargo Improvement-<br/>
 									Increases your metal mine income rate by some amount.<br />
 									Current %: <div id="attention">{{specialization.Cargo_Improvement.current_level * 4}}%</div><br />
@@ -960,8 +1038,8 @@
 					</tr>
 					<tr>
 						<td>
-									Raid6
-									<div id="tooltip_raid"><img src="assets/images/raids/raid6.jpg" width="835" height= "350" class ="raid_img"/>
+									<h4>Stara-Factory of Fear</h4>
+									<div id="tooltip_raid"><img src="assets/images/raids/factory_of_fear.jpg" width="835" height= "350" class ="raid_img"/>
 									<span>Cargo Improvement-<br/>
 									Increases your metal mine income rate by some amount.<br />
 									Current %: <div id="attention">{{specialization.Cargo_Improvement.current_level * 4}}%</div><br />
@@ -971,8 +1049,8 @@
 					</tr>
 					<tr>
 						<td>
-									Raid7
-									<div id="tooltip_raid"><img src="assets/images/raids/raid7.jpg" width="835" height= "350" class ="raid_img"/>
+									<h4>Quamia-City of Salvation</h4>
+									<div id="tooltip_raid"><img src="assets/images/raids/the_salvation_stadium.jpg" width="835" height= "350" class ="raid_img"/>
 									<span>Cargo Improvement-<br/>
 									Increases your metal mine income rate by some amount.<br />
 									Current %: <div id="attention">{{specialization.Cargo_Improvement.current_level * 4}}%</div><br />
@@ -982,41 +1060,8 @@
 					</tr>
 					<tr>
 						<td>
-									Raid8
-									<div id="tooltip_raid"><img src="assets/images/raids/raid8.jpg" width="835" height= "350" class ="raid_img"/>
-									<span>Cargo Improvement-<br/>
-									Increases your metal mine income rate by some amount.<br />
-									Current %: <div id="attention">{{specialization.Cargo_Improvement.current_level * 4}}%</div><br />
-									Next Level %: <div id="attention">{{(specialization.Cargo_Improvement.current_level+1) * 4}}%</div></span></div>
-
-						</td>
-					</tr>
-					<tr>
-						<td>
-									Raid9
-									<div id="tooltip_raid"><img src="assets/images/raids/raid9.jpg" width="835" height= "350" class ="raid_img"/>
-									<span>Cargo Improvement-<br/>
-									Increases your metal mine income rate by some amount.<br />
-									Current %: <div id="attention">{{specialization.Cargo_Improvement.current_level * 4}}%</div><br />
-									Next Level %: <div id="attention">{{(specialization.Cargo_Improvement.current_level+1) * 4}}%</div></span></div>
-
-						</td>
-					</tr>
-					<tr>
-						<td>
-									Raid10
-									<div id="tooltip_raid"><img src="assets/images/raids/raid10.jpg" width="835" height= "350" class ="raid_img"/>
-									<span>Cargo Improvement-<br/>
-									Increases your metal mine income rate by some amount.<br />
-									Current %: <div id="attention">{{specialization.Cargo_Improvement.current_level * 4}}%</div><br />
-									Next Level %: <div id="attention">{{(specialization.Cargo_Improvement.current_level+1) * 4}}%</div></span></div>
-
-						</td>
-					</tr>
-					<tr>
-						<td>
-									Raid11
-									<div id="tooltip_raid"><img src="assets/images/raids/raid11.jpg" width="835" height= "350" class ="raid_img"/>
+									<h4>Nosmov-Demigod's Laststand</h4>
+									<div id="tooltip_raid"><img src="assets/images/raids/the_demigod_stadium.jpg" width="835" height= "350" class ="raid_img"/>
 									<span>Cargo Improvement-<br/>
 									Increases your metal mine income rate by some amount.<br />
 									Current %: <div id="attention">{{specialization.Cargo_Improvement.current_level * 4}}%</div><br />
