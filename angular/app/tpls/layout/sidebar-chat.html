@@ -12,13 +12,12 @@
 
 		<br/>
 
-
-
-		Metal Requirement: <span id="metal_req">{{level.level_metal_req}}</span>
-		<br/>
-		Crystal Requirement: <span id="crystal_req">{{level.level_crystal_req}}</span>
-		<br />
-		<button ng-click="NextLevel()">Warp to next level</button>
+		{{level.level_metal_req}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/><br/>
+		{{level.level_crystal_req}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/><br/>
+        <button class="btn btn-success btn-icon btn-icon-standalone btn-icon-standalone-right" ng-click="NextLevel()">
+                  <i class="fa-arrow-right"></i>
+                  <span>Warp to next level</span>
+        </button>
 
 	</div>
 
