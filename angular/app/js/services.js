@@ -89,6 +89,7 @@ angular.module('xenon.services', []).
 			var shipyard    = this.addItem('shipyard', 		'/app/dashboard-variant-1', 			'assets/images/ship.png', 'shipyard');
 			var expedition    =     this.addItem('expedition', 		'/app/dashboard-variant-1', 			'assets/images/raid.png', 'expedition');
 			var talent_tree      = this.addItem('talent_tree',	'/app/dashboard-variant-1',	'assets/images/artifacts.png', 'talent_tree');
+			var research_lab      = this.addItem('research_lab',	'/app/dashboard-variant-1',	'assets/images/research.png', 'research_lab');
 
 			return this;
 		};

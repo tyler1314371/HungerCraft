@@ -1379,7 +1379,7 @@ body {
     position: relative;
     display: inline-block;
     line-height: 1;
-    color: #7d7f7f;
+    color: white;
     z-index: 1;
   }
   .navbar.horizontal-menu .navbar-inner .navbar-nav a > i {
@@ -1397,7 +1397,7 @@ body {
   }
   .navbar.horizontal-menu .navbar-inner .navbar-nav li:hover > a,
   .navbar.horizontal-menu .navbar-inner .navbar-nav li.active > a {
-    color: #313232;
+    color: black;
   }
   .navbar.horizontal-menu .navbar-inner .navbar-nav > li {
     position: relative;

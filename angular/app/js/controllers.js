@@ -27,100 +27,230 @@ var ships ={
 	light_fighter:{
 		unlocked:0,
 		current_owned:0,
-		metal_cost:100,
-		crystal_cost:100,
+		metal_cost:300,
+		crystal_cost:170,
 		stats:{
-			HP:0,
-			shield:0,
-			attack:0
+			HP:100,
+			shield:10,
+			attack:30
+		},
+		skills:{
+			rapid_fire:{
+				unlocked:0,
+				level:1
+			}
 		}
 	},
 	heavy_fighter:{
 		unlocked:0,
 		current_owned:0,
-		metal_cost:0,
-		crystal_cost:0,
+		metal_cost:1200,
+		crystal_cost:710,
 		stats:{
-			HP:0,
-			shield:0,
-			attack:0
-		}
-	},
-	succubus:{
-		unlocked:0,
-		current_owned:0,
-		metal_cost:0,
-		crystal_cost:0,
-		stats:{
-			HP:0,
-			shield:0,
-			attack:0
+			HP:450,
+			shield:100,
+			attack:100
+		},
+		skills:{
+			loaded_ammo:{
+				unlocked:0,
+				level:1
+			}
 		}
 	},
 	worg:{
 		unlocked:0,
 		current_owned:0,
-		metal_cost:0,
-		crystal_cost:0,
+		metal_cost:4200,
+		crystal_cost:900,
 		stats:{
-			HP:0,
-			shield:0,
-			attack:0
+			HP:250,
+			shield:50,
+			attack:80
+		},
+		skills:{
+			shield_piercing:{
+				unlocked:0,
+				level:1
+			},
+			predators_reward:{
+				unlocked:0,
+				level:1
+			}
 		}
 	},
 	destroyer:{
 		unlocked:0,
 		current_owned:0,
-		metal_cost:0,
-		crystal_cost:0,
+		metal_cost:31000,
+		crystal_cost:19000,
 		stats:{
-			HP:0,
-			shield:0,
-			attack:0
+			HP:10000,
+			shield:500,
+			attack:450
+		},
+		skills:{
+			rapid_fire:{
+				unlocked:0,
+				level:1
+			},
+			critical_strike:{
+				unlocked:0,
+				level:1
+			},
+			tough_as_nails:{
+				unlocked:0,
+				level:1
+			}
+		}
+	},
+	succubus:{
+		unlocked:0,
+		current_owned:0,
+		metal_cost:20000,
+		crystal_cost:45000,
+		stats:{
+			HP:4300,
+			shield:1200,
+			attack:150
+		},
+		skills:{
+			corrosive_ammo:{
+				unlocked:0,
+				level:1
+			},
+			lethal_dose:{
+				unlocked:0,
+				level:1
+			},
+			weaken:{
+				unlocked:0,
+				level:1
+			}
 		}
 	},
 	colossus:{
 		unlocked:0,
 		current_owned:0,
-		metal_cost:0,
-		crystal_cost:0,
+		metal_cost:8500000,
+		crystal_cost:290000,
 		stats:{
-			HP:0,
-			shield:0,
-			attack:0
-		}
-	},
-	science_vessel:{
-		unlocked:0,
-		current_owned:0,
-		metal_cost:0,
-		crystal_cost:0,
-		stats:{
-			HP:0,
-			shield:0,
-			attack:0
-		}
-	},
-	pantheon:{
-		unlocked:0,
-		current_owned:0,
-		metal_cost:0,
-		crystal_cost:0,
-		stats:{
-			HP:0,
-			shield:0,
-			attack:0
+			HP:150000,
+			shield:10000,
+			attack:200
+		},
+		skills:{
+			taunt:{
+				unlocked:0,
+				level:1
+			},
+			reinforced_armor:{
+				unlocked:0,
+				level:1
+			},
+			advanced_communication:{
+				unlocked:0,
+				level:1
+			},
+			reflect:{
+				unlocked:0,
+				level:1
+			}
 		}
 	},
 	medusa:{
 		unlocked:0,
 		current_owned:0,
-		metal_cost:0,
-		crystal_cost:0,
+		metal_cost:4500000,
+		crystal_cost:3900000,
 		stats:{
-			HP:0,
-			shield:0,
-			attack:0
+			HP:10000,
+			shield:20000,
+			attack:100
+		},
+		skills:{
+			restrict:{
+				unlocked:0,
+				level:1
+			},
+			mind_control:{
+				unlocked:0,
+				level:1
+			},
+			siphon_shield:{
+				unlocked:0,
+				level:1
+			},
+			evasion:{
+				unlocked:0,
+				level:1
+			}
+		}
+	},
+	science_vessel:{
+		unlocked:0,
+		current_owned:0,
+		metal_cost:7500000,
+		crystal_cost:8900000,
+		stats:{
+			HP:20000,
+			shield:13000,
+			attack:140
+		},
+		skills:{
+			restoration:{
+				unlocked:0,
+				level:1
+			},
+			toughness:{
+				unlocked:0,
+				level:1
+			},
+			force_field:{
+				unlocked:0,
+				level:1
+			},
+			advanced_repairbot:{
+				unlocked:0,
+				level:1
+			},
+			ionic_storm:{
+				unlocked:0,
+				level:1
+			}
+		}
+	},
+	pantheon:{
+		unlocked:0,
+		current_owned:0,
+		metal_cost:3500000000,
+		crystal_cost:190000000,
+		stats:{
+			HP:70000,
+			shield:20000,
+			attack:400
+		},
+		skills:{
+			rapid_fire:{
+				unlocked:0,
+				level:1
+			},
+			enlarged_cargo_space:{
+				unlocked:0,
+				level:1
+			},
+			enrage:{
+				unlocked:0,
+				level:1
+			},
+			imposing_presence:{
+				unlocked:0,
+				level:1
+			},
+			leadership:{
+				unlocked:0,
+				level:1
+			}
 		}
 	},
 	wormhole_device:{
@@ -132,6 +262,12 @@ var ships ={
 			HP:0,
 			shield:0,
 			attack:0
+		},
+		skills:{
+			rapid_fire:{
+				unlocked:0,
+				level:1
+			}
 		}
 	},
 }
@@ -168,6 +304,7 @@ var artifacts = {
 var raids = {
 	Oatis:{
 		timer:"00:00:00",
+		section:3,
 		difficulty:0,
 		unlocked:0,
 		required_level:2,
@@ -182,6 +319,7 @@ var raids = {
 	},
 	Clade:{
 		timer:"00:00:00",
+		section:5,
 		difficulty:0,
 		unlocked:0,
 		required_level:2,
@@ -196,6 +334,7 @@ var raids = {
 	},
 	Neibos:{
 		timer:"00:00:00",
+		section:5,
 		difficulty:0,
 		unlocked:0,
 		required_level:20,
@@ -210,6 +349,7 @@ var raids = {
 	},
 	Veotis:{
 		timer:"00:00:00",
+		section:5,
 		difficulty:0,
 		unlocked:0,
 		required_level:20,
@@ -224,6 +364,7 @@ var raids = {
 	},
 	Shora:{
 		timer:"00:00:00",
+		section:5,
 		difficulty:0,
 		unlocked:0,
 		required_level:20,
@@ -238,6 +379,7 @@ var raids = {
 	},
 	Dasloth:{
 		timer:"00:00:00",
+		section:7,
 		difficulty:0,
 		unlocked:0,
 		required_level:20,
@@ -252,6 +394,7 @@ var raids = {
 	},
 	Aria:{
 		timer:"00:00:00",
+		section:7,
 		difficulty:0,
 		unlocked:0,
 		required_level:20,
@@ -266,6 +409,7 @@ var raids = {
 	},
 	Juiria:{
 		timer:"00:00:00",
+		section:7,
 		difficulty:0,
 		unlocked:0,
 		required_level:20,
@@ -280,6 +424,7 @@ var raids = {
 	},
 	Stara:{
 		timer:"00:00:00",
+		section:7,
 		difficulty:0,
 		unlocked:0,
 		required_level:20,
@@ -294,6 +439,7 @@ var raids = {
 	},
 	Quamia:{
 		timer:"00:00:00",
+		section:7,
 		difficulty:0,
 		unlocked:0,
 		required_level:20,
@@ -308,6 +454,7 @@ var raids = {
 	},
 	Nosmov:{
 		timer:"00:00:00",
+		section:10,
 		difficulty:0,
 		unlocked:0,
 		required_level:20,
@@ -370,6 +517,7 @@ var dm_lab = {
 	base_cost_metal: 550000,
 	current_cost_crystal:260000,
 	base_cost_crystal: 260000,
+	counter:0,
 	income:1
 };
 
@@ -415,6 +563,10 @@ angular.module('xenon.controllers', []).
 				}
 			for (var key in ships) {
 				 ships[key]["unlocked"] = 1;
+				 for (var skill in ships[key]['skills']){
+				 	ships[key]['skills'][skill]['unlocked'] = 1;
+				 }
+				 
 				}
 			for (var key in raids) {
 				 raids[key]["unlocked"] = 1;
@@ -619,7 +771,7 @@ angular.module('xenon.controllers', []).
 
 
 
-		$scope.BuildShip = function(ship_name){
+		$scope.BuildShip = function(ship_name, amount){
 		    
 			if(ships[ship_name]['unlocked']!=1){
 
@@ -629,14 +781,49 @@ angular.module('xenon.controllers', []).
 				
 		    }else{
 
-		    	if(ships[ship_name]['metal_cost']>metal.current_owned){
+		    	var metal_cost;
+		    	var crystal_cost;
+		    	var unit;
+		    	if(amount=='1'){
+		    		metal_cost = ships[ship_name]['metal_cost'];
+		    		crystal_cost = ships[ship_name]['crystal_cost'];
+		    		unit = 1;
+		    	}else if (amount=='100'){
+		    		metal_cost = ships[ship_name]['metal_cost'] * 100;
+		    		crystal_cost = ships[ship_name]['crystal_cost'] * 100;
+		    		unit = 100;
+		    	}else if (amount=='1000'){
+		    		metal_cost = ships[ship_name]['metal_cost'] * 1000;
+		    		crystal_cost = ships[ship_name]['crystal_cost'] * 1000;
+		    		unit = 1000;
+		    	}else if (amount=='max'){
+		    		var temp1 = parseInt(metal.current_owned / ships[ship_name]['metal_cost']);
+		    		var temp2 = parseInt(crystal.current_owned / ships[ship_name]['crystal_cost']);
+
+		    		if (temp1 == 0){
+		    			toastr.error("Not enough metal"
+						, opts);
+						return false;
+		    		}if (temp2 == 0){
+		    			toastr.error("Not enough crystal"
+						, opts);
+						return false;
+		    		}
+
+		    		metal_cost = ships[ship_name]['metal_cost'] * Math.min(temp1, temp2);
+		    		crystal_cost = ships[ship_name]['crystal_cost'] * Math.min(temp1, temp2);
+		    		unit = Math.min(temp1, temp2);
+		    	}
+
+
+		    	if(metal_cost>metal.current_owned){
 
 				toastr.error("Not enough metal"
 						, opts);
 				return false;
 					
 			    }
-			    if(ships[ship_name]['crystal_cost']>crystal.current_owned){
+			    if(crystal_cost>crystal.current_owned){
 
 				toastr.error("Not enough crystal"
 						, opts);
@@ -644,10 +831,10 @@ angular.module('xenon.controllers', []).
 					
 			    }
 
-			    metal.current_owned -= ships[ship_name]['metal_cost'];
-			    crystal.current_owned -= ships[ship_name]['crystal_cost'];
+			    metal.current_owned -= metal_cost;
+			    crystal.current_owned -= crystal_cost;
 
-			    ships[ship_name]['current_owned'] +=1;
+			    ships[ship_name]['current_owned'] +=unit;
 
 				return false;
 		    }
@@ -657,7 +844,34 @@ angular.module('xenon.controllers', []).
 
 
 
+		$scope.PaypalCheckout = function(){
+		    
+			var amount_dm = 0;
+			var amount_CAD = 0;
 
+
+			if (document.getElementById("shop_10_dm").checked == true){
+				amount_dm += 10;
+				amount_CAD += 0.99;
+			}
+			if (document.getElementById("shop_50_dm").checked == true){
+				amount_dm += 50;
+				amount_CAD += 2.49;
+			}
+			if (document.getElementById("shop_100_dm").checked == true){
+				amount_dm += 100;
+				amount_CAD += 3.99;
+			}
+			if (document.getElementById("shop_200_dm").checked == true){
+				amount_dm += 200;
+				amount_CAD += 5.99;
+			}
+
+		    
+			console.log(amount_dm);
+			console.log(amount_CAD);
+
+		};
 
 
 
@@ -777,7 +991,11 @@ angular.module('xenon.controllers', []).
 
 
 
-
+			dm_lab['counter']+=1;
+			if(dm_lab['counter'] == (60*60*24)){
+				dark_matter.current_owned+=1;
+				dm_lab['counter']=0;
+			}
 
 
 

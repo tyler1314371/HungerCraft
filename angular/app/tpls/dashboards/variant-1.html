@@ -199,41 +199,36 @@
       <table style="width:100%">
         <tr>
             <td style="text-align: center; width: auto">
-              Dark Matter Lab <br/>
+              <h4>Dark Matter Lab</h4>
             </td>
         </tr>
       </table>
       <table style="width:100%">
         <tr>
             <td>
-              Metal is the main resource for conducting research and the construction of buildings, ships, and defensive units. Exceptions are Solar Satellites, Espionage Probes, Energy Technology, Hyperspace Technology, Computer Technology and Graviton Technology. If you do not have a Metal Mine yet, you will be producing 30 units per hour (in normal universes). In speed universes the basic amount is higher, depending on the speed factor.
+              <small>Metal is the main resource for conducting research and the construction of buildings, ships, and defensive units. Exceptions are Solar Satellites, Espionage Probes, Energy Technology, Hyperspace Technology, Computer Technology and Graviton Technology. If you do not have a Metal Mine yet, you will be producing 30 units per hour (in normal universes). In speed universes the basic amount is higher, depending on the speed factor.
+              </small>
             </td>
           </tr>
       </table>
-      <table style="width:100%">
+      <table class="resource_table" style="width:100%">
           <tr>
             <td style="width: 500px">
               <img src="assets/images/icon/dm_lab.jpg" width="500" class="resource_img"/></div>
             </td>
-
-            <td style="width: 120px">
+            <td style="width: 200px;  ">
               <div class="spinner"></div>
-              Status: Up 100% <br/>
-              Dark Matter Per Day: {{dm_lab.income}}
+              Status: Up 100% <br/><br/>
+              Level {{dm_lab.current_lab_level}}:<br/> {{dm_lab.income}} <img src="assets/images/dark_matter.png" width="25" class ="artifact_img"/> per day <br/><br/>
             </td>
-
             <td>
-              Level: <span id="dmlablevel">{{dm_lab.current_lab_level}}</span>
-              <br />
+              {{dm_lab.current_cost_metal}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/><br/>
+              {{dm_lab.current_cost_crystal}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/>
+              <button class="btn btn-success btn-icon btn-icon-standalone btn-icon-standalone-right" ng-click="UpgradeDMLab()">
+                  <i class="fa-bolt"></i>
+                  <span>Upgrade</span>
+              </button>
 
-
-              Upgrade Cost: <br/>
-              <span id="dmlabupgradecost">Metal: {{dm_lab.current_cost_metal}}</span>
-              <br/>
-              <span id="dmlabupgradecost">Crtstal: {{dm_lab.current_cost_crystal}}</span>
-              <br />
-
-              <button ng-click="UpgradeDMLab()">Upgrade Dark Matter Lab</button>
             </td>
           </tr>
 

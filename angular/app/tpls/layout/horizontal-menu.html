@@ -5,19 +5,81 @@
 <nav class="navbar horizontal-menu" ng-class="{'navbar-fixed-top': layoutOptions.horizontalMenu.isFixed, 'navbar-minimal': layoutOptions.horizontalMenu.minimal, 'click-to-expand': layoutOptions.horizontalMenu.clickToExpand}">
 
 	<script type="text/ng-template" id="shop_modal">
-		<div class="modal-header">
+		<div class="modal-header" ng-controller="GameCtrl">
 			<h3 class="modal-title">Shop</h3>
-			<small>Each dark matter bought helps making the game better. We will also increase income rate with first purchase</small>
+			<small>Each dark matter bought helps making the game better.
+			<br/>We will also remove ads with your first purchase.</small>
 		</div>
 
-		<div class="modal-body">
+		<div class="modal-body" ng-controller="GameCtrl">
+			<table id="shop_table" style="width:100%">
 
+					<tr>
+						<td>
+						10 <img src="assets/images/dark_matter.png" width="25" class ="artifact_img"/>
+						</td>
+						<td>
+							<label>
+									<label>
+									<input type="checkbox" id="shop_10_dm" class="cbr">
+									<div id="attention">$0.99 CAD </div> <img src="assets/images/fire.png" width="25" class ="artifact_img"/>
+									</label>
+							</label>
+						</td>
+						
+					</tr>
+
+
+					<tr>
+						<td>
+						50 <img src="assets/images/dark_matter.png" width="25" class ="artifact_img"/>
+						</td>
+						<td>
+							<label>
+									<label>
+									<input type="checkbox" id="shop_50_dm" class="cbr">
+									$2.49 CAD
+									</label>
+							</label>
+						</td>
+						
+					</tr>
+
+					<tr>
+						<td>
+						100 <img src="assets/images/dark_matter.png" width="25" class ="artifact_img"/>
+						</td>
+						<td>
+							<label>
+									<label>
+									<input type="checkbox" id="shop_100_dm" class="cbr">
+									$3.99 CAD
+									</label>
+							</label>
+						</td>
+						
+					</tr>
 			
-
+					<tr>
+						<td>
+						200 <img src="assets/images/dark_matter.png" width="25" class ="artifact_img"/>
+						</td>
+						<td>
+							<label>
+									<label>
+									<input type="checkbox" id="shop_200_dm" class="cbr">
+									$5.99 CAD
+									</label>
+							</label>
+						</td>
+						
+					</tr>
+			</table>
 		</div>
 
-		<div class="modal-footer">
-			<button type="button" class="btn btn-info" ng-click="currentModal.dismiss();">Checkout with Paypal</button>
+		<div class="modal-footer" ng-controller="GameCtrl">
+			<button type="button" class="btn " ng-click="currentModal.dismiss();">Cancel</button>
+			<button type="button" class="btn btn-info" ng-click="PaypalCheckout();">Checkout with Paypal</button>
 		</div>
 	</script>
 
