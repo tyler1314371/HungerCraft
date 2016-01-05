@@ -4,11 +4,126 @@
 
 <nav class="navbar horizontal-menu" ng-class="{'navbar-fixed-top': layoutOptions.horizontalMenu.isFixed, 'navbar-minimal': layoutOptions.horizontalMenu.minimal, 'click-to-expand': layoutOptions.horizontalMenu.clickToExpand}">
 
+	<script type="text/ng-template" id="research">
+	<div class="modal-header">
+		<button type="button" class="close" ng-click="currentModal.close();" aria-hidden="true">&times;</button>
+		<h3 class="modal-title" id ="modal-title">Research </h3> 
+		<div>Artifacts are scattered throughout the universe and wield great power, collect them and improve your empire</div>
+	</div>
+
+
+	<div class="modal-body" ng-controller="GameCtrl">
+	</div>
+
+	<div class="modal-footer">
+		<button type="button" class="btn btn-white" ng-click="currentModal.close();">Close</button>
+
+	</div>
+
+	</script>
+
+
+
+
+
+	<script type="text/ng-template" id="battle_prep">
+	<div class="modal-header">
+		<button type="button" class="close" ng-click="currentModal.close();" aria-hidden="true">&times;</button>
+		<h3 class="modal-title" id ="modal-title">Research </h3> 
+		<div>Artifacts are scattered throughout the universe and wield great power, collect them and improve your empire</div>
+	</div>
+
+
+	<div class="modal-body" ng-controller="GameCtrl">
+	</div>
+
+	<div class="modal-footer">
+		<button type="button" class="btn btn-white" ng-click="currentModal.close();">Close</button>
+
+	</div>
+
+	</script>
+
+
+
+	<script type="text/ng-template" id="battle">
+	<div class="modal-header">
+		<button type="button" class="close" ng-click="currentModal.close();" aria-hidden="true">&times;</button>
+		<h3 class="modal-title" id ="modal-title">Research </h3> 
+		<div>Artifacts are scattered throughout the universe and wield great power, collect them and improve your empire</div>
+	</div>
+
+
+	<div class="modal-body" ng-controller="GameCtrl">
+	</div>
+
+	<div class="modal-footer">
+		<button type="button" class="btn btn-white" ng-click="currentModal.close();">Close</button>
+
+	</div>
+
+	</script>
+
+
+	<script type="text/ng-template" id="post_battle">
+	<div class="modal-header">
+		<button type="button" class="close" ng-click="currentModal.close();" aria-hidden="true">&times;</button>
+		<h3 class="modal-title" id ="modal-title">Research </h3> 
+		<div>Artifacts are scattered throughout the universe and wield great power, collect them and improve your empire</div>
+	</div>
+
+
+	<div class="modal-body" ng-controller="GameCtrl">
+	</div>
+
+	<div class="modal-footer">
+		<button type="button" class="btn btn-white" ng-click="currentModal.close();">Close</button>
+
+	</div>
+
+	</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	<script type="text/ng-template" id="shop_modal">
 		<div class="modal-header" ng-controller="GameCtrl">
 			<h3 class="modal-title">Shop</h3>
-			<small>Each dark matter bought helps making the game better.
-			<br/>We will also remove ads with your first purchase.</small>
+			<small>Each dark matter bought <div id="attention">helps</div> making the game better.
+			<br/>We will also <div id="attention">remove ads</div> with your first purchase.</small>
 		</div>
 
 		<div class="modal-body" ng-controller="GameCtrl">
@@ -92,10 +207,8 @@
 
 		<img src="{{item.icon}}" width="25" class ="artifact_img"/>
 		<span ng-if="item.title == 'M'" class="title"><div id="tooltip_hori_title">{{metal.current_owned}}<span>Metal, the most basic resource for any space expedition</span></div></span>
-		<span ng-if="item.title == 'C'" class="title"><div id="tooltip_hori_title">{{crystal.current_owned}}<span>Crystal, rare resource that is used for research and trading</span></div></span>
-		<span ng-if="item.title == 'DM'" class="title"><div id="tooltip_hori_title">{{dark_matter.current_owned}}<span>Dark matter, a hypothetical kind of matter that cannot be seen with <br/>
-																																																							telescopes but accounts for most of the matter in the universe. <br/>
-																																																							Increase your mine and crystal mine income by <div id="attention">{{dark_matter.current_increase}}%</div> for each dark matter you have</span></div></span>
+		<span ng-if="item.title == 'C'" class="title"><div id="tooltip_hori_title">{{crystal.current_owned}}<span>Crystal, rare resource that is used for building advanced ships and researching</span></div></span>
+		<span ng-if="item.title == 'DM'" class="title"><div id="tooltip_hori_title">{{dark_matter.current_owned}}<span>Dark matter, a hypothetical kind of matter that cannot be seen with human eyes. They have the power to alter space and time</span></span>
 		<span ng-if="item.label" class="label label-{{item.label.classname}} pull-right" ng-class="{'hidden-collapsed': item.label.collapsedHide}">{{item.label.text}}</span>
 	</script>
 

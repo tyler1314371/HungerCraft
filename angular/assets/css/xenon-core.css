@@ -5728,7 +5728,12 @@ blockquote small {
 .blockquote.blockquote-black strong {
   color: #222222;
 }
+.modal .modal-dialog {
+  background-color: white;
+  border-radius: 5px 5px 5px 5px;
+}
 .modal .modal-dialog .modal-content {
+  background-color: white;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;

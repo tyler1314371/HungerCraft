@@ -86,7 +86,7 @@
       <table style="width:100%">
         <tr>
             <td>
-              <small>Metal is the main resource for conducting research and the construction of buildings, ships, and defensive units. Exceptions are Solar Satellites, Espionage Probes, Energy Technology, Hyperspace Technology, Computer Technology and Graviton Technology. If you do not have a Metal Mine yet, you will be producing 30 units per hour (in normal universes). In speed universes the basic amount is higher, depending on the speed factor.
+              <small>Metal is solid material that is typically hard, shiny, malleable, fusible, and ductile. It is the most basic resource for any empire that wants to upgrade its metal and crystal mine or building a fleet.
               </small>
             </td>
           </tr>
@@ -96,7 +96,7 @@
             <td style="width: 500px">
               <img src="assets/images/icon/metal_mine.jpg" width="500" class="resource_img"/></div>
             </td>
-            <td style="width: 200px;  ">
+            <td style="width: 300px;  ">
               <div class="spinner"></div>
               Status: Up 100% <br/><br/>
               Level {{metal.current_mine_level}}:<br/> {{metal.income}} <img src="assets/images/mineral.png" width="25" class ="artifact_img"/> per second <br/><br/>
@@ -126,7 +126,7 @@
       <table style="width:100%">
         <tr>
             <td>
-              <small>Metal is the main resource for conducting research and the construction of buildings, ships, and defensive units. Exceptions are Solar Satellites, Espionage Probes, Energy Technology, Hyperspace Technology, Computer Technology and Graviton Technology. If you do not have a Metal Mine yet, you will be producing 30 units per hour (in normal universes). In speed universes the basic amount is higher, depending on the speed factor.
+              <small>Crystal is a material in which the atoms are arranged in a rigid geometrical structure marked by symmetry. It is harder to find than metal but widely used in research or building advanced ships for any empire. 
               </small>
             </td>
           </tr>
@@ -136,7 +136,7 @@
             <td style="width: 500px">
               <img src="assets/images/icon/crystal_mine.jpg" width="500" class="resource_img"/></div>
             </td>
-            <td style="width: 200px;  ">
+            <td style="width: 300px;  ">
               <div class="spinner"></div>
               Status: Up 100% <br/><br/>
               Level {{crystal.current_mine_level}}:<br/> {{crystal.income}} <img src="assets/images/crystal.png" width="25" class ="artifact_img"/> per second <br/><br/>
@@ -159,35 +159,39 @@
       <table style="width:100%">
         <tr>
             <td style="text-align: center; width: auto">
-              Research Lab <br/>
+              <h4>Research Lab</h4>
             </td>
         </tr>
       </table>
       <table style="width:100%">
         <tr>
             <td>
-              Metal is the main resource for conducting research and the construction of buildings, ships, and defensive units. Exceptions are Solar Satellites, Espionage Probes, Energy Technology, Hyperspace Technology, Computer Technology and Graviton Technology. If you do not have a Metal Mine yet, you will be producing 30 units per hour (in normal universes). In speed universes the basic amount is higher, depending on the speed factor.
+              <small>A facility that provides controlled conditions in which scientific or technological research, experiments, and measurement may be performed. The researches can help reduce ship building time. It can also increase the effectiveness of your fleets.
+              </small>
             </td>
           </tr>
       </table>
-      <table style="width:100%">
+      <table class="resource_table" style="width:100%">
           <tr>
             <td style="width: 500px">
               <img src="assets/images/icon/research_lab.jpg" width="500" class="resource_img"/></div>
             </td>
+            <td style="width: 300px;  ">
 
+              Level {{research_lab.current_lab_level}}:<br/> <div id="attention">{{research_lab.current_lab_level * 2}}%</div> increase ship building speed<br/>
+              <div id="attention">{{research_lab.current_lab_level * 0.2}}%</div> increase all ships' attack<br/>
+              <div id="attention">{{research_lab.current_lab_level * 0.15}}%</div> increase all ships' HP<br/>
+              <div id="attention">{{research_lab.current_lab_level * 0.1}}%</div> increase all ships' shields<br/><br/>
+            </td>
             <td>
-              Level: <span id="lablevel">{{research_lab.current_lab_level}}</span>
-              <br />
 
+              {{research_lab.current_cost_metal}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/><br/>
+              {{research_lab.current_cost_crystal}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/>
+              <button class="btn btn-success btn-icon btn-icon-standalone btn-icon-standalone-right" ng-click="UpgradeLab()">
+                  <i class="fa-bolt"></i>
+                  <span>Upgrade</span>
+              </button>
 
-              Upgrade Cost: <br/>
-              <span id="labupgradecost">Metal: {{research_lab.current_cost_metal}}</span>
-              <br/>
-              <span id="labupgradecost">Crtstal: {{research_lab.current_cost_crystal}}</span>
-              <br />
-
-              <button ng-click="UpgradeLab()">Upgrade Research Lab</button>
             </td>
           </tr>
 
@@ -206,7 +210,7 @@
       <table style="width:100%">
         <tr>
             <td>
-              <small>Metal is the main resource for conducting research and the construction of buildings, ships, and defensive units. Exceptions are Solar Satellites, Espionage Probes, Energy Technology, Hyperspace Technology, Computer Technology and Graviton Technology. If you do not have a Metal Mine yet, you will be producing 30 units per hour (in normal universes). In speed universes the basic amount is higher, depending on the speed factor.
+              <small>Dark matter is a nonluminous material that is postulated to exist in space and that could take any of several forms including weakly interacting particles. It is extremely rare and requires the top research facility to acquire them.
               </small>
             </td>
           </tr>
@@ -216,7 +220,7 @@
             <td style="width: 500px">
               <img src="assets/images/icon/dm_lab.jpg" width="500" class="resource_img"/></div>
             </td>
-            <td style="width: 200px;  ">
+            <td style="width: 300px;  ">
               <div class="spinner"></div>
               Status: Up 100% <br/><br/>
               Level {{dm_lab.current_lab_level}}:<br/> {{dm_lab.income}} <img src="assets/images/dark_matter.png" width="25" class ="artifact_img"/> per day <br/><br/>

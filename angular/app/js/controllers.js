@@ -639,7 +639,14 @@ angular.module('xenon.controllers', []).
 				};
 
 
-
+		$scope.openModal = function(modal_id, modal_size, modal_backdrop)
+		{
+			$rootScope.currentModal = $modal.open({
+				templateUrl: modal_id,
+				size: modal_size,
+				backdrop: typeof modal_backdrop == 'undefined' ? true : modal_backdrop
+			});
+		};
 
 
 
@@ -718,8 +725,11 @@ angular.module('xenon.controllers', []).
 			    }
 
 
-			    raids[instance_name]['timer']= "02:00:00";
+			    //raids[instance_name]['timer']= "02:00:00";
 
+
+			    $rootScope.currentModal.close();
+			    $scope.openModal('research', 'lg');
 		    }
 
 		    
