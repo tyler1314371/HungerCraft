@@ -477,7 +477,7 @@ var raids = {
 //RESOURCES
 var metal = {
 	current_owned:0,
-	current_mine_level:1,
+	current_mine_level:0,
 	current_cost:50,
 	ori_cost: 50,
 	income: 5,
@@ -486,7 +486,7 @@ var metal = {
 
 var crystal = {
 	current_owned:0,
-	current_mine_level:1,
+	current_mine_level:0,
 	current_cost:60,
 	ori_cost: 60,
 	income: 3.5,
@@ -504,7 +504,7 @@ var dark_matter = {
 
 //BUILDING
 var research_lab = {
-	current_lab_level: 1,
+	current_lab_level: 0,
 	current_cost_metal:150,
 	base_cost_metal: 150,
 	current_cost_crystal:70,
@@ -512,7 +512,7 @@ var research_lab = {
 };
 
 var dm_lab = {
-	current_lab_level: 1,
+	current_lab_level: 0,
 	current_cost_metal:550000,
 	base_cost_metal: 550000,
 	current_cost_crystal:260000,
@@ -648,6 +648,37 @@ angular.module('xenon.controllers', []).
 			});
 		};
 
+
+		$scope.Build = function(building_name)
+		{
+			if(building_name == 'metal_mine'){
+				metal['current_mine_level'] +=1;
+			}
+			if(building_name == 'crystal_mine'){
+				if(metal['current_mine_level'] < 3){
+					toastr.error("Requirements not fulfilled"
+						, opts);
+					return false;
+				}
+				crystal['current_mine_level'] +=1;
+			}
+			if(building_name == 'research_lab'){
+				if(metal['current_mine_level'] < 10 || crystal['current_mine_level'] < 7 || level['current_level'] < 10){
+					toastr.error("Requirements not fulfilled"
+						, opts);
+					return false;
+				}
+				research_lab['current_lab_level'] +=1;
+			}
+			if(building_name == 'dm_lab'){
+				if(metal['current_mine_level'] < 20 || crystal['current_mine_level'] < 13 || level['current_level'] < 17){
+					toastr.error("Requirements not fulfilled"
+						, opts);
+					return false;
+				}
+				dm_lab['current_lab_level'] +=1;
+			}
+		};
 
 
 		$scope.ClickMetal = function(number){
@@ -911,19 +942,7 @@ angular.module('xenon.controllers', []).
 
 			update_state = window.setInterval(function(){
 
-			if (specialization["Nemesis"].current_level != 0){
-				if (Math.floor((Math.random() * 100) + 1) >80){
-
-					console.log("NEMESIS: add ".concat(metal.income_base * metal.current_mine_level * Math.pow(1.1,metal.current_mine_level)* specialization["Nemesis"].current_level * 0.02));
-
-					$scope.ClickMetal(crystal.income_base  * crystal.current_mine_level * Math.pow(1.1,crystal.current_mine_level) * specialization["Nemesis"].current_level * 0.02);
-					$scope.ClickCrystal(metal.income_base  * metal.current_mine_level * Math.pow(1.1,metal.current_mine_level)* specialization["Nemesis"].current_level * 0.02);
-				}
-
-			}
-
-
-
+		
 			metal.income = Math.floor(metal.income_base  * metal.current_mine_level * Math.pow(1.1,metal.current_mine_level));
 			crystal.income = Math.floor(crystal.income_base  * crystal.current_mine_level * Math.pow(1.1,crystal.current_mine_level));
 
@@ -1003,7 +1022,7 @@ angular.module('xenon.controllers', []).
 
 			dm_lab['counter']+=1;
 			if(dm_lab['counter'] == (60*60*24)){
-				dark_matter.current_owned+=1;
+				dark_matter.current_owned+=(dm_lab['current_lab_level']*1);
 				dm_lab['counter']=0;
 			}
 

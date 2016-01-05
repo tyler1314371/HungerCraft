@@ -91,12 +91,12 @@
             </td>
           </tr>
       </table>
-      <table class="resource_table" style="width:100%">
+      <table class="resource_table" style="width:100%" ng-if="metal.current_mine_level!=0">
           <tr>
             <td style="width: 500px">
               <img src="assets/images/icon/metal_mine.jpg" width="500" class="resource_img"/></div>
             </td>
-            <td style="width: 300px;  ">
+            <td style="width: 300px;">
               <div class="spinner"></div>
               Status: Up 100% <br/><br/>
               Level {{metal.current_mine_level}}:<br/> {{metal.income}} <img src="assets/images/mineral.png" width="25" class ="artifact_img"/> per second <br/><br/>
@@ -112,7 +112,24 @@
           </tr>
 
       </table>
+      <table ng-if="metal.current_mine_level==0" class="resource_table" style="width:100%">
+          <tr>
+            <td style="width: 500px">
+              <img src="assets/images/icon/metal_mine.jpg" width="500" class="resource_img image-grey"/></div>
+            </td>
+            <td style="width: 300px;">
+             Requirements:<br/>
+             <font color="#6AEB6A">None</font>
+            </td>
+            <td >
+              <button class="btn btn-success btn-icon btn-icon-standalone btn-icon-standalone-right" ng-click="Build('metal_mine')">
+                  <i class="fa-upload"></i>
+                  <span>Build Metal Mine</span>
+              </button>
+            </td>
+          </tr>
 
+      </table>
 
   		<br />
 
@@ -131,7 +148,7 @@
             </td>
           </tr>
       </table>
-      <table class="resource_table" style="width:100%">
+      <table ng-if="crystal.current_mine_level!=0" class="resource_table" style="width:100%">
           <tr>
             <td style="width: 500px">
               <img src="assets/images/icon/crystal_mine.jpg" width="500" class="resource_img"/></div>
@@ -148,6 +165,25 @@
                   <span>Upgrade</span>
               </button>
 
+            </td>
+          </tr>
+
+      </table>
+      <table ng-if="crystal.current_mine_level==0" class="resource_table" style="width:100%">
+          <tr>
+            <td style="width: 500px">
+              <img src="assets/images/icon/crystal_mine.jpg" width="500" class="resource_img image-grey"/></div>
+            </td>
+            <td style="width: 300px;">
+             Requirements:<br/>
+             <font ng-if="metal.current_mine_level>=3" color="#6AEB6A">Metal Mine Level 3 </font>
+             <font ng-if="metal.current_mine_level<3" color="#F63249">Metal Mine Level 3 </font>
+            </td>
+            <td >
+              <button class="btn btn-success btn-icon btn-icon-standalone btn-icon-standalone-right" ng-click="Build('crystal_mine')">
+                  <i class="fa-upload"></i>
+                  <span>Build Crystal Mine</span>
+              </button>
             </td>
           </tr>
 
@@ -171,7 +207,7 @@
             </td>
           </tr>
       </table>
-      <table class="resource_table" style="width:100%">
+      <table ng-if="research_lab.current_lab_level!=0" class="resource_table" style="width:100%">
           <tr>
             <td style="width: 500px">
               <img src="assets/images/icon/research_lab.jpg" width="500" class="resource_img"/></div>
@@ -196,7 +232,29 @@
           </tr>
 
       </table>
+      <table ng-if="research_lab.current_lab_level==0" class="resource_table" style="width:100%">
+          <tr>
+            <td style="width: 500px">
+              <img src="assets/images/icon/research_lab.jpg" width="500" class="resource_img image-grey"/></div>
+            </td>
+            <td style="width: 300px;">
+             Requirements:<br/>
+             <font ng-if="metal.current_mine_level>=10" color="#6AEB6A">Metal Mine Level 10 <br/></font>
+             <font ng-if="metal.current_mine_level<10" color="#F63249">Metal Mine Level 10 <br/></font>
+             <font ng-if="crystal.current_mine_level>=7" color="#6AEB6A">Crystal Mine Level 7 <br/></font>
+             <font ng-if="crystal.current_mine_level<7" color="#F63249">Crystal Mine Level 7 <br/></font>
+             <font ng-if="level.current_level>=10" color="#6AEB6A">Zone Level 10 <br/></font>
+             <font ng-if="level.current_level<10" color="#F63249">Zone Level 10 <br/></font>
+            </td>
+            <td >
+              <button class="btn btn-success btn-icon btn-icon-standalone btn-icon-standalone-right" ng-click="Build('research_lab')">
+                  <i class="fa-upload"></i>
+                  <span>Build Research Lab</span>
+              </button>
+            </td>
+          </tr>
 
+      </table>
 
       <br />
 
@@ -215,7 +273,7 @@
             </td>
           </tr>
       </table>
-      <table class="resource_table" style="width:100%">
+      <table ng-if="dm_lab.current_lab_level !=0" class="resource_table" style="width:100%">
           <tr>
             <td style="width: 500px">
               <img src="assets/images/icon/dm_lab.jpg" width="500" class="resource_img"/></div>
@@ -223,7 +281,7 @@
             <td style="width: 300px;  ">
               <div class="spinner"></div>
               Status: Up 100% <br/><br/>
-              Level {{dm_lab.current_lab_level}}:<br/> {{dm_lab.income}} <img src="assets/images/dark_matter.png" width="25" class ="artifact_img"/> per day <br/><br/>
+              Level {{dm_lab.current_lab_level}}:<br/> {{dm_lab.current_lab_level * 1}} <img src="assets/images/dark_matter.png" width="25" class ="artifact_img"/> per day <br/><br/>
             </td>
             <td>
               {{dm_lab.current_cost_metal}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/><br/>
@@ -233,6 +291,29 @@
                   <span>Upgrade</span>
               </button>
 
+            </td>
+          </tr>
+
+      </table>
+      <table ng-if="dm_lab.current_lab_level==0" class="resource_table" style="width:100%">
+          <tr>
+            <td style="width: 500px">
+              <img src="assets/images/icon/dm_lab.jpg" width="500" class="resource_img image-grey"/></div>
+            </td>
+            <td style="width: 300px;">
+             Requirements:<br/>
+             <font ng-if="metal.current_mine_level>=20" color="#6AEB6A">Metal Mine Level 20 <br/></font>
+             <font ng-if="metal.current_mine_level<20" color="#F63249">Metal Mine Level 20 <br/></font>
+             <font ng-if="crystal.current_mine_level>=13" color="#6AEB6A">Crystal Mine Level 13 <br/></font>
+             <font ng-if="crystal.current_mine_level<13" color="#F63249">Crystal Mine Level 13 <br/></font>
+             <font ng-if="level.current_level>=17" color="#6AEB6A">Zone Level 17 <br/></font>
+             <font ng-if="level.current_level<17" color="#F63249">Zone Level 17 <br/></font>
+            </td>
+            <td >
+              <button class="btn btn-success btn-icon btn-icon-standalone btn-icon-standalone-right" ng-click="Build('dm_lab')">
+                  <i class="fa-upload"></i>
+                  <span>Build Dark Matter Lab</span>
+              </button>
             </td>
           </tr>
 
