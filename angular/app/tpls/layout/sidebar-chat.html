@@ -7,19 +7,40 @@
 
 
 			Zone Level {{level.current_level}}
-			<span class="badge badge-success is-hidden">0</span>
 		</h2>
 
 		<br/>
+		<div style='padding-left:100px;'>
+					<canvas id='rotatingGlobe' width='300' height='300'
+			style='width: 300px; height: 300px; cursor: move;'></canvas>
+		</div>
 
-		{{level.level_metal_req}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/><br/>
-		{{level.level_crystal_req}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/><br/>
-        <button class="btn btn-success btn-icon btn-icon-standalone btn-icon-standalone-right" ng-click="NextLevel()">
-                  <i class="fa-arrow-right"></i>
-                  <span>Warp to next level</span>
-        </button>
+		<br/><br/><br/><br/>
 
-	</div>
+		<div style="padding-left:100px;">
+			{{level.level_metal_req}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/><br/>
+			{{level.level_crystal_req}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/><br/>
+	        <button class="btn btn-success btn-icon btn-icon-standalone btn-icon-standalone-right" ng-click="NextLevel()">
+	                  <i class="fa-arrow-right"></i>
+	                  <span>Warp to next level</span>
+	        </button>
+		</div>
+
+
+		<br/><br/><br/><br/>
+		-------------------------------<br/>
+		ADS Space
+
+
+
+</div>
+
+
+
+
+
+
+
 
 
 
