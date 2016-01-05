@@ -1466,7 +1466,7 @@ angular.module('xenon.controllers', []).
     topojson: { file:   'assets/world-110m-withlakes.json' },
     oceans:   { fill:   '#000080' },
     land:     { fill:   '#339966' },
-    borders:  { stroke: '#008000' }
+    borders:  { stroke: '#339966' }
   }));
   // Load our custom `lakes` plugin to draw lakes; see below.
   globe.loadPlugin(lakes({
@@ -1477,7 +1477,7 @@ angular.module('xenon.controllers', []).
   // The `zoom` and `drag` plugins enable
   // manipulating the globe with the mouse.
   globe.loadPlugin(planetaryjs.plugins.zoom({
-    scaleExtent: [50, 300]
+    scaleExtent: [70, 300]
   }));
   globe.loadPlugin(planetaryjs.plugins.drag({
     // Dragging the globe should pause the
@@ -1490,14 +1490,14 @@ angular.module('xenon.controllers', []).
     }
   }));
   // Set up the globe's initial scale, offset, and rotation.
-  globe.projection.scale(50).translate([50, 50]).rotate([0, -10, 0]);
+  globe.projection.scale(100).translate([125, 125]).rotate([0, -10, 0]);
 
   var canvas = document.getElementById('rotatingGlobe');
   // Special code to handle high-density displays (e.g. retina, some phones)
   // In the future, Planetary.js will handle this by itself (or via a plugin).
   if (window.devicePixelRatio == 2) {
-    canvas.width = 300;
-    canvas.height = 300;
+    canvas.width = 250;
+    canvas.height = 250;
     context = canvas.getContext('2d');
     context.scale(2, 2);
   }
