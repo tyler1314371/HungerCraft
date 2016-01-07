@@ -967,21 +967,20 @@ angular.module('xenon.controllers', []).
 
 		};
 
+		$scope.progress = {
+		      value: 0,
+		      max: 100,
+		      color: 'success'
+		    };
 
-		$scope.counter = 75;
-	    $scope.myVar = 50;
-	    
-	    $scope.timer = function() {
-	        $timeout(function () {
-	            $scope.counter += 1;
-	            if ($scope.counter > 100) {          
-	                $scope.counter = 0;
-	            }
-	            $scope.timer();
-	        }, 10);
-	    }
-	    
-	    $scope.timer();
+		    $scope.changeValue = function(value) {
+		      $scope.progress.value = value;
+		    };
+
+		    $scope.changeColor = function(color) {
+		      $scope.progress.color = color;
+		    }
+
 
 
 
@@ -992,7 +991,7 @@ angular.module('xenon.controllers', []).
 
 
 
-			
+
 			metal.income = Math.floor(metal.income_base  * metal.current_mine_level * Math.pow(1.1,metal.current_mine_level));
 			crystal.income = Math.floor(crystal.income_base  * crystal.current_mine_level * Math.pow(1.1,crystal.current_mine_level));
 
@@ -1000,6 +999,18 @@ angular.module('xenon.controllers', []).
 
 			$scope.ClickMetal(metal.income);
 			$scope.ClickCrystal(crystal.income);
+
+
+
+			$scope.changeValue(100);
+			$("#metal").fadeTo(200, 0);
+
+
+		$timeout( function clear() {
+			$scope.changeValue(0)
+			$("#metal").fadeTo(300, 1);
+
+		}, 650);
 
 			for (var key in raids) {
 				var current_time = raids[key]["timer"].split(":");
