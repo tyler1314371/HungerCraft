@@ -307,7 +307,7 @@ var raids = {
 		section:3,
 		difficulty:0,
 		unlocked:0,
-		required_level:2,
+		required_level:10,
 		enemy:{
 			1:{
 				light_fighter:1
@@ -322,7 +322,7 @@ var raids = {
 		section:5,
 		difficulty:0,
 		unlocked:0,
-		required_level:2,
+		required_level:18,
 		enemy:{
 			1:{
 				light_fighter:1
@@ -503,6 +503,14 @@ var dark_matter = {
 
 
 //BUILDING
+var shipyard = {
+	current_lab_level: 0,
+	current_cost_metal:150,
+	base_cost_metal: 150,
+	current_cost_crystal:70,
+	base_cost_crystal: 70
+};
+
 var research_lab = {
 	current_lab_level: 0,
 	current_cost_metal:150,
@@ -530,7 +538,9 @@ var level = {
 	level_crystal_req:200,
 	level_metal_req_ori:300,
 	level_crystal_req_ori:200,
-	current_level:1
+	current_level:1,
+	color1: '#000080',
+	color2: '#339966'
 };
 
 
@@ -618,11 +628,13 @@ angular.module('xenon.controllers', []).
 		$scope.metal = metal;
 		$scope.crystal = crystal;
 		$scope.research_lab = research_lab;
+		$scope.shipyard = shipyard;
 		$scope.dm_lab = dm_lab;
 		$scope.artifacts = artifacts;
 		$scope.specialization = specialization;
 		$scope.raids = raids;
 		$scope.ships = ships;
+		$scope.level = level;
 		var opts = {
 				"closeButton": true,
 				"debug": false,
@@ -677,6 +689,14 @@ angular.module('xenon.controllers', []).
 					return false;
 				}
 				dm_lab['current_lab_level'] +=1;
+			}
+			if(building_name == 'shipyard'){
+				if(metal['current_mine_level'] < 10 || crystal['current_mine_level'] < 7 || level['current_level'] < 10){
+					toastr.error("Requirements not fulfilled"
+						, opts);
+					return false;
+				}
+				shipyard['current_lab_level'] +=1;
 			}
 		};
 
@@ -733,6 +753,18 @@ angular.module('xenon.controllers', []).
 
 						 dm_lab.current_cost_metal = Math.floor(dm_lab.base_cost_metal * Math.pow(1.8,dm_lab.current_lab_level));
 						 dm_lab.current_cost_crystal = Math.floor(dm_lab.base_cost_crystal * Math.pow(1.8,dm_lab.current_lab_level));
+
+		    };
+		};
+		$scope.UpgradeShipyard = function(){
+		    if((metal.current_owned >= shipyard.current_cost_metal) && (crystal.current_owned >= shipyard.current_cost_crystal)){
+
+		         shipyard.current_lab_level = shipyard.current_lab_level +1;
+						 metal.current_owned = metal.current_owned - shipyard.current_cost_metal;
+						 crystal.current_owned = crystal.current_owned - shipyard.current_cost_crystal;
+
+						 shipyard.current_cost_metal = Math.floor(shipyard.base_cost_metal * Math.pow(1.5,shipyard.current_lab_level));
+						 shipyard.current_cost_crystal = Math.floor(shipyard.base_cost_crystal * Math.pow(1.5,shipyard.current_lab_level));
 
 		    };
 		};
@@ -936,13 +968,13 @@ angular.module('xenon.controllers', []).
 
 		};
 
-
+		
 
 		if (typeof update_state != 'number') {
 
 			update_state = window.setInterval(function(){
 
-
+			
 			metal.income = Math.floor(metal.income_base  * metal.current_mine_level * Math.pow(1.1,metal.current_mine_level));
 			crystal.income = Math.floor(crystal.income_base  * crystal.current_mine_level * Math.pow(1.1,crystal.current_mine_level));
 
@@ -1025,9 +1057,6 @@ angular.module('xenon.controllers', []).
 				dark_matter.current_owned+=(dm_lab['current_lab_level']*1);
 				dm_lab['counter']=0;
 			}
-
-
-
 
 
 
@@ -1450,6 +1479,22 @@ angular.module('xenon.controllers', []).
 
 
 		};
+		function getRandomColor() {
+		    var letters = '0123456789ABCDEF'.split('');
+		    var color = '#';
+		    for (var i = 0; i < 6; i++ ) {
+		        color += letters[Math.floor(Math.random() * 16)];
+		    }
+		    return color;
+		}
+
+		if (level.color1!='#000080'){
+			level.color1 = getRandomColor();
+		}
+		if (level.color2!='#339966'){
+			level.color2 = getRandomColor();
+		}
+
 
 
 
@@ -1464,13 +1509,13 @@ angular.module('xenon.controllers', []).
   // (world-110m-withlakes.json) so we can render lakes.
   globe.loadPlugin(planetaryjs.plugins.earth({
     topojson: { file:   'assets/world-110m-withlakes.json' },
-    oceans:   { fill:   '#000080' },
-    land:     { fill:   '#339966' },
-    borders:  { stroke: '#339966' }
+    oceans:   { fill:   level.color1 },
+    land:     { fill:   level.color2 },
+    borders:  { stroke: level.color2 }
   }));
   // Load our custom `lakes` plugin to draw lakes; see below.
   globe.loadPlugin(lakes({
-    fill: '#000080'
+    fill: level.color1
   }));
   // The `pings` plugin draws animated pings on the globe.
   	//globe.loadPlugin(planetaryjs.plugins.pings());

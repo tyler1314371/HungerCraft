@@ -2677,11 +2677,6 @@ body.chat-open #chat {
 #chat .chat-inner {
   overflow: auto;
   height: 100%;
-  border-left: 1px solid #dddddd;
-}
-.page-body.right-sidebar #chat .chat-inner {
-  border-left: 0;
-  border-right: 1px solid #dddddd;
 }
 #chat .chat-inner.ps-container {
   overflow: hidden;

@@ -97,6 +97,20 @@
 	text-align: justify;
 	border-radius: 3px 3px 3px 3px;
 }
+.tooltip_verti_title { position: relative; }
+.tooltip_verti_title span { display: none; color: #FFFFFF; }
+.tooltip_verti_title:hover span {
+	display: block;
+	position: absolute;
+	background: #5d5757;
+	line-height: 150%;
+	width: 200px;
+	left: 30px;
+	top: 50px;
+	color: #FFFFFF;
+	text-align: justify;
+	border-radius: 3px 3px 3px 3px;
+}
 
 .tooltip_ship_skill { position: relative; display: inline; }
 .tooltip_ship_skill span { display: none; color: #FFFFFF; }
@@ -248,7 +262,13 @@
     -webkit-filter: grayscale(100%);
 }
 
-
+.building_locked_image{
+	position: absolute;
+	border-radius: 30px 30px 30px 30px;
+	top: 36%;
+	left: 45%;
+	background-color:white;
+}
 
 </style>
 
@@ -909,9 +929,12 @@
 						<td ng-if="ships['light_fighter']['unlocked']==0" class="ship_info">
 							<h5>
 							<b>Requirements</b>:<br/>
-							Requirement1<br/>
-							Requirement2<br/>
-							Requirement3<br/>
+							<font ng-if="shipyard.current_lab_level>=2" color="#6AEB6A">Shipyard Level 2 <br/></font>
+             				<font ng-if="shipyard.current_lab_level<2" color="#F63249">Shipyard Level 2 <br/></font>
+             				<font ng-if="research_lab.current_lab_level>=3" color="#6AEB6A">Research Lab Level 3 <br/></font>
+             				<font ng-if="research_lab.current_lab_level<3" color="#F63249">Research Lab Level 3 <br/></font>
+             				<font ng-if="level.current_level>=10" color="#6AEB6A">Zone Level 10 <br/></font>
+             				<font ng-if="level.current_level<10" color="#F63249">Zone Level 10 <br/></font>
 						</td>
 
 
@@ -1814,7 +1837,11 @@
 					<tr>
 						<td>
 									<h4>Oatis-Rugged Paradise</h4>
-
+									Require Zone Level
+									<font ng-if="(raids['Oatis']['unlocked']==1)" color="#64CA64">{{raids['Oatis']['required_level']}}</font>
+									<font ng-if="(raids['Oatis']['unlocked']==0)" color="#FD3636">{{raids['Oatis']['required_level']}}</font>
+									to unlock
+									<br />
 
 									<div id="tooltip_raid">
 
@@ -1824,12 +1851,7 @@
 										<img ng-if="raids['Oatis']['unlocked']==0" src="assets/images/locked.png" width="50" class ="raid_locked_image" ng-click="EnterInstance('Oatis');"/>
 										<img ng-if="(raids['Oatis']['timer']=='00:00:00') && (raids['Oatis']['unlocked']==1)" src="assets/images/raids/rugged_paradise.jpg" width="835" height= "350" class ="raid_img" ng-click="EnterInstance('Oatis');"/>
 
-										<span ng-if="raids['Oatis']['unlocked']==0">
-											Require Zone Level:<br/>
-											<font ng-if="(raids['Oatis']['unlocked']==1)" color="#64CA64">{{raids['Oatis']['required_level']}}</font>
-											<font ng-if="(raids['Oatis']['unlocked']==0)" color="#FD3636">{{raids['Oatis']['required_level']}}</font>
-											<br />
-										</span>
+										
 										<span ng-if="raids['Oatis']['unlocked']==1">
 
 											Remaining Cooldown Time: </br>
@@ -2354,6 +2376,7 @@
 <script type="text/ng-template" id="menu-item-link-tpl">
 
 	<img src="{{item.icon}}" width="25" class ="artifact_img"/>
+
 	<span ng-if="item.title == 'M'" class="title"><div id="tooltip_hori_title">{{metal.current_owned}}<span>Metal, the most basic resource for any space expedition</span></div></span>
 	<span ng-if="item.title == 'C'" class="title"><div id="tooltip_hori_title">{{crystal.current_owned}}<span>Crystal, rare resource that is used for research and trading</span></div></span>
 	<span ng-if="item.title == 'DM'" class="title"><div id="tooltip_hori_title">{{dark_matter.current_owned}}<span>Dark matter, a hypothetical kind of matter that cannot be seen with <br/>
