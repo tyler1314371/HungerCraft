@@ -7,8 +7,8 @@ angular.module('xenon.directives', []).
 			templateUrl: appHelper.templatePath('layout/settings-pane'),
 			controller: 'SettingsPaneCtrl'
 		};
-	}).
-	directive('horizontalMenu', function(){
+	
+	}).directive('horizontalMenu', function(){
 		return {
 			restrict: 'E',
 			replace: true,

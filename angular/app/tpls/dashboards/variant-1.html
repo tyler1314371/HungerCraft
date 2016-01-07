@@ -66,20 +66,47 @@
   }
 }
 
-
-.resource_img{
-    border-radius: 10px 10px 10px 10px;
+.no-animations {
+    -webkit-transition: none;
+    -moz-transition: none;
+    -ms-transition: none;
+    -o-transition: none;
+    transition: none;
+    width: 0px;
 }
 
+.animated {
+    -webkit-transition: linear 0.1s;
+    -moz-transition: linear 0.1s;
+    -ms-transition: linear 0.1s;
+    -o-transition: linear 0.1s;
+    transition: linear 0.1s;
+    width: 0px;
+}
 
+.progress span {
+    position: absolute;
+    display: block;
+    width: 100%;
+    color: #000000;
 
+}
+
+.progress {
+    position: relative;
+    border: 0px solid #000000;
+    height: 50px;
+    margin: 0;
+    padding: 0;
+}
 </style>
 
 <div class="row" id="resource_page">
+
       <table style="width:100%">
         <tr>
             <td style="text-align: center; width: auto">
-              <h4>Metal Mine</h4>
+              <h4>Metal Mine (Level {{metal.current_mine_level}})</h4>
             </td>
         </tr>
       </table>
@@ -100,15 +127,23 @@
               <div class="spinner"></div>
               Status: Up 100% <br/><br/>
               
-              Level {{metal.current_mine_level}}:<br/> {{metal.income}} <img src="assets/images/mineral.png" width="25" class ="artifact_img"/> per second <br/><br/>
+              <div id="metal_income">{{metal.income}} <img src="assets/images/mineral.png" width="25" class ="artifact_img"/> </div><br/><br/>
             </td>
             <td>
+
+
+
+
+              
               {{metal.current_cost}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/>
               <button class="btn btn-success btn-icon btn-icon-standalone btn-icon-standalone-right" ng-click="BuyMetalMine()">
                   <i class="fa-bolt"></i>
                   <span>Upgrade</span>
               </button>
 
+<br/>
+<br/>
+<div class='progress'><div class='progress-bar' ng-class="{'no-animations': counter == 0, 'animated': counter != 0}" role='progressbar' aria-valuenow='50' aria-valuemin='0' aria-valuemax='100' ng-style="{width: counter + '%'}"><span>Action: {{counter}}%</span></div></div>
             </td>
           </tr>
 
@@ -126,6 +161,7 @@
              <font color="#6AEB6A">None</font>
             </td>
             <td >
+
               <button class="btn btn-success btn-icon btn-icon-standalone btn-icon-standalone-right" ng-click="Build('metal_mine')">
                   <i class="fa-upload"></i>
                   <span>Build Metal Mine</span>
@@ -412,3 +448,5 @@
 
 
 </div>
+
+

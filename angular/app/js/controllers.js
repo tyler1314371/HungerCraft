@@ -562,7 +562,7 @@ angular.module('xenon.controllers', []).
 		$rootScope.isLockscreenPage   = false;
 		$rootScope.isMainPage         = false;
 	}).
-	controller('GameCtrl', function($scope, $rootScope, $cookies, $modal, $sce, $layout, $location)
+	controller('GameCtrl', function($scope, $rootScope, $cookies, $modal, $sce, $layout, $location, $timeout, $interval)
 	{
 //REMOVE LATER, TEST CODE
 
@@ -624,7 +624,6 @@ angular.module('xenon.controllers', []).
 	}
 */
 		$rootScope.layoutOptions.horizontalMenu.isVisible = true;
-
 		$scope.metal = metal;
 		$scope.crystal = crystal;
 		$scope.research_lab = research_lab;
@@ -968,11 +967,30 @@ angular.module('xenon.controllers', []).
 
 		};
 
-		
+
+		$scope.counter = 75;
+	    $scope.myVar = 50;
+	    
+	    $scope.timer = function() {
+	        $timeout(function () {
+	            $scope.counter += 1;
+	            if ($scope.counter > 100) {          
+	                $scope.counter = 0;
+	            }
+	            $scope.timer();
+	        }, 10);
+	    }
+	    
+	    $scope.timer();
+
+
 
 		if (typeof update_state != 'number') {
 
 			update_state = window.setInterval(function(){
+
+
+
 
 			
 			metal.income = Math.floor(metal.income_base  * metal.current_mine_level * Math.pow(1.1,metal.current_mine_level));
@@ -982,11 +1000,6 @@ angular.module('xenon.controllers', []).
 
 			$scope.ClickMetal(metal.income);
 			$scope.ClickCrystal(crystal.income);
-
-
-
-
-
 
 			for (var key in raids) {
 				var current_time = raids[key]["timer"].split(":");
@@ -1057,12 +1070,6 @@ angular.module('xenon.controllers', []).
 				dark_matter.current_owned+=(dm_lab['current_lab_level']*1);
 				dm_lab['counter']=0;
 			}
-
-
-
-
-
-
 
 
 
