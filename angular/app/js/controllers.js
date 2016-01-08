@@ -337,7 +337,7 @@ var raids = {
 		section:5,
 		difficulty:0,
 		unlocked:0,
-		required_level:20,
+		required_level:25,
 		enemy:{
 			1:{
 				light_fighter:1
@@ -352,7 +352,7 @@ var raids = {
 		section:5,
 		difficulty:0,
 		unlocked:0,
-		required_level:20,
+		required_level:29,
 		enemy:{
 			1:{
 				light_fighter:1
@@ -367,7 +367,7 @@ var raids = {
 		section:5,
 		difficulty:0,
 		unlocked:0,
-		required_level:20,
+		required_level:36,
 		enemy:{
 			1:{
 				light_fighter:1
@@ -382,7 +382,7 @@ var raids = {
 		section:7,
 		difficulty:0,
 		unlocked:0,
-		required_level:20,
+		required_level:50,
 		enemy:{
 			1:{
 				light_fighter:1
@@ -397,7 +397,7 @@ var raids = {
 		section:7,
 		difficulty:0,
 		unlocked:0,
-		required_level:20,
+		required_level:60,
 		enemy:{
 			1:{
 				light_fighter:1
@@ -412,7 +412,7 @@ var raids = {
 		section:7,
 		difficulty:0,
 		unlocked:0,
-		required_level:20,
+		required_level:64,
 		enemy:{
 			1:{
 				light_fighter:1
@@ -427,7 +427,7 @@ var raids = {
 		section:7,
 		difficulty:0,
 		unlocked:0,
-		required_level:20,
+		required_level:71,
 		enemy:{
 			1:{
 				light_fighter:1
@@ -442,7 +442,7 @@ var raids = {
 		section:7,
 		difficulty:0,
 		unlocked:0,
-		required_level:20,
+		required_level:80,
 		enemy:{
 			1:{
 				light_fighter:1
@@ -457,7 +457,7 @@ var raids = {
 		section:10,
 		difficulty:0,
 		unlocked:0,
-		required_level:20,
+		required_level:94,
 		enemy:{
 			1:{
 				light_fighter:1
@@ -967,19 +967,24 @@ angular.module('xenon.controllers', []).
 
 		};
 
-		$scope.progress = {
+		$scope.progress_metal = {
 		      value: 0,
 		      max: 100,
-		      color: 'success'
+		      color: 'warning'
+		    };
+		$scope.progress_crystal = {
+				      value: 0,
+				      max: 100,
+				      color: 'info'
+				    };
+
+		    $scope.changeValue_metal_pb = function(value) {
+		      $scope.progress_metal.value = value;
 		    };
 
-		    $scope.changeValue = function(value) {
-		      $scope.progress.value = value;
+				$scope.changeValue_crystal_pb = function(value) {
+		      $scope.progress_crystal.value = value;
 		    };
-
-		    $scope.changeColor = function(color) {
-		      $scope.progress.color = color;
-		    }
 
 
 
@@ -997,20 +1002,59 @@ angular.module('xenon.controllers', []).
 
 
 
-			$scope.ClickMetal(metal.income);
-			$scope.ClickCrystal(crystal.income);
 
 
 
-			$scope.changeValue(100);
-			$("#metal").fadeTo(200, 0);
+			if (metal.income!=0){
+						$scope.changeValue_metal_pb(100);
 
 
-		$timeout( function clear() {
-			$scope.changeValue(0)
-			$("#metal").fadeTo(300, 1);
+					$timeout( function clear() {
+						$scope.changeValue_metal_pb(0)
 
-		}, 650);
+
+
+						$scope.startFade = true;
+		        $timeout(function(){
+		            $scope.hidden = false;
+		        }, 100);
+
+
+						$timeout(function(){
+								$scope.hidden = true;
+						}, 600);
+
+						$scope.ClickMetal(metal.income);
+
+					}, 650);
+
+
+
+			}
+			if (crystal.income!=0){
+					$scope.changeValue_crystal_pb(100);
+
+
+				$timeout( function clear() {
+					$scope.changeValue_crystal_pb(0)
+
+
+
+					$scope.startFade = true;
+					$timeout(function(){
+							$scope.hidden = false;
+					}, 100);
+
+
+					$timeout(function(){
+							$scope.hidden = true;
+					}, 600);
+
+					$scope.ClickCrystal(crystal.income);
+
+					}, 650);
+			}
+
 
 			for (var key in raids) {
 				var current_time = raids[key]["timer"].split(":");
@@ -1088,7 +1132,6 @@ angular.module('xenon.controllers', []).
 
 
 			$scope.$apply();
-
 				}, 1000);
 
 			}

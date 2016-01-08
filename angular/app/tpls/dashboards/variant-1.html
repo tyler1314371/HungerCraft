@@ -66,16 +66,33 @@
   }
 }
 
-#metal{
+#metal,
+#crystal{
 	opacity: 0;
   color: green;
 }
+
+.default{
+    opacity: 0;
+}
+.fade{
+    -webkit-transition: opacity 1s; /* For Safari 3.1 to 6.0 */
+    transition: opacity 1s;
+    opacity: 1;
+}
+
+
 
 .progress span {
     position: absolute;
     display: block;
     width: 100%;
-    color: black;
+    color: grey;
+ }
+
+
+ .upgrade_button_resource{
+   padding-left: 125px;
  }
 </style>
 
@@ -101,26 +118,26 @@
             <td style="width: 500px">
               <img src="assets/images/icon/metal_mine.jpg" width="500" class="resource_img"/></div>
             </td>
-            <td style="width: 300px;">
-
-
-              <div id= "metal">+{{metal.income}} <img src="assets/images/mineral.png" width="25" class ="artifact_img"/> </div>
-        			<div progressbar class="progress active" max="progress.max" value="progress.value" type="{{progress.color}}" ng-style="{position:'relative', height :'25px', width :'200px', 'border-radius':'15px 15px 15px 15px', 'background-color':'white'}">
-        			<span>+{{metal.income}} <img src="assets/images/mineral.png" width="25" class ="artifact_img"/> </span>
-        			</div>
-              <br/><br/><br/>
-            </td>
             <td>
 
+              <div class="default" ng-hide="hidden" ng-class="{fade: startFade}">+{{metal.income}} <img src="assets/images/mineral.png" width="25" class ="artifact_img"/> </div>
+
+        			<div progressbar class="progress_metal active" max="progress_metal.max" value="progress_metal.value" type="{{progress_metal.color}}" ng-style="{position:'relative', height :'20px', width :'450px', 'border-radius':'15px 15px 15px 15px', 'background-color':'white'}">
+        			<span>Mining Metal</span>
+        			</div>
 
 
 
 
-              {{metal.current_cost}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/>
-              <button class="btn btn-success btn-icon btn-icon-standalone btn-icon-standalone-right" ng-click="BuyMetalMine()">
-                  <i class="fa-bolt"></i>
-                  <span>Upgrade</span>
-              </button>
+
+
+              <div class= "upgrade_button_resource">
+                {{metal.current_cost}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/>
+                <button class="btn btn-success btn-icon btn-icon-standalone btn-icon-standalone-right" ng-click="BuyMetalMine()">
+                    <i class="fa-bolt"></i>
+                    <span>Upgrade</span>
+                </button>
+              </div>
             </td>
           </tr>
 
@@ -153,7 +170,7 @@
       <table style="width:100%">
         <tr>
             <td style="text-align: center; width: auto">
-              <h4>Crystal Mine</h4>
+              <h4>Crystal Mine (Level {{crystal.current_mine_level}})</h4>
             </td>
         </tr>
       </table>
@@ -170,17 +187,25 @@
             <td style="width: 500px">
               <img src="assets/images/icon/crystal_mine.jpg" width="500" class="resource_img"/></div>
             </td>
-            <td style="width: 300px;">
-              <div class="spinner"></div>
-              Status: Up 100% <br/><br/>
-              Level {{crystal.current_mine_level}}:<br/> {{crystal.income}} <img src="assets/images/crystal.png" width="25" class ="artifact_img"/> per second <br/><br/>
-            </td>
             <td>
-              {{crystal.current_cost}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/>
-              <button class="btn btn-success btn-icon btn-icon-standalone btn-icon-standalone-right" ng-click="BuyCrystalMine()">
-                  <i class="fa-bolt"></i>
-                  <span>Upgrade</span>
-              </button>
+              <div class="default" ng-hide="hidden" ng-class="{fade: startFade}">+{{crystal.income}} <img src="assets/images/crystal.png" width="25" class ="artifact_img"/> </div>
+
+              <div progressbar class="progress_crystal active" max="progress_crystal.max" value="progress_crystal.value" type="{{progress_crystal.color}}" ng-style="{position:'relative', height :'20px', width :'450px', 'border-radius':'15px 15px 15px 15px', 'background-color':'white'}">
+              <span>Mining crystal</span>
+              </div>
+
+
+
+
+
+
+              <div class= "upgrade_button_resource">
+                {{crystal.current_cost}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/>
+                <button class="btn btn-success btn-icon btn-icon-standalone btn-icon-standalone-right" ng-click="BuyCrystalMine()">
+                    <i class="fa-bolt"></i>
+                    <span>Upgrade</span>
+                </button>
+              </div>
 
             </td>
           </tr>
