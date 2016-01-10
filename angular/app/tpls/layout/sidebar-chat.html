@@ -24,8 +24,8 @@ color: white;
 
 		<br/><br/>
 		<div style="padding-left:25px;">
-			{{level.level_metal_req}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/><br/>
-			{{level.level_crystal_req}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/>
+			{{format_number(real_metal_req)}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/><br/>
+			{{format_number(real_crystal_req)}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/>
 	        <button class="btn btn-success btn-icon btn-icon-standalone btn-icon-standalone-right" ng-click="NextLevel()">
 	                  <i class="fa-arrow-right"></i>
 	                  <span>Warp to next level</span>

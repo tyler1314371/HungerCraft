@@ -276,25 +276,26 @@ var ships ={
 
 //ARTIFACTS
 var artifacts = {
-	1: {
+	Shard_of_Coldness: {
 		rarity:"uncommon",
-		unlocked: 0,
-		current_level: 0
+		unlocked: 1,
+		current_owned: 220,
+		based_increase_percent: 5
 	},
 	2: {
 		rarity:"rare",
 		unlocked: 0,
-		current_level: 0
+		current_owned: 0
 	},
 	3: {
 		rarity:"epic",
 		unlocked: 0,
-		current_level: 0
+		current_owned: 0
 	},
 	4: {
 		rarity:"legendary",
 		unlocked: 0,
-		current_level: 0
+		current_owned: 0
 	}
 
 };
@@ -476,8 +477,8 @@ var raids = {
 
 //RESOURCES
 var metal = {
-	current_owned:0,
-	current_mine_level:0,
+	current_owned:3000000000,
+	current_mine_level:10,
 	current_cost:50,
 	ori_cost: 50,
 	income: 5,
@@ -485,16 +486,16 @@ var metal = {
 };
 
 var crystal = {
-	current_owned:0,
-	current_mine_level:0,
+	current_owned:20000000000,
+	current_mine_level:10,
 	current_cost:60,
 	ori_cost: 60,
-	income: 3.5,
-	income_base: 3.5
+	income: 4,
+	income_base: 4
 };
 
 var dark_matter = {
-	current_owned:2,
+	current_owned:0,
 	based_increase: 2,
 	current_increase: 2
 };
@@ -504,7 +505,7 @@ var dark_matter = {
 
 //BUILDING
 var shipyard = {
-	current_lab_level: 0,
+	current_lab_level: 10,
 	current_cost_metal:150,
 	base_cost_metal: 150,
 	current_cost_crystal:70,
@@ -512,7 +513,7 @@ var shipyard = {
 };
 
 var research_lab = {
-	current_lab_level: 0,
+	current_lab_level: 10,
 	current_cost_metal:150,
 	base_cost_metal: 150,
 	current_cost_crystal:70,
@@ -520,7 +521,7 @@ var research_lab = {
 };
 
 var dm_lab = {
-	current_lab_level: 0,
+	current_lab_level: 10,
 	current_cost_metal:550000,
 	base_cost_metal: 550000,
 	current_cost_crystal:260000,
@@ -538,7 +539,7 @@ var level = {
 	level_crystal_req:200,
 	level_metal_req_ori:300,
 	level_crystal_req_ori:200,
-	current_level:1,
+	current_level:10,
 	color1: '#000080',
 	color2: '#339966'
 };
@@ -648,6 +649,16 @@ angular.module('xenon.controllers', []).
 				"showMethod": "fadeIn",
 				"hideMethod": "fadeOut"
 				};
+
+		$scope.format_number= function(num) {
+			if (num >= 1000000){
+				return (num/1000000).toFixed(1) + 'm';
+			}
+			if (num >= 1000000000){
+				return (num/1000000000).toFixed(1) + 'b';
+			}
+		    return num;
+		}
 
 
 		$scope.openModal = function(modal_id, modal_size, modal_backdrop)
@@ -772,16 +783,14 @@ angular.module('xenon.controllers', []).
 
 			if(raids[instance_name]['unlocked']!=1){
 
-				toastr.error("Instance is Locked"
-						, opts);
+				
 				return false;
 
 		    }else{
 
 		    	if(raids[instance_name]['timer']!="00:00:00"){
 
-				toastr.error("Instance is on cooldown"
-						, opts);
+				
 				return false;
 
 			    }
@@ -845,15 +854,7 @@ angular.module('xenon.controllers', []).
 
 		$scope.BuildShip = function(ship_name, amount){
 
-			if(ships[ship_name]['unlocked']!=1){
-
-				toastr.error("Ship is Locked"
-						, opts);
-				return false;
-
-		    }else{
-
-		    	var metal_cost;
+			   	var metal_cost;
 		    	var crystal_cost;
 		    	var unit;
 		    	if(amount=='1'){
@@ -909,7 +910,7 @@ angular.module('xenon.controllers', []).
 			    ships[ship_name]['current_owned'] +=unit;
 
 				return false;
-		    }
+		    
 
 
 		};
@@ -985,6 +986,65 @@ angular.module('xenon.controllers', []).
 				$scope.changeValue_crystal_pb = function(value) {
 		      $scope.progress_crystal.value = value;
 		    };
+
+
+
+
+
+
+
+
+		    //artifacts
+		    $scope.diminish_artifacts = function(base_amount, number_owned){
+
+		    	//console.log(Math.floor(base_amount * number_owned *(1/(Math.pow(number_owned,0.4)) )));
+		    	var result = Math.floor(base_amount * number_owned * (1/(Math.pow(number_owned,0.4))));
+
+		    	if (result>99.99){
+		    		result = 99.99;
+		    	}
+
+
+		    return result
+		};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1500,32 +1560,201 @@ angular.module('xenon.controllers', []).
 		$scope.metal = metal;
 		$scope.crystal = crystal;
 		$scope.raids = raids;
+		$scope.artifacts = artifacts;
+		$scope.format_number= function(num) {
+			if (num >= 1000000){
+				return (num/1000000).toFixed(1) + 'm';
+			}
+			if (num >= 1000000000){
+				return (num/1000000000).toFixed(1) + 'b';
+			}
+		    return num;
+		}
+
+		function getRandomColor() {
+		    var letters = '0123456789ABCDEF'.split('');
+		    var color = '#';
+		    for (var i = 0; i < 6; i++ ) {
+		        color += letters[Math.floor(Math.random() * 16)];
+		    }
+		    return color;
+		}
+		$scope.diminish_artifacts = function(base_amount, number_owned){
+
+		    	//console.log(Math.floor(base_amount * number_owned *(1/(Math.pow(number_owned,0.4)) )));
+		    	var result = Math.floor(base_amount * number_owned * (1/(Math.pow(number_owned,0.4))));
+
+		    	if (result>99.99){
+		    		result = 99.99;
+		    	}
+
+
+		    return result
+		};
+
+
+
+				(function() {
+		  var globe = planetaryjs.planet();
+		  // Load our custom `autorotate` plugin; see below.
+		  globe.loadPlugin(autorotate(10));
+		  // The `earth` plugin draws the oceans and the land; it's actually
+		  // a combination of several separate built-in plugins.
+		  //
+		  // Note that we're loading a special TopoJSON file
+		  // (world-110m-withlakes.json) so we can render lakes.
+		  globe.loadPlugin(planetaryjs.plugins.earth({
+		    topojson: { file:   'assets/world-110m-withlakes.json' },
+		    oceans:   { fill:   level.color1 },
+		    land:     { fill:   level.color2 },
+		    borders:  { stroke: level.color2 }
+		  }));
+		  // Load our custom `lakes` plugin to draw lakes; see below.
+		  globe.loadPlugin(lakes({
+		    fill: level.color1
+		  }));
+		  // The `pings` plugin draws animated pings on the globe.
+		  	//globe.loadPlugin(planetaryjs.plugins.pings());
+		  // The `zoom` and `drag` plugins enable
+		  // manipulating the globe with the mouse.
+		  globe.loadPlugin(planetaryjs.plugins.zoom({
+		    scaleExtent: [70, 300]
+		  }));
+		  globe.loadPlugin(planetaryjs.plugins.drag({
+		    // Dragging the globe should pause the
+		    // automatic rotation until we release the mouse.
+		    onDragStart: function() {
+		      this.plugins.autorotate.pause();
+		    },
+		    onDragEnd: function() {
+		      this.plugins.autorotate.resume();
+		    }
+		  }));
+		  // Set up the globe's initial scale, offset, and rotation.
+		  globe.projection.scale(100).translate([125, 125]).rotate([0, -10, 0]);
+
+		  var canvas = document.getElementById('rotatingGlobe');
+		  // Special code to handle high-density displays (e.g. retina, some phones)
+		  // In the future, Planetary.js will handle this by itself (or via a plugin).
+		  if (window.devicePixelRatio == 2) {
+		    canvas.width = 250;
+		    canvas.height = 250;
+		    context = canvas.getContext('2d');
+		    context.scale(2, 2);
+		  }
+		  // Draw that globe!
+		  globe.draw(canvas);
+
+		  // This plugin will automatically rotate the globe around its vertical
+		  // axis a configured number of degrees every second.
+		  function autorotate(degPerSec) {
+		    // Planetary.js plugins are functions that take a `planet` instance
+		    // as an argument...
+		    return function(planet) {
+		      var lastTick = null;
+		      var paused = false;
+		      planet.plugins.autorotate = {
+		        pause:  function() { paused = true;  },
+		        resume: function() { paused = false; }
+		      };
+		      // ...and configure hooks into certain pieces of its lifecycle.
+		      planet.onDraw(function() {
+		        if (paused || !lastTick) {
+		          lastTick = new Date();
+		        } else {
+		          var now = new Date();
+		          var delta = now - lastTick;
+		          // This plugin uses the built-in projection (provided by D3)
+		          // to rotate the globe each time we draw it.
+		          var rotation = planet.projection.rotate();
+		          rotation[0] += degPerSec * delta / 1000;
+		          if (rotation[0] >= 180) rotation[0] -= 360;
+		          planet.projection.rotate(rotation);
+		          lastTick = now;
+		        }
+		      });
+		    };
+		  };
+
+		  // This plugin takes lake data from the special
+		  // TopoJSON we're loading and draws them on the map.
+		  function lakes(options) {
+		    options = options || {};
+		    var lakes = null;
+
+		    return function(planet) {
+		      planet.onInit(function() {
+		        // We can access the data loaded from the TopoJSON plugin
+		        // on its namespace on `planet.plugins`. We're loading a custom
+		        // TopoJSON file with an object called "ne_110m_lakes".
+		        var world = planet.plugins.topojson.world;
+		        lakes = topojson.feature(world, world.objects.ne_110m_lakes);
+		      });
+
+		      planet.onDraw(function() {
+		        planet.withSavedContext(function(context) {
+		          context.beginPath();
+		          planet.path.context(context)(lakes);
+		          context.fillStyle = options.fill || 'black';
+		          context.fill();
+		        });
+		      });
+		    };
+		  };
+		})();
+
+
+
+
+
+		//workout the discount
+		$scope.real_metal_req = level.level_metal_req;
+		$scope.real_crystal_req = level.level_crystal_req;
+		if(artifacts['Shard_of_Coldness']['unlocked']==1){
+		    	$scope.real_metal_req = Math.floor(level.level_metal_req * (100 - $scope.diminish_artifacts(artifacts['Shard_of_Coldness']['based_increase_percent'], artifacts['Shard_of_Coldness']['current_owned']))/100);
+		    	$scope.real_crystal_req = Math.floor(level.level_crystal_req * (100 - $scope.diminish_artifacts(artifacts['Shard_of_Coldness']['based_increase_percent'], artifacts['Shard_of_Coldness']['current_owned']))/100);
+		    }
+
+
 
 		$scope.NextLevel = function(){
 
 
 
-
-
-			var level_metal_req_temp = Math.floor(level.level_metal_req_ori * Math.pow(1.5,level.current_level));
-		    var level_crystal_req_temp = Math.floor(level.level_crystal_req_ori  * Math.pow(1.4,level.current_level));       //works out the cost of this cursor
+			//works out the cost of this floor
+			level.level_metal_req = Math.floor(level.level_metal_req_ori* Math.pow(1.5,level.current_level));
+			level.level_crystal_req = Math.floor(level.level_crystal_req_ori * Math.pow(1.4,level.current_level));
 
 				if (level.current_level ==1){
-		      level_metal_req_temp = level.level_metal_req_ori;
-		      level_crystal_req_temp = level.level_crystal_req_ori;
+		      level.level_metal_req = level.level_metal_req_ori;
+		      level.level_crystal_req = level.level_crystal_req_ori;
+		    }
+
+
+		    //check if user has enough
+		    if((metal.current_owned >= $scope.real_metal_req) && (crystal.current_owned >= $scope.real_crystal_req)){
+		    	//LEVEL UP
+		      level.current_level = level.current_level + 1
+		      crystal.current_owned = crystal.current_owned - $scope.real_crystal_req;
+		      metal.current_owned = metal.current_owned - $scope.real_metal_req ;
+
+				level.level_metal_req = Math.floor(level.level_metal_req_ori* Math.pow(1.5,level.current_level));
+				level.level_crystal_req = Math.floor(level.level_crystal_req_ori * Math.pow(1.4,level.current_level));
+
+
+
+
+				//workout the discount for next lvl
+				if(artifacts['Shard_of_Coldness']['unlocked']==1){
+		    	$scope.real_metal_req = Math.floor(level.level_metal_req * (100 - $scope.diminish_artifacts(artifacts['Shard_of_Coldness']['based_increase_percent'], artifacts['Shard_of_Coldness']['current_owned']))/100);
+		    	$scope.real_crystal_req = Math.floor(level.level_crystal_req * (100 - $scope.diminish_artifacts(artifacts['Shard_of_Coldness']['based_increase_percent'], artifacts['Shard_of_Coldness']['current_owned']))/100);
 		    }
 
 
 
 
-		    if((metal.current_owned >= level_metal_req_temp) && (crystal.current_owned >= level_crystal_req_temp)){
-		    	//LEVEL UP
-		      level.current_level = level.current_level + 1
-		      crystal.current_owned = crystal.current_owned - level_crystal_req_temp;
-		      metal.current_owned = metal.current_owned - level_metal_req_temp;
 
-				level.level_metal_req = Math.floor(level.level_metal_req_ori* Math.pow(1.5,level.current_level));
-				level.level_crystal_req = Math.floor(level.level_crystal_req_ori * Math.pow(1.4,level.current_level));
+
 
 				//CHECK RAIDS
 
@@ -1538,135 +1767,21 @@ angular.module('xenon.controllers', []).
 
 		    };
 
+		    //update globe color
+		    level.color1 = getRandomColor();
+		    level.color2 = getRandomColor();	
 
 		};
-		function getRandomColor() {
-		    var letters = '0123456789ABCDEF'.split('');
-		    var color = '#';
-		    for (var i = 0; i < 6; i++ ) {
-		        color += letters[Math.floor(Math.random() * 16)];
-		    }
-		    return color;
-		}
 
-		if (level.color1!='#000080'){
-			level.color1 = getRandomColor();
-		}
-		if (level.color2!='#339966'){
-			level.color2 = getRandomColor();
-		}
+
+
+		
 
 
 
 
-		(function() {
-  var globe = planetaryjs.planet();
-  // Load our custom `autorotate` plugin; see below.
-  globe.loadPlugin(autorotate(10));
-  // The `earth` plugin draws the oceans and the land; it's actually
-  // a combination of several separate built-in plugins.
-  //
-  // Note that we're loading a special TopoJSON file
-  // (world-110m-withlakes.json) so we can render lakes.
-  globe.loadPlugin(planetaryjs.plugins.earth({
-    topojson: { file:   'assets/world-110m-withlakes.json' },
-    oceans:   { fill:   level.color1 },
-    land:     { fill:   level.color2 },
-    borders:  { stroke: level.color2 }
-  }));
-  // Load our custom `lakes` plugin to draw lakes; see below.
-  globe.loadPlugin(lakes({
-    fill: level.color1
-  }));
-  // The `pings` plugin draws animated pings on the globe.
-  	//globe.loadPlugin(planetaryjs.plugins.pings());
-  // The `zoom` and `drag` plugins enable
-  // manipulating the globe with the mouse.
-  globe.loadPlugin(planetaryjs.plugins.zoom({
-    scaleExtent: [70, 300]
-  }));
-  globe.loadPlugin(planetaryjs.plugins.drag({
-    // Dragging the globe should pause the
-    // automatic rotation until we release the mouse.
-    onDragStart: function() {
-      this.plugins.autorotate.pause();
-    },
-    onDragEnd: function() {
-      this.plugins.autorotate.resume();
-    }
-  }));
-  // Set up the globe's initial scale, offset, and rotation.
-  globe.projection.scale(100).translate([125, 125]).rotate([0, -10, 0]);
 
-  var canvas = document.getElementById('rotatingGlobe');
-  // Special code to handle high-density displays (e.g. retina, some phones)
-  // In the future, Planetary.js will handle this by itself (or via a plugin).
-  if (window.devicePixelRatio == 2) {
-    canvas.width = 250;
-    canvas.height = 250;
-    context = canvas.getContext('2d');
-    context.scale(2, 2);
-  }
-  // Draw that globe!
-  globe.draw(canvas);
-
-  // This plugin will automatically rotate the globe around its vertical
-  // axis a configured number of degrees every second.
-  function autorotate(degPerSec) {
-    // Planetary.js plugins are functions that take a `planet` instance
-    // as an argument...
-    return function(planet) {
-      var lastTick = null;
-      var paused = false;
-      planet.plugins.autorotate = {
-        pause:  function() { paused = true;  },
-        resume: function() { paused = false; }
-      };
-      // ...and configure hooks into certain pieces of its lifecycle.
-      planet.onDraw(function() {
-        if (paused || !lastTick) {
-          lastTick = new Date();
-        } else {
-          var now = new Date();
-          var delta = now - lastTick;
-          // This plugin uses the built-in projection (provided by D3)
-          // to rotate the globe each time we draw it.
-          var rotation = planet.projection.rotate();
-          rotation[0] += degPerSec * delta / 1000;
-          if (rotation[0] >= 180) rotation[0] -= 360;
-          planet.projection.rotate(rotation);
-          lastTick = now;
-        }
-      });
-    };
-  };
-
-  // This plugin takes lake data from the special
-  // TopoJSON we're loading and draws them on the map.
-  function lakes(options) {
-    options = options || {};
-    var lakes = null;
-
-    return function(planet) {
-      planet.onInit(function() {
-        // We can access the data loaded from the TopoJSON plugin
-        // on its namespace on `planet.plugins`. We're loading a custom
-        // TopoJSON file with an object called "ne_110m_lakes".
-        var world = planet.plugins.topojson.world;
-        lakes = topojson.feature(world, world.objects.ne_110m_lakes);
-      });
-
-      planet.onDraw(function() {
-        planet.withSavedContext(function(context) {
-          context.beginPath();
-          planet.path.context(context)(lakes);
-          context.fillStyle = options.fill || 'black';
-          context.fill();
-        });
-      });
-    };
-  };
-})();
+		
 
 
 	}).

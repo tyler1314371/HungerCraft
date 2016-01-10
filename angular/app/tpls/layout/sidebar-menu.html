@@ -1,12 +1,12 @@
 <style media="screen" type="text/css">
 
 
-.artifact_tooltip_uncommon { position: relative; }
+.artifact_tooltip_uncommon { position: relative; display: inline;}
 .artifact_tooltip_uncommon span { display: none; color: #FFFFFF; }
 .artifact_tooltip_uncommon:hover span {
 	display: block;
 	position: absolute;
-	width: auto;
+	width: 200px;
 	background: #5d5757;
 	height: auto;
 	left: 60px;
@@ -15,7 +15,8 @@
 	padding: 0 5px;
 	border-style: solid;
     border-color: #6AEB6A;
-    border-radius: 7px; }
+    border-radius: 7px; 
+	z-index: 11;}
 .artifact_tooltip_rare { position: relative; }
 .artifact_tooltip_rare span { display: none; color: #FFFFFF; }
 .artifact_tooltip_rare:hover span {
@@ -270,6 +271,12 @@
 	background-color:white;
 }
 
+
+
+.build_amount{
+	cursor:pointer;
+	padding-left: 20px;
+}
 </style>
 
 
@@ -292,7 +299,7 @@
 	<div class="modal-header">
 		<button type="button" class="close" ng-click="currentModal.close();" aria-hidden="true">&times;</button>
 		<h3 class="modal-title" id ="modal-title">Artifacts </h3>
-		<div>Artifacts are scattered throughout the universe and wield great power, collect them and improve your empire</div>
+		<div>Artifacts are scattered throughout the universe and wield great power, collect them and improve your empire, one can acquire the same artifact to make the effect more powerful <div id="attention">diminishingly</div></div>
 	</div>
 
 
@@ -300,20 +307,27 @@
 
 			<button ng-click="unlock_test()">unlock_test</button>
 			<button ng-click="lock_test()">lock_test</button>
-			<table id="skill_tree" style="width:100%">
+			<table id="skill_tree" style="width:60%">
 
 					<tr>
-						<td>
+						<td style="position: relative; width= 100px;">
 
-						<div ng-if="artifacts.1.unlocked" class="artifact_tooltip_uncommon"><img src="assets/images/artifacts/blue_stone.png" width="50" class ="artifact_img"/>
-																								<span>Title-<br/>
-																								Increases your metal mine income rate by some amount.<br />
-																								Current %: <div id="attention">{{specialization.Cargo_Improvement.current_level * 4}}%</div><br />
-																								Next Level %: <div id="attention">{{(specialization.Cargo_Improvement.current_level+1) * 4}}%</div></span>
+						<div ng-if="artifacts.Shard_of_Coldness.unlocked" class="artifact_tooltip_uncommon"><img src="assets/images/artifacts/blue_stone.png" width="50" class ="artifact_img"/>&nbsp&nbsp x <div id="attention"> {{artifacts.Shard_of_Coldness.current_owned}}</div>
+																								<span><h5>Shard of Coldness-</h5>
+																							
+																								<br/>
+																								Reduce the warp metal and crystal requirement by 
+																								<div id="attention">
+																								{{diminish_artifacts(artifacts.Shard_of_Coldness.based_increase_percent,artifacts.Shard_of_Coldness.current_owned)}}%
+																								</div><br />
+																								</span>
 																								<br />
 						</div>
-						<div ng-if="!artifacts.1.unlocked" class="artifact_tooltip_uncommon"><img src="assets/images/locked.png" width="50" class ="artifact_img"/>
-																								<span>Locked<br/>
+						<div ng-if="!artifacts.Shard_of_Coldness.unlocked" class="artifact_tooltip_uncommon"><img src="assets/images/locked.png" width="50" class ="artifact_img"/>
+						<font color="#FD3636">(Undiscovered)</font>
+																								<span>Shard of Coldness -<br/>
+																								
+																								Drop in <div id="attention">Oatis</div>
 																								</span>
 																								<br />
 						</div>
@@ -863,14 +877,14 @@
 						<td style="width: 500px; position: relative;">
 							<h4>Light Fighter</h4>
 							<small>Light Fighers are the most basic unit of a fleet</small><br/>
-							<img ng-if="ships['light_fighter']['unlocked']==0" src="assets/images/Ships/light_fighter.jpg" class="ships_img image-grey" />
-							<div ng-if="ships['light_fighter']['unlocked']==0" class="ships_locked_image">
+							<img ng-if="shipyard.current_lab_level<2 || research_lab.current_lab_level<3 || level.current_level<10" src="assets/images/Ships/light_fighter.jpg" class="ships_img image-grey" />
+							<div ng-if="shipyard.current_lab_level<2 || research_lab.current_lab_level<3 || level.current_level<10" class="ships_locked_image">
 								<img src="assets/images/locked.png" width="50" />
 							</div>
-							<img ng-if="ships['light_fighter']['unlocked']==1" src="assets/images/Ships/light_fighter.jpg" class="ships_img" />
+							<img ng-if="shipyard.current_lab_level>=2 && research_lab.current_lab_level>=3 && level.current_level>=10" src="assets/images/Ships/light_fighter.jpg" class="ships_img" />
 
 						</td>
-						<td ng-if="ships['light_fighter']['unlocked']==1" class="ship_info" style="position: relative;">
+						<td ng-if="shipyard.current_lab_level>=2 && research_lab.current_lab_level>=3 && level.current_level>=10" class="ship_info" style="position: relative;">
 							<h5>
 							<b>HP</b>: {{ships.light_fighter.stats.HP}}<br/>
 							<b>Shield</b>: {{ships.light_fighter.stats.shield}}<br/>
@@ -926,7 +940,7 @@
 								</div>
 							</div>
 						</td>
-						<td ng-if="ships['light_fighter']['unlocked']==0" class="ship_info">
+						<td ng-if="shipyard.current_lab_level<2 || research_lab.current_lab_level<3 || level.current_level<10" class="ship_info">
 							<h5>
 							<b>Requirements</b>:<br/>
 							<font ng-if="shipyard.current_lab_level>=2" color="#6AEB6A">Shipyard Level 2 <br/></font>
@@ -2397,9 +2411,9 @@
 
 	<img src="{{item.icon}}" width="25" class ="artifact_img"/>
 
-	<span ng-if="item.title == 'M'" class="title"><div id="tooltip_hori_title">{{metal.current_owned}}<span>Metal, the most basic resource for any space expedition</span></div></span>
-	<span ng-if="item.title == 'C'" class="title"><div id="tooltip_hori_title">{{crystal.current_owned}}<span>Crystal, rare resource that is used for research and trading</span></div></span>
-	<span ng-if="item.title == 'DM'" class="title"><div id="tooltip_hori_title">{{dark_matter.current_owned}}<span>Dark matter, a hypothetical kind of matter that cannot be seen with <br/>
+	<span ng-if="item.title == 'M'" class="title"><div id="tooltip_hori_title" ng-controller="GameCtrl">{{ format_number(metal.current_owned) }}<span>Metal, the most basic resource for any space expedition</span></div></span>
+	<span ng-if="item.title == 'C'" class="title"><div id="tooltip_hori_title" ng-controller="GameCtrl">{{format_number(crystal.current_owned)}}<span>Crystal, rare resource that is used for research and trading</span></div></span>
+	<span ng-if="item.title == 'DM'" class="title"><div id="tooltip_hori_title" ng-controller="GameCtrl">{{format_number(dark_matter.current_owned)}}<span>Dark matter, a hypothetical kind of matter that cannot be seen with <br/>
 																																																						telescopes but accounts for most of the matter in the universe. <br/>
 																																																						Increase your mine and crystal mine income by <div id="attention">{{dark_matter.current_increase}}%</div> for each dark matter you have</span></div></span>
 	<span ng-if="item.label" class="label label-{{item.label.classname}} pull-right" ng-class="{'hidden-collapsed': item.label.collapsedHide}">{{item.label.text}}</span>

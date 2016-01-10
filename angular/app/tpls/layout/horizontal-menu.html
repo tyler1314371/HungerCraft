@@ -206,9 +206,9 @@
 
 
 		<img src="{{item.icon}}" width="25" class ="artifact_img"/>
-		<span ng-if="item.title == 'M'" class="title"><div id="tooltip_hori_title">{{metal.current_owned}}<span>Metal, the most basic resource for any space expedition</span></div></span>
-		<span ng-if="item.title == 'C'" class="title"><div id="tooltip_hori_title">{{crystal.current_owned}}<span>Crystal, rare resource that is used for building advanced ships and researching</span></div></span>
-		<span ng-if="item.title == 'DM'" class="title"><div id="tooltip_hori_title">{{dark_matter.current_owned}}<span>Dark matter, a hypothetical kind of matter that cannot be seen with human eyes. They have the power to alter space and time</span></span>
+		<span ng-if="item.title == 'M'" class="title"><div id="tooltip_hori_title" ng-controller="GameCtrl">{{format_number(metal.current_owned)}}<span>Metal, the most basic resource for any space expedition</span></div></span>
+		<span ng-if="item.title == 'C'" class="title"><div id="tooltip_hori_title" ng-controller="GameCtrl">{{format_number(crystal.current_owned)}}<span>Crystal, rare resource that is used for building advanced ships and researching</span></div></span>
+		<span ng-if="item.title == 'DM'" class="title"><div id="tooltip_hori_title" ng-controller="GameCtrl">{{format_number(dark_matter.current_owned)}}<span>Dark matter, a hypothetical kind of matter that cannot be seen with human eyes. They have the power to alter space and time</span></span>
 		<span ng-if="item.label" class="label label-{{item.label.classname}} pull-right" ng-class="{'hidden-collapsed': item.label.collapsedHide}">{{item.label.text}}</span>
 	</script>
 

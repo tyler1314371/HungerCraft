@@ -12,6 +12,9 @@
   vertical-align: bottom;
 }
 
+.resource_img{
+  border-radius: 7px 7px 7px 7px;
+}
 
 .spinner {
   height: 80px;
@@ -87,7 +90,7 @@
     position: absolute;
     display: block;
     width: 100%;
-    color: grey;
+    color: black;
  }
 
 
@@ -120,7 +123,7 @@
             </td>
             <td>
 
-              <div class="default" ng-hide="hidden" ng-class="{fade: startFade}">+{{metal.income}} <img src="assets/images/mineral.png" width="25" class ="artifact_img"/> </div>
+              <div class="default" ng-hide="hidden" ng-class="{fade: startFade}">+{{format_number(metal.income)}} <img src="assets/images/mineral.png" width="25" class ="artifact_img"/> </div>
 
         			<div progressbar class="progress_metal active" max="progress_metal.max" value="progress_metal.value" type="{{progress_metal.color}}" ng-style="{position:'relative', height :'20px', width :'450px', 'border-radius':'15px 15px 15px 15px', 'background-color':'white'}">
         			<span>Mining Metal</span>
@@ -132,7 +135,7 @@
 
 
               <div class= "upgrade_button_resource">
-                {{metal.current_cost}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/>
+                {{format_number(metal.current_cost)}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/>
                 <button class="btn btn-success btn-icon btn-icon-standalone btn-icon-standalone-right" ng-click="BuyMetalMine()">
                     <i class="fa-bolt"></i>
                     <span>Upgrade</span>
@@ -188,7 +191,7 @@
               <img src="assets/images/icon/crystal_mine.jpg" width="500" class="resource_img"/></div>
             </td>
             <td>
-              <div class="default" ng-hide="hidden" ng-class="{fade: startFade}">+{{crystal.income}} <img src="assets/images/crystal.png" width="25" class ="artifact_img"/> </div>
+              <div class="default" ng-hide="hidden" ng-class="{fade: startFade}">+{{format_number(crystal.income)}} <img src="assets/images/crystal.png" width="25" class ="artifact_img"/> </div>
 
               <div progressbar class="progress_crystal active" max="progress_crystal.max" value="progress_crystal.value" type="{{progress_crystal.color}}" ng-style="{position:'relative', height :'20px', width :'450px', 'border-radius':'15px 15px 15px 15px', 'background-color':'white'}">
               <span>Mining crystal</span>
@@ -200,7 +203,7 @@
 
 
               <div class= "upgrade_button_resource">
-                {{crystal.current_cost}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/>
+                {{format_number(crystal.current_cost)}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/>
                 <button class="btn btn-success btn-icon btn-icon-standalone btn-icon-standalone-right" ng-click="BuyCrystalMine()">
                     <i class="fa-bolt"></i>
                     <span>Upgrade</span>
@@ -262,8 +265,8 @@
             </td>
             <td>
 
-              {{shipyard.current_cost_metal}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/><br/>
-              {{shipyard.current_cost_crystal}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/>
+              {{format_number(shipyard.current_cost_metal)}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/><br/>
+              {{format_number(shipyard.current_cost_crystal)}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/>
               <button class="btn btn-success btn-icon btn-icon-standalone btn-icon-standalone-right" ng-click="UpgradeShipyard()">
                   <i class="fa-bolt"></i>
                   <span>Upgrade</span>
@@ -323,15 +326,15 @@
             </td>
             <td style="width: 300px;  padding-bottom: 100px;">
 
-              Level {{research_lab.current_lab_level}}:<br/> <div id="attention">{{research_lab.current_lab_level * 2}}%</div> increase ship building speed<br/>
+              Level {{research_lab.current_lab_level}}:<br/>
               <div id="attention">{{research_lab.current_lab_level * 0.2}}%</div> increase all ships' attack<br/>
               <div id="attention">{{research_lab.current_lab_level * 0.15}}%</div> increase all ships' HP<br/>
               <div id="attention">{{research_lab.current_lab_level * 0.1}}%</div> increase all ships' shields<br/><br/>
             </td>
             <td>
 
-              {{research_lab.current_cost_metal}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/><br/>
-              {{research_lab.current_cost_crystal}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/>
+              {{format_number(research_lab.current_cost_metal)}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/><br/>
+              {{format_number(research_lab.current_cost_crystal)}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/>
               <button class="btn btn-success btn-icon btn-icon-standalone btn-icon-standalone-right" ng-click="UpgradeLab()">
                   <i class="fa-bolt"></i>
                   <span>Upgrade</span>
@@ -396,8 +399,8 @@
               Level {{dm_lab.current_lab_level}}:<br/> {{dm_lab.current_lab_level * 1}} <img src="assets/images/dark_matter.png" width="25" class ="artifact_img"/> per day <br/><br/>
             </td>
             <td>
-              {{dm_lab.current_cost_metal}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/><br/>
-              {{dm_lab.current_cost_crystal}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/>
+              {{format_number(dm_lab.current_cost_metal)}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/><br/>
+              {{format_number(dm_lab.current_cost_crystal)}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/>
               <button class="btn btn-success btn-icon btn-icon-standalone btn-icon-standalone-right" ng-click="UpgradeDMLab()">
                   <i class="fa-bolt"></i>
                   <span>Upgrade</span>
