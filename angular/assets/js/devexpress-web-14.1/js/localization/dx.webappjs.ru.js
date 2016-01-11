@@ -1,7 +1,7 @@
 /*! 
 * DevExtreme Web
-* Version: 15.1.6
-* Build date: Aug 14, 2015
+* Version: 15.2.4
+* Build date: Dec 8, 2015
 *
 * Copyright (c) 2012 - 2015 Developer Express Inc. ALL RIGHTS RESERVED
 * EULA: https://www.devexpress.com/Support/EULAs/DevExtreme.xml
@@ -68,7 +68,8 @@ Globalize.addCultureInfo("ru", {messages: {
         "dxRangeSlider-ariaFrom": "От {0}",
         "dxRangeSlider-ariaTill": "До {0}",
         "dxSwitch-onText": "ВКЛ",
-        "dxSwitch-offText": "ВЫКЛ"
+        "dxSwitch-offText": "ВЫКЛ",
+        "dxForm-optionalMark": "необязательный"
     }});
 Globalize.addCultureInfo("ru", {messages: {
         "dxDataGrid-columnChooserTitle": "Выбор столбцов",
@@ -81,6 +82,7 @@ Globalize.addCultureInfo("ru", {messages: {
         "dxDataGrid-editingDeleteRow": "Удалить",
         "dxDataGrid-editingUndeleteRow": "Восстановить",
         "dxDataGrid-editingConfirmDeleteMessage": "Вы уверены, что хотите удалить эту запись?",
+        "dxDataGrid-validationCancelChanges": "Отменить изменения",
         "dxDataGrid-editingConfirmDeleteTitle": "",
         "dxDataGrid-groupPanelEmptyText": "Перетащите столбец сюда, чтобы сгруппировать по нему",
         "dxDataGrid-noDataText": "Нет данных",
@@ -97,6 +99,9 @@ Globalize.addCultureInfo("ru", {messages: {
         "dxDataGrid-filterRowOperationContains": "Содержит",
         "dxDataGrid-filterRowOperationNotContains": "Не содержит",
         "dxDataGrid-filterRowOperationEndsWith": "Заканчивается на",
+        "dxDataGrid-filterRowOperationBetween": "В диапазоне",
+        "dxDataGrid-filterRowOperationBetweenStartText": "Начало",
+        "dxDataGrid-filterRowOperationBetweenEndText": "Конец",
         "dxDataGrid-applyFilterText": "Применить фильтр",
         "dxDataGrid-trueText": "Да",
         "dxDataGrid-falseText": "Нет",
@@ -135,7 +140,7 @@ Globalize.addCultureInfo("ru", {messages: {
         "dxDataGrid-ariaSearchInGrid": "Искать в таблице данных",
         "dxDataGrid-ariaSelectAll": "Выбрать всё",
         "dxDataGrid-ariaSelectRow": "Выбрать строку",
-        "dxPager-infoText": "Страница {0} из {1}",
+        "dxPager-infoText": "Страница {0} из {1} (Всего элементов: {2})",
         "dxPivotGrid-grandTotal": "Итого",
         "dxPivotGrid-total": "{0} Всего",
         "dxPivotGrid-fieldChooserTitle": "Выбор полей",
@@ -175,7 +180,17 @@ Globalize.addCultureInfo("ru", {messages: {
         "dxScheduler-switcherWeek": "Неделя",
         "dxScheduler-switcherWorkWeek": "Рабочая неделя",
         "dxScheduler-switcherMonth": "Месяц",
+        "dxScheduler-switcherTimelineDay": "Хронология дня",
+        "dxScheduler-switcherTimelineWeek": "Хронология недели",
+        "dxScheduler-switcherTimelineWorkWeek": "Хронология рабочей недели",
+        "dxScheduler-switcherTimelineMonth": "Хронология месяца",
         "dxScheduler-allDay": "Весь день",
+        "dxScheduler-confirmRecurrenceEditMessage": "Вы хотите отредактировать только это событие или всю серию?",
+        "dxScheduler-confirmRecurrenceDeleteMessage": "Вы хотите удалить только это событие или всю серию?",
+        "dxScheduler-confirmRecurrenceEditSeries": "Всю серию",
+        "dxScheduler-confirmRecurrenceDeleteSeries": "Всю серию",
+        "dxScheduler-confirmRecurrenceEditOccurrence": "Только это событие",
+        "dxScheduler-confirmRecurrenceDeleteOccurrence": "Только это событие",
         "dxCalendar-todayButtonText": "Сегодня",
         "dxCalendar-ariaWidgetName": "Календарь",
         "dxColorView-ariaRed": "Красный",

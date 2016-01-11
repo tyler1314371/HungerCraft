@@ -209,8 +209,8 @@
 }
 .build_ship_btn{
 	position: absolute;
-    top: 64%;
-    left: 40%;
+    top: 66%;
+    left: 10%;
 }
 .ship_info{
 	top: 15%;
@@ -257,6 +257,11 @@
 	border-radius: 7px 7px 7px 7px;
 	width: 500px;
 	height: 300px;
+}
+.ships_assemble_img{
+	border-radius: 7px 7px 7px 7px;
+	width: 100px;
+	height: 60px;
 }
 .image-grey {
     display:block;
@@ -831,7 +836,7 @@
 	</div>
 
 	<div class="modal-footer">
-		<button type="button" class="btn btn-white" ng-click="currentModal.close();">Close</button>
+		<button type="button" class="btn btn-info" ng-click="currentModal.close();">Close</button>
 
 	</div>
 
@@ -919,25 +924,15 @@
 
 
 							<div class="build_ship_btn">
-								<div class="btn-group" dropdown>
-									<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
-										Build <i class="fa-plane"></i> <span class="caret"></span>
-									</button>
-									<ul class="dropdown-menu dropdown-success" role="menu">
-										<li>
-											<a href="" ng-click="BuildShip('light_fighter', '1')">1 unit</a>
-										</li>
-										<li>
-											<a href="" ng-click="BuildShip('light_fighter', '100')">100 units</a>
-										</li>
-										<li>
-											<a href="" ng-click="BuildShip('light_fighter', '1000')">1000 units</a>
-										</li>
-										<li>
-											<a href="" ng-click="BuildShip('light_fighter', 'max')">Max</a>
-										</li>
-									</ul>
-								</div>
+								<button type="button" class="btn btn-success" ng-click="BuildShip('light_fighter', '1')">
+										<i class="fa-plane"></i> &nbsp Build 1  
+								</button>
+								<button type="button" class="btn btn-success" ng-click="BuildShip('light_fighter', '10')">
+										<i class="fa-plane"></i> &nbsp Build  10
+								</button>
+								<button type="button" class="btn btn-success" ng-click="BuildShip('light_fighter', '100')">
+										<i class="fa-plane"></i> &nbsp Build  100
+								</button>
 							</div>
 						</td>
 						<td ng-if="shipyard.current_lab_level<2 || research_lab.current_lab_level<3 || level.current_level<10" class="ship_info">
@@ -2344,7 +2339,7 @@
 	</div>
 
 	<div class="modal-footer">
-		<button type="button" class="btn btn-info" ng-click="currentModal.dismiss();">Continue</button>
+		<button type="button" class="btn btn-info" ng-click="currentModal.dismiss();">Close</button>
 	</div>
 </script>
 
@@ -2421,8 +2416,8 @@
 
 <script type="text/ng-template" id="menu-items-tpl">
 	<li ng-repeat="item in menuItems" ng-class="{'opened': item.isOpen, 'active': item.isActive, 'has-sub': item.menuItems.length}" >
-		<a ng-if="item.modal != ''"href="#{{item.link}}" ng-include="'menu-item-link-tpl'" ng-click="openModal(item.modal, 'lg')"></a>
-		<a ng-if="item.modal == ''"href="#{{item.link}}" ng-include="'menu-item-link-tpl'"></a>
+		<a ng-if="item.modal != ''" href="#{{item.link}}" ng-include="'menu-item-link-tpl'" ng-click="openModal(item.modal, 'lg')"></a>
+		<a ng-if="item.modal == ''" href="#{{item.link}}" ng-include="'menu-item-link-tpl'"></a>
 
 		<ul ng-if="item.menuItems.length" ng-init="subItems = item.menuItems" ng-include="'menu-items-recursive-tpl'"></ul>
 	</li>

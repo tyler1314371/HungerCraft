@@ -1,2062 +1,27 @@
 /*! 
 * DevExtreme (Charts)
-* Version: 15.1.6
-* Build date: Aug 14, 2015
+* Version: 15.2.4
+* Build date: Dec 8, 2015
 *
 * Copyright (c) 2012 - 2015 Developer Express Inc. ALL RIGHTS RESERVED
 * EULA: https://www.devexpress.com/Support/EULAs/DevExtreme.xml
 */
 
 "use strict";
-if (!DevExpress.MOD_VIZ_CHARTS) {
-    if (!DevExpress.MOD_VIZ_CORE)
+if (!window.DevExpress || !DevExpress.MOD_VIZ_CHARTS) {
+    if (!window.DevExpress || !DevExpress.MOD_VIZ_CORE)
         throw Error('Required module is not referenced: viz-core');
-    /*! Module viz-charts, file chartTitle.js */
-    (function($, DX, undefined) {
-        var viz = DX.viz,
-            vizUtils = viz.core.utils,
-            isDefined = DX.utils.isDefined,
-            DEFAULT_MARGIN = 10;
-        function parseMargins(options) {
-            options.margin = isDefined(options.margin) ? options.margin : {};
-            if (typeof options.margin === 'number') {
-                options.margin = options.margin >= 0 ? options.margin : DEFAULT_MARGIN;
-                options.margin = {
-                    top: options.margin,
-                    bottom: options.margin,
-                    left: options.margin,
-                    right: options.margin
-                }
-            }
-            else {
-                options.margin.top = options.margin.top >= 0 ? options.margin.top : DEFAULT_MARGIN;
-                options.margin.bottom = options.margin.bottom >= 0 ? options.margin.bottom : DEFAULT_MARGIN;
-                options.margin.left = options.margin.left >= 0 ? options.margin.left : DEFAULT_MARGIN;
-                options.margin.right = options.margin.right >= 0 ? options.margin.right : DEFAULT_MARGIN
-            }
-        }
-        function parseAlignments(options) {
-            options.verticalAlignment = (options.verticalAlignment || '').toLowerCase();
-            options.horizontalAlignment = (options.horizontalAlignment || '').toLowerCase();
-            if (options.verticalAlignment !== 'top' && options.verticalAlignment !== 'bottom')
-                options.verticalAlignment = 'top';
-            if (options.horizontalAlignment !== 'left' && options.horizontalAlignment !== 'center' && options.horizontalAlignment !== 'right')
-                options.horizontalAlignment = 'center'
-        }
-        function ChartTitle(renderer, options, group) {
-            var that = this;
-            that.update(options);
-            that.renderer = renderer;
-            that.titleGroup = group
-        }
-        viz.charts.ChartTitle = ChartTitle;
-        ChartTitle.prototype = {
-            dispose: function() {
-                var that = this;
-                that.renderer = null;
-                that.clipRect = null;
-                that.title = null;
-                that.innerTitleGroup = null;
-                that.titleGroup = null;
-                that.options = null
-            },
-            update: function(options) {
-                var that = this;
-                if (options) {
-                    parseAlignments(options);
-                    that.horizontalAlignment = options.horizontalAlignment;
-                    that.verticalAlignment = options.verticalAlignment;
-                    parseMargins(options);
-                    that.margin = options.margin;
-                    that.options = options
-                }
-            },
-            _setBoundingRect: function() {
-                var that = this,
-                    options = that.options,
-                    margin = that.changedMargin || that.margin,
-                    box;
-                if (!that.innerTitleGroup)
-                    return;
-                box = that.innerTitleGroup.getBBox();
-                box.height += margin.top + margin.bottom;
-                box.width += margin.left + margin.right;
-                box.x -= margin.left;
-                box.y -= margin.top;
-                if (isDefined(options.placeholderSize))
-                    box.height = options.placeholderSize;
-                that.boundingRect = box
-            },
-            draw: function(size) {
-                var that = this,
-                    titleOptions = that.options,
-                    renderer = that.renderer;
-                if (!titleOptions.text)
-                    return that;
-                size && that.setSize(size);
-                that.changedMargin = null;
-                if (!that.innerTitleGroup) {
-                    that.innerTitleGroup = renderer.g();
-                    that.clipRect = that.createClipRect();
-                    that.titleGroup && that.clipRect && that.titleGroup.attr({clipId: that.clipRect.id})
-                }
-                else
-                    that.innerTitleGroup.clear();
-                that.innerTitleGroup.append(that.titleGroup);
-                that.title = renderer.text(titleOptions.text, 0, 0).css(vizUtils.patchFontOptions(titleOptions.font)).attr({align: that.horizontalAlignment}).append(that.innerTitleGroup);
-                that.title.text = titleOptions.text;
-                that._correctTitleLength();
-                that._setClipRectSettings();
-                return that
-            },
-            _correctTitleLength: function() {
-                var that = this,
-                    text = that.title.text,
-                    margin = that.changedMargin || that.options.margin,
-                    hasEllipsis;
-                that.title.attr({text: text});
-                that._setBoundingRect();
-                hasEllipsis = that.title.applyEllipsis(that._width - margin.left - margin.right);
-                hasEllipsis && that.title.setTitle(text);
-                that._setBoundingRect()
-            },
-            changeSize: function(size) {
-                var that = this,
-                    margin = $.extend(true, {}, that.margin);
-                if (margin.top + margin.bottom < size.height) {
-                    if (that.innerTitleGroup) {
-                        that.options._incidentOccured("W2103");
-                        that.innerTitleGroup.dispose();
-                        that.innerTitleGroup = null
-                    }
-                    if (that.clipRect) {
-                        that.clipRect.dispose();
-                        that.clipRect = null
-                    }
-                }
-                else if (size.height > 0) {
-                    vizUtils.decreaseGaps(margin, ["top", "bottom"], size.height);
-                    size.height && (that.changedMargin = margin)
-                }
-                that._correctTitleLength();
-                that._setBoundingRect();
-                that._setClipRectSettings();
-                return that
-            },
-            getLayoutOptions: function() {
-                var options = this.options,
-                    boundingRect = this.innerTitleGroup ? this.boundingRect : {
-                        width: 0,
-                        height: 0,
-                        x: 0,
-                        y: 0
-                    };
-                boundingRect.verticalAlignment = options.verticalAlignment;
-                boundingRect.horizontalAlignment = options.horizontalAlignment;
-                boundingRect.cutLayoutSide = options.verticalAlignment;
-                return boundingRect
-            },
-            getBBox: function() {
-                var bbox = $.extend({}, this.getLayoutOptions());
-                bbox.x = this._x;
-                bbox.y = this._y;
-                return bbox
-            },
-            setSize: function(size) {
-                this._width = size.width || this._width;
-                return this
-            },
-            shift: function(x, y) {
-                var that = this,
-                    box = that.getLayoutOptions();
-                that._x = x;
-                that._y = y;
-                x -= box.x;
-                y -= box.y;
-                that.innerTitleGroup && that.innerTitleGroup.move(x, y);
-                that.clipRect && that.clipRect.attr({
-                    translateX: x,
-                    translateY: y
-                });
-                return that
-            },
-            createClipRect: function() {
-                if (isDefined(this.options.placeholderSize))
-                    return this.renderer.clipRect(0, 0, 0, 0)
-            },
-            _setClipRectSettings: function() {
-                var bbox = this.getLayoutOptions(),
-                    clipRect = this.clipRect;
-                if (clipRect)
-                    clipRect.attr({
-                        x: bbox.x,
-                        y: bbox.y,
-                        width: bbox.width,
-                        height: bbox.height
-                    })
-            }
-        };
-        DX.viz.charts.ChartTitle.__DEFAULT_MARGIN = DEFAULT_MARGIN
-    })(jQuery, DevExpress);
-    /*! Module viz-charts, file axesConstants.js */
-    (function($, DX, undefined) {
-        var _map = DX.viz.core.utils.map;
-        function getFormatObject(value, options, axisMinMax) {
-            var formatObject = {
-                    value: value,
-                    valueText: DX.formatHelper.format(value, options.format, options.precision) || ""
-                };
-            if (axisMinMax) {
-                formatObject.min = axisMinMax.min;
-                formatObject.max = axisMinMax.max
-            }
-            return formatObject
-        }
-        DX.viz.charts.axes = {};
-        DX.viz.charts.axes.constants = {
-            logarithmic: "logarithmic",
-            discrete: "discrete",
-            numeric: "numeric",
-            left: "left",
-            right: "right",
-            top: "top",
-            bottom: "bottom",
-            center: "center",
-            canvasPositionPrefix: "canvas_position_",
-            canvasPositionTop: "canvas_position_top",
-            canvasPositionBottom: "canvas_position_bottom",
-            canvasPositionLeft: "canvas_position_left",
-            canvasPositionRight: "canvas_position_right",
-            canvasPositionStart: "canvas_position_start",
-            canvasPositionEnd: "canvas_position_end",
-            horizontal: "horizontal",
-            vertical: "vertical",
-            halfTickLength: 4,
-            convertTicksToValues: function(ticks) {
-                return _map(ticks || [], function(item) {
-                        return item.value
-                    })
-            },
-            convertValuesToTicks: function(values) {
-                return _map(values || [], function(item) {
-                        return {value: item}
-                    })
-            },
-            validateOverlappingMode: function(mode) {
-                return mode !== "ignore" ? "enlargeTickInterval" : "ignore"
-            },
-            formatLabel: function(value, options, axisMinMax) {
-                var formatObject = getFormatObject(value, options, axisMinMax);
-                return $.isFunction(options.customizeText) ? options.customizeText.call(formatObject, formatObject) : formatObject.valueText
-            },
-            formatHint: function(value, options, axisMinMax) {
-                var formatObject = getFormatObject(value, options, axisMinMax);
-                return $.isFunction(options.customizeHint) ? options.customizeHint.call(formatObject, formatObject) : undefined
-            }
-        }
-    })(jQuery, DevExpress);
-    /*! Module viz-charts, file xyAxes.js */
-    (function($, DX, undefined) {
-        var viz = DX.viz,
-            core = viz.core,
-            axes = viz.charts.axes,
-            constants = axes.constants,
-            _abs = Math.abs,
-            _extend = $.extend,
-            CANVAS_POSITION_PREFIX = constants.canvasPositionPrefix,
-            TOP = constants.top,
-            BOTTOM = constants.bottom,
-            LEFT = constants.left,
-            RIGHT = constants.right,
-            CENTER = constants.center;
-        axes.xyAxes = {};
-        axes.xyAxes.linear = {
-            _getSharpParam: function(oposite) {
-                return this._isHorizontal ^ oposite ? "h" : "v"
-            },
-            _createAxisElement: function() {
-                var axisCoord = this._axisPosition,
-                    canvas = this._getCanvasStartEnd(),
-                    points = this._isHorizontal ? [canvas.start, axisCoord, canvas.end, axisCoord] : [axisCoord, canvas.start, axisCoord, canvas.end];
-                return this._renderer.path(points, "line")
-            },
-            _getTranslatedCoord: function(value, offset) {
-                return this._translator.translate(value, offset)
-            },
-            _getCanvasStartEnd: function() {
-                return {
-                        start: this._translator.translateSpecialCase(constants.canvasPositionStart),
-                        end: this._translator.translateSpecialCase(constants.canvasPositionEnd)
-                    }
-            },
-            _getScreenDelta: function() {
-                return _abs(this._translator.translateSpecialCase(constants.canvasPositionStart) - this._translator.translateSpecialCase(constants.canvasPositionEnd))
-            },
-            _initAxisPositions: function() {
-                var that = this,
-                    position = that._options.position,
-                    delta = 0;
-                if (that.delta)
-                    delta = that.delta[position] || 0;
-                that._axisPosition = that._additionalTranslator.translateSpecialCase(CANVAS_POSITION_PREFIX + position) + delta
-            },
-            _drawTitle: function() {
-                var that = this,
-                    options = that._options,
-                    titleOptions = options.title,
-                    attr = {
-                        opacity: titleOptions.opacity,
-                        align: CENTER
-                    };
-                if (!titleOptions.text || !that._axisTitleGroup)
-                    return;
-                that._title = that._renderer.text(titleOptions.text, 0, 0).css(core.utils.patchFontOptions(titleOptions.font)).attr(attr).append(that._axisTitleGroup)
-            },
-            _adjustConstantLineLabels: function() {
-                var that = this,
-                    options = that._options,
-                    isHorizontal = that._isHorizontal,
-                    lines = that._constantLines,
-                    labels = that._constantLineLabels,
-                    label,
-                    line,
-                    lineBox,
-                    linesOptions,
-                    labelOptions,
-                    box,
-                    x,
-                    y,
-                    i,
-                    padding = isHorizontal ? {
-                        top: 0,
-                        bottom: 0
-                    } : {
-                        left: 0,
-                        right: 0
-                    },
-                    paddingTopBottom,
-                    paddingLeftRight,
-                    labelVerticalAlignment,
-                    labelHorizontalAlignment,
-                    labelIsInside,
-                    labelHeight,
-                    labelWidth,
-                    delta = 0;
-                if (labels === undefined && lines === undefined)
-                    return;
-                for (i = 0; i < labels.length; i++) {
-                    x = y = 0;
-                    linesOptions = options.constantLines[i];
-                    paddingTopBottom = linesOptions.paddingTopBottom;
-                    paddingLeftRight = linesOptions.paddingLeftRight;
-                    labelOptions = linesOptions.label;
-                    labelVerticalAlignment = labelOptions.verticalAlignment;
-                    labelHorizontalAlignment = labelOptions.horizontalAlignment;
-                    labelIsInside = labelOptions.position === "inside";
-                    label = labels[i];
-                    if (label !== null) {
-                        line = lines[i];
-                        box = label.getBBox();
-                        lineBox = line.getBBox();
-                        labelHeight = box.height;
-                        labelWidth = box.width;
-                        if (isHorizontal)
-                            if (labelIsInside) {
-                                if (labelHorizontalAlignment === LEFT)
-                                    x -= paddingLeftRight;
-                                else
-                                    x += paddingLeftRight;
-                                switch (labelVerticalAlignment) {
-                                    case CENTER:
-                                        y += lineBox.y + lineBox.height / 2 - box.y - labelHeight / 2;
-                                        break;
-                                    case BOTTOM:
-                                        y += lineBox.y + lineBox.height - box.y - labelHeight - paddingTopBottom;
-                                        break;
-                                    default:
-                                        y += lineBox.y - box.y + paddingTopBottom;
-                                        break
-                                }
-                            }
-                            else if (labelVerticalAlignment === BOTTOM) {
-                                delta = that.delta && that.delta[BOTTOM] || 0;
-                                y += paddingTopBottom - box.y + that._additionalTranslator.translateSpecialCase(CANVAS_POSITION_PREFIX + BOTTOM) + delta;
-                                if (padding[BOTTOM] < labelHeight + paddingTopBottom)
-                                    padding[BOTTOM] = labelHeight + paddingTopBottom
-                            }
-                            else {
-                                delta = that.delta && that.delta[TOP] || 0;
-                                y -= paddingTopBottom + box.y + labelHeight - that._additionalTranslator.translateSpecialCase(CANVAS_POSITION_PREFIX + TOP) - delta;
-                                if (padding[TOP] < paddingTopBottom + labelHeight)
-                                    padding[TOP] = paddingTopBottom + labelHeight
-                            }
-                        else if (labelIsInside) {
-                            switch (labelHorizontalAlignment) {
-                                case CENTER:
-                                    x += lineBox.x + labelWidth / 2 - box.x - labelWidth / 2;
-                                    break;
-                                case RIGHT:
-                                    x -= paddingLeftRight;
-                                    break;
-                                default:
-                                    x += paddingLeftRight;
-                                    break
-                            }
-                            if (labelVerticalAlignment === BOTTOM)
-                                y += lineBox.y - box.y + paddingTopBottom;
-                            else
-                                y += lineBox.y - box.y - labelHeight - paddingTopBottom
-                        }
-                        else {
-                            y += lineBox.y + lineBox.height / 2 - box.y - labelHeight / 2;
-                            if (labelHorizontalAlignment === RIGHT) {
-                                x += paddingLeftRight;
-                                if (padding[RIGHT] < paddingLeftRight + labelWidth)
-                                    padding[RIGHT] = paddingLeftRight + labelWidth
-                            }
-                            else {
-                                x -= paddingLeftRight;
-                                if (padding[LEFT] < paddingLeftRight + labelWidth)
-                                    padding[LEFT] = paddingLeftRight + labelWidth
-                            }
-                        }
-                        label.move(x, y)
-                    }
-                }
-                that.padding = padding
-            },
-            _checkAlignmentConstantLineLabels: function(labelOptions) {
-                var position = labelOptions.position,
-                    verticalAlignment = (labelOptions.verticalAlignment || "").toLowerCase(),
-                    horizontalAlignment = (labelOptions.horizontalAlignment || "").toLowerCase();
-                if (this._isHorizontal)
-                    if (position === "outside") {
-                        verticalAlignment = verticalAlignment === BOTTOM ? BOTTOM : TOP;
-                        horizontalAlignment = CENTER
-                    }
-                    else {
-                        verticalAlignment = verticalAlignment === CENTER ? CENTER : verticalAlignment === BOTTOM ? BOTTOM : TOP;
-                        horizontalAlignment = horizontalAlignment === LEFT ? LEFT : RIGHT
-                    }
-                else if (position === "outside") {
-                    verticalAlignment = CENTER;
-                    horizontalAlignment = horizontalAlignment === LEFT ? LEFT : RIGHT
-                }
-                else {
-                    verticalAlignment = verticalAlignment === BOTTOM ? BOTTOM : TOP;
-                    horizontalAlignment = horizontalAlignment === RIGHT ? RIGHT : horizontalAlignment === CENTER ? CENTER : LEFT
-                }
-                labelOptions.verticalAlignment = verticalAlignment;
-                labelOptions.horizontalAlignment = horizontalAlignment
-            },
-            _getConstantLineLabelsCoords: function(value, lineLabelOptions) {
-                var that = this,
-                    additionalTranslator = that._additionalTranslator,
-                    align = CENTER,
-                    x = value,
-                    y = value;
-                if (that._isHorizontal)
-                    y = additionalTranslator.translateSpecialCase(CANVAS_POSITION_PREFIX + lineLabelOptions.verticalAlignment);
-                else
-                    x = additionalTranslator.translateSpecialCase(CANVAS_POSITION_PREFIX + lineLabelOptions.horizontalAlignment);
-                switch (lineLabelOptions.horizontalAlignment) {
-                    case LEFT:
-                        align = !that._isHorizontal && lineLabelOptions.position === "inside" ? LEFT : RIGHT;
-                        break;
-                    case CENTER:
-                        align = CENTER;
-                        break;
-                    case RIGHT:
-                        align = !that._isHorizontal && lineLabelOptions.position === "inside" ? RIGHT : LEFT;
-                        break
-                }
-                return {
-                        x: x,
-                        y: y,
-                        align: align
-                    }
-            },
-            _getAdjustedStripLabelCoords: function(stripOptions, label, rect) {
-                var x = 0,
-                    y = 0,
-                    horizontalAlignment = stripOptions.label.horizontalAlignment,
-                    verticalAlignment = stripOptions.label.verticalAlignment,
-                    box = label.getBBox(),
-                    rectBox = rect.getBBox();
-                if (horizontalAlignment === LEFT)
-                    x += stripOptions.paddingLeftRight;
-                else if (horizontalAlignment === RIGHT)
-                    x -= stripOptions.paddingLeftRight;
-                if (verticalAlignment === TOP)
-                    y += rectBox.y - box.y + stripOptions.paddingTopBottom;
-                else if (verticalAlignment === CENTER)
-                    y += rectBox.y + rectBox.height / 2 - box.y - box.height / 2;
-                else if (verticalAlignment === BOTTOM)
-                    y -= stripOptions.paddingTopBottom;
-                return {
-                        x: x,
-                        y: y
-                    }
-            },
-            _adjustTitle: function() {
-                var that = this,
-                    options = that._options,
-                    position = options.position,
-                    title = that._title,
-                    margin = options.title.margin,
-                    boxGroup,
-                    boxTitle,
-                    params,
-                    centerPosition = that._translator.translateSpecialCase(CANVAS_POSITION_PREFIX + CENTER),
-                    axisElementsGroup = that._axisElementsGroup,
-                    heightTitle,
-                    axisPosition = that._axisPosition,
-                    noLabels;
-                if (!title || !axisElementsGroup)
-                    return;
-                boxTitle = title.getBBox();
-                boxGroup = axisElementsGroup.getBBox();
-                noLabels = boxGroup.isEmpty;
-                heightTitle = boxTitle.height;
-                if (that._isHorizontal)
-                    if (position === BOTTOM)
-                        params = {
-                            y: (noLabels ? axisPosition : boxGroup.y + boxGroup.height) - boxTitle.y + margin,
-                            x: centerPosition
-                        };
-                    else
-                        params = {
-                            y: (noLabels ? axisPosition : boxGroup.y) - heightTitle - boxTitle.y - margin,
-                            x: centerPosition
-                        };
-                else {
-                    if (position === LEFT)
-                        params = {
-                            x: (noLabels ? axisPosition : boxGroup.x) - heightTitle - boxTitle.y - margin,
-                            y: centerPosition
-                        };
-                    else
-                        params = {
-                            x: (noLabels ? axisPosition : boxGroup.x + boxGroup.width) + heightTitle + boxTitle.y + margin,
-                            y: centerPosition
-                        };
-                    params.rotate = options.position === LEFT ? 270 : 90
-                }
-                title.attr(params)
-            },
-            coordsIn: function(x, y) {
-                var rect = this.getBoundingRect();
-                return x >= rect.x && x <= rect.x + rect.width && y >= rect.y && y <= rect.y + rect.height
-            },
-            _getTicksOptions: function() {
-                var options = this._options;
-                return {
-                        base: options.type === constants.logarithmic ? options.logarithmBase : undefined,
-                        tickInterval: this._translator.getBusinessRange().stubData ? null : options.tickInterval,
-                        gridSpacingFactor: options.axisDivisionFactor,
-                        incidentOccured: options.incidentOccured,
-                        setTicksAtUnitBeginning: options.setTicksAtUnitBeginning,
-                        showMinorTicks: options.minorTick.visible || options.minorGrid.visible,
-                        minorTickInterval: options.minorTickInterval,
-                        minorTickCount: options.minorTickCount
-                    }
-            },
-            _getOverlappingBehaviorOptions: function() {
-                var that = this,
-                    options = that._options,
-                    getText = function() {
-                        return ""
-                    },
-                    overlappingBehavior = options.label.overlappingBehavior ? _extend({}, options.label.overlappingBehavior) : null;
-                if (overlappingBehavior) {
-                    if (!that._isHorizontal)
-                        overlappingBehavior.mode = constants.validateOverlappingMode(overlappingBehavior.mode);
-                    if (overlappingBehavior.mode !== "rotate")
-                        overlappingBehavior.rotationAngle = 0
-                }
-                if (!that._translator.getBusinessRange().stubData)
-                    getText = function(value, labelOptions) {
-                        return constants.formatLabel(value, labelOptions, {
-                                min: options.min,
-                                max: options.max
-                            })
-                    };
-                return {
-                        hasLabelFormat: that._hasLabelFormat,
-                        labelOptions: options.label,
-                        overlappingBehavior: overlappingBehavior,
-                        isHorizontal: that._isHorizontal,
-                        textOptions: that._textOptions,
-                        textFontStyles: that._textFontStyles,
-                        textSpacing: options.label.minSpacing,
-                        getText: getText,
-                        renderText: function(text, x, y, options) {
-                            return that._renderer.text(text, x, y, options).append(that._renderer.root)
-                        },
-                        translate: function(value, useAdditionalTranslator) {
-                            return useAdditionalTranslator ? that._additionalTranslator.translate(value) : that._translator.translate(value)
-                        },
-                        isInverted: that._translator.getBusinessRange().invert
-                    }
-            },
-            _getSpiderCategoryOption: $.noop,
-            _getMinMax: function() {
-                return {
-                        min: this._options.min,
-                        max: this._options.max
-                    }
-            },
-            _getStick: function() {
-                return !this._options.valueMarginsEnabled
-            },
-            _getStripLabelCoords: function(stripLabelOptions, stripFrom, stripTo) {
-                var that = this,
-                    additionalTranslator = that._additionalTranslator,
-                    isHorizontal = that._isHorizontal,
-                    align = isHorizontal ? CENTER : LEFT,
-                    x,
-                    y;
-                if (isHorizontal) {
-                    if (stripLabelOptions.horizontalAlignment === CENTER) {
-                        x = stripFrom + (stripTo - stripFrom) / 2;
-                        align = CENTER
-                    }
-                    else if (stripLabelOptions.horizontalAlignment === LEFT) {
-                        x = stripFrom;
-                        align = LEFT
-                    }
-                    else if (stripLabelOptions.horizontalAlignment === RIGHT) {
-                        x = stripTo;
-                        align = RIGHT
-                    }
-                    y = additionalTranslator.translateSpecialCase(CANVAS_POSITION_PREFIX + stripLabelOptions.verticalAlignment)
-                }
-                else {
-                    x = additionalTranslator.translateSpecialCase(CANVAS_POSITION_PREFIX + stripLabelOptions.horizontalAlignment);
-                    align = stripLabelOptions.horizontalAlignment;
-                    if (stripLabelOptions.verticalAlignment === TOP)
-                        y = stripFrom;
-                    else if (stripLabelOptions.verticalAlignment === CENTER)
-                        y = stripTo + (stripFrom - stripTo) / 2;
-                    else if (stripLabelOptions.verticalAlignment === BOTTOM)
-                        y = stripTo
-                }
-                return {
-                        x: x,
-                        y: y,
-                        align: align
-                    }
-            },
-            _getTranslatedValue: function(value, y, offset) {
-                return {
-                        x: this._translator.translate(value, offset),
-                        y: y
-                    }
-            },
-            _getSkippedCategory: function() {
-                var that = this,
-                    options = that._options,
-                    categories = that._translator.getVisibleCategories() || that._translator.getBusinessRange().categories,
-                    categoryToSkip;
-                if (categories && !!that._tickOffset && !options.valueMarginsEnabled)
-                    categoryToSkip = options.inverted ? categories[0] : categories[categories.length - 1];
-                return categoryToSkip
-            }
-        }
-    })(jQuery, DevExpress);
-    /*! Module viz-charts, file polarAxes.js */
-    (function($, DX, undefined) {
-        var viz = DX.viz,
-            core = viz.core,
-            utils = DX.utils,
-            constants = viz.charts.axes.constants,
-            _map = core.utils.map,
-            _math = Math,
-            _abs = _math.abs,
-            _round = _math.round,
-            _extend = $.extend,
-            _noop = $.noop,
-            HALF_PI_ANGLE = 90;
-        viz.charts.axes.polarAxes = {};
-        function getPolarQuarter(angle) {
-            var quarter;
-            angle = utils.normalizeAngle(angle);
-            if (angle >= 315 && angle <= 360 || angle < 45 && angle >= 0)
-                quarter = 1;
-            else if (angle >= 45 && angle < 135)
-                quarter = 2;
-            else if (angle >= 135 && angle < 225)
-                quarter = 3;
-            else if (angle >= 225 && angle < 315)
-                quarter = 4;
-            return quarter
-        }
-        viz.charts.axes.polarAxes.circular = {
-            _overlappingBehaviorType: "circular",
-            _createAxisElement: function() {
-                var additionalTranslator = this._additionalTranslator;
-                return this._renderer.circle(additionalTranslator.getCenter().x, additionalTranslator.getCenter().y, additionalTranslator.getRadius())
-            },
-            _setBoundingRect: function() {
-                this.boundingRect = {
-                    width: 0,
-                    height: 0
-                }
-            },
-            _getTicksOptions: viz.charts.axes.xyAxes.linear._getTicksOptions,
-            _getOverlappingBehaviorOptions: function() {
-                var that = this,
-                    additionalTranslator = that._additionalTranslator,
-                    startAngle = additionalTranslator.getStartAngle(),
-                    options = viz.charts.axes.xyAxes.linear._getOverlappingBehaviorOptions.call(that),
-                    translator = that._translator,
-                    indentFromAxis = that._options.label.indentFromAxis || 0;
-                if (options.overlappingBehavior)
-                    options.overlappingBehavior = {mode: constants.validateOverlappingMode(options.overlappingBehavior.mode)};
-                options.translate = function(value) {
-                    return core.utils.convertPolarToXY(additionalTranslator.getCenter(), startAngle, translator.translate(value), additionalTranslator.translate(constants.canvasPositionBottom))
-                };
-                options.addMinMax = {min: true};
-                options.isInverted = translator.getBusinessRange().invert;
-                options.circularRadius = additionalTranslator.getRadius() + indentFromAxis;
-                options.circularStartAngle = options.circularEndAngle = startAngle;
-                options.isHorizontal = false;
-                return options
-            },
-            _getSpiderCategoryOption: function() {
-                return this._options.firstPointOnStartAngle
-            },
-            _getMinMax: function() {
-                var options = this._options;
-                return {
-                        min: undefined,
-                        max: utils.isNumber(options.period) && options.argumentType === constants.numeric ? options.period : undefined
-                    }
-            },
-            _getStick: function() {
-                return this._options.firstPointOnStartAngle || this._options.type !== constants.discrete
-            },
-            measureLabels: function() {
-                var that = this,
-                    options = that._options,
-                    indentFromAxis = options.label.indentFromAxis || 0,
-                    widthAxis = options.visible ? options.width : 0,
-                    maxLabelParams;
-                if (!that._axisElementsGroup || !that._options.label.visible)
-                    return {
-                            height: widthAxis,
-                            width: widthAxis
-                        };
-                that._updateTickManager();
-                maxLabelParams = that._tickManager.getMaxLabelParams();
-                return {
-                        height: maxLabelParams.height + indentFromAxis + constants.halfTickLength,
-                        width: maxLabelParams.width + indentFromAxis + constants.halfTickLength
-                    }
-            },
-            _getTranslatedCoord: function(value, offset) {
-                return this._translator.translate(value, offset) - HALF_PI_ANGLE
-            },
-            _getCanvasStartEnd: function() {
-                return {
-                        start: 0 - HALF_PI_ANGLE,
-                        end: 360 - HALF_PI_ANGLE
-                    }
-            },
-            _createStrip: function(fromAngle, toAngle, attr) {
-                var center = this._additionalTranslator.getCenter(),
-                    r = this._additionalTranslator.getRadius();
-                return this._renderer.arc(center.x, center.y, 0, r, -toAngle, -fromAngle).attr(attr)
-            },
-            _getStripLabelCoords: function(_, stripFrom, stripTo) {
-                var that = this,
-                    angle = stripFrom + (stripTo - stripFrom) / 2,
-                    cossin = utils.getCosAndSin(-angle),
-                    halfRad = that._additionalTranslator.getRadius() / 2,
-                    center = that._additionalTranslator.getCenter(),
-                    x = _round(center.x + halfRad * cossin.cos),
-                    y = _round(center.y - halfRad * cossin.sin);
-                return {
-                        x: x,
-                        y: y,
-                        align: constants.center
-                    }
-            },
-            _createConstantLine: function(value, attr) {
-                var center = this._additionalTranslator.getCenter(),
-                    r = this._additionalTranslator.getRadius();
-                return this._createPathElement([center.x, center.y, center.x + r, center.y], attr).rotate(value, center.x, center.y)
-            },
-            _getConstantLineLabelsCoords: function(value) {
-                var that = this,
-                    cossin = utils.getCosAndSin(-value),
-                    halfRad = that._additionalTranslator.getRadius() / 2,
-                    center = that._additionalTranslator.getCenter(),
-                    x = _round(center.x + halfRad * cossin.cos),
-                    y = _round(center.y - halfRad * cossin.sin);
-                return {
-                        x: x,
-                        y: y,
-                        align: constants.center
-                    }
-            },
-            _checkAlignmentConstantLineLabels: _noop,
-            _getScreenDelta: function() {
-                return 2 * Math.PI * this._additionalTranslator.getRadius()
-            },
-            _getTickCoord: function(tick) {
-                var center = this._additionalTranslator.getCenter(),
-                    r = this._additionalTranslator.getRadius();
-                return {
-                        x1: center.x + r - constants.halfTickLength,
-                        y1: center.y,
-                        x2: center.x + r + constants.halfTickLength,
-                        y2: center.y,
-                        angle: tick.angle
-                    }
-            },
-            _getLabelAdjustedCoord: function(tick) {
-                var that = this,
-                    pos = tick.labelPos,
-                    cossin = utils.getCosAndSin(pos.angle),
-                    cos = cossin.cos,
-                    sin = cossin.sin,
-                    box = tick.label.getBBox(),
-                    halfWidth = box.width / 2,
-                    halfHeight = box.height / 2,
-                    indentFromAxis = that._options.label.indentFromAxis || 0,
-                    x = pos.x + indentFromAxis * cos,
-                    y = pos.y + (pos.y - box.y - halfHeight) + indentFromAxis * sin;
-                switch (getPolarQuarter(pos.angle)) {
-                    case 1:
-                        x += halfWidth;
-                        y += halfHeight * sin;
-                        break;
-                    case 2:
-                        x += halfWidth * cos;
-                        y += halfHeight;
-                        break;
-                    case 3:
-                        x += -halfWidth;
-                        y += halfHeight * sin;
-                        break;
-                    case 4:
-                        x += halfWidth * cos;
-                        y += -halfHeight;
-                        break
-                }
-                return {
-                        x: x,
-                        y: y
-                    }
-            },
-            _getGridLineDrawer: function() {
-                var that = this,
-                    r = that._additionalTranslator.getRadius(),
-                    center = that._additionalTranslator.getCenter();
-                return function(tick) {
-                        return that._createPathElement([center.x, center.y, center.x + r, center.y], tick.gridStyle).rotate(tick.angle, center.x, center.y)
-                    }
-            },
-            _getTranslatedValue: function(value, _, offset) {
-                var additionalTranslator = this._additionalTranslator,
-                    startAngle = additionalTranslator.getStartAngle(),
-                    angle = this._translator.translate(value, -offset),
-                    coords = core.utils.convertPolarToXY(additionalTranslator.getCenter(), startAngle, angle, additionalTranslator.translate(constants.canvasPositionBottom));
-                return {
-                        x: coords.x,
-                        y: coords.y,
-                        angle: angle + startAngle - HALF_PI_ANGLE
-                    }
-            },
-            _getAdjustedStripLabelCoords: function(_, label) {
-                var y,
-                    box = label.getBBox();
-                y = label.attr("y") - box.y - box.height / 2;
-                return {
-                        x: 0,
-                        y: y
-                    }
-            },
-            coordsIn: function(x, y) {
-                return core.utils.convertXYToPolar(this._additionalTranslator.getCenter(), x, y).r > this._additionalTranslator.getRadius()
-            },
-            _rotateTick: function(tick, angle) {
-                var center = this._additionalTranslator.getCenter();
-                tick.graphic.rotate(angle, center.x, center.y)
-            }
-        };
-        viz.charts.axes.polarAxes.circularSpider = _extend({}, viz.charts.axes.polarAxes.circular, {
-            _createAxisElement: function() {
-                var points = _map(this.getSpiderTicks(), function(tick) {
-                        return {
-                                x: tick.posX,
-                                y: tick.posY
-                            }
-                    });
-                return this._renderer.path(points, "area")
-            },
-            _getStick: function() {
-                return true
-            },
-            _getSpiderCategoryOption: function() {
-                return true
-            },
-            getSpiderTicks: function() {
-                var that = this;
-                that._spiderTicks = constants.convertValuesToTicks(that._tickManager.getFullTicks());
-                that._initTicks(that._spiderTicks, {}, {});
-                return that._spiderTicks
-            },
-            _createStrip: function(fromAngle, toAngle, attr) {
-                var center = this._additionalTranslator.getCenter(),
-                    spiderTicks = this.getSpiderTicks(),
-                    firstTick,
-                    lastTick,
-                    nextTick,
-                    tick,
-                    points = [],
-                    i = 0,
-                    len = spiderTicks.length;
-                while (i < len) {
-                    tick = spiderTicks[i];
-                    if (tick.angle >= fromAngle && tick.angle <= toAngle) {
-                        if (!firstTick) {
-                            firstTick = spiderTicks[i - 1] || spiderTicks[spiderTicks.length - 1];
-                            points.push((tick.posX + firstTick.posX) / 2, (tick.posY + firstTick.posY) / 2)
-                        }
-                        points.push(tick.posX, tick.posY);
-                        nextTick = spiderTicks[i + 1] || spiderTicks[0];
-                        lastTick = {
-                            x: (tick.posX + nextTick.posX) / 2,
-                            y: (tick.posY + nextTick.posY) / 2
-                        }
-                    }
-                    i++
-                }
-                points.push(lastTick.x, lastTick.y);
-                points.push(center.x, center.y);
-                return this._renderer.path(points, "area").attr(attr)
-            },
-            _getTranslatedCoord: function(value, offset) {
-                return this._translator.translate(value, offset) - HALF_PI_ANGLE
-            },
-            _setTickOffset: function() {
-                this._tickOffset = false
-            }
-        });
-        viz.charts.axes.polarAxes.linear = {
-            _overlappingBehaviorType: "linear",
-            _getMinMax: viz.charts.axes.polarAxes.circular._getMinMax,
-            _getStick: viz.charts.axes.xyAxes.linear._getStick,
-            _getTicksOptions: viz.charts.axes.xyAxes.linear._getTicksOptions,
-            _getSpiderCategoryOption: $.noop,
-            _createAxisElement: function() {
-                var additionalTranslator = this._additionalTranslator,
-                    centerCoord = additionalTranslator.getCenter(),
-                    points = [centerCoord.x, centerCoord.y, centerCoord.x + additionalTranslator.getRadius(), centerCoord.y];
-                return this._renderer.path(points, "line").rotate(additionalTranslator.getStartAngle() - HALF_PI_ANGLE, centerCoord.x, centerCoord.y)
-            },
-            _setBoundingRect: viz.charts.axes.polarAxes.circular._setBoundingRect,
-            _getScreenDelta: function() {
-                return this._additionalTranslator.getRadius()
-            },
-            _getTickCoord: function(tick) {
-                return {
-                        x1: tick.posX - constants.halfTickLength,
-                        y1: tick.posY,
-                        x2: tick.posX + constants.halfTickLength,
-                        y2: tick.posY,
-                        angle: tick.angle + HALF_PI_ANGLE
-                    }
-            },
-            _getOverlappingBehaviorOptions: function() {
-                var that = this,
-                    translator = that._translator,
-                    orthTranslator = that._additionalTranslator,
-                    options = viz.charts.axes.xyAxes.linear._getOverlappingBehaviorOptions.call(this),
-                    startAngle = utils.normalizeAngle(that._additionalTranslator.getStartAngle());
-                if (options.overlappingBehavior)
-                    options.overlappingBehavior = {mode: constants.validateOverlappingMode(options.overlappingBehavior.mode)};
-                options.isHorizontal = startAngle > 45 && startAngle < 135 || startAngle > 225 && startAngle < 315 ? true : false;
-                options.isInverted = translator.getBusinessRange().invert;
-                options.translate = function(value) {
-                    return core.utils.convertPolarToXY(orthTranslator.getCenter(), that._options.startAngle, orthTranslator.translate(constants.canvasPositionTop), translator.translate(value)).x
-                };
-                return options
-            },
-            _getLabelAdjustedCoord: function(tick) {
-                var that = this,
-                    pos = tick.labelPos,
-                    cossin = utils.getCosAndSin(pos.angle),
-                    indentFromAxis = that._options.label.indentFromAxis || 0,
-                    box = tick.label.getBBox(),
-                    x,
-                    y;
-                x = pos.x - _abs(indentFromAxis * cossin.sin) + _abs(box.width / 2 * cossin.cos);
-                y = pos.y + (pos.y - box.y) - _abs(box.height / 2 * cossin.sin) + _abs(indentFromAxis * cossin.cos);
-                return {
-                        x: x,
-                        y: y
-                    }
-            },
-            _getGridLineDrawer: function() {
-                var that = this,
-                    pos = that._additionalTranslator.getCenter();
-                return function(tick) {
-                        return that._renderer.circle(pos.x, pos.y, utils.getDistance(pos.x, pos.y, tick.posX, tick.posY)).attr(tick.gridStyle).sharp()
-                    }
-            },
-            _getTranslatedValue: function(value, _, offset) {
-                var additionalTranslator = this._additionalTranslator,
-                    startAngle = additionalTranslator.getStartAngle(),
-                    angle = additionalTranslator.translate(constants.canvasPositionStart),
-                    xy = core.utils.convertPolarToXY(additionalTranslator.getCenter(), startAngle, angle, this._translator.translate(value, offset));
-                return {
-                        x: xy.x,
-                        y: xy.y,
-                        angle: angle + startAngle - HALF_PI_ANGLE
-                    }
-            },
-            _getTranslatedCoord: function(value, offset) {
-                return this._translator.translate(value, offset)
-            },
-            _getCanvasStartEnd: function() {
-                return {
-                        start: 0,
-                        end: this._additionalTranslator.getRadius()
-                    }
-            },
-            _createStrip: function(fromPoint, toPoint, attr) {
-                var center = this._additionalTranslator.getCenter();
-                return this._renderer.arc(center.x, center.y, fromPoint, toPoint, 0, 360).attr(attr)
-            },
-            _getAdjustedStripLabelCoords: viz.charts.axes.polarAxes.circular._getAdjustedStripLabelCoords,
-            _getStripLabelCoords: function(_, stripFrom, stripTo) {
-                var that = this,
-                    labelPos = stripFrom + (stripTo - stripFrom) / 2,
-                    center = that._additionalTranslator.getCenter(),
-                    y = _round(center.y - labelPos);
-                return {
-                        x: center.x,
-                        y: y,
-                        align: constants.center
-                    }
-            },
-            _createConstantLine: function(value, attr) {
-                var center = this._additionalTranslator.getCenter();
-                return this._renderer.circle(center.x, center.y, value).attr(attr).sharp()
-            },
-            _getConstantLineLabelsCoords: function(value) {
-                var that = this,
-                    center = that._additionalTranslator.getCenter(),
-                    y = _round(center.y - value);
-                return {
-                        x: center.x,
-                        y: y,
-                        align: constants.center
-                    }
-            },
-            _checkAlignmentConstantLineLabels: _noop,
-            _rotateTick: function(tick, angle) {
-                tick.graphic.rotate(angle, tick.posX, tick.posY)
-            }
-        };
-        viz.charts.axes.polarAxes.linearSpider = _extend({}, viz.charts.axes.polarAxes.linear, {
-            _createPathElement: function(points, attr) {
-                return this._renderer.path(points, "area").attr(attr).sharp()
-            },
-            setSpiderTicks: function(ticks) {
-                this._spiderTicks = ticks
-            },
-            _getGridLineDrawer: function() {
-                var that = this,
-                    pos = that._additionalTranslator.getCenter();
-                return function(tick) {
-                        var radius = utils.getDistance(pos.x, pos.y, tick.posX, tick.posY);
-                        return that._createPathElement(that._getGridPoints(pos, radius), tick.gridStyle)
-                    }
-            },
-            _getGridPoints: function(pos, radius) {
-                return _map(this._spiderTicks, function(tick) {
-                        var cossin = utils.getCosAndSin(tick.angle);
-                        return {
-                                x: _round(pos.x + radius * cossin.cos),
-                                y: _round(pos.y + radius * cossin.sin)
-                            }
-                    })
-            },
-            _createStrip: function(fromPoint, toPoint, attr) {
-                var center = this._additionalTranslator.getCenter(),
-                    innerPoints = this._getGridPoints(center, toPoint),
-                    outerPoints = this._getGridPoints(center, fromPoint);
-                return this._renderer.path([outerPoints, innerPoints.reverse()], "area").attr(attr)
-            },
-            _createConstantLine: function(value, attr) {
-                var center = this._additionalTranslator.getCenter(),
-                    points = this._getGridPoints(center, value);
-                return this._createPathElement(points, attr)
-            }
-        })
-    })(jQuery, DevExpress);
-    /*! Module viz-charts, file baseAxis.js */
-    (function($, DX, undefined) {
-        var viz = DX.viz,
-            core = viz.core,
-            utils = DX.utils,
-            constants = viz.charts.axes.constants,
-            _isDefined = utils.isDefined,
-            _isNumber = utils.isNumber,
-            _isString = utils.isString,
-            _getSignificantDigitPosition = utils.getSignificantDigitPosition,
-            _roundValue = utils.roundValue,
-            _math = Math,
-            _abs = _math.abs,
-            _round = _math.round,
-            _extend = $.extend,
-            _each = $.each,
-            _noop = $.noop,
-            WIDGET_CLASS = "dxc",
-            DEFAULT_AXIS_LABEL_SPACING = 5,
-            MAX_GRID_BORDER_ADHENSION = 4,
-            LABEL_BACKGROUND_PADDING_X = 8,
-            LABEL_BACKGROUND_PADDING_Y = 4,
-            Axis;
-        function validateAxisOptions(options, isHorizontal) {
-            var labelOptions = options.label,
-                position = options.position,
-                defaultPosition = isHorizontal ? constants.bottom : constants.left,
-                secondaryPosition = isHorizontal ? constants.top : constants.right;
-            if (position !== defaultPosition && position !== secondaryPosition)
-                position = defaultPosition;
-            if (position === constants.right && !labelOptions.userAlignment)
-                labelOptions.alignment = constants.left;
-            options.position = position;
-            options.hoverMode = options.hoverMode ? options.hoverMode.toLowerCase() : "none";
-            labelOptions.minSpacing = _isDefined(labelOptions.minSpacing) ? labelOptions.minSpacing : DEFAULT_AXIS_LABEL_SPACING
-        }
-        Axis = DX.viz.charts.axes.Axis = function(renderSettings) {
-            var that = this;
-            that._renderer = renderSettings.renderer;
-            that._isHorizontal = renderSettings.isHorizontal;
-            that._incidentOccured = renderSettings.incidentOccured;
-            that._stripsGroup = renderSettings.stripsGroup;
-            that._labelAxesGroup = renderSettings.labelAxesGroup;
-            that._constantLinesGroup = renderSettings.constantLinesGroup;
-            that._axesContainerGroup = renderSettings.axesContainerGroup;
-            that._gridContainerGroup = renderSettings.gridGroup;
-            that._axisClass = renderSettings.axisClass;
-            that._setType(renderSettings.axesType, renderSettings.drawingType);
-            that._createAxisGroups();
-            that._tickManager = that._createTickManager()
-        };
-        Axis.prototype = {
-            constructor: Axis,
-            dispose: function() {
-                var that = this;
-                that._axisElementsGroup && that._axisElementsGroup.dispose();
-                that._stripLabels = that._strips = null;
-                that._title = null;
-                that._axisStripGroup = that._axisConstantLineGroup = that._axisLabelGroup = null;
-                that._axisLineGroup = that._axisElementsGroup = that._axisGridGroup = null;
-                that._axisGroup = that._axisTitleGroup = null;
-                that._axesContainerGroup = that._stripsGroup = that._constantLinesGroup = null;
-                that._renderer = that._options = that._textOptions = that._textFontStyles = null;
-                that._translator = that._additionalTranslator = null;
-                that._majorTicks = that._minorTicks = null;
-                that._tickManager = null
-            },
-            getOptions: function() {
-                return this._options
-            },
-            setPane: function(pane) {
-                this.pane = pane;
-                this._options.pane = pane
-            },
-            setTypes: function(type, axisType, typeSelector) {
-                this._options.type = type || this._options.type;
-                this._options[typeSelector] = axisType || this._options[typeSelector]
-            },
-            resetTypes: function(typeSelector) {
-                this._options.type = this._initTypes.type;
-                this._options[typeSelector] = this._initTypes[typeSelector]
-            },
-            getTranslator: function() {
-                return this._translator
-            },
-            updateOptions: function(options) {
-                var that = this,
-                    labelOpt = options.label;
-                that._options = options;
-                that._initTypes = {
-                    type: options.type,
-                    argumentType: options.argumentType,
-                    valueType: options.valueType
-                };
-                validateAxisOptions(options, that._isHorizontal);
-                that._setTickOffset();
-                that.pane = options.pane;
-                that.name = options.name;
-                that.priority = options.priority;
-                that._virtual = options.virtual;
-                that._hasLabelFormat = labelOpt.format !== "" && _isDefined(labelOpt.format);
-                that._textOptions = {
-                    align: labelOpt.alignment,
-                    opacity: labelOpt.opacity
-                };
-                that._textFontStyles = core.utils.patchFontOptions(labelOpt.font);
-                if (options.type === constants.logarithmic) {
-                    if (options.logarithmBaseError) {
-                        that._incidentOccured("E2104");
-                        delete options.logarithmBaseError
-                    }
-                    that.calcInterval = function(value, prevValue) {
-                        return utils.getLog(value / prevValue, options.logarithmBase)
-                    }
-                }
-            },
-            updateSize: function(clearAxis) {
-                var that = this,
-                    options = that._options,
-                    direction = that._isHorizontal ? "horizontal" : "vertical";
-                if (options.title.text && that._axisTitleGroup) {
-                    that._incidentOccured("W2105", [direction]);
-                    that._axisTitleGroup.dispose();
-                    that._axisTitleGroup = null
-                }
-                if (clearAxis && that._axisElementsGroup && options.label.visible && !that._translator.getBusinessRange().stubData) {
-                    that._incidentOccured("W2106", [direction]);
-                    that._axisElementsGroup.dispose();
-                    that._axisElementsGroup = null
-                }
-                that._setBoundingRect()
-            },
-            _updateTranslatorInterval: function() {
-                var that = this,
-                    i,
-                    majorTicks,
-                    majorTicksLength,
-                    translator = that._translator,
-                    businessRange = translator.getBusinessRange();
-                if (!businessRange.categories && !businessRange.isSynchronized) {
-                    that.getMajorTicks(true);
-                    businessRange.addRange(that._tickManager.getTickBounds());
-                    translator.reinit()
-                }
-                that._majorTicks = majorTicks = that.getMajorTicks();
-                if (!businessRange.categories) {
-                    majorTicksLength = majorTicks.length;
-                    for (i = 0; i < majorTicksLength - 1; i++)
-                        businessRange.addRange({interval: _abs(majorTicks[i].value - majorTicks[i + 1].value)})
-                }
-                that._decimatedTicks = businessRange.categories ? that.getDecimatedTicks() : [];
-                that._minorTicks = that.getMinorTicks()
-            },
-            setTranslator: function(translator, additionalTranslator) {
-                var that = this,
-                    range = translator.getBusinessRange();
-                this._minBound = range.minVisible;
-                this._maxBound = range.maxVisible;
-                that._translator = translator;
-                that._additionalTranslator = additionalTranslator;
-                that.resetTicks();
-                that._updateTranslatorInterval()
-            },
-            resetTicks: function() {
-                this._deleteLabels();
-                this._majorTicks = this._minorTicks = null
-            },
-            getCurrentLabelPos: function() {
-                var that = this,
-                    options = that._options,
-                    position = options.position,
-                    labelOffset = options.label.indentFromAxis,
-                    axisPosition = that._axisPosition;
-                return position === constants.top || position === constants.left ? axisPosition - labelOffset : axisPosition + labelOffset
-            },
-            getFormattedValue: function(value) {
-                if (_isDefined(value))
-                    return constants.formatLabel(_isNumber(value) && !_isString(value) ? _roundValue(value, _getSignificantDigitPosition(this._translator.getBusinessRange().interval)) : value, this._options.label);
-                return null
-            },
-            _drawAxis: function() {
-                var that = this,
-                    options = that._options,
-                    axis = that._createAxis({
-                        "stroke-width": options.width,
-                        stroke: options.color,
-                        "stroke-opacity": options.opacity
-                    });
-                axis.append(that._axisLineGroup)
-            },
-            _correctMinForTicks: function(min, max, screenDelta) {
-                var digitPosition = _getSignificantDigitPosition(_abs(max - min) / screenDelta),
-                    newMin = _roundValue(Number(min), digitPosition),
-                    correctingValue;
-                if (newMin < min) {
-                    correctingValue = _math.pow(10, -digitPosition);
-                    newMin = utils.applyPrecisionByMinDelta(newMin, correctingValue, newMin + correctingValue)
-                }
-                if (newMin > max)
-                    newMin = min;
-                return newMin
-            },
-            _getTickManagerData: function() {
-                var that = this,
-                    options = that._options,
-                    screenDelta = that._getScreenDelta(),
-                    min = that._minBound,
-                    max = that._maxBound,
-                    categories = that._translator.getVisibleCategories() || that._translator.getBusinessRange().categories,
-                    customTicks = $.isArray(categories) ? categories : that._majorTicks && constants.convertTicksToValues(that._majorTicks),
-                    customMinorTicks = that._minorTicks && constants.convertTicksToValues(that._minorTicks);
-                if (_isNumber(min) && options.type !== constants.logarithmic)
-                    min = that._correctMinForTicks(min, max, screenDelta);
-                return {
-                        min: min,
-                        max: max,
-                        customTicks: customTicks,
-                        customMinorTicks: customMinorTicks,
-                        screenDelta: screenDelta
-                    }
-            },
-            _getTickManagerTypes: function() {
-                return {
-                        axisType: this._options.type,
-                        dataType: this._options.dataType
-                    }
-            },
-            _createTickManager: function() {
-                return DX.viz.core.CoreFactory.createTickManager({}, {}, {overlappingBehaviorType: this._overlappingBehaviorType})
-            },
-            _getMarginsOptions: function() {
-                var range = this._translator.getBusinessRange();
-                return {
-                        stick: range.stick,
-                        minStickValue: range.minStickValue,
-                        maxStickValue: range.maxStickValue,
-                        percentStick: range.percentStick,
-                        minValueMargin: this._options.minValueMargin,
-                        maxValueMargin: this._options.maxValueMargin,
-                        minSpaceCorrection: range.minSpaceCorrection,
-                        maxSpaceCorrection: range.maxSpaceCorrection
-                    }
-            },
-            _updateTickManager: function() {
-                var overlappingOptions = this._getOverlappingBehaviorOptions(),
-                    options;
-                options = _extend(true, {}, this._getMarginsOptions(), overlappingOptions, this._getTicksOptions());
-                this._tickManager.update(this._getTickManagerTypes(), this._getTickManagerData(), options)
-            },
-            _correctLabelAlignment: function() {
-                var that = this,
-                    labelOptions = that._options.label,
-                    overlappingBehavior = that._tickManager.getOverlappingBehavior();
-                if (overlappingBehavior && overlappingBehavior.mode === "rotate") {
-                    that._textOptions.rotate = overlappingBehavior.rotationAngle;
-                    if (!labelOptions.userAlignment)
-                        that._textOptions.align = constants.left
-                }
-                else if (!labelOptions.userAlignment)
-                    that._textOptions.align = labelOptions.alignment
-            },
-            _correctLabelFormat: function() {
-                this._options.label = this._tickManager.getOptions().labelOptions
-            },
-            getTicksValues: function() {
-                return {
-                        majorTicksValues: constants.convertTicksToValues(this._majorTicks || this.getMajorTicks()),
-                        minorTicksValues: constants.convertTicksToValues(this._minorTicks || this.getMinorTicks())
-                    }
-            },
-            getMajorTicks: function(withoutOverlappingBehavior) {
-                var that = this,
-                    majorTicks;
-                that._updateTickManager();
-                that._textOptions.rotate = 0;
-                majorTicks = constants.convertValuesToTicks(that._tickManager.getTicks(withoutOverlappingBehavior));
-                that._correctLabelAlignment();
-                that._correctLabelFormat();
-                return majorTicks
-            },
-            getMinorTicks: function() {
-                return constants.convertValuesToTicks(this._tickManager.getMinorTicks())
-            },
-            getDecimatedTicks: function() {
-                return constants.convertValuesToTicks(this._tickManager.getDecimatedTicks())
-            },
-            setTicks: function(ticks) {
-                this.resetTicks();
-                this._majorTicks = constants.convertValuesToTicks(ticks.majorTicks);
-                this._minorTicks = constants.convertValuesToTicks(ticks.minorTicks)
-            },
-            _deleteLabels: function() {
-                this._axisElementsGroup && this._axisElementsGroup.clear()
-            },
-            _drawTicks: function(ticks) {
-                var that = this,
-                    group = that._axisLineGroup;
-                _each(ticks || [], function(_, tick) {
-                    var coord = that._getTickCoord(tick),
-                        points;
-                    if (coord) {
-                        points = that._isHorizontal ? [coord.x1, coord.y1, coord.x2, coord.y2] : [coord.y1, coord.x1, coord.y2, coord.x2];
-                        tick.graphic = that._createPathElement(points, tick.tickStyle).append(group);
-                        coord.angle && that._rotateTick(tick, coord.angle)
-                    }
-                })
-            },
-            _createPathElement: function(points, attr, oposite) {
-                return this._renderer.path(points, "line").attr(attr).sharp(this._getSharpParam(oposite))
-            },
-            _createAxis: function(options) {
-                return this._createAxisElement().attr(options).sharp(this._getSharpParam(true))
-            },
-            _getTickCoord: function(tick) {
-                var coords;
-                if (_isDefined(tick.posX) && _isDefined(tick.posY))
-                    coords = {
-                        x1: tick.posX,
-                        y1: tick.posY - constants.halfTickLength,
-                        x2: tick.posX,
-                        y2: tick.posY + constants.halfTickLength
-                    };
-                else
-                    coords = null;
-                return coords
-            },
-            setPercentLabelFormat: function() {
-                if (!this._hasLabelFormat)
-                    this._options.label.format = "percent"
-            },
-            resetAutoLabelFormat: function() {
-                if (!this._hasLabelFormat)
-                    delete this._options.label.format
-            },
-            _drawLabels: function() {
-                var that = this,
-                    renderer = that._renderer,
-                    group = that._axisElementsGroup,
-                    emptyStrRegExp = /^\s+$/;
-                _each(that._majorTicks, function(_, tick) {
-                    var text = tick.labelText,
-                        xCoord,
-                        yCoord;
-                    if (_isDefined(text) && text !== "" && !emptyStrRegExp.test(text)) {
-                        xCoord = that._isHorizontal ? tick.labelPos.x : tick.labelPos.y;
-                        yCoord = that._isHorizontal ? tick.labelPos.y : tick.labelPos.x;
-                        if (!tick.label)
-                            tick.label = renderer.text(text, xCoord, yCoord).css(tick.labelFontStyle).attr(tick.labelStyle).append(group);
-                        else
-                            tick.label.css(tick.labelFontStyle).attr(tick.labelStyle).attr({
-                                text: text,
-                                x: xCoord,
-                                y: yCoord
-                            });
-                        tick.label.data({argument: tick.value})
-                    }
-                })
-            },
-            getMultipleAxesSpacing: function() {
-                return this._options.multipleAxesSpacing || 0
-            },
-            _drawTitle: _noop,
-            _getGridLineDrawer: function(borderOptions) {
-                var that = this,
-                    translator = that._translator,
-                    additionalTranslator = that._additionalTranslator,
-                    isHorizontal = that._isHorizontal,
-                    canvasStart = isHorizontal ? constants.left : constants.top,
-                    canvasEnd = isHorizontal ? constants.right : constants.bottom,
-                    positionFrom = additionalTranslator.translateSpecialCase(constants.canvasPositionStart),
-                    positionTo = additionalTranslator.translateSpecialCase(constants.canvasPositionEnd),
-                    firstBorderLinePosition = borderOptions.visible && borderOptions[canvasStart] ? translator.translateSpecialCase(constants.canvasPositionPrefix + canvasStart) : undefined,
-                    lastBorderLinePosition = borderOptions.visible && borderOptions[canvasEnd] ? translator.translateSpecialCase(constants.canvasPositionPrefix + canvasEnd) : undefined,
-                    getPoints = isHorizontal ? function(tick) {
-                        return tick.posX !== null ? [tick.posX, positionFrom, tick.posX, positionTo] : null
-                    } : function(tick) {
-                        return tick.posX !== null ? [positionFrom, tick.posX, positionTo, tick.posX] : null
-                    };
-                return function(tick) {
-                        var points;
-                        if (_abs(tick.posX - firstBorderLinePosition) < MAX_GRID_BORDER_ADHENSION || _abs(tick.posX - lastBorderLinePosition) < MAX_GRID_BORDER_ADHENSION)
-                            return;
-                        points = getPoints(tick);
-                        return points && that._createPathElement(points, tick.gridStyle)
-                    }
-            },
-            _drawGrids: function(ticks, borderOptions) {
-                var that = this,
-                    group = that._axisGridGroup,
-                    drawLine = that._getGridLineDrawer(borderOptions || {visible: false});
-                _each(ticks || [], function(_, tick) {
-                    tick.grid = drawLine(tick);
-                    tick.grid && tick.grid.append(group)
-                })
-            },
-            _getConstantLinePos: function(lineValue, canvasStart, canvasEnd) {
-                var parsedValue = this._validateUnit(lineValue, "E2105", "constantLine"),
-                    value = this._getTranslatedCoord(parsedValue);
-                if (!_isDefined(value) || value < _math.min(canvasStart, canvasEnd) || value > _math.max(canvasStart, canvasEnd))
-                    return {};
-                return {
-                        value: value,
-                        parsedValue: parsedValue
-                    }
-            },
-            _createConstantLine: function(value, attr) {
-                var that = this,
-                    additionalTranslator = this._additionalTranslator,
-                    positionFrom = additionalTranslator.translateSpecialCase(constants.canvasPositionStart),
-                    positionTo = additionalTranslator.translateSpecialCase(constants.canvasPositionEnd),
-                    points = this._isHorizontal ? [value, positionTo, value, positionFrom] : [positionFrom, value, positionTo, value];
-                return that._createPathElement(points, attr)
-            },
-            _drawConstantLinesAndLabels: function(lineOptions, canvasStart, canvasEnd) {
-                if (!_isDefined(lineOptions.value))
-                    return;
-                var that = this,
-                    pos = that._getConstantLinePos(lineOptions.value, canvasStart, canvasEnd),
-                    labelOptions = lineOptions.label || {},
-                    value = pos.value,
-                    attr = {
-                        stroke: lineOptions.color,
-                        "stroke-width": lineOptions.width,
-                        dashStyle: lineOptions.dashStyle
-                    };
-                if (!_isDefined(value)) {
-                    that._constantLines.push(null);
-                    if (labelOptions.visible)
-                        that._constantLineLabels.push(null);
-                    return
-                }
-                that._constantLines.push(that._createConstantLine(value, attr).append(that._axisConstantLineGroup));
-                that._constantLineLabels.push(labelOptions.visible ? that._drawConstantLineLabels(pos.parsedValue, labelOptions, value) : null)
-            },
-            _drawConstantLine: function() {
-                var that = this,
-                    options = that._options,
-                    data = options.constantLines,
-                    canvas = that._getCanvasStartEnd();
-                if (that._translator.getBusinessRange().stubData)
-                    return;
-                that._constantLines = [];
-                that._constantLineLabels = [];
-                _each(data, function(_, dataItem) {
-                    that._drawConstantLinesAndLabels(dataItem, canvas.start, canvas.end)
-                })
-            },
-            _drawConstantLineLabels: function(parsedValue, lineLabelOptions, value) {
-                var that = this,
-                    text = lineLabelOptions.text,
-                    options = that._options,
-                    labelOptions = options.label,
-                    coords;
-                that._checkAlignmentConstantLineLabels(lineLabelOptions);
-                text = _isDefined(text) ? text : constants.formatLabel(parsedValue, labelOptions);
-                coords = that._getConstantLineLabelsCoords(value, lineLabelOptions);
-                return that._renderer.text(text, coords.x, coords.y).css(core.utils.patchFontOptions(_extend({}, labelOptions.font, lineLabelOptions.font))).attr({align: coords.align}).append(that._axisConstantLineGroup)
-            },
-            _adjustConstantLineLabels: _noop,
-            _getStripPos: function(startValue, endValue, canvasStart, canvasEnd, range) {
-                var isContinous = !!(range.minVisible || range.maxVisible),
-                    categories = range.categories || [],
-                    start,
-                    end,
-                    firstValue = startValue,
-                    lastValue = endValue,
-                    startCategoryIndex,
-                    endCategoryIndex,
-                    min = range.minVisible;
-                if (!isContinous) {
-                    startCategoryIndex = $.inArray(startValue, categories);
-                    endCategoryIndex = $.inArray(endValue, categories);
-                    if (startCategoryIndex === -1 || endCategoryIndex === -1)
-                        return {
-                                stripFrom: 0,
-                                stripTo: 0
-                            };
-                    if (startCategoryIndex > endCategoryIndex) {
-                        firstValue = endValue;
-                        lastValue = startValue
-                    }
-                }
-                start = this._getTranslatedCoord(this._validateUnit(firstValue, "E2105", "strip"), -1);
-                end = this._getTranslatedCoord(this._validateUnit(lastValue, "E2105", "strip"), 1);
-                if (!_isDefined(start) && isContinous)
-                    start = startValue < min ? canvasStart : canvasEnd;
-                if (!_isDefined(end) && isContinous)
-                    end = endValue < min ? canvasStart : canvasEnd;
-                return start < end ? {
-                        stripFrom: start,
-                        stripTo: end
-                    } : {
-                        stripFrom: end,
-                        stripTo: start
-                    }
-            },
-            _createStrip: function(fromPoint, toPoint, attr) {
-                var x,
-                    y,
-                    width,
-                    height,
-                    additionalTranslator = this._additionalTranslator,
-                    positionFrom = additionalTranslator.translateSpecialCase(constants.canvasPositionStart),
-                    positionTo = additionalTranslator.translateSpecialCase(constants.canvasPositionEnd);
-                if (this._isHorizontal) {
-                    x = fromPoint;
-                    y = _math.min(positionFrom, positionTo);
-                    width = toPoint - fromPoint;
-                    height = _abs(positionFrom - positionTo)
-                }
-                else {
-                    x = _math.min(positionFrom, positionTo);
-                    y = fromPoint;
-                    width = _abs(positionFrom - positionTo);
-                    height = _abs(fromPoint - toPoint)
-                }
-                return this._renderer.rect(x, y, width, height).attr(attr)
-            },
-            _drawStrip: function() {
-                var that = this,
-                    options = that._options,
-                    stripData = options.strips,
-                    canvas = this._getCanvasStartEnd(),
-                    i,
-                    stripOptions,
-                    stripPos,
-                    stripLabelOptions,
-                    attr,
-                    range = that._translator.getBusinessRange();
-                if (range.stubData)
-                    return;
-                that._strips = [];
-                that._stripLabels = [];
-                for (i = 0; i < stripData.length; i++) {
-                    stripOptions = stripData[i];
-                    stripLabelOptions = stripOptions.label || {};
-                    attr = {fill: stripOptions.color};
-                    if (_isDefined(stripOptions.startValue) && _isDefined(stripOptions.endValue) && _isDefined(stripOptions.color)) {
-                        stripPos = that._getStripPos(stripOptions.startValue, stripOptions.endValue, canvas.start, canvas.end, range);
-                        if (stripPos.stripTo - stripPos.stripFrom === 0 || !_isDefined(stripPos.stripTo) || !_isDefined(stripPos.stripFrom)) {
-                            that._strips.push(null);
-                            if (stripLabelOptions.text)
-                                that._stripLabels.push(null);
-                            continue
-                        }
-                        that._strips.push(that._createStrip(stripPos.stripFrom, stripPos.stripTo, attr).append(that._axisStripGroup));
-                        that._stripLabels.push(stripLabelOptions.text ? that._drawStripLabel(stripLabelOptions, stripPos.stripFrom, stripPos.stripTo) : null)
-                    }
-                }
-            },
-            _drawStripLabel: function(stripLabelOptions, stripFrom, stripTo) {
-                var that = this,
-                    options = that._options,
-                    coords = that._getStripLabelCoords(stripLabelOptions, stripFrom, stripTo);
-                return that._renderer.text(stripLabelOptions.text, coords.x, coords.y).css(core.utils.patchFontOptions(_extend({}, options.label.font, stripLabelOptions.font))).attr({align: coords.align}).append(that._axisLabelGroup)
-            },
-            _adjustStripLabels: function() {
-                var that = this,
-                    labels = that._stripLabels,
-                    rects = that._strips,
-                    i,
-                    coords;
-                if (labels === undefined && rects === undefined)
-                    return;
-                for (i = 0; i < labels.length; i++)
-                    if (labels[i] !== null) {
-                        coords = that._getAdjustedStripLabelCoords(that._options.strips[i], labels[i], rects[i]);
-                        labels[i].move(coords.x, coords.y)
-                    }
-            },
-            _initAxisPositions: _noop,
-            _adjustLabels: function() {
-                var that = this,
-                    options = that._options,
-                    majorTicks = that._majorTicks,
-                    majorTicksLength = majorTicks.length,
-                    isHorizontal = that._isHorizontal,
-                    overlappingBehavior = that._tickManager ? that._tickManager.getOverlappingBehavior() : options.label.overlappingBehavior,
-                    position = options.position,
-                    label,
-                    labelHeight,
-                    isNeedLabelAdjustment,
-                    staggeringSpacing,
-                    i,
-                    box,
-                    hasLabels = false,
-                    boxAxis = that._axisElementsGroup && that._axisElementsGroup.getBBox() || {};
-                _each(majorTicks, function(_, tick) {
-                    if (tick.label) {
-                        tick.label.attr(that._getLabelAdjustedCoord(tick, boxAxis));
-                        hasLabels = true
-                    }
-                });
-                isNeedLabelAdjustment = hasLabels && isHorizontal && overlappingBehavior && overlappingBehavior.mode === "stagger";
-                if (isNeedLabelAdjustment) {
-                    labelHeight = 0;
-                    for (i = 0; i < majorTicksLength; i = i + 2) {
-                        label = majorTicks[i].label;
-                        box = label && label.getBBox() || {};
-                        if (box.height > labelHeight)
-                            labelHeight = box.height
-                    }
-                    staggeringSpacing = overlappingBehavior.staggeringSpacing;
-                    labelHeight = _round(labelHeight) + staggeringSpacing;
-                    for (i = 1; i < majorTicksLength; i = i + 2) {
-                        label = majorTicks[i].label;
-                        if (label)
-                            if (position === constants.bottom)
-                                label.move(0, labelHeight);
-                            else if (position === constants.top)
-                                label.move(0, -labelHeight)
-                    }
-                    for (i = 0; i < majorTicksLength; i++)
-                        majorTicks[i].label && majorTicks[i].label.rotate(0)
-                }
-            },
-            _getLabelAdjustedCoord: function(tick, boxAxis) {
-                var that = this,
-                    options = that._options,
-                    box = tick.label.getBBox(),
-                    x,
-                    y,
-                    isHorizontal = that._isHorizontal,
-                    position = options.position,
-                    shift = that.padding && that.padding[position] || 0,
-                    textOptions = that._textOptions,
-                    labelSettingsY = tick.label.attr("y");
-                if (isHorizontal && position === constants.bottom)
-                    y = 2 * labelSettingsY - box.y + shift;
-                else if (!isHorizontal) {
-                    if (position === constants.left)
-                        if (textOptions.align === constants.right)
-                            x = box.x + box.width - shift;
-                        else if (textOptions.align === constants.center)
-                            x = box.x + box.width / 2 - shift - (boxAxis.width / 2 || 0);
-                        else
-                            x = box.x - shift - (boxAxis.width || 0);
-                    else if (textOptions.align === constants.center)
-                        x = box.x + box.width / 2 + (boxAxis.width / 2 || 0) + shift;
-                    else if (textOptions.align === constants.right)
-                        x = box.x + box.width + (boxAxis.width || 0) + shift;
-                    else
-                        x = box.x + shift;
-                    y = labelSettingsY + ~~(labelSettingsY - box.y - box.height / 2)
-                }
-                else if (isHorizontal && position === constants.top)
-                    y = 2 * labelSettingsY - box.y - box.height - shift;
-                return {
-                        x: x,
-                        y: y
-                    }
-            },
-            _adjustTitle: _noop,
-            _createAxisGroups: function() {
-                var that = this,
-                    renderer = that._renderer,
-                    classSelector = WIDGET_CLASS + "-" + that._axisClass + "-";
-                that._axisGroup = renderer.g().attr({"class": classSelector + "axis"});
-                that._axisStripGroup = renderer.g().attr({"class": classSelector + "strips"});
-                that._axisGridGroup = renderer.g().attr({"class": classSelector + "grid"});
-                that._axisElementsGroup = renderer.g().attr({"class": classSelector + "elements"}).append(that._axisGroup);
-                that._axisLineGroup = renderer.g().attr({"class": classSelector + "line"}).append(that._axisGroup);
-                that._axisTitleGroup = renderer.g().attr({"class": classSelector + "title"}).append(that._axisGroup);
-                that._axisConstantLineGroup = renderer.g().attr({"class": classSelector + "constant-lines"});
-                that._axisLabelGroup = renderer.g().attr({"class": classSelector + "axis-labels"})
-            },
-            _clearAxisGroups: function(adjustAxis) {
-                var that = this,
-                    classSelector = WIDGET_CLASS + "-" + that._axisClass + "-";
-                that._axisGroup.remove();
-                that._axisStripGroup.remove();
-                that._axisLabelGroup.remove();
-                that._axisConstantLineGroup.remove();
-                that._axisGridGroup.remove();
-                if (that._axisTitleGroup)
-                    that._axisTitleGroup.clear();
-                else if (!adjustAxis)
-                    that._axisTitleGroup = that._renderer.g().attr({"class": classSelector + "title"}).append(that._axisGroup);
-                if (that._axisElementsGroup)
-                    that._axisElementsGroup.clear();
-                else if (!adjustAxis)
-                    that._axisElementsGroup = that._renderer.g().attr({"class": classSelector + "elements"}).append(that._axisGroup);
-                that._axisLineGroup.clear();
-                that._axisStripGroup.clear();
-                that._axisGridGroup.clear();
-                that._axisConstantLineGroup.clear();
-                that._axisLabelGroup.clear()
-            },
-            _initTicks: function(ticks, tickOptions, gridOptions, withLabels) {
-                var that = this,
-                    options = that._options,
-                    tickStyle = {
-                        stroke: tickOptions.color,
-                        "stroke-width": 1,
-                        "stroke-opacity": tickOptions.opacity
-                    },
-                    gridStyle = {
-                        stroke: gridOptions.color,
-                        "stroke-width": gridOptions.width,
-                        "stroke-opacity": gridOptions.opacity
-                    },
-                    currentLabelConst = that.getCurrentLabelPos(),
-                    categoryToSkip = that._getSkippedCategory();
-                _each(ticks || [], function(_, tick) {
-                    var coord;
-                    if (!(categoryToSkip && categoryToSkip === tick.value)) {
-                        coord = that._getTranslatedValue(tick.value, that._axisPosition, that._tickOffset);
-                        tick.posX = coord.x;
-                        tick.posY = coord.y;
-                        tick.angle = coord.angle
-                    }
-                    tick.tickStyle = tickStyle;
-                    tick.gridStyle = gridStyle;
-                    if (withLabels) {
-                        tick.labelText = constants.formatLabel(tick.value, options.label, {
-                            min: that._minBound,
-                            max: that._maxBound
-                        });
-                        tick.labelPos = that._getTranslatedValue(tick.value, currentLabelConst);
-                        tick.labelStyle = that._textOptions;
-                        tick.labelFontStyle = that._textFontStyles;
-                        tick.labelHint = constants.formatHint(tick.value, options.label, {
-                            min: that._minBound,
-                            max: that._maxBound
-                        })
-                    }
-                })
-            },
-            _setTickOffset: function() {
-                var options = this._options,
-                    discreteAxisDivisionMode = options.discreteAxisDivisionMode;
-                this._tickOffset = +(discreteAxisDivisionMode !== "crossLabels" || !discreteAxisDivisionMode)
-            },
-            drawGrids: function(borderOptions) {
-                var that = this,
-                    options = that._options;
-                borderOptions = borderOptions || {};
-                that._axisGridGroup.append(that._gridContainerGroup);
-                if (options.grid.visible)
-                    that._drawGrids(that._majorTicks.concat(that._decimatedTicks), borderOptions);
-                options.minorGrid.visible && that._drawGrids(that._minorTicks, borderOptions)
-            },
-            draw: function(adjustAxis) {
-                var that = this,
-                    options = that._options,
-                    areLabelsVisible;
-                if (that._axisGroup)
-                    that._clearAxisGroups(adjustAxis);
-                areLabelsVisible = options.label.visible && that._axisElementsGroup && !that._translator.getBusinessRange().stubData;
-                that._updateTranslatorInterval();
-                that._initAxisPositions();
-                that._initTicks(that._majorTicks, options.tick, options.grid, areLabelsVisible);
-                that._initTicks(that._decimatedTicks, options.tick, options.grid, false);
-                that._initTicks(that._minorTicks, options.minorTick, options.minorGrid);
-                if (!that._virtual) {
-                    options.visible && that._drawAxis();
-                    if (options.tick.visible) {
-                        that._drawTicks(that._majorTicks);
-                        that._drawTicks(that._decimatedTicks)
-                    }
-                    options.minorTick.visible && that._drawTicks(that._minorTicks);
-                    areLabelsVisible && that._drawLabels();
-                    that._drawTitle()
-                }
-                options.strips && that._drawStrip();
-                options.constantLines && that._drawConstantLine();
-                that._axisStripGroup.append(that._stripsGroup);
-                that._axisConstantLineGroup.append(that._constantLinesGroup);
-                that._axisGroup.append(that._axesContainerGroup);
-                that._axisLabelGroup.append(that._labelAxesGroup);
-                that._adjustConstantLineLabels();
-                areLabelsVisible && that._adjustLabels();
-                that._createHints();
-                that._adjustStripLabels();
-                that._adjustTitle();
-                that._setBoundingRect()
-            },
-            _createHints: function() {
-                var that = this;
-                _each(that._majorTicks || [], function(_, tick) {
-                    var labelHint = tick.labelHint;
-                    if (_isDefined(labelHint) && labelHint !== "")
-                        tick.label.setTitle(labelHint)
-                })
-            },
-            _setBoundingRect: function() {
-                var that = this,
-                    options = that._options,
-                    axisBox = that._axisElementsGroup ? that._axisElementsGroup.getBBox() : {
-                        x: 0,
-                        y: 0,
-                        width: 0,
-                        height: 0,
-                        isEmpty: true
-                    },
-                    lineBox = that._axisLineGroup.getBBox(),
-                    placeholderSize = options.placeholderSize,
-                    start,
-                    isHorizontal = that._isHorizontal,
-                    coord = isHorizontal ? "y" : "x",
-                    side = isHorizontal ? "height" : "width",
-                    shiftCoords = options.crosshairEnabled ? isHorizontal ? LABEL_BACKGROUND_PADDING_Y : LABEL_BACKGROUND_PADDING_X : 0,
-                    axisTitleBox = that._title && that._axisTitleGroup ? that._axisTitleGroup.getBBox() : axisBox;
-                if (axisBox.isEmpty && axisTitleBox.isEmpty && !placeholderSize) {
-                    that.boundingRect = axisBox;
-                    return
-                }
-                start = lineBox[coord] || that._axisPosition;
-                if (options.position === (isHorizontal && constants.bottom || constants.right)) {
-                    axisBox[side] = placeholderSize || axisTitleBox[coord] + axisTitleBox[side] - start + shiftCoords;
-                    axisBox[coord] = start
-                }
-                else {
-                    axisBox[side] = placeholderSize || lineBox[side] + start - axisTitleBox[coord] + shiftCoords;
-                    axisBox[coord] = axisTitleBox.isEmpty ? start : axisTitleBox[coord] - shiftCoords
-                }
-                that.boundingRect = axisBox
-            },
-            getBoundingRect: function() {
-                return this._axisElementsGroup ? this.boundingRect : {
-                        x: 0,
-                        y: 0,
-                        width: 0,
-                        height: 0
-                    }
-            },
-            shift: function(x, y) {
-                var settings = {};
-                if (x)
-                    settings.translateX = x;
-                if (y)
-                    settings.translateY = y;
-                this._axisGroup.attr(settings)
-            },
-            applyClipRects: function(elementsClipID, canvasClipID) {
-                this._axisGroup.attr({clipId: canvasClipID});
-                this._axisStripGroup.attr({clipId: elementsClipID})
-            },
-            validate: function(isArgumentAxis) {
-                var that = this,
-                    options = that._options,
-                    parseUtils = new core.ParseUtils,
-                    dataType = isArgumentAxis ? options.argumentType : options.valueType,
-                    parser = dataType ? parseUtils.getParser(dataType, "axis") : function(unit) {
-                        return unit
-                    };
-                that.parser = parser;
-                options.dataType = dataType;
-                if (options.min !== undefined)
-                    options.min = that._validateUnit(options.min, "E2106");
-                if (options.max !== undefined)
-                    options.max = that._validateUnit(options.max, "E2106");
-                if (that._minBound !== undefined)
-                    that._minBound = that._validateUnit(that._minBound);
-                if (that._maxBound !== undefined)
-                    that._maxBound = that._validateUnit(that._maxBound)
-            },
-            _validateUnit: function(unit, idError, parameters) {
-                var that = this;
-                unit = that.parser(unit);
-                if (unit === undefined && idError)
-                    that._incidentOccured(idError, [parameters]);
-                return unit
-            },
-            zoom: function(min, max, skipAdjusting) {
-                var that = this,
-                    minOpt = that._options.min,
-                    maxOpt = that._options.max;
-                skipAdjusting = skipAdjusting || that._options.type === constants.discrete;
-                min = that._validateUnit(min);
-                max = that._validateUnit(max);
-                if (!skipAdjusting) {
-                    if (minOpt !== undefined) {
-                        min = minOpt > min ? minOpt : min;
-                        max = minOpt > max ? minOpt : max
-                    }
-                    if (maxOpt !== undefined) {
-                        max = maxOpt < max ? maxOpt : max;
-                        min = maxOpt < min ? maxOpt : min
-                    }
-                }
-                that._zoomArgs = {
-                    min: min,
-                    max: max
-                };
-                return that._zoomArgs
-            },
-            resetZoom: function() {
-                this._zoomArgs = null
-            },
-            getRangeData: function() {
-                var that = this,
-                    options = that._options,
-                    minMax = that._getMinMax(),
-                    min = minMax.min,
-                    max = minMax.max,
-                    zoomArgs = that._zoomArgs || {},
-                    type = options.type,
-                    rangeMin,
-                    rangeMax,
-                    rangeMinVisible,
-                    rangeMaxVisible;
-                if (type === constants.logarithmic) {
-                    min = min <= 0 ? undefined : min;
-                    max = max <= 0 ? undefined : max
-                }
-                if (type !== constants.discrete) {
-                    rangeMin = min;
-                    rangeMax = max;
-                    if (_isDefined(min) && _isDefined(max)) {
-                        rangeMin = min < max ? min : max;
-                        rangeMax = max > min ? max : min
-                    }
-                    rangeMinVisible = _isDefined(zoomArgs.min) ? zoomArgs.min : rangeMin;
-                    rangeMaxVisible = _isDefined(zoomArgs.max) ? zoomArgs.max : rangeMax
-                }
-                else {
-                    rangeMinVisible = _isDefined(zoomArgs.min) ? zoomArgs.min : min;
-                    rangeMaxVisible = _isDefined(zoomArgs.max) ? zoomArgs.max : max
-                }
-                return {
-                        min: rangeMin,
-                        max: rangeMax,
-                        stick: that._getStick(),
-                        categories: options.categories,
-                        dataType: options.dataType,
-                        axisType: type,
-                        base: options.logarithmBase,
-                        invert: options.inverted,
-                        addSpiderCategory: that._getSpiderCategoryOption(),
-                        minVisible: rangeMinVisible,
-                        maxVisible: rangeMaxVisible
-                    }
-            },
-            _setType: function(axesType, drawingType) {
-                var that = this;
-                _each(DX.viz.charts.axes[axesType][drawingType], function(methodName, method) {
-                    that[methodName] = method
-                })
-            },
-            _getSharpParam: function() {
-                return true
-            },
-            getSpiderTicks: _noop,
-            setSpiderTicks: _noop,
-            measureLabels: _noop,
-            coordsIn: _noop,
-            _getSkippedCategory: _noop
-        }
-    })(jQuery, DevExpress);
     /*! Module viz-charts, file scrollBar.js */
     (function($, DX, math) {
         var MIN_SCROLL_BAR_SIZE = 2,
-            isDefined = DX.utils.isDefined,
+            commonUtils = DX.require("/utils/utils.common"),
+            pointerEvents = DX.require("/ui/events/pointer/ui.events.pointer"),
+            isDefined = commonUtils.isDefined,
             _min = math.min,
-            _max = math.max;
-        DX.viz.charts.ScrollBar = function(renderer, group) {
-            this._translator = DX.viz.core.CoreFactory.createTranslator2D({}, {}, {});
+            _max = math.max,
+            ScrollBar;
+        ScrollBar = DX.viz.charts.ScrollBar = function(renderer, group) {
+            this._translator = DX.viz.CoreFactory.createTranslator2D({}, {}, {});
             this._scroll = renderer.rect().append(group);
             this._addEvents()
         };
@@ -2076,7 +41,7 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                 y = canvas.height - canvas.bottom + width + offset;
             return y
         }
-        DX.viz.charts.ScrollBar.prototype = {
+        ScrollBar.prototype = {
             _addEvents: function() {
                 var that = this,
                     $scroll = $(that._scroll.element),
@@ -2093,17 +58,17 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                                 }]
                         })))
                     };
-                $scroll.on("dxpointerdown", function(e) {
+                $scroll.on(pointerEvents.down, function(e) {
                     startPosX = e.pageX;
                     startPosY = e.pageY;
                     $scroll.trigger(new $.Event("dxc-scroll-start", {pointers: [{
                                 pageX: startPosX,
                                 pageY: startPosY
                             }]}));
-                    $(document).on("dxpointermove", scrollChangeHandler)
+                    $(document).on(pointerEvents.move, scrollChangeHandler)
                 });
-                $(document).on("dxpointerup", function() {
-                    $(document).off("dxpointermove", scrollChangeHandler)
+                $(document).on(pointerEvents.up, function() {
+                    $(document).off(pointerEvents.move, scrollChangeHandler)
                 })
             },
             update: function(options) {
@@ -2137,7 +102,7 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                     minVisible: null,
                     maxVisible: null,
                     visibleCategories: null
-                }), $.extend({}, canvas), {direction: that._layoutOptions.vertical ? "vertical" : "horizontal"});
+                }), $.extend({}, canvas), {isHorizontal: !that._layoutOptions.vertical});
                 return that
             },
             getOptions: function() {
@@ -2201,10 +166,11 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                 that._applyPosition(_min(minPoint, maxPoint), _max(minPoint, maxPoint))
             },
             transform: function(translate, scale) {
-                var x = this._translator.getCanvasVisibleArea().min,
+                var translator = this._translator,
+                    x = translator.getCanvasVisibleArea().min,
                     dx = x - (x * scale - translate),
                     lx = this._offset + dx / (this._scale * scale);
-                this._applyPosition(lx, lx + this._translator.canvasLength / (this._scale * scale))
+                this._applyPosition(lx, lx + translator.canvasLength / (this._scale * scale))
             },
             dispose: function() {
                 this._scroll.dispose();
@@ -2228,36 +194,26 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
     })(jQuery, DevExpress, Math);
     /*! Module viz-charts, file baseChart.js */
     (function($, DX, undefined) {
-        var ui = DX.ui,
-            charts = DX.viz.charts,
-            utils = DX.utils,
+        var viz = DX.viz,
+            charts = viz.charts,
+            commonUtils = DX.require("/utils/utils.common"),
+            eventUtils = DX.require("/ui/events/ui.events.utils"),
             REINIT_REFRESH_ACTION = "_reinit",
-            REINIT_DATA_SOURCE_REFRESH_ACTION = "_reinitDataSource",
+            REINIT_DATA_SOURCE_REFRESH_ACTION = "_updateDataSource",
             DATA_INIT_REFRESH_ACTION = "_dataInit",
             FORCE_RENDER_REFRESH_ACTION = "_forceRender",
             RESIZE_REFRESH_ACTION = "_resize",
             ACTIONS_BY_PRIORITY = [REINIT_REFRESH_ACTION, REINIT_DATA_SOURCE_REFRESH_ACTION, DATA_INIT_REFRESH_ACTION, FORCE_RENDER_REFRESH_ACTION, RESIZE_REFRESH_ACTION],
-            core = DX.viz.core,
-            coreUtils = core.utils,
+            vizUtils = viz.utils,
             _noop = $.noop,
-            _map = coreUtils.map,
+            _map = vizUtils.map,
             _each = $.each,
             _extend = $.extend,
-            DEFAULT_ANIMATION_OPTIONS = {asyncSeriesRendering: true},
-            _isDefined = utils.isDefined,
-            DEFAULT_OPACITY = 0.3;
-        function createEventMapObject(name, deprecatedArgs) {
-            return {
-                    name: name,
-                    deprecated: name,
-                    deprecatedContext: function(arg) {
-                        return arg.target
-                    },
-                    deprecatedArgs: deprecatedArgs || function(arg) {
-                        return [arg.target, arg.jQueryEvent]
-                    }
-                }
-        }
+            _isArray = commonUtils.isArray,
+            _isDefined = commonUtils.isDefined,
+            _setCanvasValues = DX.viz.utils.setCanvasValues,
+            DEFAULT_OPACITY = 0.3,
+            REINIT_REFRESH_ACTION_OPTIONS = ["adaptiveLayout", "crosshair", "equalBarWidth", "minBubbleSize", "maxBubbleSize", "resolveLabelOverlapping", "seriesSelectionMode", "pointSelectionMode", "adjustOnZoom", "synchronizeMultiAxes", "zoomingMode", "scrollingMode", "useAggregation"];
         function checkHeightLabelsInCanvas(points, canvas, isRotated) {
             var commonLabelSize = 0,
                 canvasSize = canvas.end - canvas.start,
@@ -2434,86 +390,33 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                     textField: formatObjectFields.nameField
                 }
         }
+        function setTemplateFields(data, teamplateData, series) {
+            _each(data, function(_, data) {
+                _each(series.getTeamplatedFields(), function(_, field) {
+                    data[field.teamplateField] = data[field.originalField]
+                });
+                teamplateData.push(data)
+            });
+            series.updateTeamplateFieldNames()
+        }
         function checkOverlapping(firstRect, secondRect) {
             return (firstRect.x <= secondRect.x && secondRect.x <= firstRect.x + firstRect.width || firstRect.x >= secondRect.x && firstRect.x <= secondRect.x + secondRect.width) && (firstRect.y <= secondRect.y && secondRect.y <= firstRect.y + firstRect.height || firstRect.y >= secondRect.y && firstRect.y <= secondRect.y + secondRect.height)
         }
         charts.overlapping = {resolveLabelOverlappingInOneDirection: resolveLabelOverlappingInOneDirection};
-        charts.BaseChart = core.BaseWidget.inherit({
-            _eventsMap: $.extend({}, core.BaseWidget.prototype._eventsMap, {
-                onSeriesClick: createEventMapObject("seriesClick"),
-                onPointClick: createEventMapObject("pointClick"),
-                onArgumentAxisClick: createEventMapObject("argumentAxisClick", function(arg) {
-                    return [arg.target, arg.argument, arg.jQueryEvent]
-                }),
-                onLegendClick: createEventMapObject("legendClick"),
-                onSeriesSelectionChanged: createEventMapObject('seriesSelectionChanged'),
-                onPointSelectionChanged: createEventMapObject('pointSelectionChanged'),
-                onSeriesHoverChanged: createEventMapObject('seriesHoverChanged'),
-                onPointHoverChanged: createEventMapObject('pointHoverChanged'),
-                onTooltipShown: createEventMapObject('tooltipShown'),
-                onTooltipHidden: createEventMapObject('tooltipHidden'),
-                onDone: createEventMapObject("done"),
-                seriesClick: {newName: 'onSeriesClick'},
-                pointClick: {newName: 'onPointClick'},
-                argumentAxisClick: {newName: 'onArgumentAxisClick'},
-                legendClick: {newName: 'onLegendClick'},
-                pointHoverChanged: {newName: 'onPointHoverChanged'},
-                seriesSelectionChanged: {newName: 'onSeriesSelectionChanged'},
-                pointSelectionChanged: {newName: 'onPointSelectionChanged'},
-                seriesHoverChanged: {newName: 'onSeriesHoverChanged'},
-                tooltipShown: {newName: 'onTooltipShown'},
-                tooltipHidden: {newName: 'onTooltipHidden'},
-                done: {newName: 'onDone'}
+        charts.BaseChart = viz.BaseWidget.inherit({
+            _eventsMap: $.extend({}, viz.BaseWidget.prototype._eventsMap, {
+                onSeriesClick: {name: "seriesClick"},
+                onPointClick: {name: "pointClick"},
+                onArgumentAxisClick: {name: "argumentAxisClick"},
+                onLegendClick: {name: "legendClick"},
+                onSeriesSelectionChanged: {name: 'seriesSelectionChanged'},
+                onPointSelectionChanged: {name: 'pointSelectionChanged'},
+                onSeriesHoverChanged: {name: 'seriesHoverChanged'},
+                onPointHoverChanged: {name: 'pointHoverChanged'},
+                onTooltipShown: {name: 'tooltipShown'},
+                onTooltipHidden: {name: 'tooltipHidden'},
+                onDone: {name: "done"}
             }),
-            _setDeprecatedOptions: function() {
-                this.callBase();
-                $.extend(this._deprecatedOptions, {
-                    seriesClick: {
-                        since: '14.2',
-                        message: "Use the 'onSeriesClick' option instead"
-                    },
-                    pointClick: {
-                        since: '14.2',
-                        message: "Use the 'onPointClick' option instead"
-                    },
-                    argumentAxisClick: {
-                        since: '14.2',
-                        message: "Use the 'onArgumentAxisClick' option instead"
-                    },
-                    legendClick: {
-                        since: '14.2',
-                        message: "Use the 'onLegendClick' option instead"
-                    },
-                    seriesSelectionChanged: {
-                        since: '14.2',
-                        message: "Use the 'onSeriesSelectionChanged' option instead"
-                    },
-                    pointSelectionChanged: {
-                        since: '14.2',
-                        message: "Use the 'onPointSelectionChanged' option instead"
-                    },
-                    seriesHoverChanged: {
-                        since: '14.2',
-                        message: "Use the 'onSeriesHoverChanged' option instead"
-                    },
-                    pointHoverChanged: {
-                        since: '14.2',
-                        message: "Use the 'onPointHoverChanged' option instead"
-                    },
-                    tooltipShown: {
-                        since: '14.2',
-                        message: "Use the 'onTooltipShown' option instead"
-                    },
-                    tooltipHidden: {
-                        since: '14.2',
-                        message: "Use the 'onTooltipHidden' option instead"
-                    },
-                    done: {
-                        since: '14.2',
-                        message: "Use the 'onDone' option instead"
-                    }
-                })
-            },
             _rootClassPrefix: "dxc",
             _rootClass: "dxc-chart",
             _init: function() {
@@ -2533,11 +436,11 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                 that._createHtmlStructure();
                 that._createLegend();
                 that._needHandleRenderComplete = true;
-                that.layoutManager = charts.factory.createChartLayoutManager(that._layoutManagerOptions());
+                that.layoutManager = new charts.LayoutManager;
                 that._createScrollBar();
                 that._$element.on('contextmenu', function(event) {
                     that.eventType = 'contextmenu';
-                    if (ui.events.isTouchEvent(event) || ui.events.isPointerEvent(event))
+                    if (eventUtils.isTouchEvent(event) || eventUtils.isPointerEvent(event))
                         event.preventDefault()
                 }).on('MSHoldVisual', function(event) {
                     that.eventType = 'MSHoldVisual';
@@ -2549,12 +452,12 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
             },
             _reinit: function(_skipRender) {
                 var that = this;
-                charts._setCanvasValues(that._canvas);
+                _setCanvasValues(that._canvas);
                 that._createTracker();
                 that._reinitAxes();
                 if (!_skipRender)
                     that._initialized = false;
-                that._reinitDataSource();
+                that._updateDataSource();
                 if (!that.series)
                     that._dataSpecificInit(false);
                 if (!_skipRender)
@@ -2581,7 +484,6 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                 that._seriesGroup = renderer.g().attr({'class': 'dxc-series-group'}).linkOn(root, "series");
                 that._labelsGroup = renderer.g().attr({'class': 'dxc-labels-group'}).linkOn(root, "labels");
                 that._crosshairCursorGroup = renderer.g().attr({'class': 'dxc-crosshair-cursor'}).linkOn(root, "crosshair");
-                that._titleGroup = renderer.g().attr({'class': 'dxc-title'}).linkOn(root, "title");
                 that._legendGroup = renderer.g().attr({
                     'class': 'dxc-legend',
                     clipId: that._getCanvasClipRectID()
@@ -2589,9 +491,9 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                 that._scrollBarGroup = renderer.g().attr({'class': 'dxc-scroll-bar'}).linkOn(root, "scroll-bar")
             },
             _disposeObjectsInArray: function(propName, fieldNames) {
-                $.each(this[propName] || [], function(_, item) {
+                _each(this[propName] || [], function(_, item) {
                     if (fieldNames && item)
-                        $.each(fieldNames, function(_, field) {
+                        _each(fieldNames, function(_, field) {
                             item[field] && item[field].dispose()
                         });
                     else
@@ -2616,10 +518,9 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                 disposeObjectsInArray.call(that, "businessRanges", ["arg", "val"]);
                 that.translators = null;
                 disposeObjectsInArray.call(that, "series");
-                disposeObject("layoutManager");
                 disposeObject("tracker");
-                disposeObject("chartTitle");
                 disposeObject("_crosshair");
+                that.layoutManager = null;
                 that.paneAxis = null;
                 that._userOptions = null;
                 that._canvas = null;
@@ -2632,7 +533,6 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                 unlinkGroup("_seriesGroup");
                 unlinkGroup("_labelsGroup");
                 unlinkGroup("_crosshairCursorGroup");
-                unlinkGroup("_titleGroup");
                 unlinkGroup("_legendGroup");
                 unlinkGroup("_scrollBarGroup");
                 disposeObject("_canvasClipRect");
@@ -2646,12 +546,11 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                 disposeObject("_seriesGroup");
                 disposeObject("_labelsGroup");
                 disposeObject("_crosshairCursorGroup");
-                disposeObject("_titleGroup");
                 disposeObject("_legendGroup");
                 disposeObject("_scrollBarGroup")
             },
             _getAnimationOptions: function() {
-                return $.extend({}, DEFAULT_ANIMATION_OPTIONS, this._themeManager.getOptions("animation"))
+                return this._themeManager.getOptions("animation")
             },
             _getDefaultSize: function() {
                 return {
@@ -2661,9 +560,6 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
             },
             _getOption: function(name) {
                 return this._themeManager.getOptions(name)
-            },
-            _reinitDataSource: function() {
-                this._refreshDataSource()
             },
             _applySize: _noop,
             _resize: function() {
@@ -2708,7 +604,7 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                     recreateCanvas;
                 if (!that._initialized)
                     return;
-                if (!that._canvas)
+                if (that._canvas.width === 0 && that._canvas.height === 0)
                     return;
                 that._resetIsReady();
                 drawOptions = that._prepareDrawOptions(_options);
@@ -2721,12 +617,11 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                 else
                     that._canvas = that.__currentCanvas;
                 that.DEBUG_canvas = that._canvas;
-                recreateCanvas && that._updateCanvasClipRect();
+                recreateCanvas && that._updateCanvasClipRect(that._canvas);
                 that._renderer.stopAllAnimations(true);
-                charts._setCanvasValues(that._canvas);
+                _setCanvasValues(that._canvas);
                 that._cleanGroups(drawOptions);
                 that._renderElements(drawOptions);
-                that._checkLoadingIndicatorHiding(that._dataSource && that._dataSource.isLoaded());
                 that._canvas = originalCanvas
             },
             _renderElements: function(drawOptions) {
@@ -2739,23 +634,21 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                     dirtyCanvas = $.extend({}, that._canvas),
                     argBusinessRange,
                     zoomMinArg,
+                    drawElements = [],
+                    layoutCanvas = drawOptions.drawTitle && drawOptions.drawLegend && drawOptions.adjustAxes,
                     zoomMaxArg;
                 !drawOptions.isResize && that._scheduleLoadingIndicatorHiding();
                 that.DEBUG_dirtyCanvas = dirtyCanvas;
-                that._renderTitleAndLegend(drawOptions, isLegendInside);
-                that._renderAxes(drawOptions, preparedOptions, isRotated);
-                if (drawOptions.drawTitle && drawOptions.drawLegend && drawOptions.adjustAxes && that.layoutManager.needMoreSpaceForPanesCanvas(that._getLayoutTargets(), isRotated)) {
-                    that.layoutManager.updateDrawnElements(that._getAxesForTransform(isRotated), that._canvas, dirtyCanvas, that._getLayoutTargets(), isRotated);
-                    if (that.chartTitle)
-                        that.layoutManager.correctSizeElement(that.chartTitle, that._canvas);
-                    that._updateCanvasClipRect(dirtyCanvas);
-                    that._updateAxesLayout(drawOptions, preparedOptions, isRotated)
-                }
-                drawOptions.drawTitle && drawOptions.drawLegend && drawOptions.adjustAxes && that.layoutManager.placeDrawnElements(that._canvas);
+                if (layoutCanvas)
+                    drawElements = that._getDrawElements(drawOptions, isLegendInside);
+                that._renderer.lock();
+                that.layoutManager.setOptions(that._layoutManagerOptions());
+                that.layoutManager.layoutElements(drawElements, that._canvas, that._getAxisDrawingMethods(drawOptions, preparedOptions, isRotated), layoutTargets, isRotated, that._getAxesForTransform(isRotated));
+                layoutCanvas && that._updateCanvasClipRect(dirtyCanvas);
                 that._applyClipRects(preparedOptions);
                 that._appendSeriesGroups();
                 that._createCrosshairCursor();
-                $.each(layoutTargets, function() {
+                _each(layoutTargets, function() {
                     var canvas = this.canvas;
                     trackerCanvases.push({
                         left: canvas.left,
@@ -2782,14 +675,8 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                     bottom: that._canvas.height
                 }, trackerCanvases);
                 that._updateLegendPosition(drawOptions, isLegendInside);
-                var timeout = that._getSeriesRenderTimeout(drawOptions);
-                if (timeout >= 0)
-                    that._delayedRedraw = setTimeout(renderSeries, timeout);
-                else
-                    renderSeries();
-                function renderSeries() {
-                    that._renderSeries(drawOptions, isRotated, isLegendInside)
-                }
+                that._renderSeries(drawOptions, isRotated, isLegendInside);
+                that._renderer.unlock()
             },
             _createCrosshairCursor: _noop,
             _appendSeriesGroups: function() {
@@ -2801,17 +688,29 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                 var that = this,
                     themeManager = that._themeManager,
                     resolveLabelOverlapping = themeManager.getOptions("resolveLabelOverlapping");
-                drawOptions.hideLayoutLabels = that.layoutManager.needMoreSpaceForPanesCanvas(that._getLayoutTargets(), that._isRotated()) && !themeManager.getOptions("adaptiveLayout").keepLabels;
+                drawOptions.hideLayoutLabels = that.layoutManager.needMoreSpaceForPanesCanvas(that._getLayoutTargets(), isRotated) && !themeManager.getOptions("adaptiveLayout").keepLabels;
                 that._drawSeries(drawOptions, isRotated);
                 resolveLabelOverlapping !== "none" && that._resolveLabelOverlapping(resolveLabelOverlapping);
                 that._adjustSeries();
                 that._renderTrackers(isLegendInside);
                 that.tracker.repairTooltip();
+                if (that._dataSource.isLoaded())
+                    that._fulfillLoadingIndicatorHiding();
                 that._drawn();
                 that._renderCompleteHandler()
             },
-            _getAnimateOption: function(series, drawOptions) {
-                return drawOptions.animate && series.getPoints().length <= drawOptions.animationPointsLimit && this._renderer.animationEnabled()
+            _drawSeries: function(drawOptions, isRotated) {
+                var that = this,
+                    i,
+                    series = that.series,
+                    singleSeries,
+                    seriesLength = series.length;
+                that._updateSeriesDimensions(drawOptions);
+                for (i = 0; i < seriesLength; i++) {
+                    singleSeries = series[i];
+                    that._applyExtraSettings(singleSeries, drawOptions);
+                    singleSeries.draw(that._prepareTranslators(singleSeries, i, isRotated), drawOptions.animate && singleSeries.getPoints().length <= drawOptions.animationPointsLimit && that._renderer.animationEnabled(), drawOptions.hideLayoutLabels, that._getLegendCallBack(singleSeries))
+                }
             },
             _resolveLabelOverlapping: function(resolveLabelOverlapping) {
                 var func;
@@ -2870,25 +769,11 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                 that._constantLinesGroup.linkRemove().clear();
                 that._labelAxesGroup.linkRemove().clear();
                 that._labelsGroup.linkRemove().clear();
-                that._crosshairCursorGroup.linkRemove().clear();
-                if (!drawOptions || drawOptions.drawLegend)
-                    that._legendGroup.linkRemove().clear();
-                if (!drawOptions || drawOptions.drawTitle)
-                    that._titleGroup.linkRemove().clear()
-            },
-            _drawTitle: function() {
-                var that = this,
-                    options = that._themeManager.getOptions("title"),
-                    width = that._canvas.width - that._canvas.left - that._canvas.right;
-                options._incidentOccured = that._incidentOccured;
-                if (that.chartTitle)
-                    that.chartTitle.update(options, width);
-                else
-                    that.chartTitle = charts.factory.createTitle(that._renderer, options, that._titleGroup)
+                that._crosshairCursorGroup.linkRemove().clear()
             },
             _createLegend: function() {
                 var legendSettings = getLegendSettings(this._legendDataField);
-                this.legend = core.CoreFactory.createLegend({
+                this.legend = viz.CoreFactory.createLegend({
                     renderer: this._renderer,
                     group: this._legendGroup,
                     backgroundClass: 'dxc-border',
@@ -2914,10 +799,8 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                     adjustAxes: true,
                     drawLegend: true,
                     drawTitle: true,
-                    adjustSeriesLabels: true,
                     animate: animationOptions.enabled,
                     animationPointsLimit: animationOptions.maxPointCountSupported,
-                    asyncSeriesRendering: animationOptions.asyncSeriesRendering,
                     updateTracker: true
                 }, drawOptions, this.__renderOptions);
                 if (!_isDefined(options.recreateCanvas))
@@ -2927,127 +810,103 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
             _processRefreshData: function(newRefreshAction) {
                 var currentRefreshActionPosition = $.inArray(this._currentRefreshData, ACTIONS_BY_PRIORITY),
                     newRefreshActionPosition = $.inArray(newRefreshAction, ACTIONS_BY_PRIORITY);
-                if (!this._currentRefreshData || currentRefreshActionPosition >= 0 && newRefreshActionPosition < currentRefreshActionPosition)
-                    this._currentRefreshData = newRefreshAction
+                if (!this._currentRefreshData || currentRefreshActionPosition >= 0 && newRefreshActionPosition < currentRefreshActionPosition) {
+                    this._currentRefreshData = newRefreshAction;
+                    this._invalidate()
+                }
             },
             _getLegendData: function() {
-                var that = this;
                 return _map(this._getLegendTargets(), function(item) {
-                        var style = item.getLegendStyles(),
-                            textOpacity,
+                        var legendData = item.legendData,
+                            style = item.getLegendStyles,
                             opacity = style.normal.opacity;
-                        if (!item.isVisible()) {
+                        if (!item.visible) {
                             if (!_isDefined(opacity) || opacity > DEFAULT_OPACITY)
                                 opacity = DEFAULT_OPACITY;
-                            textOpacity = DEFAULT_OPACITY
+                            legendData.textOpacity = DEFAULT_OPACITY
                         }
-                        return {
-                                text: item[that._legendItemTextField],
-                                id: item.index,
-                                textOpacity: textOpacity,
-                                states: {
-                                    hover: style.hover,
-                                    selection: style.selection,
-                                    normal: _extend({}, style.normal, {opacity: opacity})
-                                }
-                            }
+                        legendData.states = {
+                            hover: style.hover,
+                            selection: style.selection,
+                            normal: _extend({}, style.normal, {opacity: opacity})
+                        };
+                        return legendData
                     })
             },
-            _seriesVisibilityChanged: function() {
-                this._specialProcessSeries();
-                this._populateBusinessRange();
-                this._renderer.stopAllAnimations(true);
-                this._updateLegend();
-                this._render({
-                    force: true,
-                    asyncSeriesRendering: false,
-                    updateTracker: false
-                })
+            _getLegendOptions: function(item) {
+                return {
+                        legendData: {
+                            text: item[this._legendItemTextField],
+                            argument: item.argument,
+                            id: item.index
+                        },
+                        getLegendStyles: item.getLegendStyles(),
+                        visible: item.isVisible()
+                    }
             },
             _disposeSeries: function() {
                 var that = this;
-                $.each(that.series || [], function(_, series) {
+                _each(that.series || [], function(_, series) {
                     series.dispose()
                 });
                 that.series = null;
-                $.each(that.seriesFamilies || [], function(_, family) {
+                _each(that.seriesFamilies || [], function(_, family) {
                     family.dispose()
                 });
                 that.seriesFamilies = null;
                 that._needHandleRenderComplete = true
             },
-            _optionChanged: function(args) {
+            _handleChangedOptions: function(options) {
                 var that = this,
-                    themeManager = that._themeManager,
-                    name = args.name;
-                themeManager.resetOptions(name);
+                    themeManager = that._themeManager;
+                _each(options, function(name) {
+                    themeManager.resetOptions(name)
+                });
                 themeManager.update(that._options);
-                that._scheduleLoadingIndicatorHiding();
-                if (name === 'animation') {
+                that.callBase.apply(that, arguments);
+                if ("animation" in options)
                     that._renderer.updateAnimationOptions(that._getAnimationOptions());
-                    return
+                if ("dataSource" in options) {
+                    that._needHandleRenderComplete = true;
+                    that._processRefreshData(REINIT_DATA_SOURCE_REFRESH_ACTION)
                 }
-                switch (name) {
-                    case'size':
-                    case'margin':
-                        that._invalidate();
-                        break;
-                    case'dataSource':
-                        that._needHandleRenderComplete = true;
-                        that._processRefreshData(REINIT_DATA_SOURCE_REFRESH_ACTION);
-                        break;
-                    case'palette':
-                        themeManager.updatePalette(that.option(name));
-                        that._refreshSeries(DATA_INIT_REFRESH_ACTION);
-                        break;
-                    case'series':
-                    case'commonSeriesSettings':
-                    case'containerBackgroundColor':
-                    case'dataPrepareSettings':
-                        that._refreshSeries(DATA_INIT_REFRESH_ACTION);
-                        break;
-                    case'legend':
-                    case'seriesTemplate':
-                        that._processRefreshData(DATA_INIT_REFRESH_ACTION);
-                        break;
-                    case'title':
-                        that._processRefreshData(FORCE_RENDER_REFRESH_ACTION);
-                        break;
-                    case'valueAxis':
-                    case'argumentAxis':
-                    case'commonAxisSettings':
-                    case'panes':
-                    case'defaultPane':
-                        that._refreshSeries(REINIT_REFRESH_ACTION);
-                        that.paneAxis = {};
-                        break;
-                    case'rotated':
-                        that._createScrollBar();
-                        that._refreshSeries(REINIT_REFRESH_ACTION);
-                        break;
-                    case'customizePoint':
-                    case'customizeLabel':
-                        that._refreshSeries(REINIT_REFRESH_ACTION);
-                        break;
-                    case'scrollBar':
-                        that._createScrollBar();
-                        that._processRefreshData(FORCE_RENDER_REFRESH_ACTION);
-                        break;
-                    case'tooltip':
-                        that._organizeStackPoints();
-                        break;
-                    default:
-                        that._processRefreshData(REINIT_REFRESH_ACTION)
+                if ("palette" in options) {
+                    themeManager.updatePalette(options.palette);
+                    that._refreshSeries(DATA_INIT_REFRESH_ACTION)
                 }
-                that.callBase.apply(that, arguments)
+                if (options._has(["series", "commonSeriesSettings", "containerBackgroundColor", "dataPrepareSettings"]))
+                    that._refreshSeries(DATA_INIT_REFRESH_ACTION);
+                if ("legend" in options || "seriesTemplate" in options)
+                    that._processRefreshData(DATA_INIT_REFRESH_ACTION);
+                if ("title" in options)
+                    that._processRefreshData(FORCE_RENDER_REFRESH_ACTION);
+                if (options._has(["valueAxis", "argumentAxis", "commonAxisSettings", "panes", "defaultPane"])) {
+                    that._refreshSeries(REINIT_REFRESH_ACTION);
+                    that.paneAxis = {}
+                }
+                if ("rotated" in options) {
+                    that._createScrollBar();
+                    that._refreshSeries(REINIT_REFRESH_ACTION)
+                }
+                if ("customizePoint" in options || "customizeLabel" in options)
+                    that._refreshSeries(REINIT_REFRESH_ACTION);
+                if ("scrollBar" in options) {
+                    that._createScrollBar();
+                    that._processRefreshData(FORCE_RENDER_REFRESH_ACTION)
+                }
+                if ("tooltip" in options)
+                    that._organizeStackPoints();
+                if (options._has(REINIT_REFRESH_ACTION_OPTIONS))
+                    that._processRefreshData(REINIT_REFRESH_ACTION);
+                if ("size" in options || "margin" in options || that._currentRefreshData)
+                    that._invalidate()
             },
             _handleThemeOptionsCore: function() {
                 var that = this;
                 if (that._initialized) {
                     that._scheduleLoadingIndicatorHiding();
-                    that._refreshSeries('_reinit');
                     that.beginUpdate();
-                    that._invalidate();
+                    that._refreshSeries(REINIT_REFRESH_ACTION);
                     that.endUpdate()
                 }
             },
@@ -3061,14 +920,10 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                 this._renderer.stopAllAnimations(true);
                 this[methodName]()
             },
-            _dataSourceOptions: function() {
-                return {paginate: false}
-            },
             _updateCanvasClipRect: function(canvas) {
                 var that = this,
                     width,
                     height;
-                canvas = canvas || that._canvas;
                 width = Math.max(canvas.width - canvas.left - canvas.right, 0);
                 height = Math.max(canvas.height - canvas.top - canvas.bottom, 0);
                 that._canvasClipRect.attr({
@@ -3088,8 +943,8 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                 return this._canvasClipRect.id
             },
             _dataSourceChangedHandler: function() {
-                this._resetZoom();
                 this._scheduleLoadingIndicatorHiding();
+                this._resetZoom();
                 this._dataInit()
             },
             _dataInit: function() {
@@ -3106,29 +961,25 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                 needRedraw && that._forceRender()
             },
             _forceRender: function() {
-                var that = this;
-                that._endLoading(function() {
-                    that._render({force: true})
-                })
+                this._render({force: true})
             },
             _repopulateSeries: function() {
                 var that = this,
                     parsedData,
                     themeManager = that._themeManager,
-                    data = that._dataSource && that._dataSource.items(),
+                    data = that._dataSource.items(),
                     dataValidatorOptions = themeManager.getOptions('dataPrepareSettings'),
                     seriesTemplate = themeManager.getOptions('seriesTemplate');
-                if (that._dataSource && seriesTemplate) {
-                    that._templatedSeries = coreUtils.processSeriesTemplate(seriesTemplate, that._dataSource.items());
+                if (seriesTemplate) {
+                    that._templatedSeries = vizUtils.processSeriesTemplate(seriesTemplate, data);
                     that._populateSeries();
                     delete that._templatedSeries;
                     data = that.teamplateData || data
                 }
                 that._groupSeries();
-                that._dataValidator = DX.viz.core.CoreFactory.createDataValidator(data, that._groupedSeries, that._incidentOccured, dataValidatorOptions);
-                parsedData = that._dataValidator.validate();
+                parsedData = viz.validateData(data, that._groupedSeries, that._incidentOccured, dataValidatorOptions);
                 themeManager.resetPalette();
-                $.each(that.series, function(_, singleSeries) {
+                _each(that.series, function(_, singleSeries) {
                     singleSeries.updateData(parsedData);
                     that._processSingleSeries(singleSeries)
                 });
@@ -3139,16 +990,16 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                     themeManager = that._themeManager,
                     sharedTooltip = themeManager.getOptions("tooltip").shared,
                     stackPoints = {};
-                $.each(that.series || [], function(_, singleSeries) {
+                _each(that.series || [], function(_, singleSeries) {
                     that._resetStackPoints(singleSeries);
-                    sharedTooltip && that._prepareStackPoints(singleSeries, stackPoints, true)
+                    sharedTooltip && that._prepareStackPoints(singleSeries, stackPoints)
                 })
             },
             _renderCompleteHandler: function() {
                 var that = this,
                     allSeriesInited = true;
                 if (that._needHandleRenderComplete) {
-                    $.each(that.series, function(_, s) {
+                    _each(that.series, function(_, s) {
                         allSeriesInited = allSeriesInited && s.canRenderCompleteHandle()
                     });
                     if (allSeriesInited) {
@@ -3157,37 +1008,83 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                     }
                 }
             },
-            _renderTitleAndLegend: function(drawOptions, legendHasInsidePosition) {
+            _getDrawElements: function(drawOptions, legendHasInsidePosition) {
                 var that = this,
-                    titleOptions = that._themeManager.getOptions("title"),
-                    drawTitle = titleOptions.text && drawOptions.drawTitle,
-                    drawLegend = drawOptions.drawLegend && that.legend,
                     drawElements = [];
-                if (drawTitle) {
-                    that._titleGroup.linkAppend();
-                    that._drawTitle();
-                    drawElements.push(that.chartTitle)
-                }
-                if (drawLegend) {
+                drawOptions.drawTitle && drawElements.push(that._title);
+                if (drawOptions.drawLegend && that.legend) {
                     that._legendGroup.linkAppend();
                     !legendHasInsidePosition && drawElements.push(that.legend)
                 }
-                drawElements.length && that.layoutManager.drawElements(drawElements, that._canvas);
-                if (drawTitle)
-                    that.layoutManager.correctSizeElement(that.chartTitle, that._canvas)
+                return drawElements
             },
-            _prepareStackPoints: _noop,
-            _resetStackPoints: _noop,
             _resetZoom: _noop,
             _dataIsReady: function() {
-                return this._isDataSourceReady()
+                return this._dataSource.isLoaded()
+            },
+            _populateSeries: function() {
+                var that = this,
+                    themeManager = that._themeManager,
+                    hasSeriesTemplate = !!themeManager.getOptions("seriesTemplate"),
+                    seriesOptions = hasSeriesTemplate ? that._templatedSeries : that.option("series"),
+                    allSeriesOptions = _isArray(seriesOptions) ? seriesOptions : seriesOptions ? [seriesOptions] : [],
+                    extraOptions = that._getExtraOptions(),
+                    particularSeriesOptions,
+                    particularSeries,
+                    seriesTheme,
+                    data,
+                    i,
+                    seriesVisibilityChanged = function() {
+                        that._specialProcessSeries();
+                        that._populateBusinessRange();
+                        that._renderer.stopAllAnimations(true);
+                        that._updateLegend();
+                        that._render({
+                            force: true,
+                            updateTracker: false
+                        })
+                    };
+                that._disposeSeries();
+                that.series = [];
+                that.teamplateData = [];
+                themeManager.resetPalette();
+                for (i = 0; i < allSeriesOptions.length; i++) {
+                    particularSeriesOptions = _extend(true, {}, allSeriesOptions[i], extraOptions);
+                    if (!particularSeriesOptions.name)
+                        particularSeriesOptions.name = "Series " + (i + 1).toString();
+                    data = particularSeriesOptions.data;
+                    particularSeriesOptions.data = null;
+                    particularSeriesOptions.rotated = that._isRotated();
+                    particularSeriesOptions.customizePoint = themeManager.getOptions("customizePoint");
+                    particularSeriesOptions.customizeLabel = themeManager.getOptions("customizeLabel");
+                    particularSeriesOptions.visibilityChanged = seriesVisibilityChanged;
+                    particularSeriesOptions.incidentOccured = that._incidentOccured;
+                    seriesTheme = themeManager.getOptions("series", particularSeriesOptions);
+                    if (!that._checkPaneName(seriesTheme))
+                        continue;
+                    particularSeries = viz.CoreFactory.createSeries({
+                        renderer: that._renderer,
+                        seriesGroup: that._seriesGroup,
+                        labelsGroup: that._labelsGroup
+                    }, seriesTheme);
+                    if (!particularSeries.isUpdated)
+                        that._incidentOccured("E2101", [seriesTheme.type]);
+                    else {
+                        particularSeries.index = that.series.length;
+                        that._processSingleSeries(particularSeries);
+                        that.series.push(particularSeries);
+                        if (hasSeriesTemplate)
+                            setTemplateFields(data, that.teamplateData, particularSeries)
+                    }
+                }
+                return that.series
             },
             getAllSeries: function getAllSeries() {
                 return this.series.slice()
             },
             getSeriesByName: function getSeriesByName(name) {
                 var found = null;
-                $.each(this.series, function(i, singleSeries) {
+                _each(this.series, function(i, singleSeries) {
                     if (singleSeries.name === name) {
                         found = singleSeries;
                         return false
@@ -3219,21 +1116,22 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                         height: canvas.height
                     }
             }
-        }).include(ui.DataHelperMixin)
+        })
     })(jQuery, DevExpress);
     /*! Module viz-charts, file advancedChart.js */
     (function($, DX, undefined) {
-        var charts = DX.viz.charts,
-            utils = DX.utils,
-            core = DX.viz.core,
+        var viz = DX.viz,
+            charts = viz.charts,
+            commonUtils = DX.require("/utils/utils.common"),
+            dateUtils = DX.require("/utils/utils.date"),
             DEFAULT_AXIS_NAME = "defaultAxisName",
-            _isArray = utils.isArray,
-            _isDefined = utils.isDefined,
+            _isArray = commonUtils.isArray,
+            _isDefined = commonUtils.isDefined,
             _each = $.each,
             _extend = $.extend,
-            _map = core.utils.map,
-            MIN = 'min',
-            MAX = 'max';
+            _map = viz.utils.map,
+            MIN = "min",
+            MAX = "max";
         function prepareAxis(axisOptions) {
             return _isArray(axisOptions) ? axisOptions.length === 0 ? [{}] : axisOptions : [axisOptions]
         }
@@ -3244,15 +1142,6 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                 visibleArea.minArg = visibleArea.minArg === undefined ? aggregationRange.arg.min : visibleArea.minArg;
                 visibleArea.maxArg = visibleArea.maxArg === undefined ? aggregationRange.arg.max : visibleArea.maxArg
             }
-        }
-        function setTemplateFields(data, templateData, series) {
-            _each(data, function(_, data) {
-                _each(series.getTeamplatedFields(), function(_, field) {
-                    data[field.teamplateField] = data[field.originalField]
-                });
-                templateData.push(data)
-            });
-            series.updateTeamplateFieldNames()
         }
         charts.AdvancedChart = charts.BaseChart.inherit({
             _dispose: function() {
@@ -3272,53 +1161,6 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                 this.translators = {};
                 this.panes = this._createPanes();
                 this._populateAxes()
-            },
-            _populateSeries: function() {
-                var that = this,
-                    themeManager = that._themeManager,
-                    hasSeriesTemplate = !!themeManager.getOptions("seriesTemplate"),
-                    series = hasSeriesTemplate ? that._templatedSeries : that.option("series"),
-                    allSeriesOptions = _isArray(series) ? series : series ? [series] : [],
-                    data,
-                    extraOptions = that._getExtraOptions(),
-                    particularSeriesOptions,
-                    particularSeries,
-                    rotated = that._isRotated(),
-                    i;
-                that.teamplateData = [];
-                that._disposeSeries();
-                that.series = [];
-                themeManager.resetPalette();
-                for (i = 0; i < allSeriesOptions.length; i++) {
-                    particularSeriesOptions = _extend(true, {}, allSeriesOptions[i], extraOptions);
-                    data = particularSeriesOptions.data;
-                    particularSeriesOptions.data = null;
-                    particularSeriesOptions.rotated = rotated;
-                    particularSeriesOptions.customizePoint = themeManager.getOptions("customizePoint");
-                    particularSeriesOptions.customizeLabel = themeManager.getOptions("customizeLabel");
-                    particularSeriesOptions.visibilityChanged = $.proxy(that._seriesVisibilityChanged, that);
-                    particularSeriesOptions.resolveLabelsOverlapping = themeManager.getOptions("resolveLabelsOverlapping");
-                    particularSeriesOptions.incidentOccured = that._incidentOccured;
-                    if (!particularSeriesOptions.name)
-                        particularSeriesOptions.name = "Series " + (i + 1).toString();
-                    var seriesTheme = themeManager.getOptions("series", particularSeriesOptions);
-                    if (!that._checkPaneName(seriesTheme))
-                        continue;
-                    particularSeries = core.CoreFactory.createSeries({
-                        renderer: that._renderer,
-                        seriesGroup: that._seriesGroup,
-                        labelsGroup: that._labelsGroup
-                    }, seriesTheme);
-                    if (!particularSeries.isUpdated)
-                        that._incidentOccured("E2101", [seriesTheme.type]);
-                    else {
-                        particularSeries.index = that.series.length;
-                        that.series.push(particularSeries);
-                        if (hasSeriesTemplate)
-                            setTemplateFields(data, that.teamplateData, particularSeries)
-                    }
-                }
-                return that.series
             },
             _populateAxes: function() {
                 var that = this,
@@ -3345,12 +1187,11 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                     paneWithNonVirtualAxis = argumentAxesOptions.position === "right" ? panes[panes.length - 1].name : panes[0].name;
                 else
                     paneWithNonVirtualAxis = argumentAxesOptions.position === "top" ? panes[0].name : panes[panes.length - 1].name;
-                argumentAxes = _map(panes, function(pane) {
+                argumentAxes = _map(panes, function(pane, index) {
                     return that._createAxis("argumentAxis", argumentAxesOptions, {
-                            virtual: pane.name !== paneWithNonVirtualAxis,
                             pane: pane.name,
                             crosshairEnabled: rotated ? horCrosshairEnabled : verCrosshairEnabled
-                        }, rotated)
+                        }, rotated, pane.name !== paneWithNonVirtualAxis, index)
                 });
                 _each(valueAxesOptions, function(priority, axisOptions) {
                     var axisPanes = [],
@@ -3364,7 +1205,7 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                         axisPanes.push(axisOptions.pane);
                     if (axisOptions.panes && axisOptions.panes.length)
                         axisPanes = axisPanes.concat(axisOptions.panes.slice(0));
-                    axisPanes = core.utils.unique(axisPanes);
+                    axisPanes = viz.utils.unique(axisPanes);
                     if (!axisPanes.length)
                         axisPanes.push(undefined);
                     _each(axisPanes, function(_, pane) {
@@ -3379,7 +1220,7 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                 that._valueAxes = valueAxes;
                 that._argumentAxes = argumentAxes
             },
-            _prepareStackPoints: function(singleSeries, stackPoints, isSharedTooltip) {
+            _prepareStackPoints: function(singleSeries, stackPoints) {
                 var points = singleSeries.getPoints(),
                     stackName = singleSeries.getStackName();
                 _each(points, function(_, point) {
@@ -3403,10 +1244,8 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                         _each(stackPoints[argument], function(_, stack) {
                             stack.push(point)
                         });
-                    if (isSharedTooltip) {
-                        point.stackPoints = stackPoints[argument][stackName];
-                        point.stackName = stackName
-                    }
+                    point.stackPoints = stackPoints[argument][stackName];
+                    point.stackName = stackName
                 })
             },
             _resetStackPoints: function(singleSeries) {
@@ -3416,9 +1255,10 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                 })
             },
             _disposeAxes: function() {
-                var disposeObjectsInArray = this._disposeObjectsInArray;
-                disposeObjectsInArray.call(this, "_argumentAxes");
-                disposeObjectsInArray.call(this, "_valueAxes")
+                var that = this,
+                    disposeObjectsInArray = that._disposeObjectsInArray;
+                disposeObjectsInArray.call(that, "_argumentAxes");
+                disposeObjectsInArray.call(that, "_valueAxes")
             },
             _drawAxes: function(panesBorderOptions, drawOptions, adjustUnits) {
                 var that = this,
@@ -3440,9 +1280,10 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                 this._scrollBar && this._scrollBarGroup.linkAppend()
             },
             _getLegendTargets: function() {
-                return _map(this.series, function(item) {
+                var that = this;
+                return _map(that.series, function(item) {
                         if (item.getOptions().showInLegend)
-                            return item;
+                            return that._getLegendOptions(item);
                         return null
                     })
             },
@@ -3467,9 +1308,10 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                     paneSeries,
                     themeManager = that._themeManager,
                     familyOptions = {
-                        equalBarWidth: that._getEqualBarWidth(),
+                        equalBarWidth: themeManager.getOptions("equalBarWidth"),
                         minBubbleSize: themeManager.getOptions("minBubbleSize"),
-                        maxBubbleSize: themeManager.getOptions("maxBubbleSize")
+                        maxBubbleSize: themeManager.getOptions("maxBubbleSize"),
+                        barWidth: themeManager.getOptions("barWidth")
                     };
                 if (that.seriesFamilies && that.seriesFamilies.length) {
                     _each(that.seriesFamilies, function(_, family) {
@@ -3485,14 +1327,14 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                 _each(that._getLayoutTargets(), function(_, pane) {
                     paneSeries = that._getSeriesForPane(pane.name);
                     _each(types, function(_, type) {
-                        var family = core.CoreFactory.createSeriesFamily({
+                        var family = viz.CoreFactory.createSeriesFamily({
                                 type: type,
                                 pane: pane.name,
                                 equalBarWidth: familyOptions.equalBarWidth,
                                 minBubbleSize: familyOptions.minBubbleSize,
                                 maxBubbleSize: familyOptions.maxBubbleSize,
-                                rotated: that._isRotated(),
-                                sortSeriesPointsByAxis: that._getOption("sortSeriesPointsByAxis")
+                                barWidth: familyOptions.barWidth,
+                                rotated: that._isRotated()
                             });
                         family.add(paneSeries);
                         family.adjustSeriesValues();
@@ -3500,6 +1342,20 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                     })
                 });
                 that.seriesFamilies = families
+            },
+            _updateSeriesDimensions: function() {
+                var that = this,
+                    i,
+                    seriesFamilies = that.seriesFamilies || [];
+                for (i = 0; i < seriesFamilies.length; i++) {
+                    var family = seriesFamilies[i],
+                        translators = that._getTranslator(family.pane) || {};
+                    family.updateSeriesValues(translators);
+                    family.adjustSeriesDimensions(translators)
+                }
+            },
+            _getLegendCallBack: function(series) {
+                return this.legend && this.legend.getActionCallback(series)
             },
             _appendAxesGroups: function() {
                 var that = this;
@@ -3509,27 +1365,23 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                 that._constantLinesGroup.linkAppend();
                 that._labelAxesGroup.linkAppend()
             },
-            _updateAxesLayout: function(drawOptions, panesBorderOptions, rotated) {
-                this.layoutManager.updatePanesCanvases(this._getLayoutTargets(), this._canvas, rotated);
-                this._drawAxes(panesBorderOptions, drawOptions, true)
-            },
             _populateBusinessRange: function(visibleArea) {
                 var that = this,
                     businessRanges = [],
                     themeManager = that._themeManager,
                     rotated = that._isRotated(),
-                    useAggregation = themeManager.getOptions('useAggregation'),
+                    useAggregation = themeManager.getOptions("useAggregation"),
                     argAxes = that._argumentAxes,
                     lastArgAxis = argAxes[argAxes.length - 1],
                     calcInterval = lastArgAxis.calcInterval,
-                    argRange = new core.Range({rotated: !!rotated}),
+                    argRange = new viz.Range({rotated: !!rotated}),
                     argBusinessRange;
                 that._disposeObjectsInArray("businessRanges", ["arg", "val"]);
                 _each(argAxes, function(_, axis) {
                     argRange.addRange(axis.getRangeData())
                 });
                 _each(that._groupedSeries, function(_, group) {
-                    var groupRange = new core.Range({
+                    var groupRange = new viz.Range({
                             rotated: !!rotated,
                             isValueRange: true,
                             pane: group.valueAxis.pane,
@@ -3544,7 +1396,7 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                         argRange.addRange(seriesRange.arg)
                     });
                     if (!groupRange.isDefined())
-                        groupRange.setStubData(group.valueAxis.getOptions().valueType === 'datetime' ? 'datetime' : undefined);
+                        groupRange.setStubData(group.valueAxis.getOptions().valueType === "datetime" ? "datetime" : undefined);
                     if (group.valueAxis.getOptions().showZero)
                         groupRange.correctValueZeroLevel();
                     groupRange.checkZeroStick();
@@ -3571,20 +1423,20 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                     tickIntervalRange = {},
                     tickInterval = lastArgAxis.getOptions().tickInterval,
                     originInterval = tickInterval;
-                tickInterval = $.isNumeric(tickInterval) ? tickInterval : utils.dateToMilliseconds(tickInterval);
+                tickInterval = $.isNumeric(tickInterval) ? tickInterval : dateUtils.dateToMilliseconds(tickInterval);
                 if (tickInterval && _isDefined(range[MIN]) && _isDefined(range[MAX]) && tickInterval >= Math.abs(range[MAX] - range[MIN])) {
-                    if (utils.isDate(range[MIN])) {
+                    if (commonUtils.isDate(range[MIN])) {
                         if (!$.isNumeric(originInterval)) {
-                            tickIntervalRange[MIN] = utils.addInterval(range[MIN], originInterval, true);
-                            tickIntervalRange[MAX] = utils.addInterval(range[MAX], originInterval, false)
+                            tickIntervalRange[MIN] = dateUtils.addInterval(range[MIN], originInterval, true);
+                            tickIntervalRange[MAX] = dateUtils.addInterval(range[MAX], originInterval, false)
                         }
                         else {
                             tickIntervalRange[MIN] = new Date(range[MIN].valueOf() - tickInterval);
                             tickIntervalRange[MAX] = new Date(range[MAX].valueOf() + tickInterval)
                         }
                         if (setTicksAtUnitBeginning) {
-                            utils.correctDateWithUnitBeginning(tickIntervalRange[MAX], originInterval);
-                            utils.correctDateWithUnitBeginning(tickIntervalRange[MIN], originInterval)
+                            dateUtils.correctDateWithUnitBeginning(tickIntervalRange[MAX], originInterval);
+                            dateUtils.correctDateWithUnitBeginning(tickIntervalRange[MIN], originInterval)
                         }
                     }
                     else {
@@ -3615,26 +1467,34 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                         this.resetAutoLabelFormat()
                 })
             },
-            _createAxis: function(typeSelector, userOptions, axisOptions, rotated) {
+            _createAxis: function(typeSelector, userOptions, axisOptions, rotated, virtual, index) {
                 var that = this,
                     renderingSettings = _extend({
                         renderer: that._renderer,
                         incidentOccured: that._incidentOccured,
                         axisClass: typeSelector === "argumentAxis" ? "arg" : "val",
+                        widgetClass: "dxc",
                         stripsGroup: that._stripsGroup,
                         labelAxesGroup: that._labelAxesGroup,
                         constantLinesGroup: that._constantLinesGroup,
                         axesContainerGroup: that._axesGroup,
                         gridGroup: that._gridGroup
-                    }, that._getAxisRenderingOptions(typeSelector, userOptions, rotated)),
-                    axis;
-                userOptions = that._prepareStripsAndConstantLines(typeSelector, userOptions, rotated);
-                axis = new charts.axes.Axis(renderingSettings);
-                axis.updateOptions(_extend(true, {}, userOptions, axisOptions, that._prepareAxisOptions(typeSelector, userOptions)));
+                    }, that._getAxisRenderingOptions(typeSelector)),
+                    axis,
+                    preparedUserOptions = that._prepareStripsAndConstantLines(typeSelector, userOptions, rotated),
+                    options = _extend(true, {}, preparedUserOptions, axisOptions, that._prepareAxisOptions(typeSelector, preparedUserOptions, rotated));
+                if (virtual) {
+                    options.visible = options.tick.visible = options.minorTick.visible = options.label.visible = false;
+                    options.title = {}
+                }
+                axis = new viz.axes.Axis(renderingSettings);
+                axis.updateOptions(options);
+                if (!virtual && _isDefined(index))
+                    that._displayedArgumentAxisIndex = index;
                 return axis
             },
             _getTrackerSettings: function() {
-                return _extend(this.callBase(), {argumentAxis: this._argumentAxes})
+                return _extend(this.callBase(), {argumentAxis: this._argumentAxes[this._displayedArgumentAxisIndex]})
             },
             _prepareStripsAndConstantLines: function(typeSelector, userOptions, rotated) {
                 userOptions = this._themeManager.getOptions(typeSelector, userOptions, rotated);
@@ -3648,28 +1508,28 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                     });
                 return userOptions
             },
-            _legendDataField: 'series',
+            _legendDataField: "series",
             _adjustSeries: $.noop
         })
     })(jQuery, DevExpress);
     /*! Module viz-charts, file chart.js */
     (function($, DX, undefined) {
         var viz = DX.viz,
-            core = viz.core,
             charts = viz.charts,
-            utils = DX.utils,
+            commonUtils = DX.require("/utils/utils.common"),
+            registerComponent = DX.require("/componentRegistrator"),
+            vizUtils = DX.viz.utils,
             MAX_ADJUSTMENT_ATTEMPTS = 5,
             DEFAULT_PANE_NAME = "default",
-            ASYNC_SERIES_RENDERING_DELAY = 25,
             DEFAULT_PANES = [{
                     name: DEFAULT_PANE_NAME,
                     border: {}
                 }],
-            _map = core.utils.map,
+            _map = viz.utils.map,
             _each = $.each,
             _extend = $.extend,
-            _isArray = utils.isArray,
-            _isDefined = utils.isDefined;
+            _isArray = commonUtils.isArray,
+            _isDefined = commonUtils.isDefined;
         function getFirstAxisNameForPane(axes, paneName) {
             var result;
             for (var i = 0; i < axes.length; i++)
@@ -3820,14 +1680,12 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
             };
             return prepareSegmentRectPoints
         };
-        DX.registerComponent("dxChart", viz.charts, charts.AdvancedChart.inherit({
+        registerComponent("dxChart", viz.charts, charts.AdvancedChart.inherit({
             _chartType: "chart",
-            _setDefaultOptions: function() {
-                this.callBase();
-                this.option({defaultPane: DEFAULT_PANE_NAME})
+            _getDefaultOptions: function() {
+                return $.extend(this.callBase(), {defaultPane: DEFAULT_PANE_NAME})
             },
             _initCore: function() {
-                this.__ASYNC_SERIES_RENDERING_DELAY = ASYNC_SERIES_RENDERING_DELAY;
                 this.paneAxis = {};
                 this._panesClipRects = {};
                 this.callBase()
@@ -3929,14 +1787,15 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                 });
                 return found
             },
-            _getAxisRenderingOptions: function(typeSelector, axisOptions, rotated) {
+            _getAxisRenderingOptions: function() {
                 return {
-                        axesType: "xyAxes",
-                        drawingType: "linear",
-                        isHorizontal: typeSelector === "argumentAxis" ? !rotated : rotated
+                        axisType: "xyAxes",
+                        drawingType: "linear"
                     }
             },
-            _prepareAxisOptions: $.noop,
+            _prepareAxisOptions: function(typeSelector, userOptions, rotated) {
+                return {isHorizontal: typeSelector === "argumentAxis" !== rotated}
+            },
             _checkPaneName: function(seriesTheme) {
                 var paneList = _map(this.panes, function(pane) {
                         return pane.name
@@ -4004,7 +1863,7 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                 return paneSeries
             },
             _createTranslator: function(range, canvas, options) {
-                return core.CoreFactory.createTranslator2D(range, canvas, options)
+                return viz.CoreFactory.createTranslator2D(range, canvas, options)
             },
             _createPanesBorderOptions: function() {
                 var commonBorderOptions = this._themeManager.getOptions("commonPaneSettings").border,
@@ -4052,10 +1911,10 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
             _isLegendInside: function() {
                 return this.legend && this.legend.getPosition() === "inside"
             },
-            _renderAxes: function(drawOptions, panesBorderOptions, rotated) {
+            _renderAxes: function(drawOptions, panesBorderOptions, rotated, adjustUnits) {
                 if (drawOptions && drawOptions.recreateCanvas)
-                    this.layoutManager.updatePanesCanvases(this.panes, this._canvas, rotated);
-                this._drawAxes(panesBorderOptions, drawOptions)
+                    vizUtils.updatePanesCanvases(this.panes, this._canvas, rotated);
+                this._drawAxes(panesBorderOptions, drawOptions, adjustUnits)
             },
             _isRotated: function() {
                 return this._themeManager.getOptions("rotated")
@@ -4075,44 +1934,34 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                     that._valueAxes[i].applyClipRects(that._getElementsClipRectID(that._valueAxes[i].pane), canvasClipRectID);
                 that._fillPanesBackground()
             },
-            _getSeriesRenderTimeout: function(drawOptions) {
-                return drawOptions.asyncSeriesRendering ? ASYNC_SERIES_RENDERING_DELAY : undefined
-            },
             _updateLegendPosition: function(drawOptions, legendHasInsidePosition) {
                 var that = this;
                 if (drawOptions.drawLegend && that.legend && legendHasInsidePosition) {
                     var panes = that.panes,
                         newCanvas = _extend({}, panes[0].canvas),
-                        layoutManager = charts.factory.createChartLayoutManager();
+                        layoutManager = new charts.LayoutManager;
                     newCanvas.right = panes[panes.length - 1].canvas.right;
                     newCanvas.bottom = panes[panes.length - 1].canvas.bottom;
-                    layoutManager.drawElements([that.legend], newCanvas);
-                    layoutManager.placeDrawnElements(newCanvas)
+                    layoutManager.setOptions({
+                        width: 0,
+                        height: 0
+                    });
+                    layoutManager.layoutElements([that.legend], newCanvas, $.noop, [{canvas: newCanvas}])
                 }
             },
-            _drawSeries: function(drawOptions, rotated) {
-                var that = this;
-                _each(that.seriesFamilies || [], function(_, seriesFamily) {
-                    var translators = that._getTranslator(seriesFamily.pane) || {};
-                    seriesFamily.updateSeriesValues(translators);
-                    seriesFamily.adjustSeriesDimensions(translators)
-                });
-                _each(that.series, function(_, particularSeries) {
-                    that._applyPaneClipRect(particularSeries);
-                    particularSeries.setAdjustSeriesLabels(drawOptions.adjustSeriesLabels);
-                    var tr = that._getTranslator(particularSeries.pane, particularSeries.axis),
-                        translators = {};
-                    translators[rotated ? "x" : "y"] = tr.val;
-                    translators[rotated ? "y" : "x"] = tr.arg;
-                    particularSeries.draw(translators, that._getAnimateOption(particularSeries, drawOptions), drawOptions.hideLayoutLabels, that.legend && that.legend.getActionCallback(particularSeries))
-                })
+            _prepareTranslators: function(series, _, rotated) {
+                var tr = this._getTranslator(series.pane, series.axis),
+                    translators = {};
+                translators[rotated ? "x" : "y"] = tr.val;
+                translators[rotated ? "y" : "x"] = tr.arg;
+                return translators
             },
-            _applyPaneClipRect: function(seriesOptions) {
+            _applyExtraSettings: function(series, drawOptions) {
                 var that = this,
-                    paneIndex = that._getPaneIndex(seriesOptions.pane),
+                    paneIndex = that._getPaneIndex(series.pane),
                     panesClipRects = that._panesClipRects,
                     wideClipRect = panesClipRects.wide[paneIndex];
-                seriesOptions.setClippingParams(panesClipRects.base[paneIndex].id, wideClipRect && wideClipRect.id, that._getPaneBorderVisibility(paneIndex))
+                series.setClippingParams(panesClipRects.base[paneIndex].id, wideClipRect && wideClipRect.id, that._getPaneBorderVisibility(paneIndex))
             },
             _createTranslators: function(drawOptions) {
                 var that = this,
@@ -4121,18 +1970,18 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                 if (!drawOptions.recreateCanvas)
                     return;
                 that.translators = translators = {};
-                that.layoutManager.updatePanesCanvases(that.panes, that._canvas, rotated);
+                vizUtils.updatePanesCanvases(that.panes, that._canvas, rotated);
                 _each(that.paneAxis, function(paneName, pane) {
                     translators[paneName] = translators[paneName] || {};
                     _each(pane, function(axisName) {
-                        var translator = that._createTranslator(new core.Range(that._getBusinessRange(paneName, axisName).val), that._getCanvasForPane(paneName), rotated ? {direction: "horizontal"} : {});
+                        var translator = that._createTranslator(new viz.Range(that._getBusinessRange(paneName, axisName).val), that._getCanvasForPane(paneName), {isHorizontal: !!rotated});
                         translator.pane = paneName;
                         translator.axis = axisName;
                         translators[paneName][axisName] = {val: translator}
                     })
                 });
                 _each(that._argumentAxes, function(_, axis) {
-                    var translator = that._createTranslator(new core.Range(that._getBusinessRange(axis.pane).arg), that._getCanvasForPane(axis.pane), !rotated ? {direction: "horizontal"} : {});
+                    var translator = that._createTranslator(new viz.Range(that._getBusinessRange(axis.pane).arg), that._getCanvasForPane(axis.pane), {isHorizontal: !rotated});
                     _each(translators[axis.pane], function(valAxis, paneAxisTran) {
                         paneAxisTran.arg = translator
                     })
@@ -4142,9 +1991,9 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                 var that = this;
                 _each(that.translators, function(pane, axisTrans) {
                     _each(axisTrans, function(axis, translator) {
-                        translator.arg.updateBusinessRange(new core.Range(that._getBusinessRange(pane).arg));
+                        translator.arg.updateBusinessRange(new viz.Range(that._getBusinessRange(pane).arg));
                         delete translator.arg._originalBusinessRange;
-                        translator.val.updateBusinessRange(new core.Range(that._getBusinessRange(pane, axis).val));
+                        translator.val.updateBusinessRange(new viz.Range(that._getBusinessRange(pane, axis).val));
                         delete translator.val._originalBusinessRange
                     })
                 })
@@ -4153,6 +2002,12 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                 return {
                         verticalAxes: !rotated ? this._getValueAxes() : this._getArgumentAxes(),
                         horizontalAxes: !rotated ? this._getArgumentAxes() : this._getValueAxes()
+                    }
+            },
+            _getAxisDrawingMethods: function(drawOptions, preparedOptions, isRotated) {
+                var that = this;
+                return function(adjustUnits) {
+                        that._renderAxes(drawOptions, preparedOptions, isRotated, adjustUnits)
                     }
             },
             _reinitTranslators: function() {
@@ -4232,7 +2087,8 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
             _createCrosshairCursor: function() {
                 var that = this,
                     options = that._themeManager.getOptions("crosshair") || {},
-                    axes = !that._isRotated() ? [that._argumentAxes, that._valueAxes] : [that._valueAxes, that._argumentAxes],
+                    index = that._displayedArgumentAxisIndex,
+                    axes = !that._isRotated() ? [[that._argumentAxes[index]], that._valueAxes] : [that._valueAxes, [that._argumentAxes[index]]],
                     parameters = {
                         canvas: that._getCommonCanvas(),
                         panes: that._getPanesParameters(),
@@ -4508,7 +2364,6 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
             },
             _resolveLabelOverlappingStack: function() {
                 var that = this,
-                    stackPoints = {},
                     isRotated = that._isRotated(),
                     shiftDirection = isRotated ? function(box, length) {
                         return {
@@ -4521,17 +2376,13 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                                 y: box.y - length
                             }
                     };
-                _each(this._getVisibleSeries(), function(_, particularSeries) {
-                    that._prepareStackPoints(particularSeries, stackPoints)
-                });
-                _each(stackPoints, function(_, stacks) {
-                    _each(stacks, function(_, points) {
-                        charts.overlapping.resolveLabelOverlappingInOneDirection(points, that._getCommonCanvas(), isRotated, shiftDirection)
+                _each(that.seriesFamilies, function(_, family) {
+                    _each(family.getStackPoints(), function(_, stacks) {
+                        _each(stacks, function(_, points) {
+                            charts.overlapping.resolveLabelOverlappingInOneDirection(points, that._getCommonCanvas(), isRotated, shiftDirection)
+                        })
                     })
                 })
-            },
-            _getEqualBarWidth: function() {
-                return this._themeManager.getOptions("equalBarWidth")
             },
             _getCrosshairOptions: function() {
                 return this._getOption("crosshair")
@@ -4551,8 +2402,6 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                     drawLegend: false,
                     adjustAxes: false,
                     animate: false,
-                    adjustSeriesLabels: false,
-                    asyncSeriesRendering: false,
                     updateTracker: false
                 })
             },
@@ -4575,18 +2424,44 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
     /*! Module viz-charts, file pieChart.js */
     (function($, DX, undefined) {
         var viz = DX.viz,
-            core = viz.core,
             charts = viz.charts,
-            utils = DX.utils,
+            mathUtils = DX.require("/utils/utils.math"),
+            commonUtils = DX.require("/utils/utils.common"),
+            registerComponent = DX.require("/componentRegistrator"),
+            seriesSpacing = viz.series.helpers.consts.pieSeriesSpacing,
+            REINIT_REFRESH_ACTION = "_reinit",
+            DATA_INIT_REFRESH_ACTION = "_dataInit",
+            OPTIONS_FOR_REFRESH_SERIES = ["startAngle", "innerRadius", "segmentsDirection", "type"],
             _extend = $.extend,
+            _each = $.each,
             _noop = $.noop,
-            _getVerticallyShiftedAngularCoords = DX.viz.core.utils.getVerticallyShiftedAngularCoords;
-        DX.registerComponent("dxPieChart", viz.charts, charts.BaseChart.inherit({
+            _getVerticallyShiftedAngularCoords = viz.utils.getVerticallyShiftedAngularCoords;
+        registerComponent("dxPieChart", viz.charts, charts.BaseChart.inherit({
+            _setDeprecatedOptions: function() {
+                this.callBase.apply(this, arguments);
+                _extend(this._deprecatedOptions, {
+                    "series.innerRadius": {
+                        since: "15.2",
+                        message: "Use the 'innerRadius' option instead"
+                    },
+                    "series.startAngle": {
+                        since: "15.2",
+                        message: "Use the 'startAngle' option instead"
+                    },
+                    "series.segmentsDirection": {
+                        since: "15.2",
+                        message: "Use the 'segmentsDirection' option instead"
+                    },
+                    "series.type": {
+                        since: "15.2",
+                        message: "Use the 'type' option instead"
+                    }
+                })
+            },
             _chartType: 'pie',
-            _reinitAxes: _noop,
             _layoutManagerOptions: function() {
                 var diameter = this._themeManager.getOptions('diameter');
-                if (utils.isNumber(diameter)) {
+                if (commonUtils.isNumber(diameter)) {
                     if (diameter > 1)
                         diameter = 1;
                     else if (diameter < 0)
@@ -4596,6 +2471,13 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                     diameter = undefined;
                 return _extend(true, {}, this.callBase(), {piePercentage: diameter})
             },
+            _handleChangedOptions: function(options) {
+                this.callBase.apply(this, arguments);
+                if ("diameter" in options)
+                    this._processRefreshData(REINIT_REFRESH_ACTION);
+                if (options._has(OPTIONS_FOR_REFRESH_SERIES))
+                    this._refreshSeries(DATA_INIT_REFRESH_ACTION)
+            },
             _groupSeries: function() {
                 this.series.valueOptions = {valueType: "numeric"};
                 this._groupedSeries = [this.series];
@@ -4604,76 +2486,61 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
             _populateBusinessRange: function() {
                 var businessRanges = [],
                     series = this.series,
-                    singleSeries = series[0],
-                    range = new core.Range,
                     singleSeriesRange;
                 this._disposeObjectsInArray("businessRanges");
-                if (singleSeries) {
+                _each(series, function(_, singleSeries) {
+                    var range = new viz.Range;
                     singleSeriesRange = singleSeries.getRangeData();
                     range.addRange(singleSeriesRange.val);
                     if (!range.isDefined())
                         range.setStubData();
                     businessRanges.push(range)
-                }
+                });
                 this.businessRanges = businessRanges
             },
             _specialProcessSeries: function() {
-                this.series[0].arrangePoints()
+                _each(this.series, function(_, singleSeries) {
+                    singleSeries.arrangePoints()
+                })
             },
             _createTranslator: function(range) {
-                return core.CoreFactory.createTranslator1D(range.min, range.max, 360, 0)
+                return viz.CoreFactory.createTranslator1D(range.min, range.max, 360, 0)
             },
-            _populateSeries: function() {
-                var that = this,
-                    themeManager = that._themeManager,
-                    hasSeriesTemplate = !!themeManager.getOptions("seriesTemplate"),
-                    seriesOptions = hasSeriesTemplate ? that._templatedSeries : that.option("series"),
-                    allSeriesOptions = $.isArray(seriesOptions) ? seriesOptions : seriesOptions ? [seriesOptions] : [],
-                    data,
-                    particularSeriesOptions,
-                    particularSeries,
-                    seriesTheme;
-                that._disposeSeries();
-                that.series = [];
-                themeManager.resetPalette();
-                if (allSeriesOptions.length) {
-                    particularSeriesOptions = _extend(true, {}, allSeriesOptions[0]);
-                    if (particularSeriesOptions.type && !utils.isString(particularSeriesOptions.type))
-                        particularSeriesOptions.type = "";
-                    data = particularSeriesOptions.data;
-                    particularSeriesOptions.data = null;
-                    particularSeriesOptions.incidentOccured = that._incidentOccured;
-                    seriesTheme = themeManager.getOptions("series", particularSeriesOptions, true);
-                    seriesTheme.visibilityChanged = $.proxy(that._seriesVisibilityChanged, that);
-                    seriesTheme.customizePoint = themeManager.getOptions("customizePoint");
-                    seriesTheme.customizeLabel = themeManager.getOptions("customizeLabel");
-                    particularSeries = core.CoreFactory.createSeries({
-                        renderer: that._renderer,
-                        seriesGroup: that._seriesGroup,
-                        labelsGroup: that._labelsGroup
-                    }, seriesTheme);
-                    if (!particularSeries.isUpdated)
-                        that._incidentOccured("E2101", [seriesTheme.type]);
-                    else {
-                        that._processSingleSeries(particularSeries);
-                        that.series.push(particularSeries)
-                    }
-                    particularSeriesOptions.data = data
-                }
-                return that.series
+            _checkPaneName: function() {
+                return true
             },
             _processSingleSeries: function(singleSeries) {
                 singleSeries.arrangePoints()
             },
-            _seriesPopulatedHandlerCore: _noop,
             _getLegendTargets: function() {
-                return this.series[0] ? this.series[0].getPoints() : []
+                var that = this,
+                    points = [],
+                    args = {},
+                    itemIndex,
+                    index = 0;
+                _each(that.series, function(_, singleSeries) {
+                    var arrayArguments = {},
+                        count;
+                    _each(singleSeries.getPoints(), function(_, point) {
+                        var argument = point.argument;
+                        arrayArguments[argument] = ++arrayArguments[argument] || 0;
+                        count = arrayArguments[argument];
+                        itemIndex = args[argument + count];
+                        if (itemIndex === undefined) {
+                            point.index = args[argument + count] = index;
+                            points.push(that._getLegendOptions(point));
+                            index++
+                        }
+                        else {
+                            point.index = itemIndex;
+                            if (!points[itemIndex].visible)
+                                points[itemIndex].visible = point.isVisible()
+                        }
+                    })
+                });
+                return points
             },
-            _legendItemTextField: "argument",
-            _prepareToRender: _noop,
-            _isLegendInside: _noop,
-            _renderAxes: _noop,
-            _isRotated: _noop,
+            _getAxisDrawingMethods: _noop,
             _getLayoutTargets: function() {
                 return [{canvas: this._canvas}]
             },
@@ -4683,56 +2550,121 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                         horizontalAxes: []
                     }
             },
-            _updateAxesLayout: _noop,
-            _applyClipRects: _noop,
-            _appendAdditionalSeriesGroups: _noop,
-            _getSeriesRenderTimeout: _noop,
-            _drawSeries: function(drawOptions) {
+            _getLayoutSeries: function(series, drawOptions) {
                 var that = this,
-                    singleSeries = that.getSeries(),
-                    legend = that.legend,
-                    getActionCallbackProxy = $.proxy(legend.getActionCallback, legend);
-                if (singleSeries) {
-                    that.layoutManager.applyPieChartSeriesLayout(that._canvas, singleSeries, true);
-                    singleSeries.canvas = that._canvas;
-                    singleSeries.resetLabelSetups();
-                    if (singleSeries.drawLabelsWOPoints(that._createTranslator(that.businessRanges[0], that._canvas)))
-                        that.layoutManager.applyPieChartSeriesLayout(that._canvas, singleSeries, drawOptions.hideLayoutLabels);
-                    singleSeries.draw(that._createTranslator(that.businessRanges[0], that._canvas), that._getAnimateOption(singleSeries, drawOptions), drawOptions.hideLayoutLabels, getActionCallbackProxy)
+                    layout,
+                    canvas = that._canvas,
+                    drawnLabels = false;
+                layout = that.layoutManager.applyPieChartSeriesLayout(canvas, series, true);
+                _each(series, function(i, singleSeries) {
+                    singleSeries.correctPosition(layout);
+                    drawnLabels = singleSeries.drawLabelsWOPoints(that._createTranslator(that.businessRanges[i])) || drawnLabels
+                });
+                if (drawnLabels)
+                    layout = that.layoutManager.applyPieChartSeriesLayout(canvas, series, drawOptions.hideLayoutLabels);
+                return layout
+            },
+            _updateSeriesDimensions: function(drawOptions) {
+                var that = this,
+                    visibleSeries = that._getVisibleSeries(),
+                    lengthVisibleSeries = visibleSeries.length,
+                    innerRad,
+                    delta,
+                    layout;
+                if (lengthVisibleSeries) {
+                    layout = that._getLayoutSeries(visibleSeries, drawOptions);
+                    delta = (layout.radiusOuter - layout.radiusInner - seriesSpacing * (lengthVisibleSeries - 1)) / lengthVisibleSeries;
+                    innerRad = layout.radiusInner;
+                    that._setCenter({
+                        x: layout.centerX,
+                        y: layout.centerY
+                    });
+                    _each(visibleSeries, function(_, singleSeries) {
+                        singleSeries.correctRadius({
+                            radiusInner: innerRad,
+                            radiusOuter: innerRad + delta
+                        });
+                        innerRad += delta + seriesSpacing
+                    })
                 }
             },
-            _adjustSeries: function() {
-                var singleSeries = this.getSeries();
-                singleSeries && singleSeries.adjustLabels()
+            _prepareTranslators: function(_, i) {
+                return this._createTranslator(this.businessRanges[i])
             },
-            _updateLegendPosition: _noop,
-            _renderTrackers: _noop,
-            _createScrollBar: _noop,
+            _getLegendCallBack: function() {
+                var legend = this.legend;
+                return function(point) {
+                        return legend.getActionCallback(point)
+                    }
+            },
+            _adjustSeries: function() {
+                _each(this.series, function(_, singleSeries) {
+                    singleSeries.adjustLabels()
+                })
+            },
+            _prepareStackPoints: _noop,
+            _resetStackPoints: _noop,
+            _applyExtraSettings: _noop,
             _resolveLabelOverlappingShift: function() {
-                var series = this.series[0],
-                    center = series.getCenter(),
-                    lPoints = [],
-                    rPoints = [];
-                $.each(series.getVisiblePoints(), function(_, point) {
-                    var angle = utils.normalizeAngle(point.middleAngle);
-                    (angle <= 90 || angle >= 270 ? rPoints : lPoints).push(point)
+                var that = this,
+                    series = that.series,
+                    center = that._center;
+                _each(series, function(_, singleSeries) {
+                    if (singleSeries.getOptions().label.position === "inside")
+                        return;
+                    var points = singleSeries.getVisiblePoints(),
+                        lPoints = [],
+                        rPoints = [];
+                    $.each(points, function(_, point) {
+                        var angle = mathUtils.normalizeAngle(point.middleAngle);
+                        (angle <= 90 || angle >= 270 ? rPoints : lPoints).push(point)
+                    });
+                    charts.overlapping.resolveLabelOverlappingInOneDirection(lPoints, that._canvas, false, shiftFunction);
+                    charts.overlapping.resolveLabelOverlappingInOneDirection(rPoints, that._canvas, false, shiftFunction)
                 });
-                charts.overlapping.resolveLabelOverlappingInOneDirection(lPoints, this._canvas, false, shiftFunction);
-                charts.overlapping.resolveLabelOverlappingInOneDirection(rPoints, this._canvas, false, shiftFunction);
                 function shiftFunction(box, length) {
                     return _getVerticallyShiftedAngularCoords(box, -length, center)
                 }
             },
-            getSeries: function getSeries() {
-                return this.series && this.series[0]
+            _setCenter: function(center) {
+                this._center = center
             },
-            _legendDataField: 'point'
+            getSeries: function() {
+                DX.require("/errors").log("W0002", "dxPieChart", "getSeries", "15.2", "Use the 'getAllSeries' method instead");
+                return this.series[0]
+            },
+            _legendDataField: 'point',
+            _legendItemTextField: "argument",
+            _updateLegendPosition: _noop,
+            _renderTrackers: _noop,
+            _createScrollBar: _noop,
+            _updateAxesLayout: _noop,
+            _applyClipRects: _noop,
+            _appendAdditionalSeriesGroups: _noop,
+            _prepareToRender: _noop,
+            _isLegendInside: _noop,
+            _renderAxes: _noop,
+            _isRotated: _noop,
+            _seriesPopulatedHandlerCore: _noop,
+            _reinitAxes: _noop,
+            _correctAxes: _noop,
+            _getExtraOptions: function() {
+                var that = this;
+                return {
+                        startAngle: that.option("startAngle"),
+                        innerRadius: that.option("innerRadius"),
+                        segmentsDirection: that.option("segmentsDirection"),
+                        type: that.option("type")
+                    }
+            }
         }))
     })(jQuery, DevExpress);
     /*! Module viz-charts, file polarChart.js */
     (function($, DX, undefined) {
         var charts = DX.viz.charts,
-            core = DX.viz.core,
+            registerComponent = DX.require("/componentRegistrator"),
+            mathUtils = DX.require("/utils/utils.math"),
+            viz = DX.viz,
             _noop = $.noop,
             DEFAULT_PANE_NAME = 'default';
         var PolarChart = charts.AdvancedChart.inherit({
@@ -4750,13 +2682,17 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                     if (useSpiderWeb)
                         type += "Spider";
                     return {
-                            axesType: "polarAxes",
-                            drawingType: type,
-                            isHorizontal: true
+                            axisType: "polarAxes",
+                            drawingType: type
                         }
                 },
                 _prepareAxisOptions: function(typeSelector, axisOptions) {
-                    return {type: this.option("useSpiderWeb") && typeSelector === "argumentAxis" ? "discrete" : axisOptions.type}
+                    var isArgumentAxis = typeSelector === "argumentAxis";
+                    return {
+                            type: this.option("useSpiderWeb") && isArgumentAxis ? "discrete" : axisOptions.type,
+                            isHorizontal: true,
+                            showCustomBoundaryTicks: isArgumentAxis
+                        }
                 },
                 _getExtraOptions: function() {
                     return {spiderWidget: this.option("useSpiderWeb")}
@@ -4772,16 +2708,22 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                     this._appendAxesGroups();
                     return {}
                 },
-                _renderAxes: function(drawOptions) {
-                    this._drawAxes({}, drawOptions)
+                _renderAxes: function(drawOptions, _, __, adjustUnits) {
+                    this._drawAxes({}, drawOptions, adjustUnits)
+                },
+                _getAxisDrawingMethods: function(drawOptions, preparedOptions, isRotated, adjustUnits) {
+                    var that = this;
+                    return function() {
+                            that._renderAxes(drawOptions, preparedOptions, isRotated, adjustUnits)
+                        }
                 },
                 _reinitTranslators: function() {
                     var that = this,
                         valueAxes = that._valueAxes,
                         argumentAxes = that._argumentAxes,
                         translator = that._createTranslator({
-                            arg: new core.Range(that.businessRanges[0].arg),
-                            val: new core.Range(that.businessRanges[0].val)
+                            arg: new viz.Range(that.businessRanges[0].arg),
+                            val: new viz.Range(that.businessRanges[0].val)
                         }),
                         argTranslator = translator.getComponent("arg"),
                         valTranslator = translator.getComponent("val"),
@@ -4796,7 +2738,7 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                         valueAxes = that._valueAxes,
                         argAxes = that._argumentAxes,
                         argumentAxis = argAxes[0];
-                    that._calcCanvas(argumentAxis.measureLabels());
+                    that._calcCanvas(argumentAxis.measureLabels(true));
                     that.translator.reinit();
                     drawAxes(argAxes);
                     $.each(valueAxes, function(_, valAxis) {
@@ -4823,125 +2765,53 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                             horizontalAxes: argAxes
                         }
                 },
-                _drawSeries: function(drawOptions) {
-                    var that = this,
-                        i,
-                        seriesFamilies = that.seriesFamilies || [],
-                        series = that.series;
-                    if (!series.length)
-                        return;
-                    for (i = 0; i < seriesFamilies.length; i++) {
-                        var translators = {};
-                        translators.val = that.translator;
-                        translators.arg = that.translator;
-                        seriesFamilies[i].updateSeriesValues(translators);
-                        seriesFamilies[i].adjustSeriesDimensions(translators)
-                    }
-                    for (i = 0; i < series.length; i++)
-                        series[i].draw(that.translator, that._getAnimateOption(series[i], drawOptions), drawOptions.hideLayoutLabels, that.legend && that.legend.getActionCallback(series[i]))
+                _getTranslator: function() {
+                    var translator = this.translator;
+                    return {
+                            val: translator,
+                            arg: translator
+                        }
+                },
+                _prepareTranslators: function() {
+                    return this.translator
                 },
                 _createTranslator: function(br) {
                     var themeManager = this._themeManager,
                         axisUserOptions = this.option("argumentAxis"),
-                        axisOptions = themeManager.getOptions("argumentAxis", axisUserOptions) || {};
-                    return new core.PolarTranslator(br, $.extend(true, {}, this._canvas), {startAngle: axisOptions.startAngle})
+                        axisOptions = themeManager.getOptions("argumentAxis", axisUserOptions) || {},
+                        startAngle = isFinite(axisOptions.startAngle) ? mathUtils.normalizeAngle(axisOptions.startAngle) : 0;
+                    return new viz.PolarTranslator(br, $.extend(true, {}, this._canvas), {
+                            startAngle: startAngle,
+                            endAngle: startAngle + 360
+                        })
                 },
                 _getSeriesForPane: function() {
                     return this.series
                 },
-                _getEqualBarWidth: function() {
-                    return !!this._themeManager.getOptions("equalBarWidth")
-                },
+                _applyExtraSettings: _noop,
                 _updateLegendPosition: _noop,
                 _createScrollBar: _noop,
                 _applyClipRects: _noop,
-                _getSeriesRenderTimeout: _noop,
                 _isRotated: _noop,
                 _getCrosshairOptions: _noop,
                 _isLegendInside: _noop,
                 _processSingleSeries: _noop
             });
-        DX.registerComponent('dxPolarChart', charts, PolarChart)
+        registerComponent('dxPolarChart', charts, PolarChart)
     })(jQuery, DevExpress);
     /*! Module viz-charts, file layoutManager.js */
     (function($, DX, undefined) {
-        var _isNumber = DX.utils.isNumber,
-            _decreaseGaps = DX.viz.core.utils.decreaseGaps,
-            _round = Math.round,
+        var commonUtils = DX.require("/utils/utils.common"),
+            _isNumber = commonUtils.isNumber,
             _min = Math.min,
             _max = Math.max,
             _floor = Math.floor,
             _sqrt = Math.sqrt,
             _each = $.each,
-            _extend = $.extend;
-        function correctElementsPosition(elements, direction, canvas) {
-            _each(elements, function(_, element) {
-                var options = element.getLayoutOptions(),
-                    side = options.cutLayoutSide;
-                canvas[side] -= options[direction]
-            })
-        }
-        function placeElementAndCutCanvas(elements, canvas) {
-            _each(elements, function(_, element) {
-                var shiftX,
-                    shiftY,
-                    options = element.getLayoutOptions(),
-                    length = getLength(options.cutLayoutSide);
-                if (!options.width)
-                    return;
-                switch (options.horizontalAlignment) {
-                    case"left":
-                        shiftX = canvas.left;
-                        break;
-                    case"center":
-                        shiftX = (canvas.width - canvas.left - canvas.right - options.width) / 2 + canvas.left;
-                        break;
-                    case"right":
-                        shiftX = canvas.width - canvas.right - options.width;
-                        break
-                }
-                switch (options.verticalAlignment) {
-                    case"top":
-                        shiftY = canvas.top;
-                        break;
-                    case"bottom":
-                        shiftY = canvas.height - canvas.bottom - options.height;
-                        break
-                }
-                element.shift(_round(shiftX), _round(shiftY));
-                canvas[options.cutLayoutSide] += options[length];
-                setCanvasValues(canvas)
-            })
-        }
-        function getLength(side) {
-            return side === 'left' || side === 'right' ? 'width' : 'height'
-        }
-        function setCanvasValues(canvas) {
-            if (canvas) {
-                canvas.originalTop = canvas.top;
-                canvas.originalBottom = canvas.bottom;
-                canvas.originalLeft = canvas.left;
-                canvas.originalRight = canvas.right
-            }
-        }
-        function updateElements(elements, length, otherLength, dirtyCanvas, canvas, needRemoveSpace) {
-            _each(elements, function(_, element) {
-                var options = element.getLayoutOptions(),
-                    side = options.cutLayoutSide,
-                    freeSpaceWidth = dirtyCanvas.width - dirtyCanvas.left - dirtyCanvas.right,
-                    freeSpaceHeight = dirtyCanvas.height - dirtyCanvas.top - dirtyCanvas.bottom,
-                    updateObject = {};
-                element.setSize({
-                    width: freeSpaceWidth,
-                    height: freeSpaceHeight
-                });
-                updateObject[otherLength] = 0;
-                updateObject[length] = needRemoveSpace[length];
-                element.changeSize(updateObject);
-                canvas[side] -= options[length] - element.getLayoutOptions()[length];
-                needRemoveSpace[length] -= options[length] - element.getLayoutOptions()[length]
-            })
-        }
+            _extend = $.extend,
+            consts = DX.viz.series.helpers.consts,
+            pieLabelIndent = consts.pieLabelIndent,
+            pieLabelSpacing = consts.pieLabelSpacing;
         function updateAxis(axes, side, needRemoveSpace) {
             if (axes && needRemoveSpace[side] > 0) {
                 _each(axes, function(i, axis) {
@@ -4964,6 +2834,69 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
             else
                 nearestCoord = pointCenterCoord;
             return nearestCoord
+        }
+        function getLabelLayout(point) {
+            if (point._label.isVisible() && point._label.getLayoutOptions().position !== "inside")
+                return point._label.getBoundingRect()
+        }
+        function getPieRadius(series, paneCenterX, paneCenterY, accessibleRadius, minR) {
+            var radiusIsFound = false;
+            _each(series, function(_, singleSeries) {
+                if (radiusIsFound)
+                    return false;
+                _each(singleSeries.getVisiblePoints(), function(_, point) {
+                    var labelBBox = getLabelLayout(point);
+                    if (labelBBox) {
+                        var xCoords = getNearestCoord(labelBBox.x, labelBBox.x + labelBBox.width, paneCenterX),
+                            yCoords = getNearestCoord(labelBBox.y, labelBBox.y + labelBBox.height, paneCenterY);
+                        accessibleRadius = _min(_max(getLengthFromCenter(xCoords, yCoords, paneCenterX, paneCenterY) - pieLabelIndent, minR), accessibleRadius);
+                        radiusIsFound = true
+                    }
+                })
+            });
+            return accessibleRadius
+        }
+        function getSizeLabels(series) {
+            var sizes = [],
+                commonWidth = 0;
+            _each(series, function(_, singleSeries) {
+                var maxWidth = 0;
+                _each(singleSeries.getVisiblePoints(), function(_, point) {
+                    var labelBBox = getLabelLayout(point);
+                    if (labelBBox)
+                        maxWidth = _max(labelBBox.width + pieLabelSpacing, maxWidth)
+                });
+                sizes.push(maxWidth);
+                commonWidth += maxWidth
+            });
+            return {
+                    sizes: sizes,
+                    common: commonWidth
+                }
+        }
+        function correctLabelRadius(sizes, radius, series, canvas, averageWidthLabels) {
+            var curRadius,
+                i,
+                centerX = (canvas.width - canvas.left - canvas.right) / 2;
+            for (i = 0; i < series.length; i++) {
+                if (sizes[i] === 0) {
+                    curRadius && (curRadius += sizes[i - 1]);
+                    continue
+                }
+                curRadius = _floor(curRadius ? curRadius + sizes[i - 1] : radius);
+                series[i].correctLabelRadius(curRadius);
+                if (averageWidthLabels && i !== series.length - 1) {
+                    sizes[i] = averageWidthLabels;
+                    series[i].setVisibleArea({
+                        left: centerX - radius - averageWidthLabels * (i + 1),
+                        right: canvas.width - (centerX + radius + averageWidthLabels * (i + 1)),
+                        top: canvas.top,
+                        bottom: canvas.bottom,
+                        width: canvas.width,
+                        height: canvas.height
+                    })
+                }
+            }
         }
         function getLengthFromCenter(x, y, paneCenterX, paneCenterY) {
             return _sqrt((x - paneCenterX) * (x - paneCenterX) + (y - paneCenterY) * (y - paneCenterY))
@@ -5039,72 +2972,47 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
             });
             return stopDrawAxes
         }
-        function LayoutManager(options) {
-            this._verticalElements = [];
-            this._horizontalElements = [];
-            this._options = options
+        var inverseAlign = {
+                left: "right",
+                right: "left",
+                top: "bottom",
+                bottom: "top",
+                center: "center"
+            };
+        function downSize(canvas, layoutOptions) {
+            canvas[layoutOptions.cutLayoutSide] += layoutOptions.cutSide === "horizontal" ? layoutOptions.width : layoutOptions.height
+        }
+        function getOffset(layoutOptions, offsets) {
+            var side = layoutOptions.cutLayoutSide,
+                offset = {
+                    horizontal: 0,
+                    vertical: 0
+                };
+            switch (side) {
+                case"top":
+                case"left":
+                    offset[layoutOptions.cutSide] = -offsets[side];
+                    break;
+                case"bottom":
+                case"right":
+                    offset[layoutOptions.cutSide] = offsets[side];
+                    break
+            }
+            return offset
+        }
+        function LayoutManager(){}
+        function toLayoutElementCoords(canvas) {
+            return new DX.viz.WrapperLayoutElement(null, {
+                    x: canvas.left,
+                    y: canvas.top,
+                    width: canvas.width - canvas.left - canvas.right,
+                    height: canvas.height - canvas.top - canvas.bottom
+                })
         }
         LayoutManager.prototype = {
             constructor: LayoutManager,
-            dispose: function() {
-                this._verticalElements = this._horizontalElements = this._options = null
-            },
-            drawElements: function(elements, canvas) {
-                var horizontalElements = [],
-                    verticalElements = [];
-                _each(elements, function(_, element) {
-                    var options,
-                        length;
-                    element.setSize({
-                        width: canvas.width - canvas.left - canvas.right,
-                        height: canvas.height - canvas.top - canvas.bottom
-                    });
-                    element.draw();
-                    options = element.getLayoutOptions();
-                    if (options) {
-                        length = getLength(options.cutLayoutSide);
-                        (length === 'width' ? horizontalElements : verticalElements).push(element);
-                        canvas[options.cutLayoutSide] += options[length];
-                        setCanvasValues(canvas)
-                    }
-                });
-                this._horizontalElements = horizontalElements;
-                this._verticalElements = verticalElements;
-                return this
-            },
-            placeDrawnElements: function(canvas) {
-                correctElementsPosition(this._horizontalElements, 'width', canvas);
-                placeElementAndCutCanvas(this._horizontalElements, canvas);
-                correctElementsPosition(this._verticalElements, 'height', canvas);
-                placeElementAndCutCanvas(this._verticalElements, canvas);
-                return this
-            },
-            updatePanesCanvases: function(panes, canvas, rotated) {
-                var weightSum = 0;
-                _each(panes, function(_, pane) {
-                    pane.weight = pane.weight || 1;
-                    weightSum += pane.weight
-                });
-                var distributedSpace = 0,
-                    padding = panes.padding || 10,
-                    paneSpace = rotated ? canvas.width - canvas.left - canvas.right : canvas.height - canvas.top - canvas.bottom,
-                    oneWeight = (paneSpace - padding * (panes.length - 1)) / weightSum,
-                    startName = rotated ? "left" : "top",
-                    endName = rotated ? "right" : "bottom";
-                _each(panes, function(_, pane) {
-                    var calcLength = _round(pane.weight * oneWeight);
-                    pane.canvas = pane.canvas || {};
-                    _extend(pane.canvas, {
-                        deltaLeft: 0,
-                        deltaRight: 0,
-                        deltaTop: 0,
-                        deltaBottom: 0
-                    }, canvas);
-                    pane.canvas[startName] = canvas[startName] + distributedSpace;
-                    pane.canvas[endName] = canvas[endName] + (paneSpace - calcLength - distributedSpace);
-                    distributedSpace = distributedSpace + calcLength + padding;
-                    setCanvasValues(pane.canvas)
-                })
+            setOptions: function(options) {
+                this._options = options
             },
             applyVerticalAxesLayout: function(axes, panes, rotated) {
                 this._applyAxesLayout(axes, panes, rotated)
@@ -5208,7 +3116,7 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                 that.requireAxesRedraw = correctDeltaMarginValue(panes, someDirection) || that.requireAxesRedraw;
                 that.stopDrawAxes = applyFoundExceedings(panes, rotated)
             },
-            applyPieChartSeriesLayout: function(canvas, singleSeries, hideLayoutLabels) {
+            applyPieChartSeriesLayout: function(canvas, series, hideLayoutLabels) {
                 var paneSpaceHeight = canvas.height - canvas.top - canvas.bottom,
                     paneSpaceWidth = canvas.width - canvas.left - canvas.right,
                     paneCenterX = paneSpaceWidth / 2 + canvas.left,
@@ -5216,40 +3124,32 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                     piePercentage = this._options.piePercentage,
                     accessibleRadius = _isNumber(piePercentage) ? piePercentage * _min(canvas.height, canvas.width) / 2 : _min(paneSpaceWidth, paneSpaceHeight) / 2,
                     minR = 0.7 * accessibleRadius,
-                    innerRadius = getInnerRadius(singleSeries);
-                if (!hideLayoutLabels && !_isNumber(piePercentage))
-                    _each(singleSeries.getPoints(), function(_, point) {
-                        if (point._label.isVisible() && point.isVisible()) {
-                            var labelBBox = point._label.getBoundingRect(),
-                                nearestX = getNearestCoord(labelBBox.x, labelBBox.x + labelBBox.width, paneCenterX),
-                                nearestY = getNearestCoord(labelBBox.y, labelBBox.y + labelBBox.height, paneCenterY),
-                                minRadiusWithLabels = _max(getLengthFromCenter(nearestX, nearestY, paneCenterX, paneCenterY) - DX.viz.core.series.helpers.consts.pieLabelIndent, minR);
-                            accessibleRadius = _min(accessibleRadius, minRadiusWithLabels)
-                        }
-                    });
-                singleSeries.correctPosition({
-                    centerX: _floor(paneCenterX),
-                    centerY: _floor(paneCenterY),
-                    radiusInner: _floor(accessibleRadius * innerRadius),
-                    radiusOuter: _floor(accessibleRadius)
-                })
-            },
-            updateDrawnElements: function(axes, canvas, dirtyCanvas, panes, rotated) {
-                var needRemoveSpace,
-                    saveDirtyCanvas = _extend({}, dirtyCanvas);
-                needRemoveSpace = this.needMoreSpaceForPanesCanvas(panes, rotated);
-                if (!needRemoveSpace)
-                    return;
-                needRemoveSpace.height = _decreaseGaps(dirtyCanvas, ["top", "bottom"], needRemoveSpace.height);
-                needRemoveSpace.width = _decreaseGaps(dirtyCanvas, ["left", "right"], needRemoveSpace.width);
-                canvas.top -= saveDirtyCanvas.top - dirtyCanvas.top;
-                canvas.bottom -= saveDirtyCanvas.bottom - dirtyCanvas.bottom;
-                canvas.left -= saveDirtyCanvas.left - dirtyCanvas.left;
-                canvas.right -= saveDirtyCanvas.right - dirtyCanvas.right;
-                updateElements(this._horizontalElements, "width", "height", dirtyCanvas, canvas, needRemoveSpace);
-                updateElements(this._verticalElements, "height", "width", dirtyCanvas, canvas, needRemoveSpace);
-                updateAxis(axes.verticalAxes, "width", needRemoveSpace);
-                updateAxis(axes.horizontalAxes, "height", needRemoveSpace)
+                    sizeLabels,
+                    averageWidthLabels,
+                    fullRadiusWithLabels,
+                    countSeriesWithOuterLabels = 0,
+                    innerRadius = getInnerRadius(series[0]);
+                if (!hideLayoutLabels && !_isNumber(piePercentage)) {
+                    sizeLabels = getSizeLabels(series);
+                    fullRadiusWithLabels = paneCenterX - sizeLabels.common + canvas.left;
+                    if (fullRadiusWithLabels < minR) {
+                        accessibleRadius = minR;
+                        _each(sizeLabels.sizes, function(_, size) {
+                            size !== 0 && countSeriesWithOuterLabels++
+                        });
+                        averageWidthLabels = (paneCenterX - accessibleRadius - canvas.left) / countSeriesWithOuterLabels
+                    }
+                    else
+                        accessibleRadius = _min(getPieRadius(series, paneCenterX, paneCenterY, accessibleRadius, minR), fullRadiusWithLabels);
+                    correctLabelRadius(sizeLabels.sizes, accessibleRadius, series, canvas, averageWidthLabels)
+                }
+                return {
+                        centerX: _floor(paneCenterX),
+                        centerY: _floor(paneCenterY),
+                        radiusInner: _floor(accessibleRadius * innerRadius),
+                        radiusOuter: _floor(accessibleRadius),
+                        canvas: canvas
+                    }
             },
             needMoreSpaceForPanesCanvas: function(panes, rotated) {
                 var options = this._options,
@@ -5278,28 +3178,125 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                         height: needVerticalSpace
                     } : false
             },
-            correctSizeElement: function(element, canvas) {
-                element.setSize({
-                    width: canvas.width - canvas.right - canvas.left,
-                    height: canvas.width - canvas.right - canvas.left
+            layoutElements: function(elements, canvas, funcAxisDrawer, panes, rotated, axes) {
+                this._elements = elements;
+                this._probeDrawing(canvas);
+                this._drawElements(canvas);
+                funcAxisDrawer && funcAxisDrawer();
+                this._processAdaptiveLayout(panes, rotated, canvas, axes, funcAxisDrawer);
+                this._positionElements(canvas)
+            },
+            _processAdaptiveLayout: function(panes, rotated, canvas, axes, funcAxisDrawer) {
+                var that = this,
+                    size = that.needMoreSpaceForPanesCanvas(panes, rotated),
+                    items = this._elements;
+                if (!size)
+                    return;
+                function processCanvases(item, layoutOptions, side) {
+                    if (!item.getLayoutOptions()[side]) {
+                        canvas[layoutOptions.cutLayoutSide] -= layoutOptions[side];
+                        size[side] = Math.max(size[side] - layoutOptions[side], 0)
+                    }
+                }
+                $.each(items.slice().reverse(), function(_, item) {
+                    var layoutOptions = _extend({}, item.getLayoutOptions()),
+                        sizeObject;
+                    if (!layoutOptions)
+                        return;
+                    sizeObject = $.extend({}, layoutOptions);
+                    if (layoutOptions.cutSide === "vertical" && size.height) {
+                        item.draw(sizeObject.width, sizeObject.height - size.height);
+                        processCanvases(item, layoutOptions, "height")
+                    }
+                    if (layoutOptions.cutSide === "horizontal" && size.width) {
+                        item.draw(sizeObject.width - size.width, sizeObject.height);
+                        processCanvases(item, layoutOptions, "width")
+                    }
                 });
-                element.changeSize({
-                    width: 0,
-                    height: 0
+                updateAxis(axes.verticalAxes, "width", size);
+                updateAxis(axes.horizontalAxes, "height", size);
+                funcAxisDrawer && funcAxisDrawer(true)
+            },
+            _probeDrawing: function(canvas) {
+                var that = this;
+                $.each(this._elements, function(_, item) {
+                    var layoutOptions = item.getLayoutOptions(),
+                        sizeObject;
+                    if (!layoutOptions)
+                        return;
+                    sizeObject = {
+                        width: canvas.width - canvas.left - canvas.right,
+                        height: canvas.height - canvas.top - canvas.bottom
+                    };
+                    if (layoutOptions.cutSide === "vertical")
+                        sizeObject.height -= that._options.height;
+                    else
+                        sizeObject.width -= that._options.width;
+                    item.probeDraw(sizeObject.width, sizeObject.height);
+                    downSize(canvas, item.getLayoutOptions())
+                })
+            },
+            _drawElements: function(canvas) {
+                $.each(this._elements.slice().reverse(), function(_, item) {
+                    var layoutOptions = item.getLayoutOptions(),
+                        sizeObject,
+                        cutSide,
+                        length;
+                    if (!layoutOptions)
+                        return;
+                    sizeObject = {
+                        width: canvas.width - canvas.left - canvas.right,
+                        height: canvas.height - canvas.top - canvas.bottom
+                    };
+                    cutSide = layoutOptions.cutSide;
+                    length = cutSide === "horizontal" ? "width" : "height";
+                    sizeObject[length] = layoutOptions[length];
+                    item.draw(sizeObject.width, sizeObject.height)
+                })
+            },
+            _positionElements: function(canvas) {
+                var offsets = {
+                        left: 0,
+                        right: 0,
+                        top: 0,
+                        bottom: 0
+                    };
+                $.each(this._elements.slice().reverse(), function(_, item) {
+                    var layoutOptions = item.getLayoutOptions(),
+                        position,
+                        cutSide,
+                        my;
+                    if (!layoutOptions)
+                        return;
+                    position = layoutOptions.position;
+                    cutSide = layoutOptions.cutSide;
+                    my = {
+                        horizontal: position.horizontal,
+                        vertical: position.vertical
+                    };
+                    my[cutSide] = inverseAlign[my[cutSide]];
+                    item.position({
+                        of: toLayoutElementCoords(canvas),
+                        my: my,
+                        at: position,
+                        offset: getOffset(layoutOptions, offsets)
+                    });
+                    offsets[layoutOptions.cutLayoutSide] += layoutOptions[layoutOptions.cutSide === "horizontal" ? "width" : "height"]
                 })
             }
         };
-        DX.viz.charts._setCanvasValues = setCanvasValues;
         DX.viz.charts.LayoutManager = LayoutManager
     })(jQuery, DevExpress);
     /*! Module viz-charts, file multiAxesSynchronizer.js */
     (function($, DX, undefined) {
-        var core = DX.viz.core,
-            Range = core.Range,
-            utils = DX.utils,
-            _adjustValue = utils.adjustValue,
-            _applyPrecisionByMinDelta = utils.applyPrecisionByMinDelta,
-            _isDefined = utils.isDefined,
+        var viz = DX.viz,
+            Range = viz.Range,
+            commonUtils = DX.require("/utils/utils.common"),
+            mathUtils = DX.require("/utils/utils.math"),
+            _adjustValue = mathUtils.adjustValue,
+            _applyPrecisionByMinDelta = mathUtils.applyPrecisionByMinDelta,
+            _isDefined = commonUtils.isDefined,
+            debug = DX.require("/utils/utils.console").debug,
             _math = Math,
             _floor = _math.floor,
             _max = _math.max,
@@ -5328,7 +3325,7 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
             };
         var linearConvertor = {
                 transform: function(v, b) {
-                    return utils.getLog(v, b)
+                    return mathUtils.getLog(v, b)
                 },
                 addInterval: function(v, i) {
                     return v + i
@@ -5340,7 +3337,7 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
             };
         var logConvertor = {
                 transform: function(v, b) {
-                    return utils.raiseTo(v, b)
+                    return mathUtils.raiseTo(v, b)
                 },
                 addInterval: function(v, i) {
                     return v * i
@@ -5376,7 +3373,7 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                 axisInfo.tickValues = ticks
             };
         var populateAxesInfo = function(axes) {
-                return core.utils.map(axes, function(axis) {
+                return viz.utils.map(axes, function(axis) {
                         restoreOriginalBusinessRange(axis);
                         var ticksValues = axis.getTicksValues(),
                             majorTicks = ticksValues.majorTicksValues,
@@ -5387,7 +3384,7 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                             businessRange,
                             tickInterval,
                             synchronizedValue;
-                        if (majorTicks && majorTicks.length > 0 && utils.isNumber(majorTicks[0]) && options.type !== "discrete") {
+                        if (majorTicks && majorTicks.length > 0 && commonUtils.isNumber(majorTicks[0]) && options.type !== "discrete") {
                             businessRange = axis.getTranslator().getBusinessRange();
                             tickInterval = axis._tickManager.getTickInterval();
                             minValue = businessRange.minVisible;
@@ -5418,7 +3415,7 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                                 axisInfo.isLogarithmic = false
                             }
                             convertAxisInfo(axisInfo, linearConvertor);
-                            DX.utils.debug.assert(axisInfo.tickInterval !== undefined && axisInfo.tickInterval !== null, "tickInterval was not provided")
+                            debug.assert(axisInfo.tickInterval !== undefined && axisInfo.tickInterval !== null, "tickInterval was not provided")
                         }
                         return axisInfo
                     })
@@ -5539,7 +3536,7 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                             tickValues.unshift(_adjustValue(tickValues[0] - tickInterval));
                         lastTickValue = tickValues[tickValues.length - 1];
                         while ((lastTickValue = lastTickValue + tickInterval) <= maxValue)
-                            tickValues.push(utils.isExponential(lastTickValue) ? _adjustValue(lastTickValue) : _applyPrecisionByMinDelta(minValue, tickInterval, lastTickValue))
+                            tickValues.push(commonUtils.isExponential(lastTickValue) ? _adjustValue(lastTickValue) : _applyPrecisionByMinDelta(minValue, tickInterval, lastTickValue))
                     }
                     while (tickValues[0] < minValue)
                         tickValues.shift();
@@ -5629,16 +3626,20 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
     /*! Module viz-charts, file tracker.js */
     (function($, DX, math, undefined) {
         var charts = DX.viz.charts,
-            eventsConsts = DX.viz.core.series.helpers.consts.events,
-            utils = DX.utils,
-            isDefined = utils.isDefined,
+            eventsConsts = DX.viz.series.helpers.consts.events,
+            commonUtils = DX.require("/utils/utils.common"),
+            pointerEvents = DX.require("/ui/events/pointer/ui.events.pointer"),
+            wheelEvent = DX.require("/ui/events/ui.events.wheel"),
+            isDefined = commonUtils.isDefined,
+            _normalizeEnum = DX.viz.utils.normalizeEnum,
             _floor = math.floor,
             _each = $.each,
             MULTIPLE_MODE = 'multiple',
             ALL_ARGUMENTS_POINTS_MODE = 'allargumentpoints',
             ALL_SERIES_POINTS_MODE = 'allseriespoints',
+            MARK_POINT_MODE = 'markpoint',
             NONE_MODE = 'none',
-            POINTER_ACTION = "dxpointerdown dxpointermove",
+            POINTER_ACTION = [pointerEvents.down, pointerEvents.move].join(" "),
             POINT_SELECTION_CHANGED = "pointSelectionChanged",
             LEGEND_CLICK = "legendClick",
             SERIES_CLICK = "seriesClick",
@@ -5648,19 +3649,14 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
             SERIES_HOVER_CHANGED = 'seriesHoverChanged',
             POINT_HOVER_CHANGED = 'pointHoverChanged',
             RELEASE_POINT_HOVER_STATE = 'releasePointHoverState',
+            SERIES_SELECTION_CHANGED = "seriesSelectionChanged",
+            POINT_DATA = "chart-data-point",
+            SERIES_DATA = "chart-data-series",
+            ARG_DATA = "chart-data-argument",
             DELAY = 100;
-        function processMode(mode) {
-            return (mode + "").toLowerCase()
-        }
-        function getNonVirtualAxis(axisArray) {
-            var axis;
-            _each(axisArray, function(_, a) {
-                if (!a._virtual) {
-                    axis = a;
-                    return false
-                }
-            });
-            return axis
+        function getData(event, dataKey) {
+            var target = event.target;
+            return (target.tagName === "tspan" ? target.parentNode : target)[dataKey]
         }
         function eventCanceled(event, target) {
             return event.cancel || !target.getOptions()
@@ -5682,11 +3678,21 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                     series[func]({point: currentPoint})
             })
         }
+        function getArgumentPointsByIndex(storedSeries, argument, targetPointIndex) {
+            var points = [];
+            _each(storedSeries, function(_, series) {
+                _each(series.getPointsByArg(argument), function(_, currentPoint) {
+                    if (targetPointIndex === currentPoint.index)
+                        points.push(currentPoint)
+                })
+            });
+            return points
+        }
         var baseTrackerPrototype = {
                 ctor: function(options) {
                     var that = this,
                         data = {tracker: that};
-                    if (processMode(options.pointSelectionMode) === MULTIPLE_MODE) {
+                    if (_normalizeEnum(options.pointSelectionMode) === MULTIPLE_MODE) {
                         that._setSelectedPoint = that._selectPointMultipleMode;
                         that._releaseSelectedPoint = that._releaseSelectedPointMultipleMode
                     }
@@ -5694,7 +3700,7 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                         that._setSelectedPoint = that._selectPointSingleMode;
                         that._releaseSelectedPoint = that._releaseSelectedPointSingleMode
                     }
-                    if (processMode(options.seriesSelectionMode) === MULTIPLE_MODE) {
+                    if (_normalizeEnum(options.seriesSelectionMode) === MULTIPLE_MODE) {
                         that._releaseSelectedSeries = that._releaseSelectedSeriesMultipleMode;
                         that._setSelectedSeries = that._setSelectedSeriesMultipleMode
                     }
@@ -5735,7 +3741,7 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                         this._showTooltip(point)
                 },
                 _prepare: function(root) {
-                    root.off("dxmousewheel").on("dxmousewheel", {tracker: this}, function(e) {
+                    root.off(wheelEvent.name).on(wheelEvent.name, {tracker: this}, function(e) {
                         e.data.tracker._pointerOut()
                     })
                 },
@@ -5744,7 +3750,7 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                     that._selectedPoint = that._selectedPoint || [];
                     if ($.inArray(point, that._selectedPoint) < 0) {
                         that._selectedPoint.push(point);
-                        that._setPointState(point, SET_POINT_SELECTED_STATE, processMode(point.getOptions().selectionMode), POINT_SELECTION_CHANGED, that.legendCallback(point))
+                        that._setPointState(point, SET_POINT_SELECTED_STATE, _normalizeEnum(point.getOptions().selectionMode), POINT_SELECTION_CHANGED, that.legendCallback(point))
                     }
                 },
                 _releaseSelectedPointMultipleMode: function(point) {
@@ -5752,7 +3758,7 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                         points = that._selectedPoint || [],
                         pointIndex = $.inArray(point, points);
                     if (pointIndex >= 0) {
-                        that._setPointState(point, RELEASE_POINT_SELECTED_STATE, processMode(point.getOptions().selectionMode), POINT_SELECTION_CHANGED, that.legendCallback(point));
+                        that._setPointState(point, RELEASE_POINT_SELECTED_STATE, _normalizeEnum(point.getOptions().selectionMode), POINT_SELECTION_CHANGED, that.legendCallback(point));
                         points.splice(pointIndex, 1)
                     }
                     else if (!point)
@@ -5765,14 +3771,14 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                     if (that._selectedPoint !== point) {
                         that._releaseSelectedPoint();
                         that._selectedPoint = point;
-                        that._setPointState(point, SET_POINT_SELECTED_STATE, processMode(point.getOptions().selectionMode), POINT_SELECTION_CHANGED, that.legendCallback(point))
+                        that._setPointState(point, SET_POINT_SELECTED_STATE, _normalizeEnum(point.getOptions().selectionMode), POINT_SELECTION_CHANGED, that.legendCallback(point))
                     }
                 },
                 _releaseSelectedPointSingleMode: function() {
                     var that = this,
                         point = that._selectedPoint;
                     if (point) {
-                        that._setPointState(point, RELEASE_POINT_SELECTED_STATE, processMode(point.getOptions().selectionMode), POINT_SELECTION_CHANGED, that.legendCallback(point));
+                        that._setPointState(point, RELEASE_POINT_SELECTED_STATE, _normalizeEnum(point.getOptions().selectionMode), POINT_SELECTION_CHANGED, that.legendCallback(point));
                         that._selectedPoint = null
                     }
                 },
@@ -5781,7 +3787,8 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                         eventTrigger = that._eventTrigger;
                     switch (mode) {
                         case ALL_ARGUMENTS_POINTS_MODE:
-                            that._toAllArgumentPoints(point.argument, action, eventName, point);
+                        case MARK_POINT_MODE:
+                            that._toAllArgumentPoints(point.argument, action, eventName, point, legendCallback);
                             break;
                         case ALL_SERIES_POINTS_MODE:
                             setPointsSpecState(point.series.getPoints(), point, action, eventName, eventTrigger);
@@ -5797,40 +3804,25 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                             eventTrigger(eventName, {target: point})
                     }
                 },
-                _toAllArgumentPoints: function(argument, func, eventName, targetPoint) {
-                    var that = this;
-                    _each(that._storedSeries, function(_, series) {
-                        setPointsSpecState(series.getPointsByArg(argument), targetPoint, func, eventName, that._eventTrigger)
-                    })
-                },
                 _setHoveredPoint: function(point, mode) {
                     var that = this;
-                    var debug = DX.utils.debug;
+                    var debug = DX.require("/utils/utils.console").debug;
                     debug.assert(point.series, 'series was not assigned to point or empty');
                     if (that.hoveredPoint === point || !point.series)
                         return;
                     that._releaseHoveredPoint();
                     if (point && point.getOptions() && mode !== NONE_MODE) {
                         that.hoveredPoint = point;
-                        that._setPointState(point, 'setPointHoverState', mode || processMode(point.getOptions().hoverMode), POINT_HOVER_CHANGED, that.legendCallback(point))
+                        that._setPointState(point, 'setPointHoverState', mode || _normalizeEnum(point.getOptions().hoverMode), POINT_HOVER_CHANGED, that.legendCallback(point))
                     }
                 },
                 _releaseHoveredPoint: function() {
                     var that = this,
                         point = that.hoveredPoint,
-                        mode,
                         eventTrigger = that._eventTrigger;
                     if (!point || !point.getOptions())
                         return;
-                    mode = processMode(point.getOptions().hoverMode);
-                    if (mode === ALL_SERIES_POINTS_MODE)
-                        setPointsSpecState(point.series.getPoints(), point, RELEASE_POINT_HOVER_STATE, POINT_HOVER_CHANGED, eventTrigger);
-                    else if (mode === ALL_ARGUMENTS_POINTS_MODE)
-                        that._toAllArgumentPoints(point.argument, RELEASE_POINT_HOVER_STATE, POINT_HOVER_CHANGED, point);
-                    else if (mode !== "none") {
-                        point.releaseHoverState(that.legendCallback(point));
-                        eventTrigger(POINT_HOVER_CHANGED, {target: point})
-                    }
+                    that._releasePoint(point, eventTrigger);
                     if (that._tooltip.isEnabled())
                         that._hideTooltip(point);
                     that.hoveredPoint = null
@@ -5841,16 +3833,16 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                     if ($.inArray(series, that._selectedSeries) < 0) {
                         that._selectedSeries.push(series);
                         series.setSelectedState(true, mode, that.legendCallback(series));
-                        that._eventTrigger("seriesSelectionChanged", {target: series})
+                        that._eventTrigger(SERIES_SELECTION_CHANGED, {target: series})
                     }
                 },
                 _setSelectedSeriesSingleMode: function(series, mode) {
                     var that = this;
                     if (series !== that._selectedSeries || series.lastSelectionMode !== mode) {
-                        this._releaseSelectedSeries();
+                        that._releaseSelectedSeries();
                         that._selectedSeries = series;
                         series.setSelectedState(true, mode, that.legendCallback(series));
-                        that._eventTrigger("seriesSelectionChanged", {target: series})
+                        that._eventTrigger(SERIES_SELECTION_CHANGED, {target: series})
                     }
                 },
                 _releaseSelectedSeriesMultipleMode: function(series) {
@@ -5859,7 +3851,7 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                         seriesIndex = $.inArray(series, selectedSeries);
                     if (seriesIndex >= 0) {
                         series.setSelectedState(false, undefined, that.legendCallback(series));
-                        that._eventTrigger("seriesSelectionChanged", {target: series});
+                        that._eventTrigger(SERIES_SELECTION_CHANGED, {target: series});
                         selectedSeries.splice(seriesIndex, 1)
                     }
                     else if (!series)
@@ -5867,12 +3859,12 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                             that._releaseSelectedSeries(series)
                         })
                 },
-                _releaseSelectedSeriesSingleMode: function() {
+                _releaseSelectedSeriesSingleMode: function(series) {
                     var that = this,
-                        series = that._selectedSeries;
-                    if (series) {
-                        series.setSelectedState(false, undefined, that.legendCallback(series));
-                        that._eventTrigger("seriesSelectionChanged", {target: series});
+                        selectedSeries = that._selectedSeries;
+                    if (selectedSeries && (!series || series === selectedSeries)) {
+                        selectedSeries.setSelectedState(false, undefined, that.legendCallback(selectedSeries));
+                        that._eventTrigger(SERIES_SELECTION_CHANGED, {target: selectedSeries});
                         that._selectedSeries = null
                     }
                 },
@@ -5887,13 +3879,13 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                     if (mode === NONE_MODE)
                         $(series).trigger('NoneMode')
                 },
-                _releaseHoveredSeries: function(needSetHoverView) {
+                _releaseHoveredSeries: function(needSetHoverView, hoveredPoint) {
                     var that = this,
                         hoveredSeries = that.hoveredSeries,
                         seriesWithHoverView = that._seriesWithHoverView;
                     if (hoveredSeries) {
                         hoveredSeries.setHoverState(false, undefined, that.legendCallback(hoveredSeries));
-                        if (needSetHoverView)
+                        if (needSetHoverView && hoveredPoint && hoveredPoint.series === hoveredSeries)
                             that._seriesWithHoverView = hoveredSeries.setHoverView();
                         that._eventTrigger(SERIES_HOVER_CHANGED, {target: hoveredSeries});
                         that.hoveredSeries = null
@@ -5921,7 +3913,7 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                 },
                 _clean: function() {
                     var that = this;
-                    that._selectedPoint = that._selectedSeries = that.hoveredPoint = that.hoveredSeries = null;
+                    that._selectedPoint = that._selectedSeries = that.hoveredPoint = that.hoveredSeries = that._hoveredArgumentPoints = that._seriesWithHoverView = null;
                     that._hideTooltip(that.pointAtShownTooltip)
                 },
                 _clearHover: function() {
@@ -5989,6 +3981,12 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                     this._clearHover();
                     this._tooltip.isEnabled() && this._hideTooltip(this.pointAtShownTooltip)
                 },
+                _legendClick: function(eventArgs, elementClick) {
+                    var eventTrigger = this._eventTrigger;
+                    eventTrigger(LEGEND_CLICK, eventArgs, function() {
+                        !eventCanceled(eventArgs.jQueryEvent, eventArgs.target) && eventTrigger(elementClick, eventArgs)
+                    })
+                },
                 dispose: function() {
                     var that = this;
                     that._disableOutHandler();
@@ -6020,31 +4018,22 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                 })
             },
             __trackerDelay: DELAY,
-            _legendClick: function(series, event) {
-                var that = this,
-                    evetArgs = {
-                        target: series,
-                        jQueryEvent: event
-                    },
-                    eventTrigger = that._eventTrigger;
-                eventTrigger(LEGEND_CLICK, evetArgs, function() {
-                    !eventCanceled(event, series) && eventTrigger(SERIES_CLICK, evetArgs)
-                })
-            },
             update: function(options) {
                 var that = this;
-                that._zoomingMode = (options.zoomingMode + '').toLowerCase();
-                that._scrollingMode = (options.scrollingMode + '').toLowerCase();
+                that._zoomingMode = _normalizeEnum(options.zoomingMode);
+                that._scrollingMode = _normalizeEnum(options.scrollingMode);
                 baseTrackerPrototype.update.call(this, options);
-                that._argumentAxis = getNonVirtualAxis(options.argumentAxis || []);
-                that._axisHoverEnabled = that._argumentAxis && processMode(that._argumentAxis.getOptions().hoverMode) === ALL_ARGUMENTS_POINTS_MODE;
+                that._argumentAxis = options.argumentAxis || {};
+                that._axisHoverEnabled = that._argumentAxis && _normalizeEnum(that._argumentAxis.getOptions().hoverMode) === ALL_ARGUMENTS_POINTS_MODE;
                 that._chart = options.chart;
                 that._rotated = options.rotated;
                 that._crosshair = options.crosshair
             },
-            _getAxisArgument: function(event) {
-                var $target = $(event.target);
-                return event.target.tagName === "tspan" ? $target.parent().data('argument') : $target.data('argument')
+            _toAllArgumentPoints: function(argument, func, eventName, targetPoint) {
+                var that = this;
+                _each(that._storedSeries, function(_, series) {
+                    setPointsSpecState(series.getPointsByArg(argument), targetPoint, func, eventName, that._eventTrigger)
+                })
             },
             _getCanvas: function(x, y) {
                 var that = this,
@@ -6059,6 +4048,18 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
             _focusOnCanvas: function(canvas) {
                 if (!canvas && this._stickedSeries)
                     this._pointerOut()
+            },
+            _releasePoint: function(point, eventTrigger) {
+                var that = this,
+                    mode = _normalizeEnum(point.getOptions().hoverMode);
+                if (mode === ALL_SERIES_POINTS_MODE)
+                    setPointsSpecState(point.series.getPoints(), point, RELEASE_POINT_HOVER_STATE, POINT_HOVER_CHANGED, eventTrigger);
+                else if (mode === ALL_ARGUMENTS_POINTS_MODE)
+                    that._toAllArgumentPoints(point.argument, RELEASE_POINT_HOVER_STATE, POINT_HOVER_CHANGED, point);
+                else if (mode !== "none") {
+                    point.releaseHoverState(that.legendCallback(point));
+                    eventTrigger(POINT_HOVER_CHANGED, {target: point})
+                }
             },
             _resetHoveredArgument: function() {
                 if (isDefined(this.hoveredArgument)) {
@@ -6083,15 +4084,15 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                         '-ms-touch-action': cssValue
                     },
                     wheelzoomingEnabled = that._zoomingMode === "all" || that._zoomingMode === "mouse";
-                root.off("dxmousewheel dxc-scroll-start dxc-scroll-move");
+                root.off(wheelEvent.name + " dxc-scroll-start dxc-scroll-move");
                 baseTrackerPrototype._prepare.call(that, root);
                 if (!that._gestureEndHandler) {
                     that._gestureEndHandler = function() {
                         that._gestureEnd && that._gestureEnd()
                     };
-                    $(document).on("dxpointerup", that._gestureEndHandler)
+                    $(document).on(pointerEvents.up, that._gestureEndHandler)
                 }
-                wheelzoomingEnabled && root.on("dxmousewheel", function(e) {
+                wheelzoomingEnabled && root.on(wheelEvent.name, function(e) {
                     var rootOffset = that._renderer.getRootOffset(),
                         x = that._rotated ? e.pageY - rootOffset.top : e.pageX - rootOffset.left,
                         scale = that._argumentAxis.getTranslator().getMinScale(e.delta > 0),
@@ -6188,8 +4189,8 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                             scaleDelta = startGesture.scale - zoom.scale;
                         renderer.root.animate({_: 0}, {
                             step: function(pos) {
-                                var translateValue = -startGesture.scroll - translateDelta * pos;
-                                var scaleValue = startGesture.scale - scaleDelta * pos;
+                                var translateValue = -startGesture.scroll - translateDelta * pos,
+                                    scaleValue = startGesture.scale - scaleDelta * pos;
                                 that._chart._transformArgument(-translateValue, scaleValue)
                             },
                             complete: complete,
@@ -6248,13 +4249,12 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                     x = _floor(e.pageX - rootOffset.left),
                     y = _floor(e.pageY - rootOffset.top),
                     canvas = that._getCanvas(x, y),
-                    $eventTarget = $(e.target),
-                    series = $eventTarget.data("series"),
-                    point = $eventTarget.data("point") || series && series.getPointByCoord(x, y);
+                    series = getData(e, SERIES_DATA),
+                    point = getData(e, POINT_DATA) || series && series.getPointByCoord(x, y);
                 that._enableOutHandler();
                 that._x = x;
                 that._y = y;
-                if (e.type === "dxpointerdown")
+                if (e.type === pointerEvents.down)
                     canvas && that._gestureStart(that._getGestureParams(e, rootOffset));
                 else if (that._startGesture && canvas)
                     if (that._gestureChange(that._getGestureParams(e, rootOffset))) {
@@ -6275,7 +4275,7 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                     return
                 }
                 if (that._axisHoverEnabled && that._argumentAxis.coordsIn(x, y)) {
-                    var argument = that._getAxisArgument(e),
+                    var argument = getData(e, ARG_DATA),
                         argumentDefined = isDefined(argument);
                     if (argumentDefined && that.hoveredArgument !== argument) {
                         that._clearHover();
@@ -6329,7 +4329,7 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                     seriesFromPoint = point.series;
                 that._stickedSeries = seriesFromPoint;
                 that._setHoveredPoint(point);
-                that._releaseHoveredSeries(seriesWithHoverView ? seriesWithHoverView === seriesFromPoint : true);
+                that._releaseHoveredSeries(!seriesWithHoverView || seriesWithHoverView === seriesFromPoint, point);
                 that._pointerComplete(point)
             },
             _pointerComplete: function(point) {
@@ -6352,19 +4352,22 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                     rootOffset = that._renderer.getRootOffset(),
                     x = _floor(e.pageX - rootOffset.left),
                     y = _floor(e.pageY - rootOffset.top),
-                    point = $(e.target).data("point"),
-                    series = that._stickedSeries || $(e.target).data("series") || point && point.series,
+                    point = getData(e, POINT_DATA),
+                    series = that._stickedSeries || getData(e, SERIES_DATA) || point && point.series,
                     axis = that._argumentAxis;
                 if (that._legend.coordsIn(x, y)) {
                     var item = that._legend.getItemByCoord(x, y);
                     if (item) {
                         series = that._storedSeries[item.id];
-                        that._legendClick(series, e)
+                        that._legendClick({
+                            target: series,
+                            jQueryEvent: e
+                        }, SERIES_CLICK)
                     }
                     return
                 }
                 if (axis && axis.coordsIn(x, y)) {
-                    var argument = that._getAxisArgument(e);
+                    var argument = getData(e, ARG_DATA);
                     if (isDefined(argument)) {
                         that._eventTrigger("argumentAxisClick", {
                             argument: argument,
@@ -6378,14 +4381,14 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                     if (point)
                         that._pointClick(point, e);
                     else
-                        $(e.target).data("series") && that._eventTrigger(SERIES_CLICK, {
+                        getData(e, SERIES_DATA) && that._eventTrigger(SERIES_CLICK, {
                             target: series,
                             jQueryEvent: e
                         })
                 }
             },
             dispose: function() {
-                this._gestureEndHandler && $(document).off("dxpointerup", this._gestureEndHandler);
+                this._gestureEndHandler && $(document).off(pointerEvents.up, this._gestureEndHandler);
                 this._resetTimer();
                 baseTrackerPrototype.dispose.call(this)
             }
@@ -6394,58 +4397,98 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
             this.ctor(options)
         };
         $.extend(charts.PieTracker.prototype, baseTrackerPrototype, {
-            _legendClick: function(point, event) {
-                var that = this,
-                    eventArg = {
-                        target: point,
-                        jQueryEvent: event
-                    },
-                    eventTrigger = that._eventTrigger;
-                eventTrigger(LEGEND_CLICK, eventArg, function() {
-                    !eventCanceled(event, point) && eventTrigger(POINT_CLICK, eventArg)
-                })
-            },
             _pointerHandler: function(e) {
                 var that = e.data.tracker,
                     rootOffset = that._renderer.getRootOffset(),
                     x = _floor(e.pageX - rootOffset.left),
                     y = _floor(e.pageY - rootOffset.top),
-                    series = that._storedSeries[0],
-                    point = $(e.target).data("point") || series && series.getPointByCoord(x, y),
-                    item,
-                    mode;
+                    point = getData(e, POINT_DATA),
+                    mode,
+                    item;
                 that._enableOutHandler();
                 if (that._legend.coordsIn(x, y)) {
                     item = that._legend.getItemByCoord(x, y);
-                    if (item) {
-                        point = series.getPoints()[item.id];
-                        mode = that._legend._options.hoverMode
-                    }
+                    if (item)
+                        _each(that._storedSeries, function(_, singleSeries) {
+                            _each(singleSeries.getPointsByArg(item.argument), function(_, p) {
+                                if (p.index === item.id) {
+                                    point = p;
+                                    return false
+                                }
+                            });
+                            if (point)
+                                return false
+                        });
+                    mode = _normalizeEnum(that._legend._options.hoverMode)
                 }
                 if (point && point !== that.hoveredPoint) {
-                    that._tooltip.isEnabled() && that._showTooltip(point);
+                    !item && that._tooltip.isEnabled() && that._showTooltip(point);
                     that._setHoveredPoint(point, mode)
                 }
                 else if (!point)
                     that._pointerOut()
+            },
+            _toAllArgumentPoints: function(argument, func, eventName, targetPoint, legendCallback) {
+                var that = this;
+                that._hoveredArgumentPoints = true;
+                _each(getArgumentPointsByIndex(that._storedSeries, argument, targetPoint.index), function(_, currentPoint) {
+                    var series = currentPoint.series,
+                        obj = {
+                            point: currentPoint,
+                            setState: true
+                        };
+                    if (currentPoint === targetPoint)
+                        obj.legendCallback = legendCallback;
+                    series[func](obj);
+                    that._eventTrigger(eventName, {target: currentPoint})
+                })
+            },
+            _releasePoint: function(point, eventTrigger) {
+                var that = this;
+                if (that._hoveredArgumentPoints) {
+                    that._hoveredArgumentPoints = null;
+                    _each(getArgumentPointsByIndex(that._storedSeries, point.argument, point.index), function(_, argumentPoint) {
+                        argumentPoint.releaseHoverState(that.legendCallback(argumentPoint));
+                        eventTrigger(POINT_HOVER_CHANGED, {target: argumentPoint})
+                    })
+                }
+                else if (_normalizeEnum(point.getOptions().hoverMode) !== NONE_MODE) {
+                    point.releaseHoverState(that.legendCallback(point));
+                    eventTrigger(POINT_HOVER_CHANGED, {target: point})
+                }
             },
             _clickHandler: function(e) {
                 var that = e.data.tracker,
                     rootOffset = that._renderer.getRootOffset(),
                     x = _floor(e.pageX - rootOffset.left),
                     y = _floor(e.pageY - rootOffset.top),
-                    storedSeries = that._storedSeries[0],
-                    point;
-                if (that._legend.coordsIn(x, y)) {
-                    var item = that._legend.getItemByCoord(x, y);
+                    eventTrigger = that._eventTrigger,
+                    legend = that._legend,
+                    points,
+                    point,
+                    argument,
+                    item;
+                if (legend.coordsIn(x, y)) {
+                    item = legend.getItemByCoord(x, y);
                     if (item) {
-                        point = storedSeries.getPoints()[item.id];
-                        that._legendClick(point, e)
+                        argument = item.argument;
+                        if (that._storedSeries.length === 1) {
+                            points = getArgumentPointsByIndex(that._storedSeries, argument, item.id);
+                            that._legendClick({
+                                target: points[0],
+                                jQueryEvent: e
+                            }, POINT_CLICK)
+                        }
+                        else
+                            eventTrigger(LEGEND_CLICK, {
+                                target: argument,
+                                jQueryEvent: e
+                            })
                     }
                 }
                 else {
-                    point = $(e.target).data("point") || storedSeries && storedSeries.getPointByCoord(x, y);
-                    point && that._eventTrigger(POINT_CLICK, {
+                    point = getData(e, POINT_DATA);
+                    point && eventTrigger(POINT_CLICK, {
                         target: point,
                         jQueryEvent: e
                     })
@@ -6510,16 +4553,17 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                 that._panes = null
             },
             _prepareOptions: function(options, direction) {
+                var lineOptions = options[direction + "Line"];
                 this._options[direction] = {
-                    visible: options[direction + "Line"].visible,
+                    visible: lineOptions.visible,
                     line: {
-                        stroke: options[direction + "Line"].color || options.color,
-                        "stroke-width": options[direction + "Line"].width || options.width,
-                        dashStyle: options[direction + "Line"].dashStyle || options.dashStyle,
-                        opacity: options[direction + "Line"].opacity || options.opacity,
+                        stroke: lineOptions.color || options.color,
+                        "stroke-width": lineOptions.width || options.width,
+                        dashStyle: lineOptions.dashStyle || options.dashStyle,
+                        opacity: lineOptions.opacity || options.opacity,
                         "stroke-linecap": "butt"
                     },
-                    label: $.extend(true, {}, options.label, options[direction + "Line"].label)
+                    label: $.extend(true, {}, options.label, lineOptions.label)
                 }
             },
             _createLines: function(options, sharpParam, group) {
@@ -6556,7 +4600,8 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                     that._horizontal.lines = that._createLines(horizontalOptions.line, "v", that._horizontalGroup);
                     that._horizontal.labels = that._createLabels(that._axes[1], horizontalOptions, true, that._horizontalGroup)
                 }
-                that._circle = renderer.circle(canvas.left, canvas.top, 0).attr(circleOptions).append(that._crosshairGroup)
+                that._circle = renderer.circle(canvas.left, canvas.top, 0).attr(circleOptions).append(that._crosshairGroup);
+                that.hide()
             },
             _createLabels: function(axes, options, isHorizontal, group) {
                 var that = this,
@@ -6572,9 +4617,8 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                 if (!options.label || !options.label.visible)
                     return;
                 $.each(axes, function(_, axis) {
-                    var axisOptions = axis.getOptions(),
-                        position = axisOptions.position;
-                    if (axis._virtual || axisOptions.stubData)
+                    var position = axis.getOptions().position;
+                    if (axis.getTranslator().getBusinessRange().stubData)
                         return;
                     curentLabelPos = axis.getCurrentLabelPos();
                     if (isHorizontal) {
@@ -6585,7 +4629,7 @@ if (!DevExpress.MOD_VIZ_CHARTS) {
                         x = canvas.left;
                         y = curentLabelPos
                     }
-                    text = renderer.text("0", x, y).css(DX.viz.core.utils.patchFontOptions(options.label.font)).attr({align: position === TOP || position === BOTTOM ? CENTER : position === RIGHT ? LEFT : RIGHT}).append(group);
+                    text = renderer.text("0", x, y).css(DX.viz.utils.patchFontOptions(options.label.font)).attr({align: position === TOP || position === BOTTOM ? CENTER : position === RIGHT ? LEFT : RIGHT}).append(group);
                     bbox = text.getBBox();
                     text.attr({y: isHorizontal ? 2 * y - bbox.y - bbox.height / 2 : position === BOTTOM ? 2 * y - bbox.y : 2 * y - (bbox.y + bbox.height)});
                     background = renderer.rect(0, 0, 0, 0).attr({fill: options.label.backgroundColor || options.line.stroke}).append(group).toBackground();

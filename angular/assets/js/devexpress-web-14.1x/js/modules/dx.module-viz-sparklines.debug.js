@@ -1,288 +1,203 @@
 /*! 
 * DevExtreme (Sparklines)
-* Version: 14.1.7
-* Build date: Sep 22, 2014
+* Version: 15.2.4
+* Build date: Dec 8, 2015
 *
-* Copyright (c) 2012 - 2014 Developer Express Inc. ALL RIGHTS RESERVED
+* Copyright (c) 2012 - 2015 Developer Express Inc. ALL RIGHTS RESERVED
 * EULA: https://www.devexpress.com/Support/EULAs/DevExtreme.xml
 */
 
 "use strict";
-if (!DevExpress.MOD_VIZ_SPARKLINES) {
-    if (!DevExpress.MOD_VIZ_CORE)
+if (!window.DevExpress || !DevExpress.MOD_VIZ_SPARKLINES) {
+    if (!window.DevExpress || !DevExpress.MOD_VIZ_CORE)
         throw Error('Required module is not referenced: viz-core');
     /*! Module viz-sparklines, file baseSparkline.js */
-    (function($, DX) {
-        var TOOLTIP_MARGIN = 100,
-            TOOLTIP_ARROW_MARGIN = 10,
-            DEFAULT_LINE_SPACING = 6,
+    (function($, DX, undefined) {
+        var DEFAULT_LINE_SPACING = 2,
             DEFAULT_EVENTS_DELAY = 200,
             TOUCH_EVENTS_DELAY = 1000,
+            eventUtils = DX.require("/ui/events/ui.events.utils"),
+            wheelEvent = DX.require("/ui/events/ui.events.wheel"),
             _extend = $.extend,
             _abs = Math.abs,
-            _Number = Number,
-            _round = Math.round,
-            core = DX.viz.core,
-            CoreFactory = core.CoreFactory;
-        function DEFAULT_CUSTOMIZE_TOOLTIP(customizeObject) {
-            return {text: customizeObject.valueText.join('<br/>')}
+            viz = DX.viz,
+            _noop = $.noop;
+        function generateDefaultCustomizeTooltipCallback(fontOptions, rtlEnabled) {
+            var lineSpacing = fontOptions.lineSpacing,
+                lineHeight = (lineSpacing !== undefined && lineSpacing !== null ? lineSpacing : DEFAULT_LINE_SPACING) + fontOptions.size;
+            DX.viz.sparklines.generated_customize_tooltip = function() {
+                return {
+                        lineHeight: lineHeight,
+                        rtlEnabled: rtlEnabled
+                    }
+            };
+            return function(customizeObject) {
+                    var html = "",
+                        vt = customizeObject.valueText;
+                    for (var i = 0; i < vt.length; i += 2)
+                        html += "<tr><td>" + vt[i] + "</td><td style='width: 15px'></td><td style='text-align: " + (rtlEnabled ? "left" : "right") + "'>" + vt[i + 1] + "</td></tr>";
+                    return {html: "<table style='border-spacing:0px; line-height: " + lineHeight + "px'>" + html + "</table>"}
+                }
         }
         DX.viz.sparklines = {};
-        DX.viz.sparklines.DEFAULT_CUSTOMIZE_TOOLTIP = DEFAULT_CUSTOMIZE_TOOLTIP;
-        DX.viz.sparklines.BaseSparkline = core.BaseWidget.inherit({
-            render: function() {
-                this._refresh();
-                return this
-            },
-            _rendererType: DX.viz.renderers.Renderer,
-            _clean: function() {
-                if (this._tooltipShown) {
-                    this._tooltip.dispose();
-                    this._tooltip = null;
-                    this._tooltipShown = null;
-                    this._tooltipGroup.clear()
-                }
-                this._tooltipContainer.detach();
-                this._cleanWidgetElements()
-            },
-            _optionChanged: function(optionName, value) {
-                if (optionName === 'size' && this._allOptions) {
-                    this._clean();
-                    this._canvas = this._calculateCanvas();
-                    this._renderer.resize(this._canvas.width, this._canvas.height);
-                    if (!this._isContainerVisible())
-                        return;
-                    this._allOptions.size = value;
-                    this._redrawWidgetElements();
-                    this._prepareTooltipContainer()
-                }
-                else if (optionName === 'dataSource' && this._allOptions)
-                    this._refreshDataSource();
-                else
-                    this.callBase.apply(this, arguments)
-            },
-            _init: function() {
+        DX.viz.sparklines.BaseSparkline = viz.BaseWidget.inherit({
+            _setDeprecatedOptions: function() {
                 this.callBase();
-                this._canvas = this._calculateCanvas();
-                this._renderer = new this._rendererType({
-                    cssClass: this._widgetClass + ' ' + this._widgetClass + '-' + this._widgetType,
-                    pathModified: this.option('pathModified'),
-                    rtl: this.option('rtlEnabled')
-                });
-                this._renderer.recreateCanvas(this._canvas.width, this._canvas.height);
-                this._createHtmlElements();
-                this._createTooltipGroups();
-                this._initTooltipEvents();
-                this._drawContainer()
+                $.extend(this._deprecatedOptions, {
+                    "tooltip.verticalAlignment": {
+                        since: "15.1",
+                        message: "Now tootips are aligned automatically"
+                    },
+                    "tooltip.horizontalAlignment": {
+                        since: "15.1",
+                        message: "Now tootips are aligned automatically"
+                    }
+                })
             },
-            _dispose: function() {
+            _useLinks: false,
+            _clean: function() {
                 var that = this;
-                that.callBase();
-                that._disposeWidgetElements();
-                that._disposeTooltipEvents();
-                that._renderer.dispose();
-                that._tooltipRenderer.dispose();
-                that._translatorX = null;
-                that._translatorY = null;
-                delete that._renderer;
-                delete that._tooltipRenderer;
-                delete that._tooltipTrackerGroup;
-                delete that._tooltipGroup;
-                delete that._tooltipContainer
+                if (that._tooltipShown) {
+                    that._tooltipShown = false;
+                    that._tooltip.hide()
+                }
+                that._cleanWidgetElements();
+                that._cleanTranslators()
+            },
+            _initCore: function() {
+                var that = this;
+                that._tooltipTracker = that._renderer.root;
+                that._tooltipTracker.attr({"pointer-events": "visible"});
+                that._createHtmlElements();
+                that._initTooltipEvents()
+            },
+            _initTooltip: function() {
+                this._initTooltipBase = this.callBase
+            },
+            _getDefaultSize: function() {
+                return this._defaultSize
+            },
+            _disposeCore: function() {
+                this._disposeWidgetElements();
+                this._disposeTooltipEvents();
+                this._ranges = null
             },
             _render: function() {
                 var that = this;
-                that._canvas = that._calculateCanvas();
-                that._renderer.resize(that._canvas.width, that._canvas.height);
-                if (!that._isContainerVisible()) {
-                    that._incidentOccured('W2001', [that.NAME]);
-                    return
-                }
                 that._prepareOptions();
-                that._createWidgetElements();
-                that._drawWidgetElements();
-                that._drawn()
+                that._updateWidgetElements();
+                that._drawWidgetElements()
             },
-            _isContainerVisible: function() {
-                var that = this,
-                    canvas = that._canvas,
-                    enoughWidth = canvas.width - canvas.left - canvas.right > 0,
-                    enoughHeight = canvas.height - canvas.top - canvas.bottom > 0;
-                return canvas.height && canvas.width && enoughHeight && enoughWidth
+            _updateWidgetElements: function() {
+                this._updateRange();
+                this._updateTranslator()
             },
-            _createWidgetElements: function() {
-                this._createRange();
-                this._createTranslator()
-            },
-            _prepareOptions: function(defaultOptions) {
-                var that = this,
-                    userOptions = that.option() || {},
-                    options,
-                    defaultTheme,
-                    theme;
-                defaultTheme = core.findTheme('default');
-                defaultTheme = defaultTheme[this._widgetType];
-                options = _extend(true, {}, defaultOptions, userOptions);
-                if (typeof options.theme === 'string') {
-                    theme = core.findTheme(options.theme);
-                    theme = theme[this._widgetType]
-                }
-                else
-                    theme = options.theme;
-                return _extend(true, {}, defaultTheme, theme, options)
-            },
-            _calculateCanvas: function() {
-                var that = this,
-                    canvas = {},
-                    sizeOptions = that.option('size') || {},
-                    marginOptions = that.option('margin') || {},
-                    defaultSize = that._defaultSize,
-                    container = that._element(),
-                    width = sizeOptions.width >= 0 ? _Number(sizeOptions.width) : container.width(),
-                    height = sizeOptions.height >= 0 ? _Number(sizeOptions.height) : container.height();
-                if (!width && _Number(sizeOptions.width) !== 0)
-                    width = defaultSize.width;
-                if (!height && _Number(sizeOptions.height) !== 0)
-                    height = defaultSize.height;
-                return {
-                        width: width,
-                        height: height,
-                        top: _Number(marginOptions.top) || defaultSize.top,
-                        bottom: _Number(marginOptions.bottom) || defaultSize.bottom,
-                        left: _Number(marginOptions.left) || defaultSize.left,
-                        right: _Number(marginOptions.right) || defaultSize.right
+            _applySize: function() {
+                if (this._allOptions)
+                    this._allOptions.size = {
+                        width: this._canvas.width,
+                        height: this._canvas.height
                     }
             },
-            _createTooltipGroups: function() {
-                var that = this,
-                    renderer,
-                    root,
-                    widgetClass = that._widgetClass;
-                that._tooltipRenderer = renderer = new that._rendererType({
-                    cssClass: widgetClass + ' ' + widgetClass + '-tooltip',
-                    pathModified: this.option('pathModified'),
-                    rtl: this.option('rtlEnabled')
-                });
-                renderer.recreateCanvas(1, 1);
-                that._tooltipContainer = $('<div style="position: relative">');
-                renderer.draw(that._tooltipContainer[0]);
-                root = renderer.getRoot();
-                that._tooltipGroup = renderer.createGroup({
-                    'class': widgetClass + '-tooltip-group',
-                    style: {'z-index': '1'}
-                }).append(root);
-                that._tooltipTrackerGroup = renderer.createGroup({'class': widgetClass + '-tooltip-tracker-group'}).append(root);
-                that._tooltipTracker = that._createTooltipTracker().append(that._tooltipTrackerGroup)
+            _cleanTranslators: function() {
+                this._translatorX = null;
+                this._translatorY = null
             },
-            _createTooltipTracker: function() {
-                return this._tooltipRenderer.createRect(0, 0, 0, 0, 0, {
-                        fill: 'grey',
-                        opacity: 0
-                    })
+            _setupResizeHandler: _noop,
+            _resize: function() {
+                var that = this;
+                that._redrawWidgetElements();
+                if (that._tooltipShown) {
+                    that._tooltipShown = false;
+                    that._tooltip.hide()
+                }
+                that._drawn()
+            },
+            _prepareOptions: function() {
+                return _extend(true, {}, this._themeManager.theme(), this.option())
+            },
+            _createThemeManager: function() {
+                var themeManager = new viz.BaseThemeManager;
+                themeManager._themeSection = this._widgetType;
+                themeManager._fontFields = ["tooltip.font"];
+                return themeManager
+            },
+            _getTooltipCoords: function() {
+                var canvas = this._canvas,
+                    rootOffset = this._renderer.getRootOffset();
+                return {
+                        x: canvas.width / 2 + rootOffset.left,
+                        y: canvas.height / 2 + rootOffset.top
+                    }
             },
             _initTooltipEvents: function() {
                 var that = this,
-                    data = {
-                        widget: that,
-                        container: that._tooltipTracker
-                    };
+                    data = {widget: that};
                 that._showTooltipCallback = function() {
+                    var tooltip;
                     that._showTooltipTimeout = null;
                     if (!that._tooltipShown) {
                         that._tooltipShown = true;
-                        that._showTooltip()
+                        tooltip = that._getTooltip();
+                        tooltip.isEnabled() && that._tooltip.show(that._getTooltipData(), that._getTooltipCoords(), {})
                     }
                     that._DEBUG_showCallback && that._DEBUG_showCallback()
                 };
                 that._hideTooltipCallback = function() {
+                    var tooltipWasShown = that._tooltipShown;
                     that._hideTooltipTimeout = null;
                     if (that._tooltipShown) {
                         that._tooltipShown = false;
-                        that._hideTooltip()
+                        that._tooltip.hide()
                     }
-                    that._DEBUG_hideCallback && that._DEBUG_hideCallback()
+                    that._DEBUG_hideCallback && that._DEBUG_hideCallback(tooltipWasShown)
                 };
                 that._disposeCallbacks = function() {
                     that = that._showTooltipCallback = that._hideTooltipCallback = that._disposeCallbacks = null
                 };
-                that._tooltipTracker.on(mouseEvents, data).on(touchEvents, data);
+                that._tooltipTracker.on(mouseEvents, data).on(touchEvents, data).on(mouseWheelEvents, data);
                 that._tooltipTracker.on(menuEvents)
             },
             _disposeTooltipEvents: function() {
-                clearTimeout(this._showTooltipTimeout);
-                clearTimeout(this._hideTooltipTimeout);
-                this._showTooltipTimeout = this._showTooltipTimeout = null;
-                this._tooltipTracker.off();
-                this._disposeCallbacks()
-            },
-            _drawContainer: function() {
-                this._renderer.draw(this._element()[0])
-            },
-            _createTranslator: function() {
-                this._translatorX = CoreFactory.createTranslator2D(this._ranges.arg, this._canvas, {direction: "horizontal"});
-                this._translatorY = CoreFactory.createTranslator2D(this._ranges.val, this._canvas)
-            },
-            _prepareTooltipOptions: function() {
-                var that = this,
-                    canvas = that._canvas,
-                    tooltipOpt = that._allOptions.tooltip,
-                    size = that._getTooltipSize(true),
-                    defaultOptions = {
-                        canvasWidth: size.width,
-                        canvasHeight: size.height,
-                        paddingLeftRight: tooltipOpt.paddingLeftRight,
-                        paddingTopBottom: tooltipOpt.paddingTopBottom,
-                        arrowLength: tooltipOpt.arrowLength,
-                        cloudHorizontalPosition: tooltipOpt.horizontalAlignment,
-                        cloudVerticalPosition: tooltipOpt.verticalAlignment,
-                        lineSpacing: tooltipOpt.font.lineSpacing !== undefined && tooltipOpt.font.lineSpacing !== null ? tooltipOpt.font.lineSpacing : DEFAULT_LINE_SPACING
-                    },
-                    autoJustify = !$.isFunction(that._allOptions.tooltip.customizeText) && !$.isFunction(that._allOptions.tooltip.customizeTooltip),
-                    options = $.extend(defaultOptions, that._allOptions.tooltip, {
-                        customizeTooltip: autoJustify ? DEFAULT_CUSTOMIZE_TOOLTIP : that._allOptions.tooltip.customizeTooltip,
-                        _justify: that._allOptions.tooltip._justify || autoJustify,
-                        _rtl: that.option('rtlEnabled')
-                    });
-                that._tooltipOptions = {
-                    size: size,
-                    options: options
-                };
-                return options
-            },
-            _prepareTooltipContainer: function() {
-                var that = this,
-                    canvas = that._canvas,
-                    width = canvas.width,
-                    height = canvas.height,
-                    renderer = that._tooltipRenderer;
-                that._updateTooltipSizeToNormal();
-                that._tooltipTracker.applySettings({
-                    width: width,
-                    height: height
-                });
-                that._tooltipContainer.appendTo(that._element());
-                that._tooltipInitializated = false;
-                that._canShowTooltip = that._allOptions.tooltip.enabled
-            },
-            _isTooltipVisible: function() {
-                return this._tooltip.enabled() && this._tooltip.prepare(this._getTooltipData(), {offset: 0})
-            },
-            _createTooltip: function() {
                 var that = this;
-                that._tooltip = CoreFactory.createTooltip(that._prepareTooltipOptions(), that._tooltipGroup, that._tooltipRenderer);
-                if (that._isTooltipVisible()) {
-                    that._tooltip.show();
-                    that._updateTooltipSizeToWide();
-                    that._checkTooltipSize();
-                    that._updateTooltipSizeToNormal()
+                clearTimeout(that._showTooltipTimeout);
+                clearTimeout(that._hideTooltipTimeout);
+                that._tooltipTracker.off();
+                that._disposeCallbacks()
+            },
+            _updateTranslator: function() {
+                var that = this,
+                    canvas = this._canvas,
+                    ranges = this._ranges;
+                that._translatorX = new viz.Translator2D(ranges.arg, canvas, {isHorizontal: true});
+                that._translatorY = new viz.Translator2D(ranges.val, canvas)
+            },
+            _getTooltip: function() {
+                var that = this;
+                if (!that._tooltip) {
+                    that._initTooltipBase();
+                    that._setTooltipRendererOptions(that._tooltipRendererOptions);
+                    that._tooltipRendererOptions = null;
+                    that._setTooltipOptions()
                 }
-                else
-                    that._canShowTooltip = false
+                return that._tooltip
             },
-            _doShowTooltip: function(delay) {
+            _setTooltipRendererOptions: function(options) {
+                if (this._tooltip)
+                    this._tooltip.setRendererOptions(options);
+                else
+                    this._tooltipRendererOptions = options
+            },
+            _setTooltipOptions: function() {
+                var tooltip = this._tooltip,
+                    options = tooltip && this._getOption("tooltip");
+                tooltip && tooltip.update($.extend({}, options, {
+                    customizeTooltip: !$.isFunction(options.customizeTooltip) ? generateDefaultCustomizeTooltipCallback(options.font, this.option("rtlEnabled")) : options.customizeTooltip,
+                    enabled: options.enabled && this._isTooltipEnabled()
+                }))
+            },
+            _showTooltip: function(delay) {
                 var that = this;
-                if (!that._canShowTooltip)
-                    return;
                 ++that._DEBUG_clearHideTooltipTimeout;
                 clearTimeout(that._hideTooltipTimeout);
                 that._hideTooltipTimeout = null;
@@ -290,153 +205,68 @@ if (!DevExpress.MOD_VIZ_SPARKLINES) {
                 ++that._DEBUG_showTooltipTimeoutSet;
                 that._showTooltipTimeout = setTimeout(that._showTooltipCallback, delay)
             },
-            _doHideTooltip: function(delay) {
+            _hideTooltip: function(delay) {
                 var that = this;
-                if (!that._canShowTooltip)
-                    return;
                 ++that._DEBUG_clearShowTooltipTimeout;
                 clearTimeout(that._showTooltipTimeout);
                 that._showTooltipTimeout = null;
                 clearTimeout(that._hideTooltipTimeout);
-                ++that._DEBUG_hideTooltipTimeoutSet;
-                that._hideTooltipTimeout = setTimeout(that._hideTooltipCallback, delay)
-            },
-            _getNormalTooltipSize: function() {
-                var size = {};
-                size.width = this._canvas.width;
-                size.left = 0;
-                size.tooltipLeft = _round(size.width / 2);
-                return size
-            },
-            _getWideTooltipSize: function(leftWidthDelta, rightWidthDelta) {
-                var that = this,
-                    canvas = that._canvas,
-                    horizontalPos = that._allOptions.tooltip.horizontalAlignment,
-                    widthDelta = leftWidthDelta + rightWidthDelta,
-                    size = {};
-                size.width = canvas.width + widthDelta;
-                size.left = -leftWidthDelta;
-                if (horizontalPos === 'right')
-                    size.tooltipLeft = _round(canvas.width / 2);
-                else if (horizontalPos === 'left')
-                    size.tooltipLeft = _round(canvas.width / 2) + widthDelta;
-                else
-                    size.tooltipLeft = _round(size.width / 2);
-                return size
-            },
-            _getTooltipSize: function(isNormal, leftWidthDelta, rightWidthDelta, heightDelta) {
-                var that = this,
-                    canvas = that._canvas,
-                    isVerticalPosTop = !(that._allOptions.tooltip.verticalAlignment === 'bottom'),
-                    size = !isNormal && (leftWidthDelta || rightWidthDelta) ? that._getWideTooltipSize(leftWidthDelta, rightWidthDelta) : that._getNormalTooltipSize(),
-                    yDelta = heightDelta > 0 ? heightDelta + TOOLTIP_MARGIN : TOOLTIP_MARGIN;
-                size.height = canvas.height + yDelta;
-                size.top = isVerticalPosTop ? -size.height : -canvas.height;
-                size.trackerY = isVerticalPosTop ? yDelta : 0;
-                size.tooltipY = isVerticalPosTop ? _round(canvas.height / 2) + yDelta - TOOLTIP_ARROW_MARGIN : _round(canvas.height / 2);
-                return size
-            },
-            _checkTooltipSize: function() {
-                var that = this,
-                    tooltip = that._tooltip,
-                    options = that._tooltipOptions.options,
-                    tooltipBBox = tooltip.getBBox(),
-                    getWide = that._allOptions.tooltip.allowContainerResizing,
-                    leftDelta = -tooltipBBox.x,
-                    rightDelta = tooltipBBox.x + tooltipBBox.width - that._canvas.width,
-                    topDelta = tooltipBBox.height - TOOLTIP_MARGIN,
-                    size;
-                if (leftDelta > 0 || rightDelta > 0 || topDelta > 0)
-                    if (getWide) {
-                        that._tooltipOptions.size = size = that._getTooltipSize(false, leftDelta > 0 ? leftDelta : 0, rightDelta > 0 ? rightDelta : 0, topDelta > 0 ? topDelta : 0);
-                        tooltip.setSize(size.width, size.height);
-                        that._updateTooltipSizeToWide()
-                    }
-                    else {
-                        that._canShowTooltip = false;
-                        tooltip.hide()
-                    }
-            },
-            _updateTooltipSizeToWide: function() {
-                var that = this,
-                    size = that._tooltipOptions.size,
-                    renderer = that._tooltipRenderer;
-                renderer.resize(size.width, size.height);
-                renderer.getRoot().applySettings({style: {
-                        left: size.left,
-                        top: size.top,
-                        position: 'absolute',
-                        overflow: 'hidden'
-                    }});
-                that._tooltipTracker.applySettings({
-                    y: size.trackerY,
-                    x: -size.left
-                });
-                that._tooltip.move(size.tooltipLeft, size.tooltipY)
-            },
-            _updateTooltipSizeToNormal: function() {
-                var that = this,
-                    renderer = that._tooltipRenderer,
-                    canvas = that._canvas;
-                renderer.resize(canvas.width, canvas.height);
-                renderer.getRoot().applySettings({style: {
-                        left: 0,
-                        top: -canvas.height,
-                        position: 'absolute'
-                    }});
-                that._tooltipTracker.applySettings({
-                    y: 0,
-                    x: 0
-                })
-            },
-            _showTooltip: function() {
-                if (!this._tooltipInitializated) {
-                    this._createTooltip();
-                    this._tooltipInitializated = true;
-                    if (!this._canShowTooltip)
-                        return
+                if (delay) {
+                    ++that._DEBUG_hideTooltipTimeoutSet;
+                    that._hideTooltipTimeout = setTimeout(that._hideTooltipCallback, delay)
                 }
-                this._updateTooltipSizeToWide();
-                this._tooltip.show()
+                else
+                    that._hideTooltipCallback()
             },
-            _hideTooltip: function() {
-                this._updateTooltipSizeToNormal();
-                this._tooltip.hide()
+            _endLoading: function(complete) {
+                complete()
             },
-            showLoadingIndicator: $.noop
+            _initTitle: _noop,
+            _updateTitle: _noop,
+            _initLoadingIndicator: _noop,
+            _disposeLoadingIndicator: _noop,
+            _updateLoadingIndicatorOptions: _noop,
+            _updateLoadingIndicatorSize: _noop,
+            _scheduleLoadingIndicatorHiding: _noop,
+            showLoadingIndicator: _noop,
+            hideLoadingIndicator: _noop
         });
         var menuEvents = {
-                'contextmenu.sparkline-tooltip': function(event) {
-                    if (DX.ui.events.isTouchEvent(event) || DX.ui.events.isPointerEvent(event))
+                "contextmenu.sparkline-tooltip": function(event) {
+                    if (eventUtils.isTouchEvent(event) || eventUtils.isPointerEvent(event))
                         event.preventDefault()
                 },
-                'MSHoldVisual.sparkline-tooltip': function(event) {
+                "MSHoldVisual.sparkline-tooltip": function(event) {
                     event.preventDefault()
                 }
             };
         var mouseEvents = {
-                'mouseover.sparkline-tooltip': function(event) {
+                "mouseover.sparkline-tooltip": function(event) {
                     isPointerDownCalled = false;
                     var widget = event.data.widget;
                     widget._x = event.pageX;
                     widget._y = event.pageY;
                     widget._tooltipTracker.off(mouseMoveEvents).on(mouseMoveEvents, event.data);
-                    widget._doShowTooltip(DEFAULT_EVENTS_DELAY)
+                    widget._showTooltip(DEFAULT_EVENTS_DELAY)
                 },
-                'mouseout.sparkline-tooltip': function(event) {
+                "mouseout.sparkline-tooltip": function(event) {
                     if (isPointerDownCalled)
                         return;
                     var widget = event.data.widget;
                     widget._tooltipTracker.off(mouseMoveEvents);
-                    widget._doHideTooltip(DEFAULT_EVENTS_DELAY)
+                    widget._hideTooltip(DEFAULT_EVENTS_DELAY)
                 }
             };
-        var mouseMoveEvents = {'mousemove.sparkline-tooltip': function(event) {
+        var mouseWheelEvents = {};
+        mouseWheelEvents[wheelEvent.name + ".sparkline-tooltip"] = function(event) {
+            event.data.widget._hideTooltip()
+        };
+        var mouseMoveEvents = {"mousemove.sparkline-tooltip": function(event) {
                     var widget = event.data.widget;
                     if (widget._showTooltipTimeout && (_abs(widget._x - event.pageX) > 3 || _abs(widget._y - event.pageY) > 3)) {
                         widget._x = event.pageX;
                         widget._y = event.pageY;
-                        widget._doShowTooltip(DEFAULT_EVENTS_DELAY)
+                        widget._showTooltip(DEFAULT_EVENTS_DELAY)
                     }
                 }};
         var active_touch_tooltip_widget = null,
@@ -444,16 +274,16 @@ if (!DevExpress.MOD_VIZ_SPARKLINES) {
                 event.preventDefault();
                 var widget = active_touch_tooltip_widget;
                 if (widget && widget !== event.data.widget)
-                    widget._doHideTooltip(DEFAULT_EVENTS_DELAY);
+                    widget._hideTooltip(DEFAULT_EVENTS_DELAY);
                 widget = active_touch_tooltip_widget = event.data.widget;
-                widget._doShowTooltip(TOUCH_EVENTS_DELAY);
+                widget._showTooltip(TOUCH_EVENTS_DELAY);
                 widget._touch = true
             },
             touchstartDocumentProcessing = function() {
                 var widget = active_touch_tooltip_widget;
                 if (widget) {
                     if (!widget._touch) {
-                        widget._doHideTooltip(DEFAULT_EVENTS_DELAY);
+                        widget._hideTooltip(DEFAULT_EVENTS_DELAY);
                         active_touch_tooltip_widget = null
                     }
                     widget._touch = null
@@ -463,43 +293,33 @@ if (!DevExpress.MOD_VIZ_SPARKLINES) {
                 var widget = active_touch_tooltip_widget;
                 if (widget)
                     if (widget._showTooltipTimeout) {
-                        widget._doHideTooltip(DEFAULT_EVENTS_DELAY);
+                        widget._hideTooltip(DEFAULT_EVENTS_DELAY);
                         active_touch_tooltip_widget = null
                     }
             },
             isPointerDownCalled = false;
         var touchEvents = {
-                'pointerdown.sparkline-tooltip': function(event) {
-                    touchstartTooltipProcessing(event)
-                },
-                'touchstart.sparkline-tooltip': function(event) {
-                    touchstartTooltipProcessing(event)
-                }
+                "pointerdown.sparkline-tooltip": touchstartTooltipProcessing,
+                "touchstart.sparkline-tooltip": touchstartTooltipProcessing
             };
         $(document).on({
-            'pointerdown.sparkline-tooltip': function() {
+            "pointerdown.sparkline-tooltip": function() {
                 isPointerDownCalled = true;
                 touchstartDocumentProcessing()
             },
-            'touchstart.sparkline-tooltip': function() {
-                touchstartDocumentProcessing()
-            },
-            'pointerup.sparkline-tooltip': function() {
-                touchendDocumentProcessing()
-            },
-            'touchend.sparkline-tooltip': function() {
-                touchendDocumentProcessing()
-            }
+            "touchstart.sparkline-tooltip": touchstartDocumentProcessing,
+            "pointerup.sparkline-tooltip": touchendDocumentProcessing,
+            "touchend.sparkline-tooltip": touchendDocumentProcessing
         });
         DX.viz.sparklines.BaseSparkline._DEBUG_reset = function() {
             active_touch_tooltip_widget = null
         }
     })(jQuery, DevExpress);
     /*! Module viz-sparklines, file sparkline.js */
-    (function($, DX) {
+    (function($, DX, undefined) {
         var viz = DX.viz,
-            charts = viz.charts,
-            core = viz.core,
+            commonUtils = DX.require("/utils/utils.common"),
+            registerComponent = DX.require("/componentRegistrator"),
             MIN_BAR_WIDTH = 1,
             MAX_BAR_WIDTH = 50,
             DEFAULT_BAR_INTERVAL = 4,
@@ -507,20 +327,6 @@ if (!DevExpress.MOD_VIZ_SPARKLINES) {
             DEFAULT_CANVAS_HEIGHT = 30,
             DEFAULT_HORIZONTAL_MARGIN = 5,
             DEFAULT_VERTICAL_MARGIN = 3,
-            DEFAULT_OPTIONS = {
-                disabled: false,
-                theme: 'default',
-                dataSource: [],
-                size: {},
-                margin: {},
-                type: 'line',
-                argumentField: 'arg',
-                valueField: 'val',
-                winlossThreshold: 0,
-                showFirstLast: true,
-                showMinMax: false,
-                redrawOnResize: false
-            },
             ALLOWED_TYPES = {
                 line: true,
                 spline: true,
@@ -531,16 +337,22 @@ if (!DevExpress.MOD_VIZ_SPARKLINES) {
                 bar: true,
                 winloss: true
             },
-            _map = $.map,
-            _extend = $.extend,
-            _abs = Math.abs,
-            _round = Math.round,
+            _math = Math,
+            _abs = _math.abs,
+            _round = _math.round,
+            _max = _math.max,
+            _min = _math.min,
             _isFinite = isFinite,
+            _map = viz.utils.map,
+            _normalizeEnum = viz.utils.normalizeEnum,
+            _isDefined = commonUtils.isDefined,
             _Number = Number,
             _String = String;
-        viz.sparklines.Sparkline = viz.sparklines.BaseSparkline.inherit({
-            _widgetType: 'sparkline',
-            _widgetClass: 'dxsl',
+        registerComponent("dxSparkline", viz.sparklines, viz.sparklines.BaseSparkline.inherit({
+            _rootClassPrefix: "dxsl",
+            _rootClass: "dxsl-sparkline",
+            _widgetType: "sparkline",
+            _invalidatingOptions: ["lineColor", "lineWidth", "areaOpacity", "minColor", "maxColor", "barPositiveColor", "barNegativeColor", "winColor", "lessColor", "firstLastColor", "pointSymbol", "pointColor", "pointSize", "type", "argumentField", "valueField", "winlossThreshold", "showFirstLast", "showMinMax", "ignoreEmptyPoints", "minValue", "maxValue"],
             _defaultSize: {
                 width: DEFAULT_CANVAS_WIDTH,
                 height: DEFAULT_CANVAS_HEIGHT,
@@ -549,78 +361,97 @@ if (!DevExpress.MOD_VIZ_SPARKLINES) {
                 top: DEFAULT_VERTICAL_MARGIN,
                 bottom: DEFAULT_VERTICAL_MARGIN
             },
-            _init: function() {
+            _initCore: function() {
                 this.callBase();
-                this._refreshDataSource()
+                this._updateDataSource();
+                this._createSeries()
             },
-            _handleDataSourceChanged: function() {
+            _dataSourceChangedHandler: function() {
                 if (this._initialized) {
                     this._clean();
-                    this._createWidgetElements();
+                    this._updateWidgetElements();
                     this._drawWidgetElements()
                 }
             },
-            _dataSourceOptions: function() {
-                return {
-                        paginate: false,
-                        _preferSync: true
-                    }
+            _updateWidgetElements: function() {
+                this._updateSeries();
+                this.callBase()
             },
             _redrawWidgetElements: function() {
-                this._createTranslator();
-                this._correctPoints();
-                this._series.draw({
-                    x: this._translatorX,
-                    y: this._translatorY
+                var that = this;
+                that._updateTranslator();
+                that._correctPoints();
+                that._series.draw({
+                    x: that._translatorX,
+                    y: that._translatorY
                 });
-                this._seriesGroup.append(this._renderer.getRoot())
+                that._seriesGroup.append(that._renderer.root)
             },
             _disposeWidgetElements: function() {
-                delete this._seriesGroup;
-                delete this._seriesLabelGroup
+                var that = this;
+                that._series && that._series.dispose();
+                that._series = that._seriesGroup = that._seriesLabelGroup = null
             },
             _cleanWidgetElements: function() {
-                this._seriesGroup.detach();
-                this._seriesLabelGroup.detach();
+                this._seriesGroup.remove();
+                this._seriesLabelGroup.remove();
                 this._seriesGroup.clear();
                 this._seriesLabelGroup.clear()
             },
-            _createWidgetElements: function() {
-                this._createSeries();
-                this.callBase()
-            },
             _drawWidgetElements: function() {
-                if (this._dataSource && this._dataSource.isLoaded())
-                    this._drawSeries()
+                if (this._dataSource.isLoaded()) {
+                    this._drawSeries();
+                    this._drawn()
+                }
             },
             _prepareOptions: function() {
-                this._allOptions = this.callBase(DEFAULT_OPTIONS);
-                this._allOptions.type = _String(this._allOptions.type).toLowerCase();
-                if (!ALLOWED_TYPES[this._allOptions.type])
-                    this._allOptions.type = 'line'
+                var that = this;
+                that._allOptions = that.callBase();
+                that._allOptions.type = _normalizeEnum(that._allOptions.type);
+                if (!ALLOWED_TYPES[that._allOptions.type])
+                    that._allOptions.type = "line"
             },
             _createHtmlElements: function() {
-                this._seriesGroup = this._renderer.createGroup({'class': 'dxsl-series'});
-                this._seriesLabelGroup = this._renderer.createGroup({'class': 'dxsl-series-labels'})
+                this._seriesGroup = this._renderer.g().attr({"class": "dxsl-series"});
+                this._seriesLabelGroup = this._renderer.g().attr({"class": "dxsl-series-labels"})
             },
             _createSeries: function() {
+                this._series = new viz.series.Series({
+                    renderer: this._renderer,
+                    seriesGroup: this._seriesGroup,
+                    labelsGroup: this._seriesLabelGroup
+                }, {
+                    widgetType: "chart",
+                    type: "line"
+                })
+            },
+            getSeriesOptions: function() {
+                return this._series.getOptions()
+            },
+            _updateSeries: function() {
                 var that = this,
-                    renderer = that._renderer,
-                    dataValidator;
+                    groupSeries,
+                    seriesOptions;
                 that._prepareDataSource();
-                that._prepareSeriesOptions();
-                that._series = core.CoreFactory.createSeries(renderer, that._seriesOptions);
-                dataValidator = charts.factory.createDataValidator(that._simpleDataSource, [[that._series]], that._incidentOccured, {
+                seriesOptions = that._prepareSeriesOptions();
+                that._series.updateOptions(seriesOptions);
+                groupSeries = [[that._series]];
+                groupSeries.argumentOptions = {type: seriesOptions.type === "bar" ? "discrete" : undefined};
+                that._simpleDataSource = viz.validateData(that._simpleDataSource, groupSeries, that._incidentOccured, {
                     checkTypeForAllData: false,
                     convertToAxisDataType: true,
                     sortingMethod: true
                 });
-                that._simpleDataSource = dataValidator.validate();
-                that._series._options.customizePoint = that._getCustomizeFunction();
                 that._series.updateData(that._simpleDataSource)
             },
+            _handleChangedOptions: function(options) {
+                var that = this;
+                that.callBase.apply(that, arguments);
+                if ("dataSource" in options && that._allOptions)
+                    that._updateDataSource()
+            },
             _parseNumericDataSource: function(data, argField, valField) {
-                var ignoreEmptyPoints = this.option('ignoreEmptyPoints');
+                var ignoreEmptyPoints = this.option("ignoreEmptyPoints");
                 return _map(data, function(dataItem, index) {
                         var item = null,
                             isDataNumber,
@@ -659,9 +490,9 @@ if (!DevExpress.MOD_VIZ_SPARKLINES) {
                     options = that._allOptions,
                     argField = options.argumentField,
                     valField = options.valueField,
-                    dataSource = that._dataSource ? that._dataSource.items() : [],
+                    dataSource = that._dataSource.items() || [],
                     data = that._parseNumericDataSource(dataSource, argField, valField);
-                if (options.type === 'winloss') {
+                if (options.type === "winloss") {
                     that._winlossDataSource = data;
                     that._simpleDataSource = that._parseWinlossDataSource(data, argField, valField)
                 }
@@ -671,44 +502,35 @@ if (!DevExpress.MOD_VIZ_SPARKLINES) {
             _prepareSeriesOptions: function() {
                 var that = this,
                     options = that._allOptions,
-                    defaultPointOptions = {
-                        border: {},
-                        hoverStyle: {border: {}},
-                        selectionStyle: {border: {}}
-                    },
-                    customPointOptions = {
-                        size: options.pointSize,
-                        symbol: options.pointSymbol,
-                        border: {
-                            visible: true,
-                            width: 2
+                    type = options.type === "winloss" ? "bar" : options.type;
+                return {
+                        visible: true,
+                        argumentField: options.argumentField,
+                        valueField: options.valueField,
+                        color: options.lineColor,
+                        width: options.lineWidth,
+                        widgetType: "chart",
+                        type: type,
+                        opacity: type.indexOf("area") !== -1 ? that._allOptions.areaOpacity : undefined,
+                        customizePoint: that._getCustomizeFunction(),
+                        point: {
+                            size: options.pointSize,
+                            symbol: options.pointSymbol,
+                            border: {
+                                visible: true,
+                                width: 2
+                            },
+                            color: options.pointColor,
+                            visible: false,
+                            hoverStyle: {border: {}},
+                            selectionStyle: {border: {}}
                         },
-                        color: options.pointColor
-                    };
-                that._seriesOptions = {
-                    visible: true,
-                    argumentField: options.argumentField,
-                    valueField: options.valueField,
-                    color: options.lineColor,
-                    width: options.lineWidth,
-                    widgetType: "chart"
-                };
-                that._seriesOptions.border = {
-                    color: that._seriesOptions.color,
-                    width: that._seriesOptions.width,
-                    visible: true
-                };
-                that._seriesOptions.type = options.type === 'winloss' ? 'bar' : options.type;
-                if (options.type === 'winloss' || options.type === 'bar') {
-                    that._seriesOptions.argumentAxisType = 'discrete';
-                    that._seriesOptions.border.visible = false
-                }
-                if (~~options.type.indexOf('area') !== -1)
-                    that._seriesOptions.opacity = that._allOptions.areaOpacity;
-                that._seriesOptions.seriesGroup = that._seriesGroup;
-                that._seriesOptions.seriesLabelsGroup = that._seriesLabelGroup;
-                that._seriesOptions.point = _extend(defaultPointOptions, customPointOptions);
-                that._seriesOptions.point.visible = false
+                        border: {
+                            color: options.lineColor,
+                            width: options.lineWidth,
+                            visible: type !== "bar"
+                        }
+                    }
             },
             _createBarCustomizeFunction: function(pointIndexes) {
                 var that = this,
@@ -716,7 +538,7 @@ if (!DevExpress.MOD_VIZ_SPARKLINES) {
                     winlossData = that._winlossDataSource;
                 return function() {
                         var index = this.index,
-                            isWinloss = options.type === 'winloss',
+                            isWinloss = options.type === "winloss",
                             target = isWinloss ? options.winlossThreshold : 0,
                             value = isWinloss ? winlossData[index][options.valueField] : this.value,
                             positiveColor = isWinloss ? options.winColor : options.barPositiveColor,
@@ -759,7 +581,7 @@ if (!DevExpress.MOD_VIZ_SPARKLINES) {
                     dataSource = that._winlossDataSource || that._simpleDataSource,
                     drawnPointIndexes = that._getExtremumPointsIndexes(dataSource),
                     customizeFunction;
-                if (options.type === 'winloss' || options.type === 'bar')
+                if (options.type === "winloss" || options.type === "bar")
                     customizeFunction = that._createBarCustomizeFunction(drawnPointIndexes);
                 else
                     customizeFunction = that._createLineCustomizeFunction(drawnPointIndexes);
@@ -809,30 +631,57 @@ if (!DevExpress.MOD_VIZ_SPARKLINES) {
                         maxIndex: maxIndex
                     }
             },
-            _createRange: function() {
+            _updateRange: function() {
                 var that = this,
                     series = that._series,
-                    isBarType = series.type === 'bar',
+                    type = series.type,
+                    isBarType = type === "bar",
+                    isWinlossType = type === "winloss",
                     DEFAULT_VALUE_RANGE_MARGIN = 0.15,
-                    DEFAULT_ARGUMENT_RANGE_MARGIN = isBarType ? 0.1 : 0,
-                    rangeData = series.getRangeData();
-                that._ranges = {
-                    arg: new core.Range({
-                        stick: !isBarType && series.getPoints().length > 1,
-                        minValueMargin: DEFAULT_ARGUMENT_RANGE_MARGIN,
-                        maxValueMargin: DEFAULT_ARGUMENT_RANGE_MARGIN
-                    }),
-                    val: new core.Range({
-                        isValueRange: true,
-                        keepValueMargins: true,
-                        minValueMargin: DEFAULT_VALUE_RANGE_MARGIN,
-                        maxValueMargin: DEFAULT_VALUE_RANGE_MARGIN
-                    })
-                };
-                that._ranges.arg.addRange(rangeData.arg);
-                that._ranges.val.addRange(rangeData.val);
-                that._ranges.arg.applyValueMargins();
-                that._ranges.val.applyValueMargins()
+                    DEFAULT_ARGUMENT_RANGE_MARGIN = 0.1,
+                    WINLOSS_MAX_RANGE = 1,
+                    WINLOSS_MIN_RANGE = -1,
+                    rangeData = series.getRangeData(),
+                    minValue = that._allOptions.minValue,
+                    hasMinY = _isDefined(minValue) && _isFinite(minValue),
+                    maxValue = that._allOptions.maxValue,
+                    hasMaxY = _isDefined(maxValue) && _isFinite(maxValue),
+                    valCoef,
+                    argCoef;
+                valCoef = (rangeData.val.max - rangeData.val.min) * DEFAULT_VALUE_RANGE_MARGIN;
+                if (isBarType || isWinlossType || type === "area") {
+                    if (rangeData.val.min !== 0)
+                        rangeData.val.min -= valCoef;
+                    if (rangeData.val.max !== 0)
+                        rangeData.val.max += valCoef
+                }
+                else {
+                    rangeData.val.min -= valCoef;
+                    rangeData.val.max += valCoef
+                }
+                if (hasMinY || hasMaxY) {
+                    if (hasMinY && hasMaxY) {
+                        rangeData.val.minVisible = _min(minValue, maxValue);
+                        rangeData.val.maxVisible = _max(minValue, maxValue)
+                    }
+                    else {
+                        rangeData.val.minVisible = hasMinY ? _Number(minValue) : undefined;
+                        rangeData.val.maxVisible = hasMaxY ? _Number(maxValue) : undefined
+                    }
+                    if (isWinlossType) {
+                        rangeData.val.minVisible = hasMinY ? _max(rangeData.val.minVisible, WINLOSS_MIN_RANGE) : undefined;
+                        rangeData.val.maxVisible = hasMaxY ? _min(rangeData.val.maxVisible, WINLOSS_MAX_RANGE) : undefined
+                    }
+                }
+                if (series.getPoints().length > 1)
+                    if (isBarType) {
+                        argCoef = (rangeData.arg.max - rangeData.arg.min) * DEFAULT_ARGUMENT_RANGE_MARGIN;
+                        rangeData.arg.min = rangeData.arg.min - argCoef;
+                        rangeData.arg.max = rangeData.arg.max + argCoef
+                    }
+                    else
+                        rangeData.arg.stick = true;
+                that._ranges = rangeData
             },
             _getBarWidth: function(pointsCount) {
                 var that = this,
@@ -853,7 +702,7 @@ if (!DevExpress.MOD_VIZ_SPARKLINES) {
                     pointsLength = seriesPoints.length,
                     barWidth,
                     i;
-                if (seriesType === 'bar' || seriesType === 'winloss') {
+                if (seriesType === "bar" || seriesType === "winloss") {
                     barWidth = that._getBarWidth(pointsLength);
                     for (i = 0; i < pointsLength; i++)
                         seriesPoints[i].correctCoordinates({
@@ -864,18 +713,17 @@ if (!DevExpress.MOD_VIZ_SPARKLINES) {
             },
             _drawSeries: function() {
                 var that = this;
-                if (that._simpleDataSource.length !== 0) {
+                if (that._simpleDataSource.length > 0) {
                     that._correctPoints();
                     that._series.draw({
                         x: that._translatorX,
                         y: that._translatorY
                     });
-                    that._seriesGroup.append(that._renderer.getRoot());
-                    that._prepareTooltipContainer()
+                    that._seriesGroup.append(that._renderer.root)
                 }
             },
-            _isTooltipVisible: function() {
-                return this.callBase() && this._dataSource.length !== 0
+            _isTooltipEnabled: function() {
+                return !!this._simpleDataSource.length
             },
             _getTooltipData: function() {
                 var that = this,
@@ -903,19 +751,19 @@ if (!DevExpress.MOD_VIZ_SPARKLINES) {
                         originalLastValue: last,
                         originalMinValue: min,
                         originalMaxValue: max,
-                        valueText: ['Start:', formattedFirst, 'End:', formattedLast, 'Min:', formattedMin, 'Max:', formattedMax]
+                        valueText: ["Start:", formattedFirst, "End:", formattedLast, "Min:", formattedMin, "Max:", formattedMax]
                     };
-                if (options.type === 'winloss') {
+                if (options.type === "winloss") {
                     customizeObject.originalThresholdValue = options.winlossThreshold;
                     customizeObject.thresholdValue = tooltip.formatValue(options.winlossThreshold)
                 }
                 return customizeObject
             }
-        }).include(DX.ui.DataHelperMixin)
+        }))
     })(jQuery, DevExpress);
     /*! Module viz-sparklines, file bullet.js */
-    (function($, DX) {
-        var charts = DX.viz.charts,
+    (function($, DX, undefined) {
+        var registerComponent = DX.require("/componentRegistrator"),
             TARGET_MIN_Y = 0.02,
             TARGET_MAX_Y = 0.98,
             BAR_VALUE_MIN_Y = 0.1,
@@ -924,19 +772,13 @@ if (!DevExpress.MOD_VIZ_SPARKLINES) {
             DEFAULT_CANVAS_HEIGHT = 30,
             DEFAULT_HORIZONTAL_MARGIN = 1,
             DEFAULT_VERTICAL_MARGIN = 2,
-            DEFAULT_OPTIONS = {
-                disabled: false,
-                theme: 'default',
-                size: {},
-                margin: {}
-            },
-            _String = String,
             _Number = Number,
-            _round = Math.round,
             _isFinite = isFinite;
-        DX.viz.sparklines.Bullet = DX.viz.sparklines.BaseSparkline.inherit({
-            _widgetType: 'bullet',
-            _widgetClass: 'dxb',
+        registerComponent("dxBullet", DX.viz.sparklines, DX.viz.sparklines.BaseSparkline.inherit({
+            _rootClassPrefix: "dxb",
+            _rootClass: "dxb-bullet",
+            _widgetType: "bullet",
+            _invalidatingOptions: ["color", "targetColor", "targetWidth", "showTarget", "showZeroLevel", "value", "target", "startScaleValue", "endScaleValue"],
             _defaultSize: {
                 width: DEFAULT_CANVAS_WIDTH,
                 height: DEFAULT_CANVAS_HEIGHT,
@@ -951,24 +793,34 @@ if (!DevExpress.MOD_VIZ_SPARKLINES) {
                 delete this._barValuePath
             },
             _redrawWidgetElements: function() {
-                this._createTranslator();
+                this._updateTranslator();
                 this._drawBarValue();
                 this._drawTarget();
                 this._drawZeroLevel()
             },
             _cleanWidgetElements: function() {
-                this._zeroLevelPath.detach();
-                this._targetPath.detach();
-                this._barValuePath.detach()
+                this._zeroLevelPath.remove();
+                this._targetPath.remove();
+                this._barValuePath.remove()
             },
             _drawWidgetElements: function() {
-                this._drawBullet()
+                this._drawBullet();
+                this._drawn()
             },
             _createHtmlElements: function() {
                 var renderer = this._renderer;
-                this._zeroLevelPath = renderer.createPath(undefined, {'class': 'dxb-zero-level'});
-                this._targetPath = renderer.createPath(undefined, {'class': 'dxb-target'});
-                this._barValuePath = renderer.createPath(undefined, {'class': 'dxb-bar-value'})
+                this._zeroLevelPath = renderer.path(undefined, "line").attr({
+                    "class": "dxb-zero-level",
+                    "stroke-linecap": "square"
+                });
+                this._targetPath = renderer.path(undefined, "line").attr({
+                    "class": "dxb-target",
+                    "stroke-linecap": "square"
+                });
+                this._barValuePath = renderer.path(undefined, "line").attr({
+                    "class": "dxb-bar-value",
+                    "stroke-linecap": "square"
+                })
             },
             _prepareOptions: function() {
                 var that = this,
@@ -977,11 +829,16 @@ if (!DevExpress.MOD_VIZ_SPARKLINES) {
                     endScaleValue,
                     level,
                     value,
-                    target;
-                that._allOptions = options = that.callBase(DEFAULT_OPTIONS);
-                if (that._allOptions.value === undefined)
+                    target,
+                    isValueUndefined,
+                    isTargetUndefined;
+                that._allOptions = options = that.callBase();
+                isValueUndefined = that._allOptions.value === undefined;
+                isTargetUndefined = that._allOptions.target === undefined;
+                that._tooltipEnabled = !(isValueUndefined && isTargetUndefined);
+                if (isValueUndefined)
                     that._allOptions.value = 0;
-                if (that._allOptions.target === undefined)
+                if (isTargetUndefined)
                     that._allOptions.target = 0;
                 options.value = value = _Number(options.value);
                 options.target = target = _Number(options.target);
@@ -1000,7 +857,7 @@ if (!DevExpress.MOD_VIZ_SPARKLINES) {
                     that._allOptions.inverted = true
                 }
             },
-            _createRange: function() {
+            _updateRange: function() {
                 var that = this,
                     options = that._allOptions;
                 that._ranges = {
@@ -1030,29 +887,18 @@ if (!DevExpress.MOD_VIZ_SPARKLINES) {
                 if (isValidBounds && isValidMax && isValidMin && isValidTarget && isValidValue) {
                     this._drawBarValue();
                     this._drawTarget();
-                    this._drawZeroLevel();
-                    this._prepareTooltipContainer()
+                    this._drawZeroLevel()
                 }
             },
             _getTargetParams: function() {
                 var that = this,
                     options = that._allOptions,
-                    translatorX = that._translatorX,
                     translatorY = that._translatorY,
-                    minY = translatorY.translate(TARGET_MIN_Y),
-                    maxY = translatorY.translate(TARGET_MAX_Y),
-                    x = translatorX.translate(options.target),
-                    points = [{
-                            x: x,
-                            y: minY
-                        }, {
-                            x: x,
-                            y: maxY
-                        }];
+                    x = that._translatorX.translate(options.target);
                 return {
-                        points: points,
+                        points: [x, translatorY.translate(TARGET_MIN_Y), x, translatorY.translate(TARGET_MAX_Y)],
                         stroke: options.targetColor,
-                        strokeWidth: options.targetWidth
+                        "stroke-width": options.targetWidth
                     }
             },
             _getBarValueParams: function() {
@@ -1069,79 +915,55 @@ if (!DevExpress.MOD_VIZ_SPARKLINES) {
                     x2;
                 if (value > 0) {
                     x1 = startLevel <= 0 ? 0 : startLevel;
-                    x2 = value >= endLevel ? endLevel : value
+                    x2 = value >= endLevel ? endLevel : value < x1 ? x1 : value
                 }
                 else {
                     x1 = endLevel >= 0 ? 0 : endLevel;
-                    x2 = value >= startLevel ? value : startLevel
+                    x2 = value < startLevel ? startLevel : value > x1 ? x1 : value
                 }
                 x1 = translatorX.translate(x1);
                 x2 = translatorX.translate(x2);
                 return {
-                        points: [{
-                                x: x1,
-                                y: y1
-                            }, {
-                                x: x2,
-                                y: y1
-                            }, {
-                                x: x2,
-                                y: y2
-                            }, {
-                                x: x1,
-                                y: y2
-                            }],
+                        points: [x1, y1, x2, y1, x2, y2, x1, y2],
                         fill: options.color
                     }
             },
             _getZeroLevelParams: function() {
                 var that = this,
-                    options = that._allOptions,
-                    translatorX = that._translatorX,
                     translatorY = that._translatorY,
-                    minY = translatorY.translate(TARGET_MIN_Y),
-                    maxY = translatorY.translate(TARGET_MAX_Y),
-                    x = translatorX.translate(0);
+                    x = that._translatorX.translate(0);
                 return {
-                        points: [{
-                                x: x,
-                                y: minY
-                            }, {
-                                x: x,
-                                y: maxY
-                            }],
-                        stroke: options.targetColor,
-                        strokeWidth: 1
+                        points: [x, translatorY.translate(TARGET_MIN_Y), x, translatorY.translate(TARGET_MAX_Y)],
+                        stroke: that._allOptions.targetColor,
+                        "stroke-width": 1
                     }
             },
             _drawZeroLevel: function() {
                 var that = this,
-                    options = that._allOptions,
-                    params;
+                    options = that._allOptions;
                 if (0 > options.endScaleValue || 0 < options.startScaleValue || !options.showZeroLevel)
                     return;
-                params = that._getZeroLevelParams();
-                that._zeroLevelPath.applySettings(params);
-                that._zeroLevelPath.append(that._renderer.getRoot())
+                that._zeroLevelPath.attr(that._getZeroLevelParams()).sharp().append(that._renderer.root)
             },
             _drawTarget: function() {
                 var that = this,
                     options = that._allOptions,
-                    target = options.target,
-                    startLevel = options.startScaleValue,
-                    endLevel = options.endScaleValue,
-                    params;
-                if (target > endLevel || target < startLevel || !options.showTarget)
+                    target = options.target;
+                if (target > options.endScaleValue || target < options.startScaleValue || !options.showTarget)
                     return;
-                params = that._getTargetParams();
-                that._targetPath.applySettings(params);
-                that._targetPath.append(that._renderer.getRoot())
+                that._targetPath.attr(that._getTargetParams()).sharp().append(that._renderer.root)
             },
             _drawBarValue: function() {
-                var that = this,
-                    params = that._getBarValueParams();
-                that._barValuePath.applySettings(params);
-                that._barValuePath.append(that._renderer.getRoot())
+                this._barValuePath.attr(this._getBarValueParams()).append(this._renderer.root)
+            },
+            _getTooltipCoords: function() {
+                var canvas = this._canvas,
+                    rootOffset = this._renderer.getRootOffset(),
+                    bbox = this._barValuePath.getBBox();
+                return {
+                        x: bbox.x + bbox.width / 2 + rootOffset.left,
+                        y: canvas.height / 2 + rootOffset.top
+                    }
             },
             _getTooltipData: function() {
                 var that = this,
@@ -1154,45 +976,15 @@ if (!DevExpress.MOD_VIZ_SPARKLINES) {
                         originalTarget: target,
                         value: tooltip.formatValue(value),
                         target: tooltip.formatValue(target),
-                        valueText: ['Actual Value:', value, 'Target Value:', target]
+                        valueText: ["Actual Value:", value, "Target Value:", target]
                     }
             },
-            _getNormalTooltipSize: function() {
-                var size = {},
-                    bbox = this._barValuePath.getBBox();
-                size.width = this._canvas.width;
-                size.left = 0;
-                size.tooltipLeft = bbox.x + _round(bbox.width / 2);
-                return size
+            _isTooltipEnabled: function() {
+                return this._tooltipEnabled
             },
-            _getWideTooltipSize: function(leftWidthDelta, rightWidthDelta) {
-                var that = this,
-                    bbox = that._barValuePath.getBBox(),
-                    horizontalPos = that._allOptions.tooltip.horizontalAlignment,
-                    size = {};
-                size.width = leftWidthDelta + rightWidthDelta + that._canvas.width;
-                size.left = -leftWidthDelta;
-                if (horizontalPos === 'right')
-                    size.tooltipLeft = bbox.x + _round(bbox.width / 2);
-                else if (horizontalPos === 'left')
-                    size.tooltipLeft = _round(bbox.width / 2) + leftWidthDelta + rightWidthDelta + bbox.x;
-                else
-                    size.tooltipLeft = _round(bbox.width / 2) + bbox.x + leftWidthDelta;
-                return size
-            }
-        })
-    })(jQuery, DevExpress);
-    /*! Module viz-sparklines, file dxSparkline.js */
-    (function($, DX, undefined) {
-        var ui = DX.ui,
-            viz = DX.viz;
-        DX.registerComponent("dxSparkline", viz.sparklines.Sparkline)
-    })(jQuery, DevExpress);
-    /*! Module viz-sparklines, file dxBullet.js */
-    (function($, DX, undefined) {
-        var ui = DX.ui,
-            viz = DX.viz;
-        DX.registerComponent("dxBullet", viz.sparklines.Bullet)
+            _initDataSource: $.noop,
+            _disposeDataSource: $.noop
+        }))
     })(jQuery, DevExpress);
     DevExpress.MOD_VIZ_SPARKLINES = true
 }

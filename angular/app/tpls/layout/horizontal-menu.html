@@ -4,6 +4,156 @@
 
 <nav class="navbar horizontal-menu" ng-class="{'navbar-fixed-top': layoutOptions.horizontalMenu.isFixed, 'navbar-minimal': layoutOptions.horizontalMenu.minimal, 'click-to-expand': layoutOptions.horizontalMenu.clickToExpand}">
 
+	<style media="screen" type="text/css">
+	input[type=range] {
+	  -webkit-appearance: none;
+	  width: 100%;
+	  margin: 3.8px 0;
+	}
+	input[type=range]:focus {
+	  outline: none;
+	}
+	input[type=range]::-webkit-slider-runnable-track {
+	  width: 100%;
+	  height: 8.4px;
+	  cursor: pointer;
+	  box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+	  background: #5fd357;
+	  border-radius: 1.3px;
+	  border: 0.2px solid #010101;
+	}
+	input[type=range]::-webkit-slider-thumb {
+	  box-shadow: 0.4px 0.4px 0.4px #000000, 0px 0px 0.4px #0d0d0d;
+	  border: 1px solid #000000;
+	  height: 16px;
+	  width: 16px;
+	  border-radius: 3px;
+	  background: #ffffff;
+	  cursor: pointer;
+	  -webkit-appearance: none;
+	  margin-top: -4px;
+	}
+	input[type=range]:focus::-webkit-slider-runnable-track {
+	  background: #72d86b;
+	}
+	input[type=range]::-moz-range-track {
+	  width: 100%;
+	  height: 8.4px;
+	  cursor: pointer;
+	  box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+	  background: #5fd357;
+	  border-radius: 1.3px;
+	  border: 0.2px solid #010101;
+	}
+	input[type=range]::-moz-range-thumb {
+	  box-shadow: 0.4px 0.4px 0.4px #000000, 0px 0px 0.4px #0d0d0d;
+	  border: 1px solid #000000;
+	  height: 16px;
+	  width: 16px;
+	  border-radius: 3px;
+	  background: #ffffff;
+	  cursor: pointer;
+	}
+	input[type=range]::-ms-track {
+	  width: 100%;
+	  height: 8.4px;
+	  cursor: pointer;
+	  background: transparent;
+	  border-color: transparent;
+	  color: transparent;
+	}
+	input[type=range]::-ms-fill-lower {
+	  background: #4cce43;
+	  border: 0.2px solid #010101;
+	  border-radius: 2.6px;
+	  box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+	}
+	input[type=range]::-ms-fill-upper {
+	  background: #5fd357;
+	  border: 0.2px solid #010101;
+	  border-radius: 2.6px;
+	  box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+	}
+	input[type=range]::-ms-thumb {
+	  box-shadow: 0.4px 0.4px 0.4px #000000, 0px 0px 0.4px #0d0d0d;
+	  border: 1px solid #000000;
+	  height: 16px;
+	  width: 16px;
+	  border-radius: 3px;
+	  background: #ffffff;
+	  cursor: pointer;
+	  height: 8.4px;
+	}
+	input[type=range]:focus::-ms-fill-lower {
+	  background: #5fd357;
+	}
+	input[type=range]:focus::-ms-fill-upper {
+	  background: #72d86b;
+	}
+
+	</style>
+
+	<script type="text/javascript">
+    function updateTextInput(val) {
+      document.getElementById('textInput').value=val; 
+    }
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	<script type="text/ng-template" id="research">
 	<div class="modal-header">
 		<button type="button" class="close" ng-click="currentModal.close();" aria-hidden="true">&times;</button>
@@ -29,16 +179,50 @@
 	<script type="text/ng-template" id="battle_prep">
 	<div class="modal-header">
 		<button type="button" class="close" ng-click="currentModal.close();" aria-hidden="true">&times;</button>
-		<h3 class="modal-title" id ="modal-title">Research </h3> 
-		<div>Artifacts are scattered throughout the universe and wield great power, collect them and improve your empire</div>
+		<h3 class="modal-title" id ="modal-title">Assemble your fleet </h3> 
+		<small>Fleet coposition can affect the outcome of the battle</small>
 	</div>
 
 
-	<div class="modal-body" ng-controller="GameCtrl">
+	<div class="modal-body" ng-controller="BattleCtrl">
+
+		<div id="LF_form" class="assemble_form">
+			<form>
+			<h4><img src="assets/images/Ships/light_fighter.jpg" class="ships_assemble_img" /> &nbsp Light Fighter</h4>
+			<input type="range" name="amountRange" ng-model="LF_Slider" min="0" max={{ships.light_fighter.current_owned}} value="0" oninput="this.form.amountInput.value=this.value" />
+			<input name="amountInput" ng-model="LF_Text" min="0" max={{ships.light_fighter.current_owned}} value="0" oninput="this.form.amountRange.value=this.value" />
+			<h5>
+							<b>Fleet HP</b>: {{LF_fleet_HP}}<br/>
+							<b>Fleet Shield</b>: {{LF_fleet_Shield}}<br/>
+							<b>Fleet Attack</b>: {{LF_fleet_Attk}}<br/>
+							<b>Fleet Abilities</b>: <br/>
+			</h5>
+			</form>
+		</div>
+
+		<br/>
+
+		<div id="LF_form" class="assemble_form">
+			<form>
+			<h4><img src="assets/images/Ships/light_fighter.jpg" class="ships_assemble_img" /> &nbsp Light Fighter</h4>
+			<input type="range" name="amountRange" ng-model="LF_Slider" min="0" max={{ships.light_fighter.current_owned}} value="0" oninput="this.form.amountInput.value=this.value" />
+			<input name="amountInput" ng-model="LF_Text" min="0" max={{ships.light_fighter.current_owned}} value="0" oninput="this.form.amountRange.value=this.value" />
+			<h5>
+							<b>Fleet HP</b>: {{LF_fleet_HP}}<br/>
+							<b>Fleet Shield</b>: {{LF_fleet_Shield}}<br/>
+							<b>Fleet Attack</b>: {{LF_fleet_Attk}}<br/>
+							<b>Fleet Abilities</b>: <br/>
+			</h5>
+			</form>
+		</div>
+
+		<br/>
+
 	</div>
 
 	<div class="modal-footer">
-		<button type="button" class="btn btn-white" ng-click="currentModal.close();">Close</button>
+
+		<button type="button" class="btn btn-danger" ng-click="currentModal.close();">Advance!</button>
 
 	</div>
 

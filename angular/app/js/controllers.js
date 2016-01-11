@@ -526,8 +526,8 @@ var dm_lab = {
 	base_cost_metal: 550000,
 	current_cost_crystal:260000,
 	base_cost_crystal: 260000,
-	counter:0,
-	income:1
+	income:1,
+	timer:"24:00:00"
 };
 
 
@@ -671,6 +671,8 @@ angular.module('xenon.controllers', []).
 		};
 
 
+
+
 		$scope.Build = function(building_name)
 		{
 			if(building_name == 'metal_mine'){
@@ -800,7 +802,7 @@ angular.module('xenon.controllers', []).
 
 
 			    $rootScope.currentModal.close();
-			    $scope.openModal('research', 'lg');
+			    $scope.openModal('battle_prep', 'lg', 'static');
 		    }
 
 
@@ -854,6 +856,7 @@ angular.module('xenon.controllers', []).
 
 		$scope.BuildShip = function(ship_name, amount){
 
+
 			   	var metal_cost;
 		    	var crystal_cost;
 		    	var unit;
@@ -861,6 +864,10 @@ angular.module('xenon.controllers', []).
 		    		metal_cost = ships[ship_name]['metal_cost'];
 		    		crystal_cost = ships[ship_name]['crystal_cost'];
 		    		unit = 1;
+		    	}else if (amount=='10'){
+		    		metal_cost = ships[ship_name]['metal_cost'] * 10;
+		    		crystal_cost = ships[ship_name]['crystal_cost'] * 10;
+		    		unit = 10;
 		    	}else if (amount=='100'){
 		    		metal_cost = ships[ship_name]['metal_cost'] * 100;
 		    		crystal_cost = ships[ship_name]['crystal_cost'] * 100;
@@ -978,16 +985,24 @@ angular.module('xenon.controllers', []).
 				      max: 100,
 				      color: 'info'
 				    };
-
-		    $scope.changeValue_metal_pb = function(value) {
+		$scope.progress_dm = {
+				      value: 0,
+				      max: 60*60*24,
+				      color: 'purple'
+				    };
+		$scope.dm_hidden = true;
+		$scope.changeValue_metal_pb = function(value) {
 		      $scope.progress_metal.value = value;
 		    };
-
-				$scope.changeValue_crystal_pb = function(value) {
+		$scope.changeValue_crystal_pb = function(value) {
 		      $scope.progress_crystal.value = value;
 		    };
-
-
+		$scope.changeValue_plus_dm_pb = function(value) {
+		      $scope.progress_dm.value += value;
+		    };
+		$scope.changeValue_dm_pb = function(value) {
+		      $scope.progress_dm.value = value;
+		    };
 
 
 
@@ -1066,31 +1081,33 @@ angular.module('xenon.controllers', []).
 
 
 			if (metal.income!=0){
-						$scope.changeValue_metal_pb(100);
+					
+					$scope.changeValue_metal_pb(100);
 
 
 					$timeout( function clear() {
 						$scope.changeValue_metal_pb(0)
-
-
-
 						$scope.startFade = true;
-		        $timeout(function(){
-		            $scope.hidden = false;
-		        }, 100);
+						
+
+
+				        $timeout(function(){
+				            $scope.hidden = false;
+				            //$( ".plus_metal" ).animate({ "top": "+=50px" }, "fast" );
+				        }, 100);
 
 
 						$timeout(function(){
-								$scope.hidden = true;
+							$scope.hidden = true;
+							
 						}, 600);
 
 						$scope.ClickMetal(metal.income);
 
 					}, 650);
-
-
-
 			}
+
+
 			if (crystal.income!=0){
 					$scope.changeValue_crystal_pb(100);
 
@@ -1114,6 +1131,113 @@ angular.module('xenon.controllers', []).
 
 					}, 650);
 			}
+
+			if (dm_lab.current_lab_level != 0){
+				$scope.changeValue_plus_dm_pb(1)
+
+
+
+				var current_time = dm_lab["timer"].split(":");
+				var hour = Number(current_time[0]);
+				var minute = Number(current_time[1]);
+				var second = Number(current_time[2]);
+
+
+
+				if(second == 0 && minute ==0 && hour ==0){
+
+					dark_matter.current_owned+=(dm_lab['current_lab_level']*1);
+					dm_lab["timer"]="24:00:00";
+
+
+					$timeout( function clear() {
+					$scope.changeValue_dm_pb(0)
+
+
+
+					$scope.startFade = true;
+					$timeout(function(){
+							$scope.dm_hidden = false;
+					}, 100);
+
+
+					$timeout(function(){
+							$scope.dm_hidden = true;
+					}, 600);
+
+					}, 650);
+				}
+
+				second -= 1;
+
+				if(second < 0){
+					second = 0;
+					minute -=1;
+					if(minute<0){
+						minute = 0;
+						if(hour!=0){
+							hour-=1;
+							minute+=59;
+							second+=59;
+						}
+					}else
+					{
+						second+=59;
+					}
+				}
+
+
+
+				//parse back
+
+				if(hour<10){
+					hour = "0"+String(hour);
+				}else{
+					hour = String(hour);
+				}
+				if(minute<10){
+					minute = "0"+String(minute);
+				}else{
+					minute = String(minute);
+				}
+				if(second<10){
+					second = "0"+String(second);
+				}else{
+					second = String(second);
+				}
+
+
+				dm_lab["timer"] = hour+":"+minute+":"+second
+
+			}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 			for (var key in raids) {
@@ -1180,11 +1304,7 @@ angular.module('xenon.controllers', []).
 
 
 
-			dm_lab['counter']+=1;
-			if(dm_lab['counter'] == (60*60*24)){
-				dark_matter.current_owned+=(dm_lab['current_lab_level']*1);
-				dm_lab['counter']=0;
-			}
+			
 
 
 
@@ -2029,4 +2149,42 @@ angular.module('xenon.controllers', []).
 				}, 300);
 			}
 		}
+	}).
+	controller('BattleCtrl', function($scope, $element)
+	{
+		$scope.metal = metal;
+		$scope.crystal = crystal;
+		$scope.research_lab = research_lab;
+		$scope.shipyard = shipyard;
+		$scope.dm_lab = dm_lab;
+		$scope.artifacts = artifacts;
+		$scope.specialization = specialization;
+		$scope.raids = raids;
+		$scope.ships = ships;
+		$scope.level = level;
+		
+
+		if (ships.light_fighter.current_owned==0){
+			$('#LF_form').hide();
+		}
+		$scope.LF_Text = 0;
+		$scope.LF_Slider = 0;
+		$scope.$watch('LF_Text', function (newValue, oldValue) {
+        	if (newValue>ships.light_fighter.current_owned){
+        		$scope.LF_Text = ships.light_fighter.current_owned;
+        	}
+        	$scope.LF_fleet_HP = ships.light_fighter.stats.HP * $scope.LF_Text;
+        	$scope.LF_fleet_Shield = ships.light_fighter.stats.shield * $scope.LF_Text;
+        	$scope.LF_fleet_Attk = ships.light_fighter.stats.attack * $scope.LF_Text;
+    	});
+    	$scope.$watch('LF_Slider', function (newValue, oldValue) {
+        	$scope.LF_fleet_HP = ships.light_fighter.stats.HP * $scope.LF_Slider;
+        	$scope.LF_fleet_Shield = ships.light_fighter.stats.shield * $scope.LF_Slider;
+        	$scope.LF_fleet_Attk = ships.light_fighter.stats.attack * $scope.LF_Slider;
+        });
+
+
+
+
+
 	});
