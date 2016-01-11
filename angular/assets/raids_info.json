@@ -1,0 +1,37 @@
+{
+	"Oatis": {
+		"normal": {
+			"floors": {
+				"1": {
+					"light_fighter": {
+						"amount": 1,
+						"skill": ""
+					}
+				}
+			},
+			"drops": {
+				"uncommon": ["1", "2"],
+				"rare": ["1"],
+				"epic": ["1"],
+				"legendary": ["1"]
+			}
+		},
+		"heroic": {
+			"floors": {
+				"1": {
+					"light_fighter": {
+						"amount": 5,
+						"skill": ""
+					}
+				}
+			},
+			"drops": {
+				"uncommon": ["1", "2"],
+				"rare": ["1"],
+				"epic": ["1"],
+				"legendary": ["1"]
+			}
+		}
+
+	}
+}

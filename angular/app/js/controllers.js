@@ -27,6 +27,7 @@ var ships ={
 	light_fighter:{
 		unlocked:0,
 		current_owned:0,
+		assembled:0,
 		metal_cost:300,
 		crystal_cost:170,
 		stats:{
@@ -44,6 +45,7 @@ var ships ={
 	heavy_fighter:{
 		unlocked:0,
 		current_owned:0,
+		assembled:0,
 		metal_cost:1200,
 		crystal_cost:710,
 		stats:{
@@ -61,6 +63,7 @@ var ships ={
 	worg:{
 		unlocked:0,
 		current_owned:0,
+		assembled:0,
 		metal_cost:4200,
 		crystal_cost:900,
 		stats:{
@@ -82,6 +85,7 @@ var ships ={
 	destroyer:{
 		unlocked:0,
 		current_owned:0,
+		assembled:0,
 		metal_cost:31000,
 		crystal_cost:19000,
 		stats:{
@@ -107,6 +111,7 @@ var ships ={
 	succubus:{
 		unlocked:0,
 		current_owned:0,
+		assembled:0,
 		metal_cost:20000,
 		crystal_cost:45000,
 		stats:{
@@ -132,6 +137,7 @@ var ships ={
 	colossus:{
 		unlocked:0,
 		current_owned:0,
+		assembled:0,
 		metal_cost:8500000,
 		crystal_cost:290000,
 		stats:{
@@ -161,6 +167,7 @@ var ships ={
 	medusa:{
 		unlocked:0,
 		current_owned:0,
+		assembled:0,
 		metal_cost:4500000,
 		crystal_cost:3900000,
 		stats:{
@@ -190,6 +197,7 @@ var ships ={
 	science_vessel:{
 		unlocked:0,
 		current_owned:0,
+		assembled:0,
 		metal_cost:7500000,
 		crystal_cost:8900000,
 		stats:{
@@ -223,6 +231,7 @@ var ships ={
 	pantheon:{
 		unlocked:0,
 		current_owned:0,
+		assembled:0,
 		metal_cost:3500000000,
 		crystal_cost:190000000,
 		stats:{
@@ -256,6 +265,7 @@ var ships ={
 	wormhole_device:{
 		unlocked:0,
 		current_owned:0,
+		assembled:0,
 		metal_cost:0,
 		crystal_cost:0,
 		stats:{
@@ -785,14 +795,14 @@ angular.module('xenon.controllers', []).
 
 			if(raids[instance_name]['unlocked']!=1){
 
-				
+
 				return false;
 
 		    }else{
 
 		    	if(raids[instance_name]['timer']!="00:00:00"){
 
-				
+
 				return false;
 
 			    }
@@ -917,7 +927,7 @@ angular.module('xenon.controllers', []).
 			    ships[ship_name]['current_owned'] +=unit;
 
 				return false;
-		    
+
 
 
 		};
@@ -1081,14 +1091,14 @@ angular.module('xenon.controllers', []).
 
 
 			if (metal.income!=0){
-					
+
 					$scope.changeValue_metal_pb(100);
 
 
 					$timeout( function clear() {
 						$scope.changeValue_metal_pb(0)
 						$scope.startFade = true;
-						
+
 
 
 				        $timeout(function(){
@@ -1099,7 +1109,7 @@ angular.module('xenon.controllers', []).
 
 						$timeout(function(){
 							$scope.hidden = true;
-							
+
 						}, 600);
 
 						$scope.ClickMetal(metal.income);
@@ -1304,7 +1314,7 @@ angular.module('xenon.controllers', []).
 
 
 
-			
+
 
 
 
@@ -1889,19 +1899,19 @@ angular.module('xenon.controllers', []).
 
 		    //update globe color
 		    level.color1 = getRandomColor();
-		    level.color2 = getRandomColor();	
+		    level.color2 = getRandomColor();
 
 		};
 
 
 
-		
 
 
 
 
 
-		
+
+
 
 
 	}).
@@ -2150,7 +2160,7 @@ angular.module('xenon.controllers', []).
 			}
 		}
 	}).
-	controller('BattleCtrl', function($scope, $element)
+	controller('BattleCtrl', function($rootScope,$scope, $element, $modal)
 	{
 		$scope.metal = metal;
 		$scope.crystal = crystal;
@@ -2162,7 +2172,28 @@ angular.module('xenon.controllers', []).
 		$scope.raids = raids;
 		$scope.ships = ships;
 		$scope.level = level;
-		
+		$scope.format_number= function(num) {
+			if (num >= 1000000){
+				return (num/1000000).toFixed(1) + 'm';
+			}
+			if (num >= 1000000000){
+				return (num/1000000000).toFixed(1) + 'b';
+			}
+		    return num;
+		}
+		$scope.openModal = function(modal_id, modal_size, modal_backdrop)
+		{
+			$rootScope.currentModal = $modal.open({
+				templateUrl: modal_id,
+				size: modal_size,
+				backdrop: typeof modal_backdrop == 'undefined' ? true : modal_backdrop
+			});
+		};
+
+
+
+
+
 
 		if (ships.light_fighter.current_owned==0){
 			$('#LF_form').hide();
@@ -2176,12 +2207,241 @@ angular.module('xenon.controllers', []).
         	$scope.LF_fleet_HP = ships.light_fighter.stats.HP * $scope.LF_Text;
         	$scope.LF_fleet_Shield = ships.light_fighter.stats.shield * $scope.LF_Text;
         	$scope.LF_fleet_Attk = ships.light_fighter.stats.attack * $scope.LF_Text;
+					ships.light_fighter.assembled = $scope.LF_Text;
     	});
     	$scope.$watch('LF_Slider', function (newValue, oldValue) {
         	$scope.LF_fleet_HP = ships.light_fighter.stats.HP * $scope.LF_Slider;
         	$scope.LF_fleet_Shield = ships.light_fighter.stats.shield * $scope.LF_Slider;
         	$scope.LF_fleet_Attk = ships.light_fighter.stats.attack * $scope.LF_Slider;
+					ships.light_fighter.assembled = $scope.LF_Slider;
         });
+
+
+
+    	if (ships.heavy_fighter.current_owned==0){
+			$('#HF_form').hide();
+		}
+		$scope.HF_Text = 0;
+		$scope.HF_Slider = 0;
+		$scope.$watch('HF_Text', function (newValue, oldValue) {
+        	if (newValue>ships.heavy_fighter.current_owned){
+        		$scope.HF_Text = ships.heavy_fighter.current_owned;
+        	}
+        	$scope.HF_fleet_HP = ships.heavy_fighter.stats.HP * $scope.HF_Text;
+        	$scope.HF_fleet_Shield = ships.heavy_fighter.stats.shield * $scope.HF_Text;
+        	$scope.HF_fleet_Attk = ships.heavy_fighter.stats.attack * $scope.HF_Text;
+    	});
+    	$scope.$watch('HF_Slider', function (newValue, oldValue) {
+        	$scope.HF_fleet_HP = ships.heavy_fighter.stats.HP * $scope.HF_Slider;
+        	$scope.HF_fleet_Shield = ships.heavy_fighter.stats.shield * $scope.HF_Slider;
+        	$scope.HF_fleet_Attk = ships.heavy_fighter.stats.attack * $scope.HF_Slider;
+        });
+
+
+
+        if (ships.worg.current_owned==0){
+			$('#WG_form').hide();
+		}
+		$scope.WG_Text = 0;
+		$scope.WG_Slider = 0;
+		$scope.$watch('WG_Text', function (newValue, oldValue) {
+        	if (newValue>ships.worg.current_owned){
+        		$scope.WG_Text = ships.worg.current_owned;
+        	}
+        	$scope.WG_fleet_HP = ships.worg.stats.HP * $scope.WG_Text;
+        	$scope.WG_fleet_Shield = ships.worg.stats.shield * $scope.WG_Text;
+        	$scope.WG_fleet_Attk = ships.worg.stats.attack * $scope.WG_Text;
+    	});
+    	$scope.$watch('WG_Slider', function (newValue, oldValue) {
+        	$scope.WG_fleet_HP = ships.worg.stats.HP * $scope.WG_Slider;
+        	$scope.WG_fleet_Shield = ships.worg.stats.shield * $scope.WG_Slider;
+        	$scope.WG_fleet_Attk = ships.worg.stats.attack * $scope.WG_Slider;
+        });
+
+
+        if (ships.destroyer.current_owned==0){
+			$('#DS_form').hide();
+		}
+		$scope.DS_Text = 0;
+		$scope.DS_Slider = 0;
+		$scope.$watch('DS_Text', function (newValue, oldValue) {
+        	if (newValue>ships.destroyer.current_owned){
+        		$scope.DS_Text = ships.destroyer.current_owned;
+        	}
+        	$scope.DS_fleet_HP = ships.destroyer.stats.HP * $scope.DS_Text;
+        	$scope.DS_fleet_Shield = ships.destroyer.stats.shield * $scope.DS_Text;
+        	$scope.DS_fleet_Attk = ships.destroyer.stats.attack * $scope.DS_Text;
+    	});
+    	$scope.$watch('DS_Slider', function (newValue, oldValue) {
+        	$scope.DS_fleet_HP = ships.destroyer.stats.HP * $scope.DS_Slider;
+        	$scope.DS_fleet_Shield = ships.destroyer.stats.shield * $scope.DS_Slider;
+        	$scope.DS_fleet_Attk = ships.destroyer.stats.attack * $scope.DS_Slider;
+        });
+
+
+        if (ships.succubus.current_owned==0){
+			$('#SU_form').hide();
+		}
+		$scope.SU_Text = 0;
+		$scope.SU_Slider = 0;
+		$scope.$watch('SU_Text', function (newValue, oldValue) {
+        	if (newValue>ships.succubus.current_owned){
+        		$scope.SU_Text = ships.succubus.current_owned;
+        	}
+        	$scope.SU_fleet_HP = ships.succubus.stats.HP * $scope.SU_Text;
+        	$scope.SU_fleet_Shield = ships.succubus.stats.shield * $scope.SU_Text;
+        	$scope.SU_fleet_Attk = ships.succubus.stats.attack * $scope.SU_Text;
+    	});
+    	$scope.$watch('SU_Slider', function (newValue, oldValue) {
+        	$scope.SU_fleet_HP = ships.succubus.stats.HP * $scope.SU_Slider;
+        	$scope.SU_fleet_Shield = ships.succubus.stats.shield * $scope.SU_Slider;
+        	$scope.SU_fleet_Attk = ships.succubus.stats.attack * $scope.SU_Slider;
+        });
+
+
+
+
+    	if (ships.colossus.current_owned==0){
+			$('#COL_form').hide();
+		}
+		$scope.COL_Text = 0;
+		$scope.COL_Slider = 0;
+		$scope.$watch('COL_Text', function (newValue, oldValue) {
+        	if (newValue>ships.colossus.current_owned){
+        		$scope.COL_Text = ships.colossus.current_owned;
+        	}
+        	$scope.COL_fleet_HP = ships.colossus.stats.HP * $scope.COL_Text;
+        	$scope.COL_fleet_Shield = ships.colossus.stats.shield * $scope.COL_Text;
+        	$scope.COL_fleet_Attk = ships.colossus.stats.attack * $scope.COL_Text;
+    	});
+    	$scope.$watch('COL_Slider', function (newValue, oldValue) {
+        	$scope.COL_fleet_HP = ships.colossus.stats.HP * $scope.COL_Slider;
+        	$scope.COL_fleet_Shield = ships.colossus.stats.shield * $scope.COL_Slider;
+        	$scope.COL_fleet_Attk = ships.colossus.stats.attack * $scope.COL_Slider;
+        });
+
+
+
+    	if (ships.medusa.current_owned==0){
+			$('#MD_form').hide();
+		}
+		$scope.MD_Text = 0;
+		$scope.MD_Slider = 0;
+		$scope.$watch('MD_Text', function (newValue, oldValue) {
+        	if (newValue>ships.medusa.current_owned){
+        		$scope.MD_Text = ships.medusa.current_owned;
+        	}
+        	$scope.MD_fleet_HP = ships.medusa.stats.HP * $scope.MD_Text;
+        	$scope.MD_fleet_Shield = ships.medusa.stats.shield * $scope.MD_Text;
+        	$scope.MD_fleet_Attk = ships.medusa.stats.attack * $scope.MD_Text;
+    	});
+    	$scope.$watch('MD_Slider', function (newValue, oldValue) {
+        	$scope.MD_fleet_HP = ships.medusa.stats.HP * $scope.MD_Slider;
+        	$scope.MD_fleet_Shield = ships.medusa.stats.shield * $scope.MD_Slider;
+        	$scope.MD_fleet_Attk = ships.medusa.stats.attack * $scope.MD_Slider;
+        });
+
+
+
+        if (ships.science_vessel.current_owned==0){
+			$('#SV_form').hide();
+		}
+		$scope.SV_Text = 0;
+		$scope.SV_Slider = 0;
+		$scope.$watch('SV_Text', function (newValue, oldValue) {
+        	if (newValue>ships.science_vessel.current_owned){
+        		$scope.SV_Text = ships.science_vessel.current_owned;
+        	}
+        	$scope.SV_fleet_HP = ships.science_vessel.stats.HP * $scope.SV_Text;
+        	$scope.SV_fleet_Shield = ships.science_vessel.stats.shield * $scope.SV_Text;
+        	$scope.SV_fleet_Attk = ships.science_vessel.stats.attack * $scope.SV_Text;
+    	});
+    	$scope.$watch('SV_Slider', function (newValue, oldValue) {
+        	$scope.SV_fleet_HP = ships.science_vessel.stats.HP * $scope.SV_Slider;
+        	$scope.SV_fleet_Shield = ships.science_vessel.stats.shield * $scope.SV_Slider;
+        	$scope.SV_fleet_Attk = ships.science_vessel.stats.attack * $scope.SV_Slider;
+        });
+
+
+
+        if (ships.pantheon.current_owned==0){
+			$('#PTH_form').hide();
+		}
+		$scope.PTH_Text = 0;
+		$scope.PTH_Slider = 0;
+		$scope.$watch('PTH_Text', function (newValue, oldValue) {
+        	if (newValue>ships.pantheon.current_owned){
+        		$scope.PTH_Text = ships.pantheon.current_owned;
+        	}
+        	$scope.PTH_fleet_HP = ships.pantheon.stats.HP * $scope.PTH_Text;
+        	$scope.PTH_fleet_Shield = ships.pantheon.stats.shield * $scope.PTH_Text;
+        	$scope.PTH_fleet_Attk = ships.pantheon.stats.attack * $scope.PTH_Text;
+    	});
+    	$scope.$watch('PTH_Slider', function (newValue, oldValue) {
+        	$scope.PTH_fleet_HP = ships.pantheon.stats.HP * $scope.PTH_Slider;
+        	$scope.PTH_fleet_Shield = ships.pantheon.stats.shield * $scope.PTH_Slider;
+        	$scope.PTH_fleet_Attk = ships.pantheon.stats.attack * $scope.PTH_Slider;
+        });
+
+
+				$scope.Advance = function()
+				{
+
+
+					$rootScope.currentModal.close();
+					$scope.openModal('battle', 'lg', 'static');
+				};
+
+
+
+
+	}).
+	controller('MainBattleCtrl', function($rootScope,$scope, $element, $modal, $timeout)
+	{
+		$scope.metal = metal;
+		$scope.crystal = crystal;
+		$scope.research_lab = research_lab;
+		$scope.shipyard = shipyard;
+		$scope.dm_lab = dm_lab;
+		$scope.artifacts = artifacts;
+		$scope.specialization = specialization;
+		$scope.raids = raids;
+		$scope.ships = ships;
+		$scope.level = level;
+
+
+		$scope.format_number= function(num) {
+			if (num >= 1000000){
+				return (num/1000000).toFixed(1) + 'm';
+			}
+			if (num >= 1000000000){
+				return (num/1000000000).toFixed(1) + 'b';
+			}
+		    return num;
+		}
+		$scope.openModal = function(modal_id, modal_size, modal_backdrop)
+		{
+			$rootScope.currentModal = $modal.open({
+				templateUrl: modal_id,
+				size: modal_size,
+				backdrop: typeof modal_backdrop == 'undefined' ? true : modal_backdrop
+			});
+		};
+
+		if(ships.light_fighter.assembled>0){
+			$scope.progress_LF_HP = {
+						value: ships.light_fighter.stats.HP * ships.light_fighter.assembled,
+						max: ships.light_fighter.stats.HP * ships.light_fighter.assembled,
+						color: 'danger'
+					};
+
+					$timeout(function(){
+							$( "#LF_battle" ).animate({ "left": "+=150px", "opacity":"1" }, 1000);
+					}, 1000);
+
+		}
+
+
 
 
 
