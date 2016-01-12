@@ -226,6 +226,10 @@
 	width: 35px;
 	border-radius: 3px 3px 3px 3px;
 }
+.stat_img{
+	width: 20px;
+	border-radius: 3px 3px 3px 3px;
+}
 
 .skull_img{
 	width: 25px;
@@ -891,33 +895,31 @@
 						</td>
 						<td ng-if="shipyard.current_lab_level>=2 && research_lab.current_lab_level>=3 && level.current_level>=10" class="ship_info" style="position: relative;">
 							<h5>
-							<b>HP</b>: {{format_number(ships.light_fighter.stats.HP)}}<br/>
-							<b>Shield</b>: {{format_number(ships.light_fighter.stats.shield)}}<br/>
-							<b>Attack</b>: {{format_number(ships.light_fighter.stats.attack)}}<br/><br/>
+							<b><img src="assets/images/heart.png" class="stat_img"/></b>: {{format_number(ships.light_fighter.stats.HP)}}<br/>
+							<b><img src="assets/images/shield.png" class="stat_img"/></b>: {{format_number(ships.light_fighter.stats.shield)}}<br/>
+							<b><img src="assets/images/sword.png" class="stat_img"/></b>: {{format_number(ships.light_fighter.stats.attack)}}<br/><br/>
 
 
 							<b>Abilities</b>:<br/>
 							<div ng-if="ships['light_fighter']['skills']['rapid_fire']['unlocked']==0" class="tooltip_ship_skill"><img src="assets/images/locked.png" class = "ship_skill_img"/>
 																								<span>Rapid Fire-<br/><br/>
 																								LOCKED</span>
-																								<br />
 							</div>
 							<div ng-if="ships['light_fighter']['skills']['rapid_fire']['unlocked']==1" class="tooltip_ship_skill"><img src="assets/images/Ships/abilities/rapid_fire.png" class = "ship_skill_img"/>
 																								<span>Rapid Fire-<br/><br/>
 																								<div id="attention">30%</div> chance of firing again after a round<br />
 																								</span>
-																								<br />
 							</div>
-							<br/><br/><br/>
+							<br/><br/>
 
 
 							<b>Cost</b>:<br/>
-							{{format_number(ships.light_fighter.metal_cost)}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/><br/>
-							{{format_number(ships.light_fighter.crystal_cost)}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/><br/><br/>
+							{{format_number(ships.light_fighter.metal_cost)}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/>
+							{{format_number(ships.light_fighter.crystal_cost)}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/><br/><br/><br/>
 
 
 							<b>Currently Owned</b>:<br/>
-							{{ships.light_fighter.current_owned}}<br/><br/>
+							{{ships.light_fighter.current_owned}}<br/>
 							</h5>
 
 
@@ -965,58 +967,48 @@
 						</td>
 						<td ng-if="ships['heavy_fighter']['unlocked']==1" class="ship_info" style="position: relative;">
 							<h5>
-							<b>HP</b>: {{format_number(ships.heavy_fighter.stats.HP)}}<br/>
-							<b>Shield</b>: {{format_number(ships.heavy_fighter.stats.shield)}}<br/>
-							<b>Attack</b>: {{format_number(ships.heavy_fighter.stats.attack)}}<br/><br/>
+							<b><img src="assets/images/heart.png" class="stat_img"/></b>: {{format_number(ships.heavy_fighter.stats.HP)}}<br/>
+							<b><img src="assets/images/shield.png" class="stat_img"/></b>: {{format_number(ships.heavy_fighter.stats.shield)}}<br/>
+							<b><img src="assets/images/sword.png" class="stat_img"/></b>: {{format_number(ships.heavy_fighter.stats.attack)}}<br/><br/>
 
 
 							<b>Abilities</b>:<br/>
 							<div ng-if="ships['heavy_fighter']['skills']['loaded_ammo']['unlocked']==0" class="tooltip_ship_skill"><img src="assets/images/locked.png" class = "ship_skill_img"/>
 																								<span>Loaded Ammo-<br/><br/>
 																								LOCKED</span>
-																								<br />
+																								
 							</div>
 							<div ng-if="ships['heavy_fighter']['skills']['loaded_ammo']['unlocked']==1" class="tooltip_ship_skill"><img src="assets/images/Ships/abilities/Loaded_ammo.png" class = "ship_skill_img"/>
 																								<span>Loaded Ammo-<br/><br/>
 																								<div id="attention">30%</div> chance of skipping a round, but deal <div id="attention">350%</div> damage in the next round<br />
 																								</span>
-																								<br />
+																								
 							</div>
-							<br/><br/><br/>
+							<br/><br/>
 
 
 							<b>Cost</b>:<br/>
-							{{format_number(ships.heavy_fighter.metal_cost)}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/><br/>
-							{{format_number(ships.heavy_fighter.crystal_cost)}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/><br/><br/>
+							{{format_number(ships.heavy_fighter.metal_cost)}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/>
+							{{format_number(ships.heavy_fighter.crystal_cost)}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/><br/><br/><br/>
 
 
 							<b>Currently Owned</b>:<br/>
-							{{ships.heavy_fighter.current_owned}}<br/><br/>
+							{{ships.heavy_fighter.current_owned}}<br/>
 							</h5>
 
 
 
 
 							<div class="build_ship_btn">
-								<div class="btn-group" dropdown>
-									<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
-										Build <i class="fa-plane"></i> <span class="caret"></span>
-									</button>
-									<ul class="dropdown-menu dropdown-success" role="menu">
-										<li>
-											<a href="" ng-click="BuildShip('heavy_fighter', '1')">1 unit</a>
-										</li>
-										<li>
-											<a href="" ng-click="BuildShip('heavy_fighter', '100')">100 units</a>
-										</li>
-										<li>
-											<a href="" ng-click="BuildShip('heavy_fighter', '1000')">1000 units</a>
-										</li>
-										<li>
-											<a href="" ng-click="BuildShip('heavy_fighter', 'max')">Max</a>
-										</li>
-									</ul>
-								</div>
+								<button type="button" class="btn btn-success" ng-click="BuildShip('heavy_fighter', '1')">
+										<i class="fa-plane"></i> &nbsp Build 1  
+								</button>
+								<button type="button" class="btn btn-success" ng-click="BuildShip('heavy_fighter', '10')">
+										<i class="fa-plane"></i> &nbsp Build  10
+								</button>
+								<button type="button" class="btn btn-success" ng-click="BuildShip('heavy_fighter', '100')">
+										<i class="fa-plane"></i> &nbsp Build  100
+								</button>
 							</div>
 						</td>
 						<td ng-if="ships['heavy_fighter']['unlocked']==0" class="ship_info">
@@ -1044,9 +1036,9 @@
 						</td>
 						<td ng-if="ships['worg']['unlocked']==1" class="ship_info" style="position: relative;">
 							<h5>
-							<b>HP</b>: {{format_number(ships.worg.stats.HP)}}<br/>
-							<b>Shield</b>: {{format_number(ships.worg.stats.shield)}}<br/>
-							<b>Attack</b>: {{format_number(ships.worg.stats.attack)}}<br/><br/>
+							<b><img src="assets/images/heart.png" class="stat_img"/></b>: {{format_number(ships.worg.stats.HP)}}<br/>
+							<b><img src="assets/images/shield.png" class="stat_img"/></b>: {{format_number(ships.worg.stats.shield)}}<br/>
+							<b><img src="assets/images/sword.png" class="stat_img"/></b>: {{format_number(ships.worg.stats.attack)}}<br/><br/>
 
 
 							<b>Abilities</b>:<br/>
@@ -1064,49 +1056,39 @@
 							<div ng-if="ships['worg']['skills']['predators_reward']['unlocked']==0" class="tooltip_ship_skill"><img src="assets/images/locked.png" class = "ship_skill_img"/>
 																								<span>Predator&#39s Reward-<br/><br/>
 																								LOCKED</span>
-																								<br />
+																								
 							</div>
 							<div ng-if="ships['worg']['skills']['predators_reward']['unlocked']==1" class="tooltip_ship_skill"><img src="assets/images/Ships/abilities/predators_reward.png" class = "ship_skill_img"/>
 																								<span>Predator&#39s Reward-<br/><br/>
 																								Deal extra damage equals to <div id="attention">5%</div> of enemy&#39s shield value<br />
 																								</span>
-																								<br />
+																								
 							</div>
-							<br/><br/><br/>
+							<br/><br/>
 
 
 							<b>Cost</b>:<br/>
-							{{format_number(ships.worg.metal_cost)}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/><br/>
-							{{format_number(ships.worg.crystal_cost)}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/><br/><br/>
+							{{format_number(ships.worg.metal_cost)}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/>
+							{{format_number(ships.worg.crystal_cost)}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/><br/><br/><br/>
 
 
 							<b>Currently Owned</b>:<br/>
-							{{ships.worg.current_owned}}<br/><br/>
+							{{ships.worg.current_owned}}<br/>
 							</h5>
 
 
 
 
 							<div class="build_ship_btn">
-								<div class="btn-group" dropdown>
-									<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
-										Build <i class="fa-plane"></i> <span class="caret"></span>
-									</button>
-									<ul class="dropdown-menu dropdown-success" role="menu">
-										<li>
-											<a href="" ng-click="BuildShip('worg', '1')">1 unit</a>
-										</li>
-										<li>
-											<a href="" ng-click="BuildShip('worg', '100')">100 units</a>
-										</li>
-										<li>
-											<a href="" ng-click="BuildShip('worg', '1000')">1000 units</a>
-										</li>
-										<li>
-											<a href="" ng-click="BuildShip('worg', 'max')">Max</a>
-										</li>
-									</ul>
-								</div>
+								<button type="button" class="btn btn-success" ng-click="BuildShip('worg', '1')">
+										<i class="fa-plane"></i> &nbsp Build 1  
+								</button>
+								<button type="button" class="btn btn-success" ng-click="BuildShip('worg', '10')">
+										<i class="fa-plane"></i> &nbsp Build  10
+								</button>
+								<button type="button" class="btn btn-success" ng-click="BuildShip('worg', '100')">
+										<i class="fa-plane"></i> &nbsp Build  100
+								</button>
 							</div>
 						</td>
 						<td ng-if="ships['worg']['unlocked']==0" class="ship_info">
@@ -1134,9 +1116,9 @@
 						</td>
 						<td ng-if="ships['destroyer']['unlocked']==1" class="ship_info" style="position: relative;">
 							<h5>
-							<b>HP</b>: {{format_number(ships.destroyer.stats.HP)}}<br/>
-							<b>Shield</b>: {{format_number(ships.destroyer.stats.shield)}}<br/>
-							<b>Attack</b>: {{format_number(ships.destroyer.stats.attack)}}<br/><br/>
+							<b><img src="assets/images/heart.png" class="stat_img"/></b>: {{format_number(ships.destroyer.stats.HP)}}<br/>
+							<b><img src="assets/images/shield.png" class="stat_img"/></b>: {{format_number(ships.destroyer.stats.shield)}}<br/>
+							<b><img src="assets/images/sword.png" class="stat_img"/></b>: {{format_number(ships.destroyer.stats.attack)}}<br/><br/>
 
 
 							<b>Abilities</b>:<br/>
@@ -1155,7 +1137,7 @@
 							<div ng-if="ships['destroyer']['skills']['critical_strike']['unlocked']==0" class="tooltip_ship_skill"><img src="assets/images/locked.png" class = "ship_skill_img"/>
 																								<span>Critical Strike-<br/><br/>
 																								LOCKED</span>
-																								<br />
+																								
 							</div>
 							<div ng-if="ships['destroyer']['skills']['critical_strike']['unlocked']==1" class="tooltip_ship_skill"><img src="assets/images/Ships/abilities/critical_strike.png" class = "ship_skill_img"/>
 																								<span>Critical Strike-<br/><br/>
@@ -1166,7 +1148,7 @@
 							<div ng-if="ships['destroyer']['skills']['tough_as_nails']['unlocked']==0" class="tooltip_ship_skill"><img src="assets/images/locked.png" class = "ship_skill_img"/>
 																								<span>Tough as Nails-<br/><br/>
 																								LOCKED</span>
-																								<br />
+																								
 							</div>
 							<div ng-if="ships['destroyer']['skills']['tough_as_nails']['unlocked']==1" class="tooltip_ship_skill"><img src="assets/images/Ships/abilities/tough_as_nails.png" class = "ship_skill_img"/>
 																								<span>Tough as Nails-<br/><br/>
@@ -1174,41 +1156,31 @@
 																								</span>
 
 							</div>
-							<br/><br/><br/>
+							<br/><br/>
 
 
 							<b>Cost</b>:<br/>
-							{{format_number(ships.destroyer.metal_cost)}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/><br/>
-							{{format_number(ships.destroyer.crystal_cost)}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/><br/><br/>
+							{{format_number(ships.destroyer.metal_cost)}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/>
+							{{format_number(ships.destroyer.crystal_cost)}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/><br/><br/><br/>
 
 
 							<b>Currently Owned</b>:<br/>
-							{{ships.destroyer.current_owned}}<br/><br/>
+							{{ships.destroyer.current_owned}}<br/>
 							</h5>
 
 
 
 
 							<div class="build_ship_btn">
-								<div class="btn-group" dropdown>
-									<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
-										Build <i class="fa-plane"></i> <span class="caret"></span>
-									</button>
-									<ul class="dropdown-menu dropdown-success" role="menu">
-										<li>
-											<a href="" ng-click="BuildShip('destroyer', '1')">1 unit</a>
-										</li>
-										<li>
-											<a href="" ng-click="BuildShip('destroyer', '100')">100 units</a>
-										</li>
-										<li>
-											<a href="" ng-click="BuildShip('destroyer', '1000')">1000 units</a>
-										</li>
-										<li>
-											<a href="" ng-click="BuildShip('destroyer', 'max')">Max</a>
-										</li>
-									</ul>
-								</div>
+								<button type="button" class="btn btn-success" ng-click="BuildShip('destroyer', '1')">
+										<i class="fa-plane"></i> &nbsp Build 1  
+								</button>
+								<button type="button" class="btn btn-success" ng-click="BuildShip('destroyer', '10')">
+										<i class="fa-plane"></i> &nbsp Build  10
+								</button>
+								<button type="button" class="btn btn-success" ng-click="BuildShip('destroyer', '100')">
+										<i class="fa-plane"></i> &nbsp Build  100
+								</button>
 							</div>
 						</td>
 						<td ng-if="ships['destroyer']['unlocked']==0" class="ship_info">
@@ -1236,9 +1208,9 @@
 						</td>
 						<td ng-if="ships['succubus']['unlocked']==1" class="ship_info" style="position: relative;">
 							<h5>
-							<b>HP</b>: {{format_number(ships.succubus.stats.HP)}}<br/>
-							<b>Shield</b>: {{format_number(ships.succubus.stats.shield)}}<br/>
-							<b>Attack</b>: {{format_number(ships.succubus.stats.attack)}}<br/><br/>
+							<b><img src="assets/images/heart.png" class="stat_img"/></b>: {{format_number(ships.succubus.stats.HP)}}<br/>
+							<b><img src="assets/images/shield.png" class="stat_img"/></b>: {{format_number(ships.succubus.stats.shield)}}<br/>
+							<b><img src="assets/images/sword.png" class="stat_img"/></b>: {{format_number(ships.succubus.stats.attack)}}<br/><br/>
 
 
 							<b>Abilities</b>:<br/>
@@ -1257,7 +1229,7 @@
 							<div ng-if="ships['succubus']['skills']['lethal_dose']['unlocked']==0" class="tooltip_ship_skill"><img src="assets/images/locked.png" class = "ship_skill_img"/>
 																								<span>Lethal Dose-<br/><br/>
 																								LOCKED</span>
-																								<br />
+																								
 							</div>
 							<div ng-if="ships['succubus']['skills']['lethal_dose']['unlocked']==1" class="tooltip_ship_skill"><img src="assets/images/Ships/abilities/lethal_dose.png" class = "ship_skill_img"/>
 																								<span>Lethal Dose-<br/><br/>
@@ -1268,7 +1240,7 @@
 							<div ng-if="ships['succubus']['skills']['weaken']['unlocked']==0" class="tooltip_ship_skill"><img src="assets/images/locked.png" class = "ship_skill_img"/>
 																								<span>Weaken-<br/><br/>
 																								LOCKED</span>
-																								<br />
+																								
 							</div>
 							<div ng-if="ships['succubus']['skills']['weaken']['unlocked']==1" class="tooltip_ship_skill"><img src="assets/images/Ships/abilities/weaken.png" class = "ship_skill_img"/>
 																								<span>Weaken-<br/><br/>
@@ -1278,41 +1250,31 @@
 																								</span>
 
 							</div>
-							<br/><br/><br/>
+							<br/><br/>
 
 
 							<b>Cost</b>:<br/>
-							{{format_number(ships.succubus.metal_cost)}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/><br/>
-							{{format_number(ships.succubus.crystal_cost)}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/><br/><br/>
+							{{format_number(ships.succubus.metal_cost)}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/>
+							{{format_number(ships.succubus.crystal_cost)}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/><br/><br/><br/>
 
 
 							<b>Currently Owned</b>:<br/>
-							{{ships.succubus.current_owned}}<br/><br/>
+							{{ships.succubus.current_owned}}<br/>
 							</h5>
 
 
 
 
 							<div class="build_ship_btn">
-								<div class="btn-group" dropdown>
-									<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
-										Build <i class="fa-plane"></i> <span class="caret"></span>
-									</button>
-									<ul class="dropdown-menu dropdown-success" role="menu">
-										<li>
-											<a href="" ng-click="BuildShip('succubus', '1')">1 unit</a>
-										</li>
-										<li>
-											<a href="" ng-click="BuildShip('succubus', '100')">100 units</a>
-										</li>
-										<li>
-											<a href="" ng-click="BuildShip('succubus', '1000')">1000 units</a>
-										</li>
-										<li>
-											<a href="" ng-click="BuildShip('succubus', 'max')">Max</a>
-										</li>
-									</ul>
-								</div>
+								<button type="button" class="btn btn-success" ng-click="BuildShip('succubus', '1')">
+										<i class="fa-plane"></i> &nbsp Build 1  
+								</button>
+								<button type="button" class="btn btn-success" ng-click="BuildShip('succubus', '10')">
+										<i class="fa-plane"></i> &nbsp Build  10
+								</button>
+								<button type="button" class="btn btn-success" ng-click="BuildShip('succubus', '100')">
+										<i class="fa-plane"></i> &nbsp Build  100
+								</button>
 							</div>
 						</td>
 						<td ng-if="ships['succubus']['unlocked']==0" class="ship_info">
@@ -1340,9 +1302,9 @@
 						</td>
 						<td ng-if="ships['colossus']['unlocked']==1" class="ship_info" style="position: relative;">
 							<h5>
-							<b>HP</b>: {{format_number(ships.colossus.stats.HP)}}<br/>
-							<b>Shield</b>: {{format_number(ships.colossus.stats.shield)}}<br/>
-							<b>Attack</b>: {{format_number(ships.colossus.stats.attack)}}<br/><br/>
+							<b><img src="assets/images/heart.png" class="stat_img"/></b>: {{format_number(ships.colossus.stats.HP)}}<br/>
+							<b><img src="assets/images/shield.png" class="stat_img"/></b>: {{format_number(ships.colossus.stats.shield)}}<br/>
+							<b><img src="assets/images/sword.png" class="stat_img"/></b>: {{format_number(ships.colossus.stats.attack)}}<br/><br/>
 
 
 							<b>Abilities</b>:<br/>
@@ -1372,7 +1334,7 @@
 							<div ng-if="ships['colossus']['skills']['advanced_communication']['unlocked']==0" class="tooltip_ship_skill"><img src="assets/images/locked.png" class = "ship_skill_img"/>
 																								<span>Advanced Communication-<br/><br/>
 																								LOCKED</span>
-																								<br />
+																								
 							</div>
 							<div ng-if="ships['colossus']['skills']['advanced_communication']['unlocked']==1" class="tooltip_ship_skill"><img src="assets/images/Ships/abilities/advanced_communication.png" class = "ship_skill_img"/>
 																								<span>Advanced Communication-<br/><br/>
@@ -1383,7 +1345,7 @@
 							<div ng-if="ships['colossus']['skills']['reflect']['unlocked']==0" class="tooltip_ship_skill"><img src="assets/images/locked.png" class = "ship_skill_img"/>
 																								<span>Reflect-<br/><br/>
 																								LOCKED</span>
-																								<br />
+																								
 							</div>
 							<div ng-if="ships['colossus']['skills']['reflect']['unlocked']==1" class="tooltip_ship_skill"><img src="assets/images/Ships/abilities/reflect.png" class = "ship_skill_img"/>
 																								<span>Reflect-<br/><br/>
@@ -1391,41 +1353,31 @@
 																								</span>
 
 							</div>
-							<br/><br/><br/>
+							<br/><br/>
 
 
 							<b>Cost</b>:<br/>
-							{{format_number(ships.colossus.metal_cost)}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/><br/>
-							{{format_number(ships.colossus.crystal_cost)}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/><br/><br/>
+							{{format_number(ships.colossus.metal_cost)}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/>
+							{{format_number(ships.colossus.crystal_cost)}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/><br/><br/><br/>
 
 
 							<b>Currently Owned</b>:<br/>
-							{{ships.colossus.current_owned}}<br/><br/>
+							{{ships.colossus.current_owned}}<br/>
 							</h5>
 
 
 
 
 							<div class="build_ship_btn">
-								<div class="btn-group" dropdown>
-									<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
-										Build <i class="fa-plane"></i> <span class="caret"></span>
-									</button>
-									<ul class="dropdown-menu dropdown-success" role="menu">
-										<li>
-											<a href="" ng-click="BuildShip('colossus', '1')">1 unit</a>
-										</li>
-										<li>
-											<a href="" ng-click="BuildShip('colossus', '100')">100 units</a>
-										</li>
-										<li>
-											<a href="" ng-click="BuildShip('colossus', '1000')">1000 units</a>
-										</li>
-										<li>
-											<a href="" ng-click="BuildShip('colossus', 'max')">Max</a>
-										</li>
-									</ul>
-								</div>
+								<button type="button" class="btn btn-success" ng-click="BuildShip('colossus', '1')">
+										<i class="fa-plane"></i> &nbsp Build 1  
+								</button>
+								<button type="button" class="btn btn-success" ng-click="BuildShip('colossus', '10')">
+										<i class="fa-plane"></i> &nbsp Build  10
+								</button>
+								<button type="button" class="btn btn-success" ng-click="BuildShip('colossus', '100')">
+										<i class="fa-plane"></i> &nbsp Build  100
+								</button>
 							</div>
 						</td>
 						<td ng-if="ships['colossus']['unlocked']==0" class="ship_info">
@@ -1452,9 +1404,9 @@
 						</td>
 						<td ng-if="ships['medusa']['unlocked']==1" class="ship_info" style="position: relative;">
 							<h5>
-							<b>HP</b>: {{format_number(ships.medusa.stats.HP)}}<br/>
-							<b>Shield</b>: {{format_number(ships.medusa.stats.shield)}}<br/>
-							<b>Attack</b>: {{format_number(ships.medusa.stats.attack)}}<br/><br/>
+							<b><img src="assets/images/heart.png" class="stat_img"/></b>: {{format_number(ships.medusa.stats.HP)}}<br/>
+							<b><img src="assets/images/shield.png" class="stat_img"/></b>: {{format_number(ships.medusa.stats.shield)}}<br/>
+							<b><img src="assets/images/sword.png" class="stat_img"/></b>: {{format_number(ships.medusa.stats.attack)}}<br/><br/>
 
 
 							<b>Abilities</b>:<br/>
@@ -1475,7 +1427,7 @@
 							<div ng-if="ships['medusa']['skills']['mind_control']['unlocked']==0" class="tooltip_ship_skill"><img src="assets/images/locked.png" class = "ship_skill_img"/>
 																								<span>Mind Control-<br/><br/>
 																								LOCKED</span>
-																								<br />
+																								
 							</div>
 							<div ng-if="ships['medusa']['skills']['mind_control']['unlocked']==1" class="tooltip_ship_skill"><img src="assets/images/Ships/abilities/mind_control.png" class = "ship_skill_img"/>
 																								<span>Mind Control-<br/><br/>
@@ -1487,7 +1439,7 @@
 							<div ng-if="ships['medusa']['skills']['siphon_shield']['unlocked']==0" class="tooltip_ship_skill"><img src="assets/images/locked.png" class = "ship_skill_img"/>
 																								<span>Siphon Shield-<br/><br/>
 																								LOCKED</span>
-																								<br />
+																								
 							</div>
 							<div ng-if="ships['medusa']['skills']['siphon_shield']['unlocked']==1" class="tooltip_ship_skill"><img src="assets/images/Ships/abilities/siphon_shield.png" class = "ship_skill_img"/>
 																								<span>Siphon Shield-<br/><br/>
@@ -1498,7 +1450,7 @@
 							<div ng-if="ships['medusa']['skills']['evasion']['unlocked']==0" class="tooltip_ship_skill"><img src="assets/images/locked.png" class = "ship_skill_img"/>
 																								<span>Evasion-<br/><br/>
 																								LOCKED</span>
-																								<br />
+																								
 							</div>
 							<div ng-if="ships['medusa']['skills']['evasion']['unlocked']==1" class="tooltip_ship_skill"><img src="assets/images/Ships/abilities/evasion.png" class = "ship_skill_img"/>
 																								<span>Evasion-<br/><br/>
@@ -1506,41 +1458,31 @@
 																								</span>
 
 							</div>
-							<br/><br/><br/>
+							<br/><br/>
 
 
 							<b>Cost</b>:<br/>
-							{{format_number(ships.medusa.metal_cost)}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/><br/>
-							{{format_number(ships.medusa.crystal_cost)}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/><br/><br/>
+							{{format_number(ships.medusa.metal_cost)}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/>
+							{{format_number(ships.medusa.crystal_cost)}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/><br/><br/><br/>
 
 
 							<b>Currently Owned</b>:<br/>
-							{{ships.medusa.current_owned}}<br/><br/>
+							{{ships.medusa.current_owned}}<br/>
 							</h5>
 
 
 
 
 							<div class="build_ship_btn">
-								<div class="btn-group" dropdown>
-									<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
-										Build <i class="fa-plane"></i> <span class="caret"></span>
-									</button>
-									<ul class="dropdown-menu dropdown-success" role="menu">
-										<li>
-											<a href="" ng-click="BuildShip('medusa', '1')">1 unit</a>
-										</li>
-										<li>
-											<a href="" ng-click="BuildShip('medusa', '100')">100 units</a>
-										</li>
-										<li>
-											<a href="" ng-click="BuildShip('medusa', '1000')">1000 units</a>
-										</li>
-										<li>
-											<a href="" ng-click="BuildShip('medusa', 'max')">Max</a>
-										</li>
-									</ul>
-								</div>
+								<button type="button" class="btn btn-success" ng-click="BuildShip('medusa', '1')">
+										<i class="fa-plane"></i> &nbsp Build 1  
+								</button>
+								<button type="button" class="btn btn-success" ng-click="BuildShip('medusa', '10')">
+										<i class="fa-plane"></i> &nbsp Build  10
+								</button>
+								<button type="button" class="btn btn-success" ng-click="BuildShip('medusa', '100')">
+										<i class="fa-plane"></i> &nbsp Build  100
+								</button>
 							</div>
 						</td>
 						<td ng-if="ships['medusa']['unlocked']==0" class="ship_info">
@@ -1567,9 +1509,9 @@
 						</td>
 						<td ng-if="ships['science_vessel']['unlocked']==1" class="ship_info" style="position: relative;">
 							<h5>
-							<b>HP</b>: {{format_number(ships.science_vessel.stats.HP)}}<br/>
-							<b>Shield</b>: {{format_number(ships.science_vessel.stats.shield)}}<br/>
-							<b>Attack</b>: {{format_number(ships.science_vessel.stats.attack)}}<br/><br/>
+							<b><img src="assets/images/heart.png" class="stat_img"/></b>: {{format_number(ships.science_vessel.stats.HP)}}<br/>
+							<b><img src="assets/images/shield.png" class="stat_img"/></b>: {{format_number(ships.science_vessel.stats.shield)}}<br/>
+							<b><img src="assets/images/sword.png" class="stat_img"/></b>: {{format_number(ships.science_vessel.stats.attack)}}<br/><br/>
 
 
 							<b>Abilities</b>:<br/>
@@ -1590,7 +1532,7 @@
 							<div ng-if="ships['science_vessel']['skills']['toughness']['unlocked']==0" class="tooltip_ship_skill"><img src="assets/images/locked.png" class = "ship_skill_img"/>
 																								<span>Toughness-<br/><br/>
 																								LOCKED</span>
-																								<br />
+																								
 							</div>
 							<div ng-if="ships['science_vessel']['skills']['toughness']['unlocked']==1" class="tooltip_ship_skill"><img src="assets/images/Ships/abilities/toughness.png" class = "ship_skill_img"/>
 																								<span>Toughness-<br/><br/>
@@ -1603,7 +1545,7 @@
 							<div ng-if="ships['science_vessel']['skills']['force_field']['unlocked']==0" class="tooltip_ship_skill"><img src="assets/images/locked.png" class = "ship_skill_img"/>
 																								<span>Force Field-<br/><br/>
 																								LOCKED</span>
-																								<br />
+																								
 							</div>
 							<div ng-if="ships['science_vessel']['skills']['force_field']['unlocked']==1" class="tooltip_ship_skill"><img src="assets/images/Ships/abilities/force_field.png" class = "ship_skill_img"/>
 																								<span>Force Field-<br/><br/>
@@ -1616,7 +1558,7 @@
 							<div ng-if="ships['science_vessel']['skills']['advanced_repairbot']['unlocked']==0" class="tooltip_ship_skill"><img src="assets/images/locked.png" class = "ship_skill_img"/>
 																								<span>Advanced Repairbot-<br/><br/>
 																								LOCKED</span>
-																								<br />
+																								
 							</div>
 							<div ng-if="ships['science_vessel']['skills']['advanced_repairbot']['unlocked']==1" class="tooltip_ship_skill"><img src="assets/images/Ships/abilities/advanced_repairbot.png" class = "ship_skill_img"/>
 																								<span>Advanced Repairbot-<br/><br/>
@@ -1629,7 +1571,7 @@
 							<div ng-if="ships['science_vessel']['skills']['ionic_storm']['unlocked']==0" class="tooltip_ship_skill"><img src="assets/images/locked.png" class = "ship_skill_img"/>
 																								<span>Ionic Storm-<br/><br/>
 																								LOCKED</span>
-																								<br />
+																								
 							</div>
 							<div ng-if="ships['science_vessel']['skills']['ionic_storm']['unlocked']==1" class="tooltip_ship_skill"><img src="assets/images/Ships/abilities/ionic_storm.png" class = "ship_skill_img"/>
 																								<span>Ionic Storm-<br/><br/>
@@ -1637,41 +1579,31 @@
 																								</span>
 
 							</div>
-							<br/><br/><br/>
+							<br/><br/>
 
 
 							<b>Cost</b>:<br/>
-							{{format_number(ships.science_vessel.metal_cost)}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/><br/>
-							{{format_number(ships.science_vessel.crystal_cost)}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/><br/><br/>
+							{{format_number(ships.science_vessel.metal_cost)}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/>
+							{{format_number(ships.science_vessel.crystal_cost)}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/><br/><br/><br/>
 
 
 							<b>Currently Owned</b>:<br/>
-							{{ships.science_vessel.current_owned}}<br/><br/>
+							{{ships.science_vessel.current_owned}}<br/>
 							</h5>
 
 
 
 
 							<div class="build_ship_btn">
-								<div class="btn-group" dropdown>
-									<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
-										Build <i class="fa-plane"></i> <span class="caret"></span>
-									</button>
-									<ul class="dropdown-menu dropdown-success" role="menu">
-										<li>
-											<a href="" ng-click="BuildShip('science_vessel', '1')">1 unit</a>
-										</li>
-										<li>
-											<a href="" ng-click="BuildShip('science_vessel', '100')">100 units</a>
-										</li>
-										<li>
-											<a href="" ng-click="BuildShip('science_vessel', '1000')">1000 units</a>
-										</li>
-										<li>
-											<a href="" ng-click="BuildShip('science_vessel', 'max')">Max</a>
-										</li>
-									</ul>
-								</div>
+								<button type="button" class="btn btn-success" ng-click="BuildShip('science_vessel', '1')">
+										<i class="fa-plane"></i> &nbsp Build 1  
+								</button>
+								<button type="button" class="btn btn-success" ng-click="BuildShip('science_vessel', '10')">
+										<i class="fa-plane"></i> &nbsp Build  10
+								</button>
+								<button type="button" class="btn btn-success" ng-click="BuildShip('science_vessel', '100')">
+										<i class="fa-plane"></i> &nbsp Build  100
+								</button>
 							</div>
 						</td>
 						<td ng-if="ships['science_vessel']['unlocked']==0" class="ship_info">
@@ -1698,9 +1630,9 @@
 						</td>
 						<td ng-if="ships['pantheon']['unlocked']==1" class="ship_info" style="position: relative;">
 							<h5>
-							<b>HP</b>: {{format_number(ships.pantheon.stats.HP)}}<br/>
-							<b>Shield</b>: {{format_number(ships.pantheon.stats.shield)}}<br/>
-							<b>Attack</b>: {{format_number(ships.pantheon.stats.attack)}}<br/><br/>
+							<b><img src="assets/images/heart.png" class="stat_img"/></b>: {{format_number(ships.pantheon.stats.HP)}}<br/>
+							<b><img src="assets/images/shield.png" class="stat_img"/></b>: {{format_number(ships.pantheon.stats.shield)}}<br/>
+							<b><img src="assets/images/sword.png" class="stat_img"/></b>: {{format_number(ships.pantheon.stats.attack)}}<br/><br/>
 
 
 							<b>Abilities</b>:<br/>
@@ -1763,41 +1695,31 @@
 																								</span>
 
 							</div>
-							<br/><br/><br/>
+							<br/><br/>
 
 
 							<b>Cost</b>:<br/>
-							{{format_number(ships.pantheon.metal_cost)}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/><br/>
-							{{format_number(ships.pantheon.crystal_cost)}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/><br/><br/>
+							{{format_number(ships.pantheon.metal_cost)}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/>
+							{{format_number(ships.pantheon.crystal_cost)}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/><br/><br/><br/>
 
 
 							<b>Currently Owned</b>:<br/>
-							{{ships.pantheon.current_owned}}<br/><br/>
+							{{ships.pantheon.current_owned}}<br/>
 							</h5>
 
 
 
 
 							<div class="build_ship_btn">
-								<div class="btn-group" dropdown>
-									<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
-										Build <i class="fa-plane"></i> <span class="caret"></span>
-									</button>
-									<ul class="dropdown-menu dropdown-success" role="menu">
-										<li>
-											<a href="" ng-click="BuildShip('pantheon', '1')">1 unit</a>
-										</li>
-										<li>
-											<a href="" ng-click="BuildShip('pantheon', '100')">100 units</a>
-										</li>
-										<li>
-											<a href="" ng-click="BuildShip('pantheon', '1000')">1000 units</a>
-										</li>
-										<li>
-											<a href="" ng-click="BuildShip('pantheon', 'max')">Max</a>
-										</li>
-									</ul>
-								</div>
+								<button type="button" class="btn btn-success" ng-click="BuildShip('pantheon', '1')">
+										<i class="fa-plane"></i> &nbsp Build 1  
+								</button>
+								<button type="button" class="btn btn-success" ng-click="BuildShip('pantheon', '10')">
+										<i class="fa-plane"></i> &nbsp Build  10
+								</button>
+								<button type="button" class="btn btn-success" ng-click="BuildShip('pantheon', '100')">
+										<i class="fa-plane"></i> &nbsp Build  100
+								</button>
 							</div>
 						</td>
 						<td ng-if="ships['pantheon']['unlocked']==0" class="ship_info">

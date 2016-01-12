@@ -3,7 +3,7 @@
 		"normal": {
 			"floors": {
 				"1": {
-					"light_fighter": {
+					"Oatis_Light_Fighter": {
 						"amount": 1,
 						"skill": ""
 					}
@@ -19,7 +19,7 @@
 		"heroic": {
 			"floors": {
 				"1": {
-					"light_fighter": {
+					"Oatis_Light_Fighter": {
 						"amount": 5,
 						"skill": ""
 					}

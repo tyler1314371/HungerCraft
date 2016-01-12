@@ -1,9 +1,12 @@
 {
-	"Oatis_Light_Fighter": {
+	"Oatis":{
+		"Oatis_Light_Fighter": {
 		"HP": 1000,
 		"Shields": 1000,
 		"Attack": 1000,
 		"Speed": 12,
 		"Skills": ["1", "2"]
+		}
 	}
+	
 }
