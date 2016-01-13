@@ -1,29 +1,32 @@
 {
 	"Oatis": {
 		"normal": {
+			"floor_num":3,
 			"floors": {
-				"1": {
-					"Oatis_Light_Fighter": {
-						"amount": 1,
-						"skill": ""
+				"1": [
+					{
+						"name":"Oatis Light Fighter",
+						"info" : {
+							"amount": 1
+						}
 					}
-				}
-			},
-			"drops": {
-				"uncommon": ["1", "2"],
-				"rare": ["1"],
-				"epic": ["1"],
-				"legendary": ["1"]
-			}
-		},
-		"heroic": {
-			"floors": {
-				"1": {
-					"Oatis_Light_Fighter": {
-						"amount": 5,
-						"skill": ""
+				],
+				"2": [
+					{
+						"name":"Oatis Light Fighter",
+						"info" : {
+							"amount": 3
+						}
 					}
-				}
+				],
+				"3": [
+					{
+						"name":"Oatis Light Fighter",
+						"info" : {
+							"amount": 5
+						}
+					}
+				]
 			},
 			"drops": {
 				"uncommon": ["1", "2"],

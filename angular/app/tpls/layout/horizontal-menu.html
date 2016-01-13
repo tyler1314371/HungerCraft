@@ -96,9 +96,25 @@
 			left: -150px;
 			opacity: 0;
 }
+.battle_div_enemies {
+	    position:relative;
+			top: 5px;
+			left: 290px;
+			opacity: 0;
+}
 
 
 
+#friendly_fleets, #enemy_fleets{
+    width:400px;
+    height: auto;
+    margin-right:15px;
+    float:left;
+}
+
+#filler{
+    height:0px;
+}
 
 	</style>
 
@@ -191,153 +207,144 @@
 
 		<div id="LF_form" class="assemble_form">
 			<form>
-			<h4><img src="assets/images/Ships/light_fighter.jpg" class="ships_assemble_img" /> &nbsp Light Fighter</h4>
+			<h4><img src="assets/images/Ships/light_fighter.jpg" class="ships_assemble_img" /> &nbsp Light Fighter Fleet</h4>
 			<input type="range" name="amountRange" ng-model="LF_Slider" min="0" max={{ships.light_fighter.current_owned}} value="0" oninput="this.form.amountInput.value=this.value" />
 			<input name="amountInput" ng-model="LF_Text" min="0" max={{ships.light_fighter.current_owned}} value="0" oninput="this.form.amountRange.value=this.value" />
 			<h5>
-							<b>Fleet HP</b>: {{format_number(LF_fleet_HP)}}<br/>
-							<b>Fleet Shield</b>: {{format_number(LF_fleet_Shield)}}<br/>
-							<b>Fleet Attack</b>: {{format_number(LF_fleet_Attk)}}<br/>
-							<b>Fleet Abilities</b>: <br/>
+							<b><img src="assets/images/shield.png" class="stat_img"/></b>{{format_number(LF_fleet_Shield)}} /
+							<b><img src="assets/images/heart.png" class="stat_img"/></b>{{format_number(LF_fleet_HP)}} &nbsp&nbsp&nbsp&nbsp&nbsp
+							<b><img src="assets/images/sword.png" class="stat_img"/></b>{{format_number(LF_fleet_Attk)}}
 			</h5>
 			</form>
 			<br/>
 		</div>
 
-		
+
 
 		<div id="HF_form" class="assemble_form">
 			<form>
-			<h4><img src="assets/images/Ships/heavy_fighter.jpg" class="ships_assemble_img" /> &nbsp Heavy Fighter</h4>
+			<h4><img src="assets/images/Ships/heavy_fighter.jpg" class="ships_assemble_img" /> &nbsp Heavy Fighter Fleet</h4>
 			<input type="range" name="amountRange" ng-model="HF_Slider" min="0" max={{ships.heavy_fighter.current_owned}} value="0" oninput="this.form.amountInput.value=this.value" />
 			<input name="amountInput" ng-model="HF_Text" min="0" max={{ships.heavy_fighter.current_owned}} value="0" oninput="this.form.amountRange.value=this.value" />
 			<h5>
-							<b>Fleet HP</b>: {{format_number(HF_fleet_HP)}}<br/>
-							<b>Fleet Shield</b>: {{format_number(HF_fleet_Shield)}}<br/>
-							<b>Fleet Attack</b>: {{format_number(HF_fleet_Attk)}}<br/>
-							<b>Fleet Abilities</b>: <br/>
+							<b><img src="assets/images/shield.png" class="stat_img"/></b>{{format_number(HF_fleet_Shield)}} /
+							<b><img src="assets/images/heart.png" class="stat_img"/></b>{{format_number(HF_fleet_HP)}} &nbsp&nbsp&nbsp&nbsp&nbsp
+							<b><img src="assets/images/sword.png" class="stat_img"/></b>{{format_number(HF_fleet_Attk)}}
 			</h5>
 			</form>
 			<br/>
 		</div>
 
-		
+
 
 		<div id="WG_form" class="assemble_form">
 			<form>
-			<h4><img src="assets/images/Ships/worg.jpg" class="ships_assemble_img" /> &nbsp Worg</h4>
+			<h4><img src="assets/images/Ships/worg.jpg" class="ships_assemble_img" /> &nbsp Worg Fleet</h4>
 			<input type="range" name="amountRange" ng-model="WG_Slider" min="0" max={{ships.worg.current_owned}} value="0" oninput="this.form.amountInput.value=this.value" />
 			<input name="amountInput" ng-model="WG_Text" min="0" max={{ships.worg.current_owned}} value="0" oninput="this.form.amountRange.value=this.value" />
 			<h5>
-							<b>Fleet HP</b>: {{format_number(WG_fleet_HP)}}<br/>
-							<b>Fleet Shield</b>: {{format_number(WG_fleet_Shield)}}<br/>
-							<b>Fleet Attack</b>: {{format_number(WG_fleet_Attk)}}<br/>
-							<b>Fleet Abilities</b>: <br/>
+							<b><img src="assets/images/shield.png" class="stat_img"/></b>{{format_number(WG_fleet_Shield)}} /
+							<b><img src="assets/images/heart.png" class="stat_img"/></b>{{format_number(WG_fleet_HP)}} &nbsp&nbsp&nbsp&nbsp&nbsp
+							<b><img src="assets/images/sword.png" class="stat_img"/></b>{{format_number(WG_fleet_Attk)}}
 			</h5>
 			</form>
 			<br/>
 		</div>
 
-		
+
 
 		<div id="DS_form" class="assemble_form">
 			<form>
-			<h4><img src="assets/images/Ships/destroyer.jpg" class="ships_assemble_img" /> &nbsp Destroyer</h4>
+			<h4><img src="assets/images/Ships/destroyer.jpg" class="ships_assemble_img" /> &nbsp Destroyer Fleet</h4>
 			<input type="range" name="amountRange" ng-model="DS_Slider" min="0" max={{ships.destroyer.current_owned}} value="0" oninput="this.form.amountInput.value=this.value" />
 			<input name="amountInput" ng-model="DS_Text" min="0" max={{ships.destroyer.current_owned}} value="0" oninput="this.form.amountRange.value=this.value" />
 			<h5>
-							<b>Fleet HP</b>: {{format_number(DS_fleet_HP)}}<br/>
-							<b>Fleet Shield</b>: {{format_number(DS_fleet_Shield)}}<br/>
-							<b>Fleet Attack</b>: {{format_number(DS_fleet_Attk)}}<br/>
-							<b>Fleet Abilities</b>: <br/>
+							<b><img src="assets/images/shield.png" class="stat_img"/></b>{{format_number(DS_fleet_Shield)}} /
+							<b><img src="assets/images/heart.png" class="stat_img"/></b>{{format_number(DS_fleet_HP)}} &nbsp&nbsp&nbsp&nbsp&nbsp
+							<b><img src="assets/images/sword.png" class="stat_img"/></b>{{format_number(DS_fleet_Attk)}}
 			</h5>
 			</form>
 			<br/>
 		</div>
 
-		
+
 
 		<div id="SU_form" class="assemble_form">
 			<form>
-			<h4><img src="assets/images/Ships/succubus.jpg" class="ships_assemble_img" /> &nbsp Succubus</h4>
+			<h4><img src="assets/images/Ships/succubus.jpg" class="ships_assemble_img" /> &nbsp Succubus Fleet</h4>
 			<input type="range" name="amountRange" ng-model="SU_Slider" min="0" max={{ships.succubus.current_owned}} value="0" oninput="this.form.amountInput.value=this.value" />
 			<input name="amountInput" ng-model="SU_Text" min="0" max={{ships.succubus.current_owned}} value="0" oninput="this.form.amountRange.value=this.value" />
 			<h5>
-							<b>Fleet HP</b>: {{format_number(SU_fleet_HP)}}<br/>
-							<b>Fleet Shield</b>: {{format_number(SU_fleet_Shield)}}<br/>
-							<b>Fleet Attack</b>: {{format_number(SU_fleet_Attk)}}<br/>
-							<b>Fleet Abilities</b>: <br/>
+							<b><img src="assets/images/shield.png" class="stat_img"/></b>{{format_number(SU_fleet_Shield)}} /
+							<b><img src="assets/images/heart.png" class="stat_img"/></b>{{format_number(SU_fleet_HP)}} &nbsp&nbsp&nbsp&nbsp&nbsp
+							<b><img src="assets/images/sword.png" class="stat_img"/></b>{{format_number(SU_fleet_Attk)}}
 			</h5>
 			</form>
 			<br/>
 		</div>
 
-		
+
 
 		<div id="COL_form" class="assemble_form">
 			<form>
-			<h4><img src="assets/images/Ships/colossus.jpg" class="ships_assemble_img" /> &nbsp Colossus</h4>
+			<h4><img src="assets/images/Ships/colossus.jpg" class="ships_assemble_img" /> &nbsp Colossus Fleet</h4>
 			<input type="range" name="amountRange" ng-model="COL_Slider" min="0" max={{ships.colossus.current_owned}} value="0" oninput="this.form.amountInput.value=this.value" />
 			<input name="amountInput" ng-model="COL_Text" min="0" max={{ships.colossus.current_owned}} value="0" oninput="this.form.amountRange.value=this.value" />
 			<h5>
-							<b>Fleet HP</b>: {{format_number(COL_fleet_HP)}}<br/>
-							<b>Fleet Shield</b>: {{format_number(COL_fleet_Shield)}}<br/>
-							<b>Fleet Attack</b>: {{format_number(COL_fleet_Attk)}}<br/>
-							<b>Fleet Abilities</b>: <br/>
+							<b><img src="assets/images/shield.png" class="stat_img"/></b>{{format_number(COL_fleet_Shield)}} /
+							<b><img src="assets/images/heart.png" class="stat_img"/></b>{{format_number(COL_fleet_HP)}} &nbsp&nbsp&nbsp&nbsp&nbsp
+							<b><img src="assets/images/sword.png" class="stat_img"/></b>{{format_number(COL_fleet_Attk)}}
 			</h5>
 			</form>
 			<br/>
 		</div>
 
-		
+
 
 
 		<div id="MD_form" class="assemble_form">
 			<form>
-			<h4><img src="assets/images/Ships/medusa.jpg" class="ships_assemble_img" /> &nbsp Medusa</h4>
+			<h4><img src="assets/images/Ships/medusa.jpg" class="ships_assemble_img" /> &nbsp Medusa Fleet</h4>
 			<input type="range" name="amountRange" ng-model="MD_Slider" min="0" max={{ships.medusa.current_owned}} value="0" oninput="this.form.amountInput.value=this.value" />
 			<input name="amountInput" ng-model="MD_Text" min="0" max={{ships.medusa.current_owned}} value="0" oninput="this.form.amountRange.value=this.value" />
 			<h5>
-							<b>Fleet HP</b>: {{format_number(MD_fleet_HP)}}<br/>
-							<b>Fleet Shield</b>: {{format_number(MD_fleet_Shield)}}<br/>
-							<b>Fleet Attack</b>: {{format_number(MD_fleet_Attk)}}<br/>
-							<b>Fleet Abilities</b>: <br/>
+							<b><img src="assets/images/shield.png" class="stat_img"/></b>{{format_number(MD_fleet_Shield)}} /
+							<b><img src="assets/images/heart.png" class="stat_img"/></b>{{format_number(MD_fleet_HP)}} &nbsp&nbsp&nbsp&nbsp&nbsp
+							<b><img src="assets/images/sword.png" class="stat_img"/></b>{{format_number(MD_fleet_Attk)}}
 			</h5>
 			</form>
 			<br/>
 		</div>
 
-		
+
 
 
 		<div id="SV_form" class="assemble_form">
 			<form>
-			<h4><img src="assets/images/Ships/science_vessel.jpg" class="ships_assemble_img" /> &nbsp Science Vessel</h4>
+			<h4><img src="assets/images/Ships/science_vessel.jpg" class="ships_assemble_img" /> &nbsp Science Vessel Fleet</h4>
 			<input type="range" name="amountRange" ng-model="SV_Slider" min="0" max={{ships.science_vessel.current_owned}} value="0" oninput="this.form.amountInput.value=this.value" />
 			<input name="amountInput" ng-model="SV_Text" min="0" max={{ships.science_vessel.current_owned}} value="0" oninput="this.form.amountRange.value=this.value" />
 			<h5>
-							<b>Fleet HP</b>: {{format_number(SV_fleet_HP)}}<br/>
-							<b>Fleet Shield</b>: {{format_number(SV_fleet_Shield)}}<br/>
-							<b>Fleet Attack</b>: {{format_number(SV_fleet_Attk)}}<br/>
-							<b>Fleet Abilities</b>: <br/>
+							<b><img src="assets/images/shield.png" class="stat_img"/></b>{{format_number(SV_fleet_Shield)}} /
+							<b><img src="assets/images/heart.png" class="stat_img"/></b>{{format_number(SV_fleet_HP)}} &nbsp&nbsp&nbsp&nbsp&nbsp
+							<b><img src="assets/images/sword.png" class="stat_img"/></b>{{format_number(SV_fleet_Attk)}}
 			</h5>
 			</form>
 			<br/>
 		</div>
 
-		
+
 
 
 		<div id="PTH_form" class="assemble_form">
 			<form>
-			<h4><img src="assets/images/Ships/pantheon.jpg" class="ships_assemble_img" /> &nbsp Pantheon</h4>
+			<h4><img src="assets/images/Ships/pantheon.jpg" class="ships_assemble_img" /> &nbsp Pantheon Fleet</h4>
 			<input type="range" name="amountRange" ng-model="PTH_Slider" min="0" max={{ships.pantheon.current_owned}} value="0" oninput="this.form.amountInput.value=this.value" />
 			<input name="amountInput" ng-model="PTH_Text" min="0" max={{ships.pantheon.current_owned}} value="0" oninput="this.form.amountRange.value=this.value" />
 			<h5>
-							<b>Fleet HP</b>: {{format_number(PTH_fleet_HP)}}<br/>
-							<b>Fleet Shield</b>: {{format_number(PTH_fleet_Shield)}}<br/>
-							<b>Fleet Attack</b>: {{format_number(PTH_fleet_Attk)}}<br/>
-							<b>Fleet Abilities</b>: <br/>
+							<b><img src="assets/images/shield.png" class="stat_img"/></b>{{format_number(PTH_fleet_Shield)}} /
+							<b><img src="assets/images/heart.png" class="stat_img"/></b>{{format_number(PTH_fleet_HP)}} &nbsp&nbsp&nbsp&nbsp&nbsp
+							<b><img src="assets/images/sword.png" class="stat_img"/></b>{{format_number(PTH_fleet_Attk)}}
 			</h5>
 			</form>
 		</div>
@@ -370,27 +377,27 @@
 
 
 
-	<script type="text/ng-template" id="battle">
+	<script type="text/ng-template" id="battle" >
 	<div class="modal-header">
 		<button type="button" class="close" ng-click="currentModal.close();" aria-hidden="true">&times;</button>
-		<h3 class="modal-title" id ="modal-title">Oatis - Floor 1 </h3>
+		<h3 class="modal-title" id ="modal-title">{{current_instance}} - Floor {{current_floor}} </h3>
 	</div>
 
 
 	<div class="modal-body" ng-controller="MainBattleCtrl">
 
-
+		<div id='friendly_fleets'>
 			<div id="LF_battle" ng-if="ships.light_fighter.assembled>0" class="battle_div">
 				<h4><img src="assets/images/Ships/light_fighter.jpg" class="ships_assemble_img" /> &nbsp Light Fighter ({{ships.light_fighter.assembled}})</h4>
 				<div progressbar class="progress_LF_HP active" max="progress_LF_HP.max" value="progress_LF_HP.value" type="{{progress_LF_HP.color}}" ng-style="{position:'relative', height :'20px', width :'250px', 'border-radius':'15px 15px 15px 15px', 'background-color':'grey'}"></div>
 				<div progressbar class="progress_LF_Shield active" max="progress_LF_Shield.max" value="progress_LF_Shield.value" type="{{progress_LF_Shield.color}}" ng-style="{position:'absolute',top :'69px', height :'20px', width :'250px', 'border-radius':'15px 15px 15px 15px', 'background-color':'transparent'}"></div>
 				<h5>
-					<b><img src="assets/images/shield.png" class="stat_img"/></b>{{format_number(current_LF_Shield)}} / 
+					<b><img src="assets/images/shield.png" class="stat_img"/></b>{{format_number(current_LF_Shield)}} /
 					<b><img src="assets/images/heart.png" class="stat_img"/></b>{{format_number(current_LF_HP)}} &nbsp&nbsp&nbsp&nbsp&nbsp
 					<b><img src="assets/images/sword.png" class="stat_img"/></b>{{format_number(current_LF_Attack)}}
 
 
-								
+
 				</h5>
 
 			<br/>
@@ -403,12 +410,12 @@
 				<div progressbar class="progress_HF_HP active" max="progress_HF_HP.max" value="progress_HF_HP.value" type="{{progress_HF_HP.color}}" ng-style="{position:'relative', height :'20px', width :'250px', 'border-radius':'15px 15px 15px 15px', 'background-color':'grey'}"></div>
 				<div progressbar class="progress_HF_Shield active" max="progress_HF_Shield.max" value="progress_HF_Shield.value" type="{{progress_HF_Shield.color}}" ng-style="{position:'absolute',top :'69px', height :'20px', width :'250px', 'border-radius':'15px 15px 15px 15px', 'background-color':'transparent'}"></div>
 				<h5>
-					<b><img src="assets/images/shield.png" class="stat_img"/></b>{{format_number(current_HF_Shield)}} / 
+					<b><img src="assets/images/shield.png" class="stat_img"/></b>{{format_number(current_HF_Shield)}} /
 					<b><img src="assets/images/heart.png" class="stat_img"/></b>{{format_number(current_HF_HP)}} &nbsp&nbsp&nbsp&nbsp&nbsp
 					<b><img src="assets/images/sword.png" class="stat_img"/></b>{{format_number(current_HF_Attack)}}
 
 
-								
+
 				</h5>
 
 			<br/>
@@ -423,12 +430,12 @@
 				<div progressbar class="progress_WG_HP active" max="progress_WG_HP.max" value="progress_WG_HP.value" type="{{progress_WG_HP.color}}" ng-style="{position:'relative', height :'20px', width :'250px', 'border-radius':'15px 15px 15px 15px', 'background-color':'grey'}"></div>
 				<div progressbar class="progress_WG_Shield active" max="progress_WG_Shield.max" value="progress_WG_Shield.value" type="{{progress_WG_Shield.color}}" ng-style="{position:'absolute',top :'69px', height :'20px', width :'250px', 'border-radius':'15px 15px 15px 15px', 'background-color':'transparent'}"></div>
 				<h5>
-					<b><img src="assets/images/shield.png" class="stat_img"/></b>{{format_number(current_WG_Shield)}} / 
+					<b><img src="assets/images/shield.png" class="stat_img"/></b>{{format_number(current_WG_Shield)}} /
 					<b><img src="assets/images/heart.png" class="stat_img"/></b>{{format_number(current_WG_HP)}} &nbsp&nbsp&nbsp&nbsp&nbsp
 					<b><img src="assets/images/sword.png" class="stat_img"/></b>{{format_number(current_WG_Attack)}}
 
 
-								
+
 				</h5>
 
 			<br/>
@@ -440,12 +447,12 @@
 				<div progressbar class="progress_DS_HP active" max="progress_DS_HP.max" value="progress_DS_HP.value" type="{{progress_DS_HP.color}}" ng-style="{position:'relative', height :'20px', width :'250px', 'border-radius':'15px 15px 15px 15px', 'background-color':'grey'}"></div>
 				<div progressbar class="progress_DS_Shield active" max="progress_DS_Shield.max" value="progress_DS_Shield.value" type="{{progress_DS_Shield.color}}" ng-style="{position:'absolute',top :'69px', height :'20px', width :'250px', 'border-radius':'15px 15px 15px 15px', 'background-color':'transparent'}"></div>
 				<h5>
-					<b><img src="assets/images/shield.png" class="stat_img"/></b>{{format_number(current_DS_Shield)}} / 
+					<b><img src="assets/images/shield.png" class="stat_img"/></b>{{format_number(current_DS_Shield)}} /
 					<b><img src="assets/images/heart.png" class="stat_img"/></b>{{format_number(current_DS_HP)}} &nbsp&nbsp&nbsp&nbsp&nbsp
 					<b><img src="assets/images/sword.png" class="stat_img"/></b>{{format_number(current_DS_Attack)}}
 
 
-								
+
 				</h5>
 
 			<br/>
@@ -458,12 +465,12 @@
 				<div progressbar class="progress_SU_HP active" max="progress_SU_HP.max" value="progress_SU_HP.value" type="{{progress_SU_HP.color}}" ng-style="{position:'relative', height :'20px', width :'250px', 'border-radius':'15px 15px 15px 15px', 'background-color':'grey'}"></div>
 				<div progressbar class="progress_SU_Shield active" max="progress_SU_Shield.max" value="progress_SU_Shield.value" type="{{progress_SU_Shield.color}}" ng-style="{position:'absolute',top :'69px', height :'20px', width :'250px', 'border-radius':'15px 15px 15px 15px', 'background-color':'transparent'}"></div>
 				<h5>
-					<b><img src="assets/images/shield.png" class="stat_img"/></b>{{format_number(current_SU_Shield)}} / 
+					<b><img src="assets/images/shield.png" class="stat_img"/></b>{{format_number(current_SU_Shield)}} /
 					<b><img src="assets/images/heart.png" class="stat_img"/></b>{{format_number(current_SU_HP)}} &nbsp&nbsp&nbsp&nbsp&nbsp
 					<b><img src="assets/images/sword.png" class="stat_img"/></b>{{format_number(current_SU_Attack)}}
 
 
-								
+
 				</h5>
 
 			<br/>
@@ -475,12 +482,12 @@
 				<div progressbar class="progress_COL_HP active" max="progress_COL_HP.max" value="progress_COL_HP.value" type="{{progress_COL_HP.color}}" ng-style="{position:'relative', height :'20px', width :'250px', 'border-radius':'15px 15px 15px 15px', 'background-color':'grey'}"></div>
 				<div progressbar class="progress_COL_Shield active" max="progress_COL_Shield.max" value="progress_COL_Shield.value" type="{{progress_COL_Shield.color}}" ng-style="{position:'absolute',top :'69px', height :'20px', width :'250px', 'border-radius':'15px 15px 15px 15px', 'background-color':'transparent'}"></div>
 				<h5>
-					<b><img src="assets/images/shield.png" class="stat_img"/></b>{{format_number(current_COL_Shield)}} / 
+					<b><img src="assets/images/shield.png" class="stat_img"/></b>{{format_number(current_COL_Shield)}} /
 					<b><img src="assets/images/heart.png" class="stat_img"/></b>{{format_number(current_COL_HP)}} &nbsp&nbsp&nbsp&nbsp&nbsp
 					<b><img src="assets/images/sword.png" class="stat_img"/></b>{{format_number(current_COL_Attack)}}
 
 
-								
+
 				</h5>
 
 			<br/>
@@ -492,12 +499,12 @@
 				<div progressbar class="progress_MD_HP active" max="progress_MD_HP.max" value="progress_MD_HP.value" type="{{progress_MD_HP.color}}" ng-style="{position:'relative', height :'20px', width :'250px', 'border-radius':'15px 15px 15px 15px', 'background-color':'grey'}"></div>
 				<div progressbar class="progress_MD_Shield active" max="progress_MD_Shield.max" value="progress_MD_Shield.value" type="{{progress_MD_Shield.color}}" ng-style="{position:'absolute',top :'69px', height :'20px', width :'250px', 'border-radius':'15px 15px 15px 15px', 'background-color':'transparent'}"></div>
 				<h5>
-					<b><img src="assets/images/shield.png" class="stat_img"/></b>{{format_number(current_MD_Shield)}} / 
+					<b><img src="assets/images/shield.png" class="stat_img"/></b>{{format_number(current_MD_Shield)}} /
 					<b><img src="assets/images/heart.png" class="stat_img"/></b>{{format_number(current_MD_HP)}} &nbsp&nbsp&nbsp&nbsp&nbsp
 					<b><img src="assets/images/sword.png" class="stat_img"/></b>{{format_number(current_MD_Attack)}}
 
 
-								
+
 				</h5>
 
 			<br/>
@@ -509,12 +516,12 @@
 				<div progressbar class="progress_SV_HP active" max="progress_SV_HP.max" value="progress_SV_HP.value" type="{{progress_SV_HP.color}}" ng-style="{position:'relative', height :'20px', width :'250px', 'border-radius':'15px 15px 15px 15px', 'background-color':'grey'}"></div>
 				<div progressbar class="progress_SV_Shield active" max="progress_SV_Shield.max" value="progress_SV_Shield.value" type="{{progress_SV_Shield.color}}" ng-style="{position:'absolute',top :'69px', height :'20px', width :'250px', 'border-radius':'15px 15px 15px 15px', 'background-color':'transparent'}"></div>
 				<h5>
-					<b><img src="assets/images/shield.png" class="stat_img"/></b>{{format_number(current_SV_Shield)}} / 
+					<b><img src="assets/images/shield.png" class="stat_img"/></b>{{format_number(current_SV_Shield)}} /
 					<b><img src="assets/images/heart.png" class="stat_img"/></b>{{format_number(current_SV_HP)}} &nbsp&nbsp&nbsp&nbsp&nbsp
 					<b><img src="assets/images/sword.png" class="stat_img"/></b>{{format_number(current_SV_Attack)}}
 
 
-								
+
 				</h5>
 
 			<br/>
@@ -527,16 +534,28 @@
 				<div progressbar class="progress_PTH_HP active" max="progress_PTH_HP.max" value="progress_PTH_HP.value" type="{{progress_PTH_HP.color}}" ng-style="{position:'relative', height :'20px', width :'250px', 'border-radius':'15px 15px 15px 15px', 'background-color':'grey'}"></div>
 				<div progressbar class="progress_PTH_Shield active" max="progress_PTH_Shield.max" value="progress_PTH_Shield.value" type="{{progress_PTH_Shield.color}}" ng-style="{position:'absolute',top :'69px', height :'20px', width :'250px', 'border-radius':'15px 15px 15px 15px', 'background-color':'transparent'}"></div>
 				<h5>
-					<b><img src="assets/images/shield.png" class="stat_img"/></b>{{format_number(current_PTH_Shield)}} / 
+					<b><img src="assets/images/shield.png" class="stat_img"/></b>{{format_number(current_PTH_Shield)}} /
 					<b><img src="assets/images/heart.png" class="stat_img"/></b>{{format_number(current_PTH_HP)}} &nbsp&nbsp&nbsp&nbsp&nbsp
 					<b><img src="assets/images/sword.png" class="stat_img"/></b>{{format_number(current_PTH_Attack)}}
 
 
-								
+
 				</h5>
 
 			<br/>
 			</div>
+
+		</div>
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -544,6 +563,34 @@
 
 			<!--ENEMY INFO!-->
 
+			<div id='enemy_fleets'>
+
+
+			<div class="battle_div_enemies" ng-repeat="enemy in enemies">
+				<h4><img src="assets/images/Ships/light_fighter.jpg" class="ships_assemble_img" /> &nbsp {{enemy.name}} ({{enemy.info.amount}})</h4>
+				<div progressbar class="progress_LF_HP active" max="progress_LF_HP.max" value="progress_LF_HP.value" type="{{progress_LF_HP.color}}" ng-style="{position:'relative', height :'20px', width :'250px', 'border-radius':'15px 15px 15px 15px', 'background-color':'grey'}"></div>
+				<div progressbar class="progress_LF_Shield active" max="progress_LF_Shield.max" value="progress_LF_Shield.value" type="{{progress_LF_Shield.color}}" ng-style="{position:'absolute',top :'69px', height :'20px', width :'250px', 'border-radius':'15px 15px 15px 15px', 'background-color':'transparent'}"></div>
+				<h5>
+					<b><img src="assets/images/shield.png" class="stat_img"/></b>{{ships_data[$rootScope.current_instance]}} /
+					<b><img src="assets/images/heart.png" class="stat_img"/></b>{{format_number(current_LF_HP)}} &nbsp&nbsp&nbsp&nbsp&nbsp
+					<b><img src="assets/images/sword.png" class="stat_img"/></b>{{format_number(current_LF_Attack)}}
+
+
+
+				</h5>
+
+				<br/>
+			</div>
+
+
+
+
+
+
+
+
+
+		</div>
 
 
 
@@ -560,12 +607,8 @@
 
 
 
-
-
-
-
-
-
+		<div id="filler">
+		</div>
 	</div>
 
 	<div class="modal-footer">

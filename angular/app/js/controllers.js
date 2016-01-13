@@ -1850,7 +1850,7 @@ angular.module('xenon.controllers', []).
 		    //console.log(discount);
 		    return discount;
 		};
-		
+
 
 
 
@@ -1902,7 +1902,7 @@ angular.module('xenon.controllers', []).
 				level.level_crystal_req = Math.floor(level.level_crystal_req_ori * Math.pow(1.4,level.current_level));
 				$scope.real_metal_req = Math.floor(level.level_metal_req * $scope.calculate_nextlvl_discount());
 				$scope.real_crystal_req = Math.floor(level.level_crystal_req *	$scope.calculate_nextlvl_discount());
-		    
+
 
 
 
@@ -1929,7 +1929,7 @@ angular.module('xenon.controllers', []).
 
 
 
-		
+
 
 
 
@@ -2448,6 +2448,14 @@ angular.module('xenon.controllers', []).
 		$scope.raids = raids;
 		$scope.ships = ships;
 		$scope.level = level;
+		var count=0;
+		$scope.instance_data;
+		$scope.ships_data;
+		$.ajaxSetup({
+    async: false
+	});
+
+
 
 
 		$scope.format_number= function(num) {
@@ -2471,28 +2479,34 @@ angular.module('xenon.controllers', []).
 		//load current instance info
 		$.getJSON( '../../assets/raids_info.json', function( data ) {
 		  $.each( data, function( key, val ) {
-		    console.log(val);
+		    //console.log(data[$rootScope.current_instance]['normal']['floor_num']);
+				$scope.instance_data = data;
+
 		  });
-		 
+
 		});
 		//load current instance ships info
 		$.getJSON( '../../assets/raids_ships.json', function( data ) {
 		  $.each( data, function( key, val ) {
-		    console.log(val);
+		    //console.log(val);
+				$scope.ships_data = data;
 		  });
-		 
+
 		});
 
+		$rootScope.current_floor = 1;
+		$scope.total_floor_num = $scope.instance_data[$rootScope.current_instance]['normal']['floor_num'];
+		$scope.enemies = $scope.instance_data[$rootScope.current_instance]['normal']['floors'][String($rootScope.current_floor)]
 
-
-
-
-
+		console.log($scope.ships_data[$rootScope.current_instance]);
 
 
 		//preparation
 
 		if(ships.light_fighter.assembled>0){
+					$( "#filler" ).animate({ "height": "+=150px" }, 500);
+					count=count+1;
+
 					$scope.progress_LF_HP = {
 						value: 0,
 						max: ships.light_fighter.stats.HP * ships.light_fighter.assembled,
@@ -2517,7 +2531,7 @@ angular.module('xenon.controllers', []).
 								$scope.progress_LF_HP.value = $scope.current_LF_HP
 								$scope.progress_LF_Shield.value = $scope.current_LF_Shield;
 							}, 300);
-							
+
 					}, 500);
 
 
@@ -2528,6 +2542,10 @@ angular.module('xenon.controllers', []).
 
 
 		if(ships.heavy_fighter.assembled>0){
+					$( "#filler" ).animate({ "height": "+=150px" }, 500);
+					count=count+1;
+
+
 
 					$scope.progress_HF_HP = {
 						value: 0,
@@ -2553,7 +2571,7 @@ angular.module('xenon.controllers', []).
 								$scope.progress_HF_HP.value = $scope.current_HF_HP
 								$scope.progress_HF_Shield.value = $scope.current_HF_Shield;
 							}, 300);
-							
+
 					}, 500);
 
 
@@ -2563,6 +2581,9 @@ angular.module('xenon.controllers', []).
 		}
 
 		if(ships.worg.assembled>0){
+				$( "#filler" ).animate({ "height": "+=150px" }, 500);
+				count=count+1;
+
 
 					$scope.progress_WG_HP = {
 						value: 0,
@@ -2588,7 +2609,7 @@ angular.module('xenon.controllers', []).
 								$scope.progress_WG_HP.value = $scope.current_WG_HP
 								$scope.progress_WG_Shield.value = $scope.current_WG_Shield;
 							}, 300);
-							
+
 					}, 500);
 
 
@@ -2598,6 +2619,9 @@ angular.module('xenon.controllers', []).
 		}
 
 		if(ships.destroyer.assembled>0){
+			$( "#filler" ).animate({ "height": "+=150px" }, 500);
+			count=count+1;
+
 
 					$scope.progress_DS_HP = {
 						value: 0,
@@ -2623,7 +2647,7 @@ angular.module('xenon.controllers', []).
 								$scope.progress_DS_HP.value = $scope.current_DS_HP
 								$scope.progress_DS_Shield.value = $scope.current_DS_Shield;
 							}, 300);
-							
+
 					}, 500);
 
 
@@ -2633,6 +2657,8 @@ angular.module('xenon.controllers', []).
 		}
 
 		if(ships.succubus.assembled>0){
+			$( "#filler" ).animate({ "height": "+=150px" }, 500);
+			count=count+1;
 
 					$scope.progress_SU_HP = {
 						value: 0,
@@ -2658,7 +2684,7 @@ angular.module('xenon.controllers', []).
 								$scope.progress_SU_HP.value = $scope.current_SU_HP
 								$scope.progress_SU_Shield.value = $scope.current_SU_Shield;
 							}, 300);
-							
+
 					}, 500);
 
 
@@ -2668,6 +2694,8 @@ angular.module('xenon.controllers', []).
 		}
 
 		if(ships.colossus.assembled>0){
+			$( "#filler" ).animate({ "height": "+=150px" }, 500);
+			count=count+1;
 
 					$scope.progress_COL_HP = {
 						value: 0,
@@ -2693,7 +2721,7 @@ angular.module('xenon.controllers', []).
 								$scope.progress_COL_HP.value = $scope.current_COL_HP
 								$scope.progress_COL_Shield.value = $scope.current_COL_Shield;
 							}, 300);
-							
+
 					}, 500);
 
 
@@ -2703,6 +2731,8 @@ angular.module('xenon.controllers', []).
 		}
 
 		if(ships.medusa.assembled>0){
+			$( "#filler" ).animate({ "height": "+=150px" }, 500);
+			count=count+1;
 
 					$scope.progress_MD_HP = {
 						value: 0,
@@ -2728,7 +2758,7 @@ angular.module('xenon.controllers', []).
 								$scope.progress_MD_HP.value = $scope.current_MD_HP
 								$scope.progress_MD_Shield.value = $scope.current_MD_Shield;
 							}, 300);
-							
+
 					}, 500);
 
 
@@ -2738,6 +2768,9 @@ angular.module('xenon.controllers', []).
 		}
 
 		if(ships.science_vessel.assembled>0){
+
+			$( "#filler" ).animate({ "height": "+=150px" }, 500);
+			count=count+1;
 
 					$scope.progress_SV_HP = {
 						value: 0,
@@ -2763,7 +2796,7 @@ angular.module('xenon.controllers', []).
 								$scope.progress_SV_HP.value = $scope.current_SV_HP
 								$scope.progress_SV_Shield.value = $scope.current_SV_Shield;
 							}, 300);
-							
+
 					}, 500);
 
 
@@ -2773,6 +2806,8 @@ angular.module('xenon.controllers', []).
 		}
 
 		if(ships.pantheon.assembled>0){
+			$( "#filler" ).animate({ "height": "+=150px" }, 500);
+			count=count+1;
 
 					$scope.progress_PTH_HP = {
 						value: 0,
@@ -2798,7 +2833,7 @@ angular.module('xenon.controllers', []).
 								$scope.progress_PTH_HP.value = $scope.current_PTH_HP
 								$scope.progress_PTH_Shield.value = $scope.current_PTH_Shield;
 							}, 300);
-							
+
 					}, 500);
 
 
@@ -2806,6 +2841,61 @@ angular.module('xenon.controllers', []).
 
 
 		}
+
+
+
+
+
+		//ENEMIES ready
+
+		$timeout(function(){
+
+			$( ".battle_div_enemies" ).animate({ "left": "-=150px", "opacity":"1" }, 500);
+
+		}, 1500);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 	});
