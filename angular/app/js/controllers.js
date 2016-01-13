@@ -2218,12 +2218,62 @@ angular.module('xenon.controllers', []).
 
 
 
+		//CALCULATE BONUS
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 		if (ships.light_fighter.current_owned==0){
 			$('#LF_form').hide();
+		}else{
+			$( "#filler_prep" ).animate({ "height": "+=90px" }, 100);
 		}
 		$scope.LF_Text = 0;
 		$scope.LF_Slider = 0;
+		$scope.LF_fleet_HP = 0;
+		$scope.LF_fleet_Shield = 0;
+		$scope.LF_fleet_Attk = 0;
 		$scope.$watch('LF_Text', function (newValue, oldValue) {
         	if (newValue>ships.light_fighter.current_owned){
         		$scope.LF_Text = ships.light_fighter.current_owned;
@@ -2244,9 +2294,14 @@ angular.module('xenon.controllers', []).
 
     	if (ships.heavy_fighter.current_owned==0){
 			$('#HF_form').hide();
+		}else{
+			$( "#filler_prep" ).animate({ "height": "+=90px" }, 100);
 		}
 		$scope.HF_Text = 0;
 		$scope.HF_Slider = 0;
+		$scope.HF_fleet_HP = 0;
+		$scope.HF_fleet_Shield = 0;
+		$scope.HF_fleet_Attk = 0;
 		$scope.$watch('HF_Text', function (newValue, oldValue) {
         	if (newValue>ships.heavy_fighter.current_owned){
         		$scope.HF_Text = ships.heavy_fighter.current_owned;
@@ -2267,9 +2322,14 @@ angular.module('xenon.controllers', []).
 
         if (ships.worg.current_owned==0){
 			$('#WG_form').hide();
+		}else{
+			$( "#filler_prep" ).animate({ "height": "+=90px" }, 100);
 		}
 		$scope.WG_Text = 0;
 		$scope.WG_Slider = 0;
+		$scope.WG_fleet_HP = 0;
+		$scope.WG_fleet_Shield = 0;
+		$scope.WG_fleet_Attk = 0;
 		$scope.$watch('WG_Text', function (newValue, oldValue) {
         	if (newValue>ships.worg.current_owned){
         		$scope.WG_Text = ships.worg.current_owned;
@@ -2289,9 +2349,14 @@ angular.module('xenon.controllers', []).
 
         if (ships.destroyer.current_owned==0){
 			$('#DS_form').hide();
+		}else{
+			$( "#filler_prep" ).animate({ "height": "+=90px" }, 100);
 		}
 		$scope.DS_Text = 0;
 		$scope.DS_Slider = 0;
+		$scope.DS_fleet_HP = 0;
+		$scope.DS_fleet_Shield = 0;
+		$scope.DS_fleet_Attk = 0;
 		$scope.$watch('DS_Text', function (newValue, oldValue) {
         	if (newValue>ships.destroyer.current_owned){
         		$scope.DS_Text = ships.destroyer.current_owned;
@@ -2311,9 +2376,14 @@ angular.module('xenon.controllers', []).
 
         if (ships.succubus.current_owned==0){
 			$('#SU_form').hide();
+		}else{
+			$( "#filler_prep" ).animate({ "height": "+=90px" }, 100);
 		}
 		$scope.SU_Text = 0;
 		$scope.SU_Slider = 0;
+		$scope.SU_fleet_HP = 0;
+		$scope.SU_fleet_Shield = 0;
+		$scope.SU_fleet_Attk = 0;
 		$scope.$watch('SU_Text', function (newValue, oldValue) {
         	if (newValue>ships.succubus.current_owned){
         		$scope.SU_Text = ships.succubus.current_owned;
@@ -2335,9 +2405,14 @@ angular.module('xenon.controllers', []).
 
     	if (ships.colossus.current_owned==0){
 			$('#COL_form').hide();
+		}else{
+			$( "#filler_prep" ).animate({ "height": "+=90px" }, 100);
 		}
 		$scope.COL_Text = 0;
 		$scope.COL_Slider = 0;
+		$scope.COL_fleet_HP = 0;
+		$scope.COL_fleet_Shield = 0;
+		$scope.COL_fleet_Attk = 0;
 		$scope.$watch('COL_Text', function (newValue, oldValue) {
         	if (newValue>ships.colossus.current_owned){
         		$scope.COL_Text = ships.colossus.current_owned;
@@ -2358,9 +2433,14 @@ angular.module('xenon.controllers', []).
 
     	if (ships.medusa.current_owned==0){
 			$('#MD_form').hide();
+		}else{
+			$( "#filler_prep" ).animate({ "height": "+=90px" }, 100);
 		}
 		$scope.MD_Text = 0;
 		$scope.MD_Slider = 0;
+		$scope.MD_fleet_HP = 0;
+		$scope.MD_fleet_Shield = 0;
+		$scope.MD_fleet_Attk = 0;
 		$scope.$watch('MD_Text', function (newValue, oldValue) {
         	if (newValue>ships.medusa.current_owned){
         		$scope.MD_Text = ships.medusa.current_owned;
@@ -2381,9 +2461,14 @@ angular.module('xenon.controllers', []).
 
         if (ships.science_vessel.current_owned==0){
 			$('#SV_form').hide();
+		}else{
+			$( "#filler_prep" ).animate({ "height": "+=90px" }, 100);
 		}
 		$scope.SV_Text = 0;
 		$scope.SV_Slider = 0;
+		$scope.SV_fleet_HP = 0;
+		$scope.SV_fleet_Shield = 0;
+		$scope.SV_fleet_Attk = 0;
 		$scope.$watch('SV_Text', function (newValue, oldValue) {
         	if (newValue>ships.science_vessel.current_owned){
         		$scope.SV_Text = ships.science_vessel.current_owned;
@@ -2404,9 +2489,14 @@ angular.module('xenon.controllers', []).
 
         if (ships.pantheon.current_owned==0){
 			$('#PTH_form').hide();
+		}else{
+			$( "#filler_prep" ).animate({ "height": "+=90px" }, 100);
 		}
 		$scope.PTH_Text = 0;
 		$scope.PTH_Slider = 0;
+		$scope.PTH_fleet_HP = 0;
+		$scope.PTH_fleet_Shield = 0;
+		$scope.PTH_fleet_Attk = 0;
 		$scope.$watch('PTH_Text', function (newValue, oldValue) {
         	if (newValue>ships.pantheon.current_owned){
         		$scope.PTH_Text = ships.pantheon.current_owned;
@@ -2424,13 +2514,18 @@ angular.module('xenon.controllers', []).
         });
 
 
-				$scope.Advance = function()
-				{
+    	
 
 
-					$rootScope.currentModal.close();
-					$scope.openModal('battle', 'lg', 'static');
-				};
+
+
+
+
+		$scope.Advance = function()
+		{
+			$rootScope.currentModal.close();
+			$scope.openModal('battle', 'lg', 'static');
+		};
 
 
 
@@ -2501,7 +2596,40 @@ angular.module('xenon.controllers', []).
 		console.log($scope.ships_data[$rootScope.current_instance]);
 
 
+
+
+
+
+
 		//preparation
+		$scope.current_LF_HP = ships.light_fighter.stats.HP * ships.light_fighter.assembled;
+		$scope.current_LF_Shield = ships.light_fighter.stats.shield * ships.light_fighter.assembled;
+		$scope.current_LF_Attack = ships.light_fighter.stats.attack * ships.light_fighter.assembled;
+		$scope.current_HF_HP = ships.heavy_fighter.stats.HP * ships.heavy_fighter.assembled;
+		$scope.current_HF_Shield = ships.heavy_fighter.stats.shield * ships.heavy_fighter.assembled;
+		$scope.current_HF_Attack = ships.heavy_fighter.stats.attack * ships.heavy_fighter.assembled;
+		$scope.current_WG_HP = ships.worg.stats.HP * ships.worg.assembled;
+		$scope.current_WG_Shield = ships.worg.stats.shield * ships.worg.assembled;
+		$scope.current_WG_Attack = ships.worg.stats.attack * ships.worg.assembled;
+		$scope.current_DS_HP = ships.destroyer.stats.HP * ships.destroyer.assembled;
+		$scope.current_DS_Shield = ships.destroyer.stats.shield * ships.destroyer.assembled;
+		$scope.current_DS_Attack = ships.destroyer.stats.attack * ships.destroyer.assembled;
+		$scope.current_SU_HP = ships.succubus.stats.HP * ships.succubus.assembled;
+		$scope.current_SU_Shield = ships.succubus.stats.shield * ships.succubus.assembled;
+		$scope.current_SU_Attack = ships.succubus.stats.attack * ships.succubus.assembled;
+		$scope.current_COL_HP = ships.colossus.stats.HP * ships.colossus.assembled;
+		$scope.current_COL_Shield = ships.colossus.stats.shield * ships.colossus.assembled;
+		$scope.current_COL_Attack = ships.colossus.stats.attack * ships.colossus.assembled;
+		$scope.current_MD_HP = ships.medusa.stats.HP * ships.medusa.assembled;
+		$scope.current_MD_Shield = ships.medusa.stats.shield * ships.medusa.assembled;
+		$scope.current_MD_Attack = ships.medusa.stats.attack * ships.medusa.assembled;
+		$scope.current_SV_HP = ships.science_vessel.stats.HP * ships.science_vessel.assembled;
+		$scope.current_SV_Shield = ships.science_vessel.stats.shield * ships.science_vessel.assembled;
+		$scope.current_SV_Attack = ships.science_vessel.stats.attack * ships.science_vessel.assembled;
+		$scope.current_PTH_HP = ships.pantheon.stats.HP * ships.pantheon.assembled;
+		$scope.current_PTH_Shield = ships.pantheon.stats.shield * ships.pantheon.assembled;
+		$scope.current_PTH_Attack = ships.pantheon.stats.attack * ships.pantheon.assembled;
+
 
 		if(ships.light_fighter.assembled>0){
 					$( "#filler" ).animate({ "height": "+=150px" }, 500);
@@ -2518,9 +2646,7 @@ angular.module('xenon.controllers', []).
 						color: 'info'
 					};
 
-					$scope.current_LF_HP = ships.light_fighter.stats.HP * ships.light_fighter.assembled;
-					$scope.current_LF_Shield = ships.light_fighter.stats.shield * ships.light_fighter.assembled;
-					$scope.current_LF_Attack = ships.light_fighter.stats.attack * ships.light_fighter.assembled;
+					
 
 
 
@@ -2558,9 +2684,7 @@ angular.module('xenon.controllers', []).
 						color: 'info'
 					};
 
-					$scope.current_HF_HP = ships.heavy_fighter.stats.HP * ships.heavy_fighter.assembled;
-					$scope.current_HF_Shield = ships.heavy_fighter.stats.shield * ships.heavy_fighter.assembled;
-					$scope.current_HF_Attack = ships.heavy_fighter.stats.attack * ships.heavy_fighter.assembled;
+					
 
 
 
@@ -2596,9 +2720,7 @@ angular.module('xenon.controllers', []).
 						color: 'info'
 					};
 
-					$scope.current_WG_HP = ships.worg.stats.HP * ships.worg.assembled;
-					$scope.current_WG_Shield = ships.worg.stats.shield * ships.worg.assembled;
-					$scope.current_WG_Attack = ships.worg.stats.attack * ships.worg.assembled;
+					
 
 
 
@@ -2634,9 +2756,6 @@ angular.module('xenon.controllers', []).
 						color: 'info'
 					};
 
-					$scope.current_DS_HP = ships.destroyer.stats.HP * ships.destroyer.assembled;
-					$scope.current_DS_Shield = ships.destroyer.stats.shield * ships.destroyer.assembled;
-					$scope.current_DS_Attack = ships.destroyer.stats.attack * ships.destroyer.assembled;
 
 
 
@@ -2671,9 +2790,6 @@ angular.module('xenon.controllers', []).
 						color: 'info'
 					};
 
-					$scope.current_SU_HP = ships.succubus.stats.HP * ships.succubus.assembled;
-					$scope.current_SU_Shield = ships.succubus.stats.shield * ships.succubus.assembled;
-					$scope.current_SU_Attack = ships.succubus.stats.attack * ships.succubus.assembled;
 
 
 
@@ -2708,9 +2824,6 @@ angular.module('xenon.controllers', []).
 						color: 'info'
 					};
 
-					$scope.current_COL_HP = ships.colossus.stats.HP * ships.colossus.assembled;
-					$scope.current_COL_Shield = ships.colossus.stats.shield * ships.colossus.assembled;
-					$scope.current_COL_Attack = ships.colossus.stats.attack * ships.colossus.assembled;
 
 
 
@@ -2744,10 +2857,6 @@ angular.module('xenon.controllers', []).
 						max: ships.medusa.stats.HP * ships.medusa.assembled,
 						color: 'info'
 					};
-
-					$scope.current_MD_HP = ships.medusa.stats.HP * ships.medusa.assembled;
-					$scope.current_MD_Shield = ships.medusa.stats.shield * ships.medusa.assembled;
-					$scope.current_MD_Attack = ships.medusa.stats.attack * ships.medusa.assembled;
 
 
 
@@ -2783,9 +2892,7 @@ angular.module('xenon.controllers', []).
 						color: 'info'
 					};
 
-					$scope.current_SV_HP = ships.science_vessel.stats.HP * ships.science_vessel.assembled;
-					$scope.current_SV_Shield = ships.science_vessel.stats.shield * ships.science_vessel.assembled;
-					$scope.current_SV_Attack = ships.science_vessel.stats.attack * ships.science_vessel.assembled;
+
 
 
 
@@ -2819,10 +2926,6 @@ angular.module('xenon.controllers', []).
 						max: ships.pantheon.stats.HP * ships.pantheon.assembled,
 						color: 'info'
 					};
-
-					$scope.current_PTH_HP = ships.pantheon.stats.HP * ships.pantheon.assembled;
-					$scope.current_PTH_Shield = ships.pantheon.stats.shield * ships.pantheon.assembled;
-					$scope.current_PTH_Attack = ships.pantheon.stats.attack * ships.pantheon.assembled;
 
 
 

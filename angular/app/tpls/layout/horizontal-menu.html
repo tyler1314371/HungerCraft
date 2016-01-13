@@ -7,7 +7,7 @@
 	<style media="screen" type="text/css">
 	input[type=range] {
 	  -webkit-appearance: none;
-	  width: 100%;
+	  width: 64%;
 	  margin: 3.8px 0;
 	}
 	input[type=range]:focus {
@@ -116,6 +116,24 @@
     height:0px;
 }
 
+#filler_prep{
+    height:0px;
+}
+
+
+.stat_div, .ships_left{
+	width:400px;
+    height: auto;
+    margin-right:15px;
+    float:left;
+}
+
+.stat_img_tot{
+	width: 30px;
+	border-radius: 3px 3px 3px 3px;
+
+}
+
 	</style>
 
 
@@ -205,98 +223,69 @@
 
 	<div class="modal-body" ng-controller="BattleCtrl">
 
+		<div class="ships_left">
 		<div id="LF_form" class="assemble_form">
 			<form>
-			<h4><img src="assets/images/Ships/light_fighter.jpg" class="ships_assemble_img" /> &nbsp Light Fighter Fleet</h4>
+			<h4><img src="assets/images/Ships/light_fighter.jpg" class="ships_assemble_img" /> &nbsp Light Fighter</h4>
 			<input type="range" name="amountRange" ng-model="LF_Slider" min="0" max={{ships.light_fighter.current_owned}} value="0" oninput="this.form.amountInput.value=this.value" />
-			<input name="amountInput" ng-model="LF_Text" min="0" max={{ships.light_fighter.current_owned}} value="0" oninput="this.form.amountRange.value=this.value" />
-			<h5>
-							<b><img src="assets/images/shield.png" class="stat_img"/></b>{{format_number(LF_fleet_Shield)}} /
-							<b><img src="assets/images/heart.png" class="stat_img"/></b>{{format_number(LF_fleet_HP)}} &nbsp&nbsp&nbsp&nbsp&nbsp
-							<b><img src="assets/images/sword.png" class="stat_img"/></b>{{format_number(LF_fleet_Attk)}}
-			</h5>
+			<input name="amountInput" ng-model="LF_Text" min="0" max={{ships.light_fighter.current_owned}} value="0" oninput="this.form.amountRange.value=this.value" ng-style="{width:'100px'}"/><img src="assets/images/sword.png" class="stat_img"/>{{format_number(LF_fleet_Attk)}}
 			</form>
-			<br/>
+			<br/><br/>
 		</div>
 
 
 
 		<div id="HF_form" class="assemble_form">
 			<form>
-			<h4><img src="assets/images/Ships/heavy_fighter.jpg" class="ships_assemble_img" /> &nbsp Heavy Fighter Fleet</h4>
+			<h4><img src="assets/images/Ships/heavy_fighter.jpg" class="ships_assemble_img" /> &nbsp Heavy Fighter</h4>
 			<input type="range" name="amountRange" ng-model="HF_Slider" min="0" max={{ships.heavy_fighter.current_owned}} value="0" oninput="this.form.amountInput.value=this.value" />
-			<input name="amountInput" ng-model="HF_Text" min="0" max={{ships.heavy_fighter.current_owned}} value="0" oninput="this.form.amountRange.value=this.value" />
-			<h5>
-							<b><img src="assets/images/shield.png" class="stat_img"/></b>{{format_number(HF_fleet_Shield)}} /
-							<b><img src="assets/images/heart.png" class="stat_img"/></b>{{format_number(HF_fleet_HP)}} &nbsp&nbsp&nbsp&nbsp&nbsp
-							<b><img src="assets/images/sword.png" class="stat_img"/></b>{{format_number(HF_fleet_Attk)}}
-			</h5>
+			<input name="amountInput" ng-model="HF_Text" min="0" max={{ships.heavy_fighter.current_owned}} value="0" oninput="this.form.amountRange.value=this.value" ng-style="{width:'100px'}"/><img src="assets/images/sword.png" class="stat_img"/>{{format_number(HF_fleet_Attk)}}
 			</form>
-			<br/>
+			<br/><br/>
 		</div>
 
 
 
 		<div id="WG_form" class="assemble_form">
 			<form>
-			<h4><img src="assets/images/Ships/worg.jpg" class="ships_assemble_img" /> &nbsp Worg Fleet</h4>
-			<input type="range" name="amountRange" ng-model="WG_Slider" min="0" max={{ships.worg.current_owned}} value="0" oninput="this.form.amountInput.value=this.value" />
-			<input name="amountInput" ng-model="WG_Text" min="0" max={{ships.worg.current_owned}} value="0" oninput="this.form.amountRange.value=this.value" />
-			<h5>
-							<b><img src="assets/images/shield.png" class="stat_img"/></b>{{format_number(WG_fleet_Shield)}} /
-							<b><img src="assets/images/heart.png" class="stat_img"/></b>{{format_number(WG_fleet_HP)}} &nbsp&nbsp&nbsp&nbsp&nbsp
-							<b><img src="assets/images/sword.png" class="stat_img"/></b>{{format_number(WG_fleet_Attk)}}
-			</h5>
+			<h4><img src="assets/images/Ships/worg.jpg" class="ships_assemble_img" /> &nbsp Worg</h4>
+			<input type="range" name="amountRange" ng-model="WG_Slider" min="0" max={{ships.worg.current_owned}} value="0" oninput="this.form.amountInput.value=this.value" /><b>
+			<input name="amountInput" ng-model="WG_Text" min="0" max={{ships.worg.current_owned}} value="0" oninput="this.form.amountRange.value=this.value" ng-style="{width:'100px'}"/><img src="assets/images/sword.png" class="stat_img"/></b>{{format_number(WG_fleet_Attk)}}
 			</form>
-			<br/>
+			<br/><br/>
 		</div>
 
 
 
 		<div id="DS_form" class="assemble_form">
 			<form>
-			<h4><img src="assets/images/Ships/destroyer.jpg" class="ships_assemble_img" /> &nbsp Destroyer Fleet</h4>
+			<h4><img src="assets/images/Ships/destroyer.jpg" class="ships_assemble_img" /> &nbsp Destroyer</h4>
 			<input type="range" name="amountRange" ng-model="DS_Slider" min="0" max={{ships.destroyer.current_owned}} value="0" oninput="this.form.amountInput.value=this.value" />
-			<input name="amountInput" ng-model="DS_Text" min="0" max={{ships.destroyer.current_owned}} value="0" oninput="this.form.amountRange.value=this.value" />
-			<h5>
-							<b><img src="assets/images/shield.png" class="stat_img"/></b>{{format_number(DS_fleet_Shield)}} /
-							<b><img src="assets/images/heart.png" class="stat_img"/></b>{{format_number(DS_fleet_HP)}} &nbsp&nbsp&nbsp&nbsp&nbsp
-							<b><img src="assets/images/sword.png" class="stat_img"/></b>{{format_number(DS_fleet_Attk)}}
-			</h5>
+			<input name="amountInput" ng-model="DS_Text" min="0" max={{ships.destroyer.current_owned}} value="0" oninput="this.form.amountRange.value=this.value" ng-style="{width:'100px'}"/><b><img src="assets/images/sword.png" class="stat_img"/></b>{{format_number(DS_fleet_Attk)}}
 			</form>
-			<br/>
+			<br/><br/>
 		</div>
 
 
 
 		<div id="SU_form" class="assemble_form">
 			<form>
-			<h4><img src="assets/images/Ships/succubus.jpg" class="ships_assemble_img" /> &nbsp Succubus Fleet</h4>
+			<h4><img src="assets/images/Ships/succubus.jpg" class="ships_assemble_img" /> &nbsp Succubus</h4>
 			<input type="range" name="amountRange" ng-model="SU_Slider" min="0" max={{ships.succubus.current_owned}} value="0" oninput="this.form.amountInput.value=this.value" />
-			<input name="amountInput" ng-model="SU_Text" min="0" max={{ships.succubus.current_owned}} value="0" oninput="this.form.amountRange.value=this.value" />
-			<h5>
-							<b><img src="assets/images/shield.png" class="stat_img"/></b>{{format_number(SU_fleet_Shield)}} /
-							<b><img src="assets/images/heart.png" class="stat_img"/></b>{{format_number(SU_fleet_HP)}} &nbsp&nbsp&nbsp&nbsp&nbsp
-							<b><img src="assets/images/sword.png" class="stat_img"/></b>{{format_number(SU_fleet_Attk)}}
-			</h5>
+			<input name="amountInput" ng-model="SU_Text" min="0" max={{ships.succubus.current_owned}} value="0" oninput="this.form.amountRange.value=this.value" ng-style="{width:'100px'}"/><b><img src="assets/images/sword.png" class="stat_img"/></b>{{format_number(SU_fleet_Attk)}}
 			</form>
-			<br/>
+			<br/><br/>
 		</div>
 
 
 
 		<div id="COL_form" class="assemble_form">
 			<form>
-			<h4><img src="assets/images/Ships/colossus.jpg" class="ships_assemble_img" /> &nbsp Colossus Fleet</h4>
+			<h4><img src="assets/images/Ships/colossus.jpg" class="ships_assemble_img" /> &nbsp Colossus</h4>
 			<input type="range" name="amountRange" ng-model="COL_Slider" min="0" max={{ships.colossus.current_owned}} value="0" oninput="this.form.amountInput.value=this.value" />
-			<input name="amountInput" ng-model="COL_Text" min="0" max={{ships.colossus.current_owned}} value="0" oninput="this.form.amountRange.value=this.value" />
-			<h5>
-							<b><img src="assets/images/shield.png" class="stat_img"/></b>{{format_number(COL_fleet_Shield)}} /
-							<b><img src="assets/images/heart.png" class="stat_img"/></b>{{format_number(COL_fleet_HP)}} &nbsp&nbsp&nbsp&nbsp&nbsp
-							<b><img src="assets/images/sword.png" class="stat_img"/></b>{{format_number(COL_fleet_Attk)}}
-			</h5>
+			<input name="amountInput" ng-model="COL_Text" min="0" max={{ships.colossus.current_owned}} value="0" oninput="this.form.amountRange.value=this.value" ng-style="{width:'100px'}"/><b><img src="assets/images/sword.png" class="stat_img"/></b>{{format_number(COL_fleet_Attk)}}
 			</form>
-			<br/>
+			<br/><br/>
 		</div>
 
 
@@ -304,16 +293,11 @@
 
 		<div id="MD_form" class="assemble_form">
 			<form>
-			<h4><img src="assets/images/Ships/medusa.jpg" class="ships_assemble_img" /> &nbsp Medusa Fleet</h4>
+			<h4><img src="assets/images/Ships/medusa.jpg" class="ships_assemble_img" /> &nbsp Medusa</h4>
 			<input type="range" name="amountRange" ng-model="MD_Slider" min="0" max={{ships.medusa.current_owned}} value="0" oninput="this.form.amountInput.value=this.value" />
-			<input name="amountInput" ng-model="MD_Text" min="0" max={{ships.medusa.current_owned}} value="0" oninput="this.form.amountRange.value=this.value" />
-			<h5>
-							<b><img src="assets/images/shield.png" class="stat_img"/></b>{{format_number(MD_fleet_Shield)}} /
-							<b><img src="assets/images/heart.png" class="stat_img"/></b>{{format_number(MD_fleet_HP)}} &nbsp&nbsp&nbsp&nbsp&nbsp
-							<b><img src="assets/images/sword.png" class="stat_img"/></b>{{format_number(MD_fleet_Attk)}}
-			</h5>
+			<input name="amountInput" ng-model="MD_Text" min="0" max={{ships.medusa.current_owned}} value="0" oninput="this.form.amountRange.value=this.value" ng-style="{width:'100px'}"/><b><img src="assets/images/sword.png" class="stat_img"/></b>{{format_number(MD_fleet_Attk)}}
 			</form>
-			<br/>
+			<br/><br/>
 		</div>
 
 
@@ -321,14 +305,21 @@
 
 		<div id="SV_form" class="assemble_form">
 			<form>
-			<h4><img src="assets/images/Ships/science_vessel.jpg" class="ships_assemble_img" /> &nbsp Science Vessel Fleet</h4>
+			<h4><img src="assets/images/Ships/science_vessel.jpg" class="ships_assemble_img" /> &nbsp Science Vessel</h4>
 			<input type="range" name="amountRange" ng-model="SV_Slider" min="0" max={{ships.science_vessel.current_owned}} value="0" oninput="this.form.amountInput.value=this.value" />
-			<input name="amountInput" ng-model="SV_Text" min="0" max={{ships.science_vessel.current_owned}} value="0" oninput="this.form.amountRange.value=this.value" />
-			<h5>
-							<b><img src="assets/images/shield.png" class="stat_img"/></b>{{format_number(SV_fleet_Shield)}} /
-							<b><img src="assets/images/heart.png" class="stat_img"/></b>{{format_number(SV_fleet_HP)}} &nbsp&nbsp&nbsp&nbsp&nbsp
-							<b><img src="assets/images/sword.png" class="stat_img"/></b>{{format_number(SV_fleet_Attk)}}
-			</h5>
+			<input name="amountInput" ng-model="SV_Text" min="0" max={{ships.science_vessel.current_owned}} value="0" oninput="this.form.amountRange.value=this.value" ng-style="{width:'100px'}"/><b><img src="assets/images/sword.png" class="stat_img"/></b>{{format_number(SV_fleet_Attk)}}
+			</form>
+			<br/><br/>
+		</div>
+		</div>
+
+
+
+		<div id="PTH_form" class="assemble_form">
+			<form>
+			<h4><img src="assets/images/Ships/pantheon.jpg" class="ships_assemble_img" /> &nbsp Pantheon</h4>
+			<input type="range" name="amountRange" ng-model="PTH_Slider" min="0" max={{ships.pantheon.current_owned}} value="0" oninput="this.form.amountInput.value=this.value" />
+			<input name="amountInput" ng-model="PTH_Text" min="0" max={{ships.pantheon.current_owned}} value="0" oninput="this.form.amountRange.value=this.value" ng-style="{width:'100px'}"/><b><img src="assets/images/sword.png" class="stat_img"/></b>{{format_number(PTH_fleet_Attk)}}
 			</form>
 			<br/>
 		</div>
@@ -336,17 +327,28 @@
 
 
 
-		<div id="PTH_form" class="assemble_form">
-			<form>
-			<h4><img src="assets/images/Ships/pantheon.jpg" class="ships_assemble_img" /> &nbsp Pantheon Fleet</h4>
-			<input type="range" name="amountRange" ng-model="PTH_Slider" min="0" max={{ships.pantheon.current_owned}} value="0" oninput="this.form.amountInput.value=this.value" />
-			<input name="amountInput" ng-model="PTH_Text" min="0" max={{ships.pantheon.current_owned}} value="0" oninput="this.form.amountRange.value=this.value" />
-			<h5>
-							<b><img src="assets/images/shield.png" class="stat_img"/></b>{{format_number(PTH_fleet_Shield)}} /
-							<b><img src="assets/images/heart.png" class="stat_img"/></b>{{format_number(PTH_fleet_HP)}} &nbsp&nbsp&nbsp&nbsp&nbsp
-							<b><img src="assets/images/sword.png" class="stat_img"/></b>{{format_number(PTH_fleet_Attk)}}
-			</h5>
-			</form>
+
+
+
+
+
+
+
+
+
+
+		<!--Stats-->
+		<div class="stat_div">
+				<h5>
+							<b>Fleet Stats</b><br/>
+							<img src="assets/images/shield.png" class="stat_img_tot"/><b>{{format_number(LF_fleet_Shield +  HF_fleet_Shield + WG_fleet_Shield + DS_fleet_Shield + COL_fleet_Shield + SU_fleet_Shield+ SV_fleet_Shield + MD_fleet_Shield+ PTH_fleet_Shield)}} </b><br/>
+							<img src="assets/images/heart.png" class="stat_img_tot"/><b>{{format_number(LF_fleet_HP +  HF_fleet_HP + WG_fleet_HP + DS_fleet_HP + COL_fleet_HP + SU_fleet_HP+ SV_fleet_HP + MD_fleet_HP+ PTH_fleet_HP)}} </b><br/>
+				</h5>
+				
+
+		</div>
+
+		<div id="filler_prep">
 		</div>
 
 	</div>
