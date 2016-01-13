@@ -7,7 +7,23 @@
 					{
 						"name":"Oatis Light Fighter",
 						"info" : {
+							"HP": 1000,
+							"Shields": 1000,
+							"Attack": 1000,
+							"Speed": 12,
+							"Skills": ["1", "2"],
 							"amount": 1
+						}
+					},
+					{
+						"name":"Oatis Light Fighter",
+						"info" : {
+							"HP": 1000,
+							"Shields": 1000,
+							"Attack": 1000,
+							"Speed": 12,
+							"Skills": ["1", "2"],
+							"amount": 3
 						}
 					}
 				],

@@ -2215,7 +2215,7 @@ angular.module('xenon.controllers', []).
 		};
 
 
-
+		$rootScope.current_floor = 1;
 
 
 		//CALCULATE BONUS
@@ -2267,7 +2267,7 @@ angular.module('xenon.controllers', []).
 		if (ships.light_fighter.current_owned==0){
 			$('#LF_form').hide();
 		}else{
-			$( "#filler_prep" ).animate({ "height": "+=90px" }, 100);
+			$( "#filler_prep" ).animate({ "height": "+=85px" }, 100);
 		}
 		$scope.LF_Text = 0;
 		$scope.LF_Slider = 0;
@@ -2295,7 +2295,7 @@ angular.module('xenon.controllers', []).
     	if (ships.heavy_fighter.current_owned==0){
 			$('#HF_form').hide();
 		}else{
-			$( "#filler_prep" ).animate({ "height": "+=90px" }, 100);
+			$( "#filler_prep" ).animate({ "height": "+=85px" }, 100);
 		}
 		$scope.HF_Text = 0;
 		$scope.HF_Slider = 0;
@@ -2323,7 +2323,7 @@ angular.module('xenon.controllers', []).
         if (ships.worg.current_owned==0){
 			$('#WG_form').hide();
 		}else{
-			$( "#filler_prep" ).animate({ "height": "+=90px" }, 100);
+			$( "#filler_prep" ).animate({ "height": "+=85px" }, 100);
 		}
 		$scope.WG_Text = 0;
 		$scope.WG_Slider = 0;
@@ -2350,7 +2350,7 @@ angular.module('xenon.controllers', []).
         if (ships.destroyer.current_owned==0){
 			$('#DS_form').hide();
 		}else{
-			$( "#filler_prep" ).animate({ "height": "+=90px" }, 100);
+			$( "#filler_prep" ).animate({ "height": "+=85px" }, 100);
 		}
 		$scope.DS_Text = 0;
 		$scope.DS_Slider = 0;
@@ -2377,7 +2377,7 @@ angular.module('xenon.controllers', []).
         if (ships.succubus.current_owned==0){
 			$('#SU_form').hide();
 		}else{
-			$( "#filler_prep" ).animate({ "height": "+=90px" }, 100);
+			$( "#filler_prep" ).animate({ "height": "+=85px" }, 100);
 		}
 		$scope.SU_Text = 0;
 		$scope.SU_Slider = 0;
@@ -2406,7 +2406,7 @@ angular.module('xenon.controllers', []).
     	if (ships.colossus.current_owned==0){
 			$('#COL_form').hide();
 		}else{
-			$( "#filler_prep" ).animate({ "height": "+=90px" }, 100);
+			$( "#filler_prep" ).animate({ "height": "+=85px" }, 100);
 		}
 		$scope.COL_Text = 0;
 		$scope.COL_Slider = 0;
@@ -2434,7 +2434,7 @@ angular.module('xenon.controllers', []).
     	if (ships.medusa.current_owned==0){
 			$('#MD_form').hide();
 		}else{
-			$( "#filler_prep" ).animate({ "height": "+=90px" }, 100);
+			$( "#filler_prep" ).animate({ "height": "+=85px" }, 100);
 		}
 		$scope.MD_Text = 0;
 		$scope.MD_Slider = 0;
@@ -2462,7 +2462,7 @@ angular.module('xenon.controllers', []).
         if (ships.science_vessel.current_owned==0){
 			$('#SV_form').hide();
 		}else{
-			$( "#filler_prep" ).animate({ "height": "+=90px" }, 100);
+			$( "#filler_prep" ).animate({ "height": "+=85px" }, 100);
 		}
 		$scope.SV_Text = 0;
 		$scope.SV_Slider = 0;
@@ -2490,7 +2490,7 @@ angular.module('xenon.controllers', []).
         if (ships.pantheon.current_owned==0){
 			$('#PTH_form').hide();
 		}else{
-			$( "#filler_prep" ).animate({ "height": "+=90px" }, 100);
+			$( "#filler_prep" ).animate({ "height": "+=85px" }, 100);
 		}
 		$scope.PTH_Text = 0;
 		$scope.PTH_Slider = 0;
@@ -2514,7 +2514,7 @@ angular.module('xenon.controllers', []).
         });
 
 
-    	
+
 
 
 
@@ -2571,6 +2571,14 @@ angular.module('xenon.controllers', []).
 			});
 		};
 
+
+
+
+
+
+
+
+
 		//load current instance info
 		$.getJSON( '../../assets/raids_info.json', function( data ) {
 		  $.each( data, function( key, val ) {
@@ -2580,6 +2588,7 @@ angular.module('xenon.controllers', []).
 		  });
 
 		});
+		/*
 		//load current instance ships info
 		$.getJSON( '../../assets/raids_ships.json', function( data ) {
 		  $.each( data, function( key, val ) {
@@ -2588,12 +2597,28 @@ angular.module('xenon.controllers', []).
 		  });
 
 		});
+		*/
 
-		$rootScope.current_floor = 1;
+
+		$scope.NextFloor = function()
+		{
+			if($scope.instance_data[$rootScope.current_instance]['normal']['floor_num']== $rootScope.current_floor){
+				$rootScope.currentModal.close();
+				$scope.openModal('post_battle', 'lg', 'static');
+			}else{
+				$rootScope.current_floor +=1;
+				$rootScope.currentModal.close();
+				$scope.openModal('battle', 'lg', 'static');
+			}
+		};
+
+
+
+
 		$scope.total_floor_num = $scope.instance_data[$rootScope.current_instance]['normal']['floor_num'];
 		$scope.enemies = $scope.instance_data[$rootScope.current_instance]['normal']['floors'][String($rootScope.current_floor)]
 
-		console.log($scope.ships_data[$rootScope.current_instance]);
+		//console.log($scope.ships_data[$rootScope.current_instance]);
 
 
 
@@ -2629,10 +2654,119 @@ angular.module('xenon.controllers', []).
 		$scope.current_PTH_HP = ships.pantheon.stats.HP * ships.pantheon.assembled;
 		$scope.current_PTH_Shield = ships.pantheon.stats.shield * ships.pantheon.assembled;
 		$scope.current_PTH_Attack = ships.pantheon.stats.attack * ships.pantheon.assembled;
+		$scope.filler_height =0;
+
+		$scope.MAX_TOT_HP = $scope.current_LF_HP+$scope.current_HF_HP+$scope.current_WG_HP+$scope.current_DS_HP+$scope.current_SU_HP+$scope.current_COL_HP+$scope.current_MD_HP+$scope.current_SV_HP+$scope.current_PTH_HP;
+		$scope.MAX_TOT_SHIELD = $scope.current_LF_Shield+$scope.current_HF_Shield+$scope.current_WG_Shield+$scope.current_DS_Shield+$scope.current_SU_Shield+$scope.current_COL_Shield+$scope.current_MD_Shield+$scope.current_SV_Shield+$scope.current_PTH_Shield;
+		$scope.CUR_TOT_HP = $scope.current_LF_HP+$scope.current_HF_HP+$scope.current_WG_HP+$scope.current_DS_HP+$scope.current_SU_HP+$scope.current_COL_HP+$scope.current_MD_HP+$scope.current_SV_HP+$scope.current_PTH_HP;
+		$scope.CUR_TOT_SHIELD = $scope.current_LF_Shield+$scope.current_HF_Shield+$scope.current_WG_Shield+$scope.current_DS_Shield+$scope.current_SU_Shield+$scope.current_COL_Shield+$scope.current_MD_Shield+$scope.current_SV_Shield+$scope.current_PTH_Shield;
+
+		$scope.progress_TOT_HP = {
+			value: 0,
+			max: $scope.MAX_TOT_HP,
+			color: 'danger'
+		};
+		$scope.progress_TOT_Shield = {
+			value: 0,
+			max: $scope.MAX_TOT_HP,
+			color: 'info'
+		};
+		$timeout(function(){
+				$( "#TOT_battle" ).animate({ "left": "+=150px", "opacity":"1" }, 500);
+
+				$timeout(function(){
+					$scope.progress_TOT_HP.value = $scope.CUR_TOT_HP;
+					$scope.progress_TOT_Shield.value = $scope.CUR_TOT_SHIELD;
+				}, 300);
+
+		}, 500);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 		if(ships.light_fighter.assembled>0){
-					$( "#filler" ).animate({ "height": "+=150px" }, 500);
+
+
+					$scope.filler_height = $scope.filler_height+155;
 					count=count+1;
 
 					$scope.progress_LF_HP = {
@@ -2646,7 +2780,7 @@ angular.module('xenon.controllers', []).
 						color: 'info'
 					};
 
-					
+
 
 
 
@@ -2668,7 +2802,10 @@ angular.module('xenon.controllers', []).
 
 
 		if(ships.heavy_fighter.assembled>0){
-					$( "#filler" ).animate({ "height": "+=150px" }, 500);
+
+					$scope.filler_height = $scope.filler_height+155;
+
+
 					count=count+1;
 
 
@@ -2684,7 +2821,7 @@ angular.module('xenon.controllers', []).
 						color: 'info'
 					};
 
-					
+
 
 
 
@@ -2705,7 +2842,7 @@ angular.module('xenon.controllers', []).
 		}
 
 		if(ships.worg.assembled>0){
-				$( "#filler" ).animate({ "height": "+=150px" }, 500);
+				$scope.filler_height = $scope.filler_height+155;
 				count=count+1;
 
 
@@ -2720,7 +2857,7 @@ angular.module('xenon.controllers', []).
 						color: 'info'
 					};
 
-					
+
 
 
 
@@ -2741,7 +2878,7 @@ angular.module('xenon.controllers', []).
 		}
 
 		if(ships.destroyer.assembled>0){
-			$( "#filler" ).animate({ "height": "+=150px" }, 500);
+			$scope.filler_height = $scope.filler_height+155;
 			count=count+1;
 
 
@@ -2776,7 +2913,7 @@ angular.module('xenon.controllers', []).
 		}
 
 		if(ships.succubus.assembled>0){
-			$( "#filler" ).animate({ "height": "+=150px" }, 500);
+			$scope.filler_height = $scope.filler_height+155;
 			count=count+1;
 
 					$scope.progress_SU_HP = {
@@ -2810,7 +2947,7 @@ angular.module('xenon.controllers', []).
 		}
 
 		if(ships.colossus.assembled>0){
-			$( "#filler" ).animate({ "height": "+=150px" }, 500);
+			$scope.filler_height = $scope.filler_height+155;
 			count=count+1;
 
 					$scope.progress_COL_HP = {
@@ -2844,7 +2981,7 @@ angular.module('xenon.controllers', []).
 		}
 
 		if(ships.medusa.assembled>0){
-			$( "#filler" ).animate({ "height": "+=150px" }, 500);
+			$scope.filler_height = $scope.filler_height+155;
 			count=count+1;
 
 					$scope.progress_MD_HP = {
@@ -2878,7 +3015,7 @@ angular.module('xenon.controllers', []).
 
 		if(ships.science_vessel.assembled>0){
 
-			$( "#filler" ).animate({ "height": "+=150px" }, 500);
+			$scope.filler_height = $scope.filler_height+155;
 			count=count+1;
 
 					$scope.progress_SV_HP = {
@@ -2913,7 +3050,7 @@ angular.module('xenon.controllers', []).
 		}
 
 		if(ships.pantheon.assembled>0){
-			$( "#filler" ).animate({ "height": "+=150px" }, 500);
+			$scope.filler_height = $scope.filler_height+155;
 			count=count+1;
 
 					$scope.progress_PTH_HP = {
@@ -2946,7 +3083,16 @@ angular.module('xenon.controllers', []).
 		}
 
 
+		$scope.enemies.forEach(function(data)
+		{
+		  if(count>0){
+				count -=1;
+			}else{
+				$scope.filler_height = $scope.filler_height+155;
+			}
+		});
 
+		$scope.filler_height = String($scope.filler_height)+"px";
 
 
 		//ENEMIES ready
@@ -2954,10 +3100,30 @@ angular.module('xenon.controllers', []).
 		$timeout(function(){
 
 			$( ".battle_div_enemies" ).animate({ "left": "-=150px", "opacity":"1" }, 500);
+			$( "#TOT_battle_enemy" ).animate({ "left": "+=150px", "opacity":"1" }, 500);
+
+
+			$scope.progress_TOT_HP_enemy = {
+				value: 0,
+				max: ships.light_fighter.stats.HP * ships.light_fighter.assembled,
+				color: 'danger'
+			};
+			$scope.progress_TOT_Shield_enemy = {
+				value: 0,
+				max: ships.light_fighter.stats.HP * ships.light_fighter.assembled,
+				color: 'info'
+			};
+			$timeout(function(){
+
+
+					$timeout(function(){
+						$scope.progress_TOT_HP_enemy.value = $scope.current_LF_HP
+						$scope.progress_TOT_Shield_enemy.value = $scope.current_LF_Shield;
+					}, 300);
+
+			}, 500);
 
 		}, 1500);
-
-
 
 
 

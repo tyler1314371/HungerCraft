@@ -344,7 +344,7 @@
 							<img src="assets/images/shield.png" class="stat_img_tot"/><b>{{format_number(LF_fleet_Shield +  HF_fleet_Shield + WG_fleet_Shield + DS_fleet_Shield + COL_fleet_Shield + SU_fleet_Shield+ SV_fleet_Shield + MD_fleet_Shield+ PTH_fleet_Shield)}} </b><br/>
 							<img src="assets/images/heart.png" class="stat_img_tot"/><b>{{format_number(LF_fleet_HP +  HF_fleet_HP + WG_fleet_HP + DS_fleet_HP + COL_fleet_HP + SU_fleet_HP+ SV_fleet_HP + MD_fleet_HP+ PTH_fleet_HP)}} </b><br/>
 				</h5>
-				
+
 
 		</div>
 
@@ -389,19 +389,30 @@
 	<div class="modal-body" ng-controller="MainBattleCtrl">
 
 		<div id='friendly_fleets'>
+			<div id="TOT_battle" class="battle_div">
+				<h4></h4>
+				<div progressbar class="progress_TOT_HP active" max="progress_TOT_HP.max" value="progress_TOT_HP.value" type="{{progress_TOT_HP.color}}" ng-style="{position:'relative', height :'20px', width :'350px', 'border-radius':'15px 15px 15px 15px', 'background-color':'grey'}"></div>
+				<div progressbar class="progress_TOT_Shield active" max="progress_TOT_Shield.max" value="progress_TOT_Shield.value" type="{{progress_TOT_Shield.color}}" ng-style="{position:'absolute', bottom:'0', right:'0', top:'0', left:'0', height :'20px', width :'350pxs', 'border-radius':'15px 15px 15px 15px', 'background-color':'transparent'}"></div>
+				<b><img src="assets/images/shield.png" class="stat_img"/></b>{{format_number(CUR_TOT_SHIELD)}} /
+				<b><img src="assets/images/heart.png" class="stat_img"/></b>{{format_number(CUR_TOT_HP)}} &nbsp&nbsp&nbsp&nbsp&nbsp
+			</div>
+			<br/>
+
+
+
+
+
+
+
+
+
+
+
+
+
 			<div id="LF_battle" ng-if="ships.light_fighter.assembled>0" class="battle_div">
-				<h4><img src="assets/images/Ships/light_fighter.jpg" class="ships_assemble_img" /> &nbsp Light Fighter ({{ships.light_fighter.assembled}})</h4>
-				<div progressbar class="progress_LF_HP active" max="progress_LF_HP.max" value="progress_LF_HP.value" type="{{progress_LF_HP.color}}" ng-style="{position:'relative', height :'20px', width :'250px', 'border-radius':'15px 15px 15px 15px', 'background-color':'grey'}"></div>
-				<div progressbar class="progress_LF_Shield active" max="progress_LF_Shield.max" value="progress_LF_Shield.value" type="{{progress_LF_Shield.color}}" ng-style="{position:'absolute',top :'69px', height :'20px', width :'250px', 'border-radius':'15px 15px 15px 15px', 'background-color':'transparent'}"></div>
-				<h5>
-					<b><img src="assets/images/shield.png" class="stat_img"/></b>{{format_number(current_LF_Shield)}} /
-					<b><img src="assets/images/heart.png" class="stat_img"/></b>{{format_number(current_LF_HP)}} &nbsp&nbsp&nbsp&nbsp&nbsp
-					<b><img src="assets/images/sword.png" class="stat_img"/></b>{{format_number(current_LF_Attack)}}
-
-
-
-				</h5>
-
+				<h4><img src="assets/images/Ships/light_fighter.jpg" class="ships_assemble_img" /> &nbsp Light Fighter Fleet <img src="assets/images/sword.png" class="stat_img"/> {{format_number(current_LF_Attack)}}<br/>
+				</h4>
 			<br/>
 			</div>
 
@@ -566,6 +577,13 @@
 			<!--ENEMY INFO!-->
 
 			<div id='enemy_fleets'>
+			<div id="TOT_battle_enemy" class="battle_div">
+				<h4></h4>
+				<div progressbar class="progress_TOT_HP_enemy active" max="progress_TOT_HP_enemy.max" value="progress_TOT_HP_enemy.value" type="{{progress_TOT_HP_enemy.color}}" ng-style="{position:'relative', height :'20px', width :'350px', 'border-radius':'15px 15px 15px 15px', 'background-color':'grey'}"></div>
+				<div progressbar class="progress_TOT_Shield_enemy active" max="progress_TOT_Shield_enemy.max" value="progress_TOT_Shield_enemy.value" type="{{progress_TOT_Shield_enemy.color}}" ng-style="{position:'absolute',top :'69px', height :'20px', width :'350pxs', 'border-radius':'15px 15px 15px 15px', 'background-color':'transparent'}"></div>
+				<b><img src="assets/images/shield.png" class="stat_img"/></b>{{format_number(current_TOT_Shield)}} /
+				<b><img src="assets/images/heart.png" class="stat_img"/></b>{{format_number(current_TOT_HP)}} &nbsp&nbsp&nbsp&nbsp&nbsp
+			</div>
 
 
 			<div class="battle_div_enemies" ng-repeat="enemy in enemies">
@@ -609,14 +627,18 @@
 
 
 
-		<div id="filler">
+		<div ng-style="{height: filler_height}">
 		</div>
+
+
+		<div class="modal-footer">
+			<button type="button" class="btn btn-danger" ng-click="currentModal.close();">Abandon</button>
+			<button type="button" class="btn btn-success" ng-click="NextFloor();">Next Floor</button>
+		</div>
+
 	</div>
 
-	<div class="modal-footer">
-		<button type="button" class="btn btn-danger" ng-click="currentModal.close();">Abandon</button>
-		<button type="button" class="btn btn-success" ng-click="currentModal.close();">Next Floor</button>
-	</div>
+
 
 	</script>
 
