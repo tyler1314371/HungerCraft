@@ -2616,12 +2616,6 @@ angular.module('xenon.controllers', []).
 
 
 		$scope.total_floor_num = $scope.instance_data[$rootScope.current_instance]['normal']['floor_num'];
-		$scope.enemies = $scope.instance_data[$rootScope.current_instance]['normal']['floors'][String($rootScope.current_floor)]
-
-		//console.log($scope.ships_data[$rootScope.current_instance]);
-
-
-
 
 
 
@@ -2661,6 +2655,17 @@ angular.module('xenon.controllers', []).
 		$scope.CUR_TOT_HP = $scope.current_LF_HP+$scope.current_HF_HP+$scope.current_WG_HP+$scope.current_DS_HP+$scope.current_SU_HP+$scope.current_COL_HP+$scope.current_MD_HP+$scope.current_SV_HP+$scope.current_PTH_HP;
 		$scope.CUR_TOT_SHIELD = $scope.current_LF_Shield+$scope.current_HF_Shield+$scope.current_WG_Shield+$scope.current_DS_Shield+$scope.current_SU_Shield+$scope.current_COL_Shield+$scope.current_MD_Shield+$scope.current_SV_Shield+$scope.current_PTH_Shield;
 
+
+
+
+
+
+
+
+
+
+
+
 		$scope.progress_TOT_HP = {
 			value: 0,
 			max: $scope.MAX_TOT_HP,
@@ -2680,83 +2685,6 @@ angular.module('xenon.controllers', []).
 				}, 300);
 
 		}, 500);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -3083,6 +3011,10 @@ angular.module('xenon.controllers', []).
 		}
 
 
+
+
+		//ENEMIES ready
+		$scope.enemies = $scope.instance_data[$rootScope.current_instance]['normal']['floors'][String($rootScope.current_floor)]
 		$scope.enemies.forEach(function(data)
 		{
 		  if(count>0){
@@ -3095,7 +3027,26 @@ angular.module('xenon.controllers', []).
 		$scope.filler_height = String($scope.filler_height)+"px";
 
 
-		//ENEMIES ready
+		
+
+		//calulate enemy stats for this floor
+		$scope.MAX_TOT_HP_ENEMY = 0;
+		$scope.CUR_TOT_HP_ENEMY = 0;
+		$scope.MAX_TOT_SHIELD_ENEMY = 0;
+		$scope.CUR_TOT_SHIELD_ENEMY = 0;
+		for(var i=0; i < $scope.enemies.length; i++){
+	    	$scope.MAX_TOT_HP_ENEMY += $scope.enemies[i].info.HP * $scope.enemies[i].info.amount;
+	    	$scope.CUR_TOT_HP_ENEMY += $scope.enemies[i].info.HP * $scope.enemies[i].info.amount;
+	    	$scope.MAX_TOT_SHIELD_ENEMY += $scope.enemies[i].info.Shields * $scope.enemies[i].info.amount;
+	    	$scope.CUR_TOT_SHIELD_ENEMY += $scope.enemies[i].info.Shields * $scope.enemies[i].info.amount;
+		}
+
+		
+
+
+
+
+
 
 		$timeout(function(){
 
@@ -3105,21 +3056,21 @@ angular.module('xenon.controllers', []).
 
 			$scope.progress_TOT_HP_enemy = {
 				value: 0,
-				max: ships.light_fighter.stats.HP * ships.light_fighter.assembled,
+				max: $scope.MAX_TOT_HP_ENEMY,
 				color: 'danger'
 			};
 			$scope.progress_TOT_Shield_enemy = {
 				value: 0,
-				max: ships.light_fighter.stats.HP * ships.light_fighter.assembled,
+				max: $scope.MAX_TOT_HP_ENEMY,
 				color: 'info'
 			};
 			$timeout(function(){
 
 
 					$timeout(function(){
-						$scope.progress_TOT_HP_enemy.value = $scope.current_LF_HP
-						$scope.progress_TOT_Shield_enemy.value = $scope.current_LF_Shield;
-					}, 300);
+						$scope.progress_TOT_HP_enemy.value = $scope.CUR_TOT_HP_ENEMY;
+						$scope.progress_TOT_Shield_enemy.value = $scope.CUR_TOT_SHIELD_ENEMY;
+					}, 100);
 
 			}, 500);
 
@@ -3134,8 +3085,28 @@ angular.module('xenon.controllers', []).
 
 
 
+		//START FUNTION
+		$scope.Start = function()
+		{
+			var start = window.setInterval(function(){
+				$scope.progress_TOT_HP_enemy.value -= $scope.current_LF_Attack;
+				$scope.CUR_TOT_HP_ENEMY -= $scope.current_LF_Attack;
 
+				for(var i=0; i < $scope.enemies.length; i++){
+			    	$scope.progress_TOT_HP.value -= $scope.enemies[i].info.Attack * $scope.enemies[i].info.amount;
+			    	$scope.CUR_TOT_HP -= $scope.enemies[i].info.Attack * $scope.enemies[i].info.amount;
 
+				}
+
+				if($scope.CUR_TOT_HP_ENEMY <=0){
+					clearInterval(start);
+					console.log("you win");
+				}else if ($scope.CUR_TOT_HP <=0){
+					clearInterval(start);
+					console.log("you lose");
+				}
+			}, 100);
+		};
 
 
 

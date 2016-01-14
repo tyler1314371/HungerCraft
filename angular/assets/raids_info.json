@@ -7,10 +7,9 @@
 					{
 						"name":"Oatis Light Fighter",
 						"info" : {
-							"HP": 1000,
-							"Shields": 1000,
-							"Attack": 1000,
-							"Speed": 12,
+							"HP": 30000,
+							"Shields": 100,
+							"Attack": 1,
 							"Skills": ["1", "2"],
 							"amount": 1
 						}
@@ -18,12 +17,11 @@
 					{
 						"name":"Oatis Light Fighter",
 						"info" : {
-							"HP": 1000,
-							"Shields": 1000,
-							"Attack": 1000,
-							"Speed": 12,
+							"HP": 30000,
+							"Shields": 100,
+							"Attack": 1,
 							"Skills": ["1", "2"],
-							"amount": 3
+							"amount": 1
 						}
 					}
 				],
@@ -31,15 +29,23 @@
 					{
 						"name":"Oatis Light Fighter",
 						"info" : {
-							"amount": 3
+							"HP": 1000,
+							"Shields": 100,
+							"Attack": 1000,
+							"Skills": ["1", "2"],
+							"amount": 4
 						}
 					}
 				],
 				"3": [
 					{
-						"name":"Oatis Light Fighter",
+						"name":"Devil's Revenge",
 						"info" : {
-							"amount": 5
+							"HP": 1000000,
+							"Shields": 10000,
+							"Attack": 100120,
+							"Skills": ["1", "2"],
+							"amount": 1
 						}
 					}
 				]

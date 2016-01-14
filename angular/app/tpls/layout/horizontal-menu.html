@@ -387,7 +387,7 @@
 
 
 	<div class="modal-body" ng-controller="MainBattleCtrl">
-
+	<button type="button" class="btn btn-success" ng-click="Start();">FIGHT</button>
 		<div id='friendly_fleets'>
 			<div id="TOT_battle" class="battle_div">
 				<h4></h4>
@@ -577,13 +577,24 @@
 			<!--ENEMY INFO!-->
 
 			<div id='enemy_fleets'>
+
+
 			<div id="TOT_battle_enemy" class="battle_div">
 				<h4></h4>
-				<div progressbar class="progress_TOT_HP_enemy active" max="progress_TOT_HP_enemy.max" value="progress_TOT_HP_enemy.value" type="{{progress_TOT_HP_enemy.color}}" ng-style="{position:'relative', height :'20px', width :'350px', 'border-radius':'15px 15px 15px 15px', 'background-color':'grey'}"></div>
-				<div progressbar class="progress_TOT_Shield_enemy active" max="progress_TOT_Shield_enemy.max" value="progress_TOT_Shield_enemy.value" type="{{progress_TOT_Shield_enemy.color}}" ng-style="{position:'absolute',top :'69px', height :'20px', width :'350pxs', 'border-radius':'15px 15px 15px 15px', 'background-color':'transparent'}"></div>
-				<b><img src="assets/images/shield.png" class="stat_img"/></b>{{format_number(current_TOT_Shield)}} /
-				<b><img src="assets/images/heart.png" class="stat_img"/></b>{{format_number(current_TOT_HP)}} &nbsp&nbsp&nbsp&nbsp&nbsp
+				<div progressbar class="progress_TOT_HP_enemy active" max="MAX_TOT_HP_ENEMY" value="progress_TOT_HP_enemy.value" type="{{progress_TOT_HP_enemy.color}}" ng-style="{position:'relative', height :'20px', width :'350px', 'border-radius':'15px 15px 15px 15px', 'background-color':'grey'}"></div>
+
+
+				<div progressbar class="progress_TOT_Shield_enemy active" max="MAX_TOT_HP_ENEMY" value="progress_TOT_Shield_enemy.value" type="{{progress_TOT_Shield_enemy.color}}" ng-style="{position:'absolute', bottom:'0', right:'0', top:'0', left:'0', height :'20px', width :'350pxs', 'border-radius':'15px 15px 15px 15px', 'background-color':'transparent'}"></div>
+				<b><img src="assets/images/shield.png" class="stat_img"/></b>{{format_number(CUR_TOT_SHIELD_ENEMY)}} /
+				<b><img src="assets/images/heart.png" class="stat_img"/></b>{{format_number(CUR_TOT_HP_ENEMY)}} &nbsp&nbsp&nbsp&nbsp&nbsp
 			</div>
+
+
+
+
+
+
+
 
 
 			<div class="battle_div_enemies" ng-repeat="enemy in enemies">
