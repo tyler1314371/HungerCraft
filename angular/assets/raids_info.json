@@ -41,9 +41,9 @@
 					{
 						"name":"Devil's Revenge",
 						"info" : {
-							"HP": 1000000,
+							"HP": 100000000,
 							"Shields": 10000,
-							"Attack": 100120,
+							"Attack": 1120,
 							"Skills": ["1", "2"],
 							"amount": 1
 						}
