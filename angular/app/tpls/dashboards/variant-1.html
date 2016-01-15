@@ -101,17 +101,32 @@
 
 <div class="row" id="resource_page">
 
-      <table style="width:100%">
+      <table ng-if="metal.current_mine_level!=0" style="width:100%">
         <tr>
             <td style="text-align: center; width: auto">
               <h4>Metal Mine (Level {{metal.current_mine_level}})</h4>
             </td>
         </tr>
       </table>
-      <table style="width:100%">
+      <table ng-if="metal.current_mine_level==0" style="width:100%">
+        <tr>
+            <td style="text-align: center; width: auto">
+              <h4>????????</h4>
+            </td>
+        </tr>
+      </table>
+      <table ng-if="metal.current_mine_level!=0" style="width:100%">
         <tr>
             <td>
               <small>Metal is solid material that is typically hard, shiny, malleable, fusible, and ductile. It is the most basic resource for any empire that wants to upgrade its metal and crystal mine or building a fleet.
+              </small>
+            </td>
+          </tr>
+      </table>
+      <table ng-if="metal.current_mine_level==0" style="width:100%">
+        <tr>
+            <td>
+              <small>????????
               </small>
             </td>
           </tr>
@@ -165,7 +180,7 @@
 
               <button class="btn btn-success btn-icon btn-icon-standalone btn-icon-standalone-right" ng-click="Build('metal_mine')">
                   <i class="fa-upload"></i>
-                  <span>Build Metal Mine</span>
+                  <span>Build</span>
               </button>
             </td>
           </tr>
@@ -238,7 +253,7 @@
             <td >
               <button class="btn btn-success btn-icon btn-icon-standalone btn-icon-standalone-right" ng-click="Build('crystal_mine')">
                   <i class="fa-upload"></i>
-                  <span>Build Crystal Mine</span>
+                  <span>Build</span>
               </button>
             </td>
           </tr>
@@ -371,7 +386,7 @@
             <td >
               <button class="btn btn-success btn-icon btn-icon-standalone btn-icon-standalone-right" ng-click="Build('research_lab')">
                   <i class="fa-upload"></i>
-                  <span>Build Research Lab</span>
+                  <span>Build</span>
               </button>
             </td>
           </tr>
@@ -440,7 +455,7 @@
             <td >
               <button class="btn btn-success btn-icon btn-icon-standalone btn-icon-standalone-right" ng-click="Build('dm_lab')">
                   <i class="fa-upload"></i>
-                  <span>Build Dark Matter Lab</span>
+                  <span>Build</span>
               </button>
             </td>
           </tr>

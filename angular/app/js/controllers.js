@@ -661,6 +661,9 @@ angular.module('xenon.controllers', []).
 				};
 
 		$scope.format_number= function(num) {
+			if (num >= 1000){
+				return (num/1000).toFixed(1) + 'k';
+			}
 			if (num >= 1000000){
 				return (num/1000000).toFixed(1) + 'm';
 			}
@@ -1693,6 +1696,9 @@ angular.module('xenon.controllers', []).
 		$scope.raids = raids;
 		$scope.artifacts = artifacts;
 		$scope.format_number= function(num) {
+			if (num >= 1000){
+				return (num/1000).toFixed(1) + 'k';
+			}
 			if (num >= 1000000){
 				return (num/1000000).toFixed(1) + 'm';
 			}
@@ -2197,6 +2203,9 @@ angular.module('xenon.controllers', []).
 		$scope.ships = ships;
 		$scope.level = level;
 		$scope.format_number= function(num) {
+			if (num >= 1000){
+				return (num/1000).toFixed(1) + 'k';
+			}
 			if (num >= 1000000){
 				return (num/1000000).toFixed(1) + 'm';
 			}
@@ -2527,6 +2536,9 @@ angular.module('xenon.controllers', []).
 
 
 		$scope.format_number= function(num) {
+			if (num >= 1000){
+				return (num/1000).toFixed(1) + 'k';
+			}
 			if (num >= 1000000){
 				return (num/1000000).toFixed(1) + 'm';
 			}
