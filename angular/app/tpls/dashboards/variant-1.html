@@ -136,7 +136,11 @@
 
               <div class= "upgrade_button_resource">
                 {{format_number(metal.current_cost)}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/>
-                <button class="btn btn-success btn-icon btn-icon-standalone btn-icon-standalone-right" ng-click="BuyMetalMine()">
+                <button ng-if="metal.current_cost > metal.current_owned" class="btn btn-grey btn-icon btn-icon-standalone btn-icon-standalone-right disabled" ng-click="BuyMetalMine()">
+                    <i class="fa-bolt" style="color:black"></i>
+                    <span><font color="black">Upgrade</font></span>
+                </button>
+                <button ng-if="metal.current_cost <= metal.current_owned" class="btn btn-grey btn-success btn-icon-standalone btn-icon-standalone-right" ng-click="BuyMetalMine()">
                     <i class="fa-bolt"></i>
                     <span>Upgrade</span>
                 </button>
@@ -204,7 +208,11 @@
 
               <div class= "upgrade_button_resource">
                 {{format_number(crystal.current_cost)}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/>
-                <button class="btn btn-success btn-icon btn-icon-standalone btn-icon-standalone-right" ng-click="BuyCrystalMine()">
+                <button ng-if="crystal.current_cost > crystal.current_owned" class="btn btn-grey btn-icon btn-icon-standalone btn-icon-standalone-right disabled" ng-click="BuyCrystalMine()">
+                    <i class="fa-bolt" style="color:black"></i>
+                    <span><font color="black">Upgrade</font></span>
+                </button>
+                <button ng-if="crystal.current_cost <= crystal.current_owned" class="btn btn-success btn-icon btn-icon-standalone btn-icon-standalone-right" ng-click="BuyCrystalMine()">
                     <i class="fa-bolt"></i>
                     <span>Upgrade</span>
                 </button>

@@ -154,6 +154,22 @@
 	border-radius: 3px 3px 3px 3px;
 }
 
+.Start{
+	position:relative;
+	top: 80px;
+	left: 240px;
+}
+.NextFloor{
+	position:relative;
+	top: 80px;
+	left: 220px;
+}
+.Abandon{
+	position:absolute;
+	top: 25px;
+	left: 750px;
+}
+
 	</style>
 
 
@@ -400,21 +416,33 @@
 
 
 	<script type="text/ng-template" id="battle" >
-	<div class="modal-header">
-		<button type="button" class="close" ng-click="currentModal.close();" aria-hidden="true">&times;</button>
-		<h3 class="modal-title" id ="modal-title">{{current_instance}} - Floor {{current_floor}} </h3>
-	</div>
+	
 
 
 	<div class="modal-body" ng-controller="MainBattleCtrl">
+		<div class="modal-header">
+		<h3 class="modal-title" id ="modal-title">{{current_instance}} - Floor {{current_floor}} 
+		
+		<button id="Start" type="button" class="btn btn-success Start" ng-click="Start();">Start</button>
+		<button id="NextFloor" type="button" class="btn btn-success NextFloor" ng-click="NextFloor();" >Next Floor</button>
+		<button type="button" class="btn btn-danger Abandon" ng-click="currentModal.close();">Retreat</button>
+		</h3>
 
+		</div>
+
+
+		<br/>
+		
 		<div id='friendly_fleets'>
+
 			<div id="TOT_battle" class="battle_div">
 				<h4></h4>
 				<div progressbar class="progress_TOT_HP active" max="progress_TOT_HP.max" value="progress_TOT_HP.value" type="{{progress_TOT_HP.color}}" ng-style="{position:'relative', height :'20px', width :'350px', 'border-radius':'15px 15px 15px 15px', 'background-color':'grey'}"></div>
 				<div progressbar class="progress_TOT_Shield active" max="progress_TOT_Shield.max" value="progress_TOT_Shield.value" type="{{progress_TOT_Shield.color}}" ng-style="{position:'absolute', bottom:'0', right:'0', top:'0', left:'0', height :'20px', width :'350pxs', 'border-radius':'15px 15px 15px 15px', 'background-color':'transparent'}"></div>
+				
 				<b><img src="assets/images/shield.png" class="stat_img"/></b>{{format_number(CUR_TOT_SHIELD)}} /
 				<b><img src="assets/images/heart.png" class="stat_img"/></b>{{format_number(CUR_TOT_HP)}} &nbsp&nbsp&nbsp&nbsp&nbsp
+
 			</div>
 			<br/>
 
@@ -521,7 +549,8 @@
 
 			<div class="battle_div_enemies" ng-repeat="enemy in enemies">
 				<h4><img src="assets/images/Ships/light_fighter.jpg" class="ships_assemble_img" /> &nbsp {{enemy.name}} ({{enemy.info.amount}})</h4>
-				<div class="battle_div_attack"><h5><b><img src="assets/images/sword.png" class="stat_img"/> {{format_number(enemy.info.Attack)}}<br/></b></h5></div>
+				<div class="battle_div_attack"><h5><b><img src="assets/images/sword.png" class="stat_img"/> {{format_number(enemy.info.Attack * enemy.info.amount)}}<br/></b></h5></div>
+				<div class="battle_div_skill"><img src="assets/images/Ships/abilities/Loaded_ammo.png" class = "ship_skill_img_battle"/></div>
 			</div>
 
 
@@ -532,7 +561,7 @@
 
 
 
-		</div>
+			</div>
 
 
 
@@ -549,14 +578,13 @@
 
 
 
-		<div ng-style="{height: filler_height}">
+			<div ng-style="{height: filler_height}"></div>
+
 		</div>
 
 
 		<div class="modal-footer">
-			<button type="button" class="btn btn-danger" ng-click="currentModal.close();">Abandon</button>
-			<button id="NextFloor" type="button" class="btn btn-success NextFloor" ng-click="NextFloor();" >Next Floor</button>
-			<button id="Start" type="button" class="btn btn-success Start" ng-click="Start();">Start</button>
+			
 		</div>
 
 	</div>
@@ -588,10 +616,10 @@
 
 
 
-	<script type="text/ng-template" id="post_battle">
+	<script type="text/ng-template" id="post_battle_victory">
 	<div class="modal-header">
 		<button type="button" class="close" ng-click="currentModal.close();" aria-hidden="true">&times;</button>
-		<h3 class="modal-title" id ="modal-title">Research </h3>
+		<h3 class="modal-title" id ="modal-title">Vitory </h3>
 		<div>Artifacts are scattered throughout the universe and wield great power, collect them and improve your empire</div>
 	</div>
 
@@ -606,6 +634,25 @@
 
 	</script>
 
+
+
+	<script type="text/ng-template" id="post_battle_defeat">
+	<div class="modal-header">
+		<button type="button" class="close" ng-click="currentModal.close();" aria-hidden="true">&times;</button>
+		<h3 class="modal-title" id ="modal-title">Defeat </h3>
+		<div>Artifacts are scattered throughout the universe and wield great power, collect them and improve your empire</div>
+	</div>
+
+
+	<div class="modal-body" ng-controller="GameCtrl">
+	</div>
+
+	<div class="modal-footer">
+		<button type="button" class="btn btn-white" ng-click="currentModal.close();">Close</button>
+
+	</div>
+
+	</script>
 
 
 
