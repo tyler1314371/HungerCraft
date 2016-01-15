@@ -317,7 +317,7 @@ var raids = {
 		timer:"00:00:00",
 		section:3,
 		difficulty:0,
-		unlocked:0,
+		unlocked:1,
 		required_level:10,
 		enemy:{
 			1:{
@@ -670,7 +670,10 @@ angular.module('xenon.controllers', []).
 			if (num >= 1000000000){
 				return (num/1000000000).toFixed(1) + 'b';
 			}
-		    return num;
+		    return num.toFixed(1);
+		}
+		$scope.format_number_0= function(num) {
+			return num.toFixed(0);
 		}
 
 
@@ -1911,58 +1914,70 @@ angular.module('xenon.controllers', []).
 
 		    };
 
-		    //update globe color
-		    level.color1 = getRandomColor();
-		    level.color2 = getRandomColor();
-				globe.stop();
-				globe = planetaryjs.planet();
-				globe.loadPlugin(autorotate(10));
-			  // The `earth` plugin draws the oceans and the land; it's actually
-			  // a combination of several separate built-in plugins.
-			  //
-			  // Note that we're loading a special TopoJSON file
-			  // (world-110m-withlakes.json) so we can render lakes.
-			  globe.loadPlugin(planetaryjs.plugins.earth({
-			    topojson: { file:   'assets/world-110m-withlakes.json' },
-			    oceans:   { fill:   level.color1 },
-			    land:     { fill:   level.color2 },
-			    borders:  { stroke: level.color2 }
-			  }));
-			  // Load our custom `lakes` plugin to draw lakes; see below.
-			  globe.loadPlugin(lakes({
-			    fill: level.color1
-			  }));
-			  // The `pings` plugin draws animated pings on the globe.
-			  	//globe.loadPlugin(planetaryjs.plugins.pings());
-			  // The `zoom` and `drag` plugins enable
-			  // manipulating the globe with the mouse.
-			  globe.loadPlugin(planetaryjs.plugins.zoom({
-			    scaleExtent: [70, 300]
-			  }));
-			  globe.loadPlugin(planetaryjs.plugins.drag({
-			    // Dragging the globe should pause the
-			    // automatic rotation until we release the mouse.
-			    onDragStart: function() {
-			      this.plugins.autorotate.pause();
-			    },
-			    onDragEnd: function() {
-			      this.plugins.autorotate.resume();
-			    }
-			  }));
-			  // Set up the globe's initial scale, offset, and rotation.
-			  globe.projection.scale(100).translate([125, 125]).rotate([0, -10, 0]);
 
-			  var canvas = document.getElementById('rotatingGlobe');
-			  // Special code to handle high-density displays (e.g. retina, some phones)
-			  // In the future, Planetary.js will handle this by itself (or via a plugin).
-			  if (window.devicePixelRatio == 2) {
-			    canvas.width = 250;
-			    canvas.height = 250;
-			    context = canvas.getContext('2d');
-			    context.scale(2, 2);
-			  }
-			  // Draw that globe!
-			  globe.draw(canvas);
+
+
+				$( "#globe" ).animate({ "opacity":"0" }, 500);
+
+
+				setTimeout(function()
+				{
+
+			    //update globe color
+			    level.color1 = getRandomColor();
+			    level.color2 = getRandomColor();
+					globe.stop();
+					globe = planetaryjs.planet();
+					globe.loadPlugin(autorotate(10));
+				  // The `earth` plugin draws the oceans and the land; it's actually
+				  // a combination of several separate built-in plugins.
+				  //
+				  // Note that we're loading a special TopoJSON file
+				  // (world-110m-withlakes.json) so we can render lakes.
+				  globe.loadPlugin(planetaryjs.plugins.earth({
+				    topojson: { file:   'assets/world-110m-withlakes.json' },
+				    oceans:   { fill:   level.color1 },
+				    land:     { fill:   level.color2 },
+				    borders:  { stroke: level.color2 }
+				  }));
+				  // Load our custom `lakes` plugin to draw lakes; see below.
+				  globe.loadPlugin(lakes({
+				    fill: level.color1
+				  }));
+				  // The `pings` plugin draws animated pings on the globe.
+				  	//globe.loadPlugin(planetaryjs.plugins.pings());
+				  // The `zoom` and `drag` plugins enable
+				  // manipulating the globe with the mouse.
+				  globe.loadPlugin(planetaryjs.plugins.zoom({
+				    scaleExtent: [70, 300]
+				  }));
+				  globe.loadPlugin(planetaryjs.plugins.drag({
+				    // Dragging the globe should pause the
+				    // automatic rotation until we release the mouse.
+				    onDragStart: function() {
+				      this.plugins.autorotate.pause();
+				    },
+				    onDragEnd: function() {
+				      this.plugins.autorotate.resume();
+				    }
+				  }));
+				  // Set up the globe's initial scale, offset, and rotation.
+				  globe.projection.scale(100).translate([125, 125]).rotate([0, -10, 0]);
+
+				  var canvas = document.getElementById('rotatingGlobe');
+				  // Special code to handle high-density displays (e.g. retina, some phones)
+				  // In the future, Planetary.js will handle this by itself (or via a plugin).
+				  if (window.devicePixelRatio == 2) {
+				    canvas.width = 250;
+				    canvas.height = 250;
+				    context = canvas.getContext('2d');
+				    context.scale(2, 2);
+				  }
+				  // Draw that globe!
+				  globe.draw(canvas);
+
+					$( "#globe" ).animate({ "opacity":"1" }, 500);
+				}, 800);
 
 
 
@@ -2549,7 +2564,7 @@ angular.module('xenon.controllers', []).
 
 
 	}).
-	controller('MainBattleCtrl', function($rootScope,$scope, $element, $modal, $timeout)
+	controller('MainBattleCtrl', function($rootScope,$scope, $element, $modal, $timeout, $interval)
 	{
 		$scope.metal = metal;
 		$scope.crystal = crystal;
@@ -2917,76 +2932,116 @@ angular.module('xenon.controllers', []).
 		$scope.Start = function()
 		{
 			$('.Start').hide();
-			var start = window.setInterval(function(){
+			var start = $interval(function(){
 
-				if ($scope.progress_TOT_Shield_enemy.value>0){
-					$scope.progress_TOT_Shield_enemy.value -= $scope.current_LF_Attack;
-					$scope.CUR_TOT_SHIELD_ENEMY -= $scope.current_LF_Attack;
-				}else{
-					$scope.progress_TOT_Shield_enemy.value=0;
-					$scope.CUR_TOT_SHIELD_ENEMY =0;
-					$scope.progress_TOT_HP_enemy.value -= $scope.current_LF_Attack;
-					$scope.CUR_TOT_HP_ENEMY -= $scope.current_LF_Attack;
-				}
+								if ($scope.progress_TOT_Shield_enemy.value>0){
 
+									if ($scope.progress_TOT_Shield_enemy.value - ($scope.current_LF_Attack+$scope.current_HF_Attack+$scope.current_WG_Attack+$scope.current_DS_Attack+$scope.current_COL_Attack+$scope.current_SU_Attack+$scope.current_MD_Attack+$scope.current_SV_Attack+$scope.current_PTH_Attack)<0){
+										$scope.progress_TOT_Shield_enemy.value=0;
+									}else{
+										$scope.progress_TOT_Shield_enemy.value -= ($scope.current_LF_Attack+$scope.current_HF_Attack+$scope.current_WG_Attack+$scope.current_DS_Attack+$scope.current_COL_Attack+$scope.current_SU_Attack+$scope.current_MD_Attack+$scope.current_SV_Attack+$scope.current_PTH_Attack)
+									};
 
+									if($scope.CUR_TOT_SHIELD_ENEMY - ($scope.current_LF_Attack+$scope.current_HF_Attack+$scope.current_WG_Attack+$scope.current_DS_Attack+$scope.current_COL_Attack+$scope.current_SU_Attack+$scope.current_MD_Attack+$scope.current_SV_Attack+$scope.current_PTH_Attack)<0){
+										$scope.CUR_TOT_SHIELD_ENEMY =0;
+									}else{
+										$scope.CUR_TOT_SHIELD_ENEMY -= ($scope.current_LF_Attack+$scope.current_HF_Attack+$scope.current_WG_Attack+$scope.current_DS_Attack+$scope.current_COL_Attack+$scope.current_SU_Attack+$scope.current_MD_Attack+$scope.current_SV_Attack+$scope.current_PTH_Attack);
+									};
 
-
-
-
-				for(var i=0; i < $scope.enemies.length; i++){
-					if ($scope.progress_TOT_Shield.value>0){
-						$scope.progress_TOT_Shield.value -= $scope.enemies[i].info.Attack * $scope.enemies[i].info.amount;
-						$rootScope.CUR_TOT_SHIELD -= $scope.enemies[i].info.Attack * $scope.enemies[i].info.amount;
-					}else{
-						$scope.progress_TOT_Shield.value=0;
-						$rootScope.CUR_TOT_SHIELD=0;
-						$scope.progress_TOT_HP.value -= $scope.enemies[i].info.Attack * $scope.enemies[i].info.amount;
-			    		$rootScope.CUR_TOT_HP -= $scope.enemies[i].info.Attack * $scope.enemies[i].info.amount;
-					}
+								}else{
+									if ($scope.progress_TOT_HP_enemy.value - ($scope.current_LF_Attack+$scope.current_HF_Attack+$scope.current_WG_Attack+$scope.current_DS_Attack+$scope.current_COL_Attack+$scope.current_SU_Attack+$scope.current_MD_Attack+$scope.current_SV_Attack+$scope.current_PTH_Attack)<0){
+										$scope.progress_TOT_HP_enemy.value=0;
+									}else{
+										$scope.progress_TOT_HP_enemy.value -= ($scope.current_LF_Attack+$scope.current_HF_Attack+$scope.current_WG_Attack+$scope.current_DS_Attack+$scope.current_COL_Attack+$scope.current_SU_Attack+$scope.current_MD_Attack+$scope.current_SV_Attack+$scope.current_PTH_Attack)
+									};
 
 
-				}
-
-
+									if ($scope.CUR_TOT_HP_ENEMY - ($scope.current_LF_Attack+$scope.current_HF_Attack+$scope.current_WG_Attack+$scope.current_DS_Attack+$scope.current_COL_Attack+$scope.current_SU_Attack+$scope.current_MD_Attack+$scope.current_SV_Attack+$scope.current_PTH_Attack)<0){
+										$scope.CUR_TOT_HP_ENEMY=0;
+									}else{
+										$scope.CUR_TOT_HP_ENEMY -= ($scope.current_LF_Attack+$scope.current_HF_Attack+$scope.current_WG_Attack+$scope.current_DS_Attack+$scope.current_COL_Attack+$scope.current_SU_Attack+$scope.current_MD_Attack+$scope.current_SV_Attack+$scope.current_PTH_Attack)
+									};
+								}
 
 
 
 
 
-				if($scope.CUR_TOT_HP_ENEMY <=0){
-					$scope.CUR_TOT_HP_ENEMY =0;
-					clearInterval(start);
+
+								for(var i=0; i < $scope.enemies.length; i++){
 
 
-					if($scope.instance_data[$rootScope.current_instance]['normal']['floor_num']== $rootScope.current_floor){
+										if ($scope.progress_TOT_Shield.value>0){
+												if ($scope.progress_TOT_Shield.value - $scope.enemies[i].info.Attack * $scope.enemies[i].info.amount<0){
+													$scope.progress_TOT_Shield.value=0;
+												}else{
+													$scope.progress_TOT_Shield.value -= $scope.enemies[i].info.Attack * $scope.enemies[i].info.amount;
+												};
+												if ($rootScope.CUR_TOT_SHIELD - $scope.enemies[i].info.Attack * $scope.enemies[i].info.amount<0){
+													$rootScope.CUR_TOT_SHIELD=0;
+												}else{
+													$rootScope.CUR_TOT_SHIELD -= $scope.enemies[i].info.Attack * $scope.enemies[i].info.amount;
+												};
 
-						$timeout(function(){
-							$rootScope.currentModal.close();
-							$scope.openModal('post_battle_victory', 'lg', 'static');
-						}, 1500);
+											}else{
+												if ($scope.progress_TOT_HP.value - $scope.enemies[i].info.Attack * $scope.enemies[i].info.amount<0){
+													$scope.progress_TOT_HP.value=0;
+												}else{
+													$scope.progress_TOT_HP.value -= $scope.enemies[i].info.Attack * $scope.enemies[i].info.amount;
+												};
+												if ($rootScope.CUR_TOT_HP - $scope.enemies[i].info.Attack * $scope.enemies[i].info.amount<0){
+													$rootScope.CUR_TOT_HP=0;
+												}else{
+													$rootScope.CUR_TOT_HP -= $scope.enemies[i].info.Attack * $scope.enemies[i].info.amount;
+												};
+										}
 
-					}else{
-						$('.NextFloor').show("slow");
-					}
 
-
-
-
-
-				}else if ($rootScope.CUR_TOT_HP <=0){
-					$rootScope.CUR_TOT_HP=0;
-					clearInterval(start);
-
+								}
 
 
 
-					$timeout(function(){
-							$rootScope.currentModal.close();
-							$scope.openModal('post_battle_defeat', 'lg', 'static');
-						}, 1500);
-				}
+								//who won??
+								if($scope.CUR_TOT_HP_ENEMY <=0){
+									$scope.CUR_TOT_HP_ENEMY =0;
+									$interval.cancel(start);
+									$timeout(function(){
+										$( ".battle_div_enemies" ).animate({ "opacity":"0" }, 1000);
+
+									}, 500);
+
+
+
+									if($scope.instance_data[$rootScope.current_instance]['normal']['floor_num']== $rootScope.current_floor){
+
+										$timeout(function(){
+											$rootScope.currentModal.close();
+											$scope.openModal('post_battle_victory', 'lg', 'static');
+										}, 1700);
+
+									}else{
+										$('.NextFloor').show("slow");
+									}
+
+
+								}else if ($rootScope.CUR_TOT_HP <=0){
+									$rootScope.CUR_TOT_HP=0;
+									$interval.cancel(start);
+									$timeout(function(){
+										$( ".battle_div_friendly" ).animate({"opacity":"0" }, 1000);
+									}, 500);
+
+									$timeout(function(){
+											$rootScope.currentModal.close();
+											$scope.openModal('post_battle_defeat', 'lg', 'static');
+										}, 1700);
+								}
+
 			}, 100);
+
+
+
+
 		};
 
 
@@ -3013,7 +3068,13 @@ angular.module('xenon.controllers', []).
 
 
 
+		//Retreat FUNTION
+		$scope.Retreat = function()
+		{
+			$rootScope.currentModal.close();
 
+			$scope.openModal('post_battle_defeat', 'lg', 'static');
+		};
 
 
 

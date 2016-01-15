@@ -126,7 +126,7 @@
             </td>
             <td>
 
-              <div class="plus_resource" ng-hide="hidden" ng-class="{fade: startFade}">+{{format_number(metal.income)}} <img src="assets/images/mineral.png" width="25" class ="artifact_img"/> </div>
+              <div class="plus_resource" ng-hide="hidden" ng-class="{fade: startFade}">+{{format_number_0(metal.income)}} <img src="assets/images/mineral.png" width="25" class ="artifact_img"/> </div>
 
         			<div progressbar class="progress_metal active" max="progress_metal.max" value="progress_metal.value" type="{{progress_metal.color}}" ng-style="{position:'relative', height :'20px', width :'450px', 'border-radius':'15px 15px 15px 15px', 'background-color':'white'}">
         			<span><img src="assets/images/mining.png" width="20" class ="artifact_img"/></span>
@@ -138,7 +138,7 @@
 
 
               <div class= "upgrade_button_resource">
-                {{format_number(metal.current_cost)}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/>
+                {{format_number_0(metal.current_cost)}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/>
                 <button ng-if="metal.current_cost > metal.current_owned" class="btn btn-grey btn-icon btn-icon-standalone btn-icon-standalone-right disabled" >
                     <i class="fa-bolt" style="color:black"></i>
                     <span><font color="black">Upgrade</font></span>
@@ -202,7 +202,7 @@
               <img src="assets/images/icon/crystal_mine.jpg" width="500" class="resource_img"/></div>
             </td>
             <td>
-              <div class="plus_resource" ng-hide="hidden" ng-class="{fade: startFade}">+{{format_number(crystal.income)}} <img src="assets/images/crystal.png" width="25" class ="artifact_img"/> </div>
+              <div class="plus_resource" ng-hide="hidden" ng-class="{fade: startFade}">+{{format_number_0(crystal.income)}} <img src="assets/images/crystal.png" width="25" class ="artifact_img"/> </div>
 
               <div progressbar class="progress_crystal active" max="progress_crystal.max" value="progress_crystal.value" type="{{progress_crystal.color}}" ng-style="{position:'relative', height :'20px', width :'450px', 'border-radius':'15px 15px 15px 15px', 'background-color':'white'}">
               <span><img src="assets/images/mining.png" width="20" class ="artifact_img"/></span>
@@ -214,7 +214,7 @@
 
 
               <div class= "upgrade_button_resource">
-                {{format_number(crystal.current_cost)}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/>
+                {{format_number_0(crystal.current_cost)}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/>
                 <button ng-if="crystal.current_cost > crystal.current_owned" class="btn btn-grey btn-icon btn-icon-standalone btn-icon-standalone-right disabled">
                     <i class="fa-bolt" style="color:black"></i>
                     <span><font color="black">Upgrade</font></span>
@@ -284,12 +284,12 @@
             </td>
             <td style="width: 300px;  padding-bottom: 150px;">
 
-              <div id="attention">{{shipyard.current_lab_level * 2}}%</div> increase ship building speed<br/>
+              <div id="attention">{{format_number(shipyard.current_lab_level * 0.2)}}%</div> increase all ships' attack<br/>
             </td>
             <td>
 
-              {{format_number(shipyard.current_cost_metal)}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/><br/>
-              {{format_number(shipyard.current_cost_crystal)}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/>
+              {{format_number_0(shipyard.current_cost_metal)}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/><br/>
+              {{format_number_0(shipyard.current_cost_crystal)}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/>
               <button class="btn btn-success btn-icon btn-icon-standalone btn-icon-standalone-right" ng-click="UpgradeShipyard()">
                   <i class="fa-bolt"></i>
                   <span>Upgrade</span>
@@ -357,14 +357,13 @@
             </td>
             <td style="width: 300px;  padding-bottom: 100px;">
 
-              <div id="attention">{{research_lab.current_lab_level * 0.2}}%</div> increase all ships' attack<br/>
-              <div id="attention">{{research_lab.current_lab_level * 0.15}}%</div> increase all ships' HP<br/>
-              <div id="attention">{{research_lab.current_lab_level * 0.1}}%</div> increase all ships' shields<br/><br/>
+              <div id="attention">{{format_number(research_lab.current_lab_level * 0.15)}}%</div> increase all ships' HP<br/>
+              <div id="attention">{{format_number(research_lab.current_lab_level * 0.1)}}%</div> increase all ships' shields<br/><br/>
             </td>
             <td>
 
-              {{format_number(research_lab.current_cost_metal)}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/><br/>
-              {{format_number(research_lab.current_cost_crystal)}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/>
+              {{format_number_0(research_lab.current_cost_metal)}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/><br/>
+              {{format_number_0(research_lab.current_cost_crystal)}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/>
               <button class="btn btn-success btn-icon btn-icon-standalone btn-icon-standalone-right" ng-click="UpgradeLab()">
                   <i class="fa-bolt"></i>
                   <span>Upgrade</span>
@@ -439,8 +438,8 @@
               </div>
 
             <div class= "upgrade_button_resource">
-              {{format_number(dm_lab.current_cost_metal)}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/><br/>
-              {{format_number(dm_lab.current_cost_crystal)}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/>
+              {{format_number_0(dm_lab.current_cost_metal)}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/><br/>
+              {{format_number_0(dm_lab.current_cost_crystal)}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/>
               <button class="btn btn-success btn-icon btn-icon-standalone btn-icon-standalone-right" ng-click="UpgradeDMLab()">
                   <i class="fa-bolt"></i>
                   <span>Upgrade</span>

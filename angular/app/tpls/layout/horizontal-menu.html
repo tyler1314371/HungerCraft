@@ -119,6 +119,13 @@
 			top: -30px;
 			left: 0px;
 }
+.battle_div_reward {
+	    position:relative;
+			display: inline;
+			top: -70px;
+			left: 130px;
+			opacity: 1;
+}
 
 
 #friendly_fleets, #enemy_fleets{
@@ -157,12 +164,12 @@
 .Start{
 	position:relative;
 	top: 80px;
-	left: 240px;
+	left: 235px;
 }
 .NextFloor{
 	position:relative;
 	top: 80px;
-	left: 220px;
+	left: 215px;
 }
 .Abandon{
 	position:absolute;
@@ -416,30 +423,32 @@
 
 
 	<script type="text/ng-template" id="battle" >
-	
+
 
 
 	<div class="modal-body" ng-controller="MainBattleCtrl">
 		<div class="modal-header">
-		<h3 class="modal-title" id ="modal-title">{{current_instance}} - Floor {{current_floor}} 
-		
-		<button id="Start" type="button" class="btn btn-success Start" ng-click="Start();">Start</button>
-		<button id="NextFloor" type="button" class="btn btn-success NextFloor" ng-click="NextFloor();" >Next Floor</button>
-		<button type="button" class="btn btn-danger Abandon" ng-click="currentModal.close();">Retreat</button>
+		<h3 class="modal-title" id ="modal-title">{{current_instance}} - Floor {{current_floor}}
+
+		<button id="Start" type="button" class="btn btn-success Start" ng-click="Start();">Start <i class="fa-check"></i></button>
+		<button id="NextFloor" type="button" class="btn btn-success NextFloor" ng-click="NextFloor();" >Next Floor <i class="fa-arrow-right"></i></button>
+		<button type="button" class="btn btn-danger Abandon" ng-click="Retreat();">Retreat <i class="fa-close"></i>
+
+		</button>
 		</h3>
 
 		</div>
 
 
 		<br/>
-		
+
 		<div id='friendly_fleets'>
 
 			<div id="TOT_battle" class="battle_div">
 				<h4></h4>
 				<div progressbar class="progress_TOT_HP active" max="progress_TOT_HP.max" value="progress_TOT_HP.value" type="{{progress_TOT_HP.color}}" ng-style="{position:'relative', height :'20px', width :'350px', 'border-radius':'15px 15px 15px 15px', 'background-color':'grey'}"></div>
 				<div progressbar class="progress_TOT_Shield active" max="progress_TOT_Shield.max" value="progress_TOT_Shield.value" type="{{progress_TOT_Shield.color}}" ng-style="{position:'absolute', bottom:'0', right:'0', top:'0', left:'0', height :'20px', width :'350pxs', 'border-radius':'15px 15px 15px 15px', 'background-color':'transparent'}"></div>
-				
+
 				<b><img src="assets/images/shield.png" class="stat_img"/></b>{{format_number(CUR_TOT_SHIELD)}} /
 				<b><img src="assets/images/heart.png" class="stat_img"/></b>{{format_number(CUR_TOT_HP)}} &nbsp&nbsp&nbsp&nbsp&nbsp
 
@@ -458,7 +467,7 @@
 
 
 
-			<div id="LF_battle" ng-if="ships.light_fighter.assembled>0" class="battle_div">
+			<div id="LF_battle" ng-if="ships.light_fighter.assembled>0" class="battle_div battle_div_friendly">
 				<h4><img src="assets/images/Ships/light_fighter.jpg" class="ships_assemble_img" /> &nbsp Light Fighter Fleet ({{format_number(ships.light_fighter.assembled)}})</h4>
 				<div class="battle_div_attack"><h5><b><img src="assets/images/sword.png" class="stat_img"/> {{format_number(current_LF_Attack)}}<br/></b></h5></div>
 				<div class="battle_div_skill"><img src="assets/images/Ships/abilities/rapid_fire.png" class = "ship_skill_img_battle"/></div>
@@ -469,14 +478,14 @@
 				<div class="battle_div_skill"><img src="assets/images/Ships/abilities/Loaded_ammo.png" class = "ship_skill_img_battle"/></div>
 			</div>
 
-			<div id="WG_battle" ng-if="ships.worg.assembled>0" class="battle_div">
+			<div id="WG_battle" ng-if="ships.worg.assembled>0" class="battle_div battle_div_friendly">
 				<h4><img src="assets/images/Ships/worg.jpg" class="ships_assemble_img" /> &nbsp Worg Fleet ({{format_number(ships.worg.assembled)}})</h4>
 				<div class="battle_div_attack"><h5><b><img src="assets/images/sword.png" class="stat_img"/> {{format_number(current_WG_Attack)}}<br/></b></h5></div>
 				<div class="battle_div_skill"><img src="assets/images/Ships/abilities/Loaded_ammo.png" class = "ship_skill_img_battle"/></div>
 				<div class="battle_div_skill"><img src="assets/images/Ships/abilities/Loaded_ammo.png" class = "ship_skill_img_battle"/></div>
 			</div>
 
-			<div id="DS_battle" ng-if="ships.destroyer.assembled>0" class="battle_div">
+			<div id="DS_battle" ng-if="ships.destroyer.assembled>0" class="battle_div battle_div_friendly">
 				<h4><img src="assets/images/Ships/destroyer.jpg" class="ships_assemble_img" /> &nbsp Destroyer Fleet ({{format_number(ships.destroyer.assembled)}})</h4>
 				<div class="battle_div_attack"><h5><b><img src="assets/images/sword.png" class="stat_img"/> {{format_number(current_DS_Attack)}}<br/></b></h5></div>
 				<div class="battle_div_skill"><img src="assets/images/Ships/abilities/Loaded_ammo.png" class = "ship_skill_img_battle"/></div>
@@ -484,7 +493,7 @@
 			</div>
 
 
-			<div id="SU_battle" ng-if="ships.succubus.assembled>0" class="battle_div">
+			<div id="SU_battle" ng-if="ships.succubus.assembled>0" class="battle_div battle_div_friendly">
 				<h4><img src="assets/images/Ships/succubus.jpg" class="ships_assemble_img" /> &nbsp Succubus Fleet ({{format_number(ships.succubus.assembled)}})</h4>
 				<div class="battle_div_attack"><h5><b><img src="assets/images/sword.png" class="stat_img"/> {{format_number(current_SU_Attack)}}<br/></b></h5></div>
 				<div class="battle_div_skill"><img src="assets/images/Ships/abilities/Loaded_ammo.png" class = "ship_skill_img_battle"/></div>
@@ -492,21 +501,21 @@
 			</div>
 
 
-			<div id="COL_battle" ng-if="ships.colossus.assembled>0" class="battle_div">
+			<div id="COL_battle" ng-if="ships.colossus.assembled>0" class="battle_div battle_div_friendly">
 				<h4><img src="assets/images/Ships/colossus.jpg" class="ships_assemble_img" /> &nbsp Colossus Fleet ({{format_number(ships.colossus.assembled)}})</h4>
 				<div class="battle_div_attack"><h5><b><img src="assets/images/sword.png" class="stat_img"/> {{format_number(current_COL_Attack)}}<br/></b></h5></div>
 				<div class="battle_div_skill"><img src="assets/images/Ships/abilities/Loaded_ammo.png" class = "ship_skill_img_battle"/></div>
 				<div class="battle_div_skill"><img src="assets/images/Ships/abilities/Loaded_ammo.png" class = "ship_skill_img_battle"/></div>
 			</div>
 
-			<div id="MD_battle" ng-if="ships.medusa.assembled>0" class="battle_div">
+			<div id="MD_battle" ng-if="ships.medusa.assembled>0" class="battle_div battle_div_friendly">
 				<h4><img src="assets/images/Ships/medusa.jpg" class="ships_assemble_img" /> &nbsp Medusa Fleet ({{format_number(ships.medusa.assembled)}})</h4>
 				<div class="battle_div_attack"><h5><b><img src="assets/images/sword.png" class="stat_img"/> {{format_number(current_MD_Attack)}}<br/></b></h5></div>
 				<div class="battle_div_skill"><img src="assets/images/Ships/abilities/Loaded_ammo.png" class = "ship_skill_img_battle"/></div>
 				<div class="battle_div_skill"><img src="assets/images/Ships/abilities/Loaded_ammo.png" class = "ship_skill_img_battle"/></div>
 			</div>
 
-			<div id="SV_battle" ng-if="ships.science_vessel.assembled>0" class="battle_div">
+			<div id="SV_battle" ng-if="ships.science_vessel.assembled>0" class="battle_div battle_div_friendly">
 				<h4><img src="assets/images/Ships/science_vessel.jpg" class="ships_assemble_img" /> &nbsp Science Vessel Fleet ({{format_number(ships.science_vessel.assembled)}})</h4>
 				<div class="battle_div_attack"><h5><b><img src="assets/images/sword.png" class="stat_img"/> {{format_number(current_SV_Attack)}}<br/></b></h5></div>
 				<div class="battle_div_skill"><img src="assets/images/Ships/abilities/Loaded_ammo.png" class = "ship_skill_img_battle"/></div>
@@ -514,7 +523,7 @@
 			</div>
 
 
-			<div id="PTH_battle" ng-if="ships.pantheon.assembled>0" class="battle_div">
+			<div id="PTH_battle" ng-if="ships.pantheon.assembled>0" class="battle_div battle_div_friendly">
 				<h4><img src="assets/images/Ships/pantheon.jpg" class="ships_assemble_img" /> &nbsp Pantheon Fleet ({{format_number(ships.pantheon.assembled)}})</h4>
 				<div class="battle_div_attack"><h5><b><img src="assets/images/sword.png" class="stat_img"/> {{format_number(current_PTH_Attack)}}<br/></b></h5></div>
 				<div class="battle_div_skill"><img src="assets/images/Ships/abilities/Loaded_ammo.png" class = "ship_skill_img_battle"/></div>
@@ -541,6 +550,7 @@
 				<div progressbar class="progress_TOT_Shield_enemy active" max="MAX_TOT_HP_ENEMY" value="progress_TOT_Shield_enemy.value" type="{{progress_TOT_Shield_enemy.color}}" ng-style="{position:'absolute', bottom:'0', right:'0', top:'0', left:'0', height :'20px', width :'350pxs', 'border-radius':'15px 15px 15px 15px', 'background-color':'transparent'}"></div>
 				<b><img src="assets/images/shield.png" class="stat_img"/></b>{{format_number(CUR_TOT_SHIELD_ENEMY)}} /
 				<b><img src="assets/images/heart.png" class="stat_img"/></b>{{format_number(CUR_TOT_HP_ENEMY)}} &nbsp&nbsp&nbsp&nbsp&nbsp
+
 			</div>
 			<br/>
 
@@ -551,6 +561,7 @@
 				<h4><img src="assets/images/Ships/light_fighter.jpg" class="ships_assemble_img" /> &nbsp {{enemy.name}} ({{enemy.info.amount}})</h4>
 				<div class="battle_div_attack"><h5><b><img src="assets/images/sword.png" class="stat_img"/> {{format_number(enemy.info.Attack * enemy.info.amount)}}<br/></b></h5></div>
 				<div class="battle_div_skill"><img src="assets/images/Ships/abilities/Loaded_ammo.png" class = "ship_skill_img_battle"/></div>
+				<div class="battle_div_reward">+2000<img src="assets/images/mineral.png" width="25" class ="artifact_img"/></div>
 			</div>
 
 
@@ -584,7 +595,7 @@
 
 
 		<div class="modal-footer">
-			
+
 		</div>
 
 	</div>

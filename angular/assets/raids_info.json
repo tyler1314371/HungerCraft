@@ -6,16 +6,7 @@
 				"1": [
 					{
 						"name":"Oatis Light Fighter",
-						"info" : {
-							"HP": 30000,
-							"Shields": 100,
-							"Attack": 1,
-							"Skills": ["1", "2"],
-							"amount": 10
-						}
-					},
-					{
-						"name":"Oatis Light Fighter",
+						"reward_metal":10000,
 						"info" : {
 							"HP": 30000,
 							"Shields": 100,
@@ -24,10 +15,24 @@
 							"amount": 10
 						}
 					}
+
 				],
 				"2": [
 					{
 						"name":"Oatis Light Fighter",
+						"reward_metal":10000,
+						"info" : {
+							"HP": 80000,
+							"Shields": 100,
+							"Attack": 1000,
+							"Skills": ["1", "2"],
+							"amount": 20
+						}
+					},
+					{
+
+						"name":"Oatis Light Fighter",
+						"reward_metal":10000,
 						"info" : {
 							"HP": 80000,
 							"Shields": 100,
@@ -39,7 +44,8 @@
 				],
 				"3": [
 					{
-						"name":"Devil's Revenge",
+						"name":"Devil's Rage",
+						"reward_metal":10000,
 						"info" : {
 							"HP": 100000000,
 							"Shields": 10000,
