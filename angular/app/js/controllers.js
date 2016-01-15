@@ -317,7 +317,7 @@ var raids = {
 		timer:"00:00:00",
 		section:3,
 		difficulty:0,
-		unlocked:1,
+		unlocked:0,
 		required_level:10,
 		enemy:{
 			1:{
@@ -487,7 +487,7 @@ var raids = {
 
 //RESOURCES
 var metal = {
-	current_owned:0,
+	current_owned:1000000,
 	current_mine_level:0,
 	current_cost:50,
 	ori_cost: 50,
@@ -496,7 +496,7 @@ var metal = {
 };
 
 var crystal = {
-	current_owned:0,
+	current_owned:1000000,
 	current_mine_level:0,
 	current_cost:60,
 	ori_cost: 60,
@@ -661,7 +661,7 @@ angular.module('xenon.controllers', []).
 				};
 
 		$scope.format_number= function(num) {
-			if (num >= 1000){
+			if (num >= 10000){
 				return (num/1000).toFixed(1) + 'k';
 			}
 			if (num >= 1000000){
@@ -692,35 +692,19 @@ angular.module('xenon.controllers', []).
 				metal['current_mine_level'] +=1;
 			}
 			if(building_name == 'crystal_mine'){
-				if(metal['current_mine_level'] < 3){
-					toastr.error("Requirements not fulfilled"
-						, opts);
-					return false;
-				}
+
 				crystal['current_mine_level'] +=1;
 			}
 			if(building_name == 'research_lab'){
-				if(metal['current_mine_level'] < 10 || crystal['current_mine_level'] < 7 || level['current_level'] < 10){
-					toastr.error("Requirements not fulfilled"
-						, opts);
-					return false;
-				}
+
 				research_lab['current_lab_level'] +=1;
 			}
 			if(building_name == 'dm_lab'){
-				if(metal['current_mine_level'] < 20 || crystal['current_mine_level'] < 13 || level['current_level'] < 17){
-					toastr.error("Requirements not fulfilled"
-						, opts);
-					return false;
-				}
+
 				dm_lab['current_lab_level'] +=1;
 			}
 			if(building_name == 'shipyard'){
-				if(metal['current_mine_level'] < 10 || crystal['current_mine_level'] < 7 || level['current_level'] < 10){
-					toastr.error("Requirements not fulfilled"
-						, opts);
-					return false;
-				}
+
 				shipyard['current_lab_level'] +=1;
 			}
 		};
@@ -816,7 +800,7 @@ angular.module('xenon.controllers', []).
 
 			    $rootScope.currentModal.close();
 			    $rootScope.current_instance=instance_name;
-			    $scope.openModal('battle_prep', 'lg', 'static');
+			    $scope.openModal('battle_prep', 'lg');
 		    }
 
 
@@ -1696,7 +1680,7 @@ angular.module('xenon.controllers', []).
 		$scope.raids = raids;
 		$scope.artifacts = artifacts;
 		$scope.format_number= function(num) {
-			if (num >= 1000){
+			if (num >= 10000){
 				return (num/1000).toFixed(1) + 'k';
 			}
 			if (num >= 1000000){
@@ -1731,7 +1715,7 @@ angular.module('xenon.controllers', []).
 
 
 
-				(function() {
+
 		  var globe = planetaryjs.planet();
 		  // Load our custom `autorotate` plugin; see below.
 		  globe.loadPlugin(autorotate(10));
@@ -1838,7 +1822,7 @@ angular.module('xenon.controllers', []).
 		      });
 		    };
 		  };
-		})();
+
 
 
 
@@ -1930,6 +1914,57 @@ angular.module('xenon.controllers', []).
 		    //update globe color
 		    level.color1 = getRandomColor();
 		    level.color2 = getRandomColor();
+				globe.stop();
+				globe = planetaryjs.planet();
+				globe.loadPlugin(autorotate(10));
+			  // The `earth` plugin draws the oceans and the land; it's actually
+			  // a combination of several separate built-in plugins.
+			  //
+			  // Note that we're loading a special TopoJSON file
+			  // (world-110m-withlakes.json) so we can render lakes.
+			  globe.loadPlugin(planetaryjs.plugins.earth({
+			    topojson: { file:   'assets/world-110m-withlakes.json' },
+			    oceans:   { fill:   level.color1 },
+			    land:     { fill:   level.color2 },
+			    borders:  { stroke: level.color2 }
+			  }));
+			  // Load our custom `lakes` plugin to draw lakes; see below.
+			  globe.loadPlugin(lakes({
+			    fill: level.color1
+			  }));
+			  // The `pings` plugin draws animated pings on the globe.
+			  	//globe.loadPlugin(planetaryjs.plugins.pings());
+			  // The `zoom` and `drag` plugins enable
+			  // manipulating the globe with the mouse.
+			  globe.loadPlugin(planetaryjs.plugins.zoom({
+			    scaleExtent: [70, 300]
+			  }));
+			  globe.loadPlugin(planetaryjs.plugins.drag({
+			    // Dragging the globe should pause the
+			    // automatic rotation until we release the mouse.
+			    onDragStart: function() {
+			      this.plugins.autorotate.pause();
+			    },
+			    onDragEnd: function() {
+			      this.plugins.autorotate.resume();
+			    }
+			  }));
+			  // Set up the globe's initial scale, offset, and rotation.
+			  globe.projection.scale(100).translate([125, 125]).rotate([0, -10, 0]);
+
+			  var canvas = document.getElementById('rotatingGlobe');
+			  // Special code to handle high-density displays (e.g. retina, some phones)
+			  // In the future, Planetary.js will handle this by itself (or via a plugin).
+			  if (window.devicePixelRatio == 2) {
+			    canvas.width = 250;
+			    canvas.height = 250;
+			    context = canvas.getContext('2d');
+			    context.scale(2, 2);
+			  }
+			  // Draw that globe!
+			  globe.draw(canvas);
+
+
 
 		};
 
@@ -2203,7 +2238,7 @@ angular.module('xenon.controllers', []).
 		$scope.ships = ships;
 		$scope.level = level;
 		$scope.format_number= function(num) {
-			if (num >= 1000){
+			if (num >= 10000){
 				return (num/1000).toFixed(1) + 'k';
 			}
 			if (num >= 1000000){
@@ -2532,11 +2567,11 @@ angular.module('xenon.controllers', []).
 		$.ajaxSetup({
     async: false
 	});
-		
+
 
 
 		$scope.format_number= function(num) {
-			if (num >= 1000){
+			if (num >= 10000){
 				return (num/1000).toFixed(1) + 'k';
 			}
 			if (num >= 1000000){
@@ -2913,7 +2948,7 @@ angular.module('xenon.controllers', []).
 
 				}
 
-				
+
 
 
 
@@ -2922,14 +2957,15 @@ angular.module('xenon.controllers', []).
 				if($scope.CUR_TOT_HP_ENEMY <=0){
 					$scope.CUR_TOT_HP_ENEMY =0;
 					clearInterval(start);
-					
+
 
 					if($scope.instance_data[$rootScope.current_instance]['normal']['floor_num']== $rootScope.current_floor){
-						$rootScope.currentModal.close();
+
 						$timeout(function(){
+							$rootScope.currentModal.close();
 							$scope.openModal('post_battle_victory', 'lg', 'static');
 						}, 1500);
-						
+
 					}else{
 						$('.NextFloor').show("slow");
 					}
@@ -2941,11 +2977,12 @@ angular.module('xenon.controllers', []).
 				}else if ($rootScope.CUR_TOT_HP <=0){
 					$rootScope.CUR_TOT_HP=0;
 					clearInterval(start);
-					
 
-					$rootScope.currentModal.close();
+
+
 
 					$timeout(function(){
+							$rootScope.currentModal.close();
 							$scope.openModal('post_battle_defeat', 'lg', 'static');
 						}, 1500);
 				}

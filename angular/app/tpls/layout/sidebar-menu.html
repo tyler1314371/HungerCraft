@@ -15,7 +15,7 @@
 	padding: 0 5px;
 	border-style: solid;
     border-color: #6AEB6A;
-    border-radius: 7px; 
+    border-radius: 7px;
 	z-index: 11;}
 .artifact_tooltip_rare { position: relative; }
 .artifact_tooltip_rare span { display: none; color: #FFFFFF; }
@@ -323,9 +323,9 @@
 
 						<div ng-if="artifacts.Shard_of_Coldness.unlocked" class="artifact_tooltip_uncommon"><img src="assets/images/artifacts/blue_stone.png" width="50" class ="artifact_img"/>&nbsp&nbsp x <div id="attention"> {{artifacts.Shard_of_Coldness.current_owned}}</div>
 																								<span><h5>Shard of Coldness-</h5>
-																							
+
 																								<br/>
-																								Reduce the warp metal and crystal requirement by 
+																								Reduce the warp metal and crystal requirement by
 																								<div id="attention">
 																								{{diminish_artifacts(artifacts.Shard_of_Coldness.based_increase_percent,artifacts.Shard_of_Coldness.current_owned)}}%
 																								</div><br />
@@ -335,7 +335,7 @@
 						<div ng-if="!artifacts.Shard_of_Coldness.unlocked" class="artifact_tooltip_uncommon"><img src="assets/images/locked.png" width="50" class ="artifact_img"/>
 						<font color="#FD3636">(Undiscovered)</font>
 																								<span>Shard of Coldness -<br/>
-																								
+
 																								Drop in <div id="attention">Oatis</div>
 																								</span>
 																								<br />
@@ -926,13 +926,22 @@
 
 
 							<div class="build_ship_btn">
-								<button type="button" class="btn btn-success" ng-click="BuildShip('light_fighter', '1')">
-										<i class="fa-plane"></i> &nbsp Build 1  
+								<button ng-if="metal.current_owned<ships['light_fighter']['metal_cost'] || crystal.current_owned<ships['light_fighter']['crystal_cost']" type="button" class="btn btn-grey disabled">
+										<i class="fa-plane" style="color:black"></i> &nbsp Build 1
 								</button>
-								<button type="button" class="btn btn-success" ng-click="BuildShip('light_fighter', '10')">
+								<button ng-if="metal.current_owned>=ships['light_fighter']['metal_cost'] && crystal.current_owned>=ships['light_fighter']['crystal_cost']" type="button" class="btn btn-success" ng-click="BuildShip('light_fighter', '1')">
+										<i class="fa-plane"></i> &nbsp Build 1
+								</button>
+								<button ng-if="metal.current_owned<(ships['light_fighter']['metal_cost']*10) || crystal.current_owned<(ships['light_fighter']['crystal_cost']*10)" type="button" class="btn btn-grey disabled">
+										<i class="fa-plane" style="color:black"></i> &nbsp Build 10
+								</button>
+								<button ng-if="metal.current_owned>=(ships['light_fighter']['metal_cost']*10) && crystal.current_owned>=(ships['light_fighter']['crystal_cost']*10)" type="button" class="btn btn-success" ng-click="BuildShip('light_fighter', '10')">
 										<i class="fa-plane"></i> &nbsp Build  10
 								</button>
-								<button type="button" class="btn btn-success" ng-click="BuildShip('light_fighter', '100')">
+								<button ng-if="metal.current_owned<(ships['light_fighter']['metal_cost']*100) || crystal.current_owned<(ships['light_fighter']['crystal_cost']*100)" type="button" class="btn btn-grey disabled">
+										<i class="fa-plane" style="color:black"></i> &nbsp Build 100
+								</button>
+								<button ng-if="metal.current_owned>=(ships['light_fighter']['metal_cost']*100) && crystal.current_owned>=(ships['light_fighter']['crystal_cost']*100)" type="button" class="btn btn-success" ng-click="BuildShip('light_fighter', '100')">
 										<i class="fa-plane"></i> &nbsp Build  100
 								</button>
 							</div>
@@ -954,7 +963,7 @@
 
 
 
-					<tr>
+					<tr ng-if="shipyard.current_lab_level>=2 && research_lab.current_lab_level>=3 && level.current_level>=10">
 						<td style="width: 500px; position: relative;">
 							<h4>Heavy Fighter</h4>
 							<small>Heavy Fighters are slower than the Light Fighters, but packs a bigger punch</small><br/>
@@ -976,13 +985,13 @@
 							<div ng-if="ships['heavy_fighter']['skills']['loaded_ammo']['unlocked']==0" class="tooltip_ship_skill"><img src="assets/images/locked.png" class = "ship_skill_img"/>
 																								<span>Loaded Ammo-<br/><br/>
 																								LOCKED</span>
-																								
+
 							</div>
 							<div ng-if="ships['heavy_fighter']['skills']['loaded_ammo']['unlocked']==1" class="tooltip_ship_skill"><img src="assets/images/Ships/abilities/Loaded_ammo.png" class = "ship_skill_img"/>
 																								<span>Loaded Ammo-<br/><br/>
 																								<div id="attention">30%</div> chance of skipping a round, but deal <div id="attention">350%</div> damage in the next round<br />
 																								</span>
-																								
+
 							</div>
 							<br/><br/>
 
@@ -1000,13 +1009,22 @@
 
 
 							<div class="build_ship_btn">
-								<button type="button" class="btn btn-success" ng-click="BuildShip('heavy_fighter', '1')">
-										<i class="fa-plane"></i> &nbsp Build 1  
+								<button ng-if="metal.current_owned<ships['heavy_fighter']['metal_cost'] || crystal.current_owned<ships['heavy_fighter']['crystal_cost']" type="button" class="btn btn-grey disabled">
+										<i class="fa-plane" style="color:black"></i> &nbsp Build 1
 								</button>
-								<button type="button" class="btn btn-success" ng-click="BuildShip('heavy_fighter', '10')">
+								<button ng-if="metal.current_owned>=ships['heavy_fighter']['metal_cost'] && crystal.current_owned>=ships['heavy_fighter']['crystal_cost']" type="button" class="btn btn-success" ng-click="BuildShip('heavy_fighter', '1')">
+										<i class="fa-plane"></i> &nbsp Build 1
+								</button>
+								<button ng-if="metal.current_owned<(ships['heavy_fighter']['metal_cost']*10) || crystal.current_owned<(ships['heavy_fighter']['crystal_cost']*10)" type="button" class="btn btn-grey disabled">
+										<i class="fa-plane" style="color:black"></i> &nbsp Build 10
+								</button>
+								<button ng-if="metal.current_owned>=(ships['heavy_fighter']['metal_cost']*10) && crystal.current_owned>=(ships['heavy_fighter']['crystal_cost']*10)" type="button" class="btn btn-success" ng-click="BuildShip('heavy_fighter', '10')">
 										<i class="fa-plane"></i> &nbsp Build  10
 								</button>
-								<button type="button" class="btn btn-success" ng-click="BuildShip('heavy_fighter', '100')">
+								<button ng-if="metal.current_owned<(ships['heavy_fighter']['metal_cost']*100) || crystal.current_owned<(ships['heavy_fighter']['crystal_cost']*100)" type="button" class="btn btn-grey disabled">
+										<i class="fa-plane" style="color:black"></i> &nbsp Build 100
+								</button>
+								<button ng-if="metal.current_owned>=(ships['heavy_fighter']['metal_cost']*100) && crystal.current_owned>=(ships['heavy_fighter']['crystal_cost']*100)" type="button" class="btn btn-success" ng-click="BuildShip('heavy_fighter', '100')">
 										<i class="fa-plane"></i> &nbsp Build  100
 								</button>
 							</div>
@@ -1056,13 +1074,13 @@
 							<div ng-if="ships['worg']['skills']['predators_reward']['unlocked']==0" class="tooltip_ship_skill"><img src="assets/images/locked.png" class = "ship_skill_img"/>
 																								<span>Predator&#39s Reward-<br/><br/>
 																								LOCKED</span>
-																								
+
 							</div>
 							<div ng-if="ships['worg']['skills']['predators_reward']['unlocked']==1" class="tooltip_ship_skill"><img src="assets/images/Ships/abilities/predators_reward.png" class = "ship_skill_img"/>
 																								<span>Predator&#39s Reward-<br/><br/>
 																								Deal extra damage equals to <div id="attention">5%</div> of enemy&#39s shield value<br />
 																								</span>
-																								
+
 							</div>
 							<br/><br/>
 
@@ -1080,13 +1098,22 @@
 
 
 							<div class="build_ship_btn">
-								<button type="button" class="btn btn-success" ng-click="BuildShip('worg', '1')">
-										<i class="fa-plane"></i> &nbsp Build 1  
+								<button ng-if="metal.current_owned<ships['worg']['metal_cost'] || crystal.current_owned<ships['worg']['crystal_cost']" type="button" class="btn btn-grey disabled">
+										<i class="fa-plane" style="color:black"></i> &nbsp Build 1
 								</button>
-								<button type="button" class="btn btn-success" ng-click="BuildShip('worg', '10')">
+								<button ng-if="metal.current_owned>=ships['worg']['metal_cost'] && crystal.current_owned>=ships['worg']['crystal_cost']" type="button" class="btn btn-success" ng-click="BuildShip('worg', '1')">
+										<i class="fa-plane"></i> &nbsp Build 1
+								</button>
+								<button ng-if="metal.current_owned<(ships['worg']['metal_cost']*10) || crystal.current_owned<(ships['worg']['crystal_cost']*10)" type="button" class="btn btn-grey disabled">
+										<i class="fa-plane" style="color:black"></i> &nbsp Build 10
+								</button>
+								<button ng-if="metal.current_owned>=(ships['worg']['metal_cost']*10) && crystal.current_owned>=(ships['worg']['crystal_cost']*10)" type="button" class="btn btn-success" ng-click="BuildShip('worg', '10')">
 										<i class="fa-plane"></i> &nbsp Build  10
 								</button>
-								<button type="button" class="btn btn-success" ng-click="BuildShip('worg', '100')">
+								<button ng-if="metal.current_owned<(ships['worg']['metal_cost']*100) || crystal.current_owned<(ships['worg']['crystal_cost']*100)" type="button" class="btn btn-grey disabled">
+										<i class="fa-plane" style="color:black"></i> &nbsp Build 100
+								</button>
+								<button ng-if="metal.current_owned>=(ships['worg']['metal_cost']*100) && crystal.current_owned>=(ships['worg']['crystal_cost']*100)" type="button" class="btn btn-success" ng-click="BuildShip('worg', '100')">
 										<i class="fa-plane"></i> &nbsp Build  100
 								</button>
 							</div>
@@ -1137,7 +1164,7 @@
 							<div ng-if="ships['destroyer']['skills']['critical_strike']['unlocked']==0" class="tooltip_ship_skill"><img src="assets/images/locked.png" class = "ship_skill_img"/>
 																								<span>Critical Strike-<br/><br/>
 																								LOCKED</span>
-																								
+
 							</div>
 							<div ng-if="ships['destroyer']['skills']['critical_strike']['unlocked']==1" class="tooltip_ship_skill"><img src="assets/images/Ships/abilities/critical_strike.png" class = "ship_skill_img"/>
 																								<span>Critical Strike-<br/><br/>
@@ -1148,7 +1175,7 @@
 							<div ng-if="ships['destroyer']['skills']['tough_as_nails']['unlocked']==0" class="tooltip_ship_skill"><img src="assets/images/locked.png" class = "ship_skill_img"/>
 																								<span>Tough as Nails-<br/><br/>
 																								LOCKED</span>
-																								
+
 							</div>
 							<div ng-if="ships['destroyer']['skills']['tough_as_nails']['unlocked']==1" class="tooltip_ship_skill"><img src="assets/images/Ships/abilities/tough_as_nails.png" class = "ship_skill_img"/>
 																								<span>Tough as Nails-<br/><br/>
@@ -1172,13 +1199,22 @@
 
 
 							<div class="build_ship_btn">
-								<button type="button" class="btn btn-success" ng-click="BuildShip('destroyer', '1')">
-										<i class="fa-plane"></i> &nbsp Build 1  
+								<button ng-if="metal.current_owned<ships['destroyer']['metal_cost'] || crystal.current_owned<ships['destroyer']['crystal_cost']" type="button" class="btn btn-grey disabled">
+										<i class="fa-plane" style="color:black"></i> &nbsp Build 1
 								</button>
-								<button type="button" class="btn btn-success" ng-click="BuildShip('destroyer', '10')">
+								<button ng-if="metal.current_owned>=ships['destroyer']['metal_cost'] && crystal.current_owned>=ships['destroyer']['crystal_cost']" type="button" class="btn btn-success" ng-click="BuildShip('destroyer', '1')">
+										<i class="fa-plane"></i> &nbsp Build 1
+								</button>
+								<button ng-if="metal.current_owned<(ships['destroyer']['metal_cost']*10) || crystal.current_owned<(ships['destroyer']['crystal_cost']*10)" type="button" class="btn btn-grey disabled">
+										<i class="fa-plane" style="color:black"></i> &nbsp Build 10
+								</button>
+								<button ng-if="metal.current_owned>=(ships['destroyer']['metal_cost']*10) && crystal.current_owned>=(ships['destroyer']['crystal_cost']*10)" type="button" class="btn btn-success" ng-click="BuildShip('destroyer', '10')">
 										<i class="fa-plane"></i> &nbsp Build  10
 								</button>
-								<button type="button" class="btn btn-success" ng-click="BuildShip('destroyer', '100')">
+								<button ng-if="metal.current_owned<(ships['destroyer']['metal_cost']*100) || crystal.current_owned<(ships['destroyer']['crystal_cost']*100)" type="button" class="btn btn-grey disabled">
+										<i class="fa-plane" style="color:black"></i> &nbsp Build 100
+								</button>
+								<button ng-if="metal.current_owned>=(ships['destroyer']['metal_cost']*100) && crystal.current_owned>=(ships['destroyer']['crystal_cost']*100)" type="button" class="btn btn-success" ng-click="BuildShip('destroyer', '100')">
 										<i class="fa-plane"></i> &nbsp Build  100
 								</button>
 							</div>
@@ -1229,7 +1265,7 @@
 							<div ng-if="ships['succubus']['skills']['lethal_dose']['unlocked']==0" class="tooltip_ship_skill"><img src="assets/images/locked.png" class = "ship_skill_img"/>
 																								<span>Lethal Dose-<br/><br/>
 																								LOCKED</span>
-																								
+
 							</div>
 							<div ng-if="ships['succubus']['skills']['lethal_dose']['unlocked']==1" class="tooltip_ship_skill"><img src="assets/images/Ships/abilities/lethal_dose.png" class = "ship_skill_img"/>
 																								<span>Lethal Dose-<br/><br/>
@@ -1240,7 +1276,7 @@
 							<div ng-if="ships['succubus']['skills']['weaken']['unlocked']==0" class="tooltip_ship_skill"><img src="assets/images/locked.png" class = "ship_skill_img"/>
 																								<span>Weaken-<br/><br/>
 																								LOCKED</span>
-																								
+
 							</div>
 							<div ng-if="ships['succubus']['skills']['weaken']['unlocked']==1" class="tooltip_ship_skill"><img src="assets/images/Ships/abilities/weaken.png" class = "ship_skill_img"/>
 																								<span>Weaken-<br/><br/>
@@ -1266,13 +1302,22 @@
 
 
 							<div class="build_ship_btn">
-								<button type="button" class="btn btn-success" ng-click="BuildShip('succubus', '1')">
-										<i class="fa-plane"></i> &nbsp Build 1  
+								<button ng-if="metal.current_owned<ships['succubus']['metal_cost'] || crystal.current_owned<ships['succubus']['crystal_cost']" type="button" class="btn btn-grey disabled">
+										<i class="fa-plane" style="color:black"></i> &nbsp Build 1
 								</button>
-								<button type="button" class="btn btn-success" ng-click="BuildShip('succubus', '10')">
+								<button ng-if="metal.current_owned>=ships['succubus']['metal_cost'] && crystal.current_owned>=ships['succubus']['crystal_cost']" type="button" class="btn btn-success" ng-click="BuildShip('succubus', '1')">
+										<i class="fa-plane"></i> &nbsp Build 1
+								</button>
+								<button ng-if="metal.current_owned<(ships['succubus']['metal_cost']*10) || crystal.current_owned<(ships['succubus']['crystal_cost']*10)" type="button" class="btn btn-grey disabled">
+										<i class="fa-plane" style="color:black"></i> &nbsp Build 10
+								</button>
+								<button ng-if="metal.current_owned>=(ships['succubus']['metal_cost']*10) && crystal.current_owned>=(ships['succubus']['crystal_cost']*10)" type="button" class="btn btn-success" ng-click="BuildShip('succubus', '10')">
 										<i class="fa-plane"></i> &nbsp Build  10
 								</button>
-								<button type="button" class="btn btn-success" ng-click="BuildShip('succubus', '100')">
+								<button ng-if="metal.current_owned<(ships['succubus']['metal_cost']*100) || crystal.current_owned<(ships['succubus']['crystal_cost']*100)" type="button" class="btn btn-grey disabled">
+										<i class="fa-plane" style="color:black"></i> &nbsp Build 100
+								</button>
+								<button ng-if="metal.current_owned>=(ships['succubus']['metal_cost']*100) && crystal.current_owned>=(ships['succubus']['crystal_cost']*100)" type="button" class="btn btn-success" ng-click="BuildShip('succubus', '100')">
 										<i class="fa-plane"></i> &nbsp Build  100
 								</button>
 							</div>
@@ -1334,7 +1379,7 @@
 							<div ng-if="ships['colossus']['skills']['advanced_communication']['unlocked']==0" class="tooltip_ship_skill"><img src="assets/images/locked.png" class = "ship_skill_img"/>
 																								<span>Advanced Communication-<br/><br/>
 																								LOCKED</span>
-																								
+
 							</div>
 							<div ng-if="ships['colossus']['skills']['advanced_communication']['unlocked']==1" class="tooltip_ship_skill"><img src="assets/images/Ships/abilities/advanced_communication.png" class = "ship_skill_img"/>
 																								<span>Advanced Communication-<br/><br/>
@@ -1345,7 +1390,7 @@
 							<div ng-if="ships['colossus']['skills']['reflect']['unlocked']==0" class="tooltip_ship_skill"><img src="assets/images/locked.png" class = "ship_skill_img"/>
 																								<span>Reflect-<br/><br/>
 																								LOCKED</span>
-																								
+
 							</div>
 							<div ng-if="ships['colossus']['skills']['reflect']['unlocked']==1" class="tooltip_ship_skill"><img src="assets/images/Ships/abilities/reflect.png" class = "ship_skill_img"/>
 																								<span>Reflect-<br/><br/>
@@ -1369,13 +1414,22 @@
 
 
 							<div class="build_ship_btn">
-								<button type="button" class="btn btn-success" ng-click="BuildShip('colossus', '1')">
-										<i class="fa-plane"></i> &nbsp Build 1  
+								<button ng-if="metal.current_owned<ships['colossus']['metal_cost'] || crystal.current_owned<ships['colossus']['crystal_cost']" type="button" class="btn btn-grey disabled">
+										<i class="fa-plane" style="color:black"></i> &nbsp Build 1
 								</button>
-								<button type="button" class="btn btn-success" ng-click="BuildShip('colossus', '10')">
+								<button ng-if="metal.current_owned>=ships['colossus']['metal_cost'] && crystal.current_owned>=ships['colossus']['crystal_cost']" type="button" class="btn btn-success" ng-click="BuildShip('colossus', '1')">
+										<i class="fa-plane"></i> &nbsp Build 1
+								</button>
+								<button ng-if="metal.current_owned<(ships['colossus']['metal_cost']*10) || crystal.current_owned<(ships['colossus']['crystal_cost']*10)" type="button" class="btn btn-grey disabled">
+										<i class="fa-plane" style="color:black"></i> &nbsp Build 10
+								</button>
+								<button ng-if="metal.current_owned>=(ships['colossus']['metal_cost']*10) && crystal.current_owned>=(ships['colossus']['crystal_cost']*10)" type="button" class="btn btn-success" ng-click="BuildShip('colossus', '10')">
 										<i class="fa-plane"></i> &nbsp Build  10
 								</button>
-								<button type="button" class="btn btn-success" ng-click="BuildShip('colossus', '100')">
+								<button ng-if="metal.current_owned<(ships['colossus']['metal_cost']*100) || crystal.current_owned<(ships['colossus']['crystal_cost']*100)" type="button" class="btn btn-grey disabled">
+										<i class="fa-plane" style="color:black"></i> &nbsp Build 100
+								</button>
+								<button ng-if="metal.current_owned>=(ships['colossus']['metal_cost']*100) && crystal.current_owned>=(ships['colossus']['crystal_cost']*100)" type="button" class="btn btn-success" ng-click="BuildShip('colossus', '100')">
 										<i class="fa-plane"></i> &nbsp Build  100
 								</button>
 							</div>
@@ -1427,7 +1481,7 @@
 							<div ng-if="ships['medusa']['skills']['mind_control']['unlocked']==0" class="tooltip_ship_skill"><img src="assets/images/locked.png" class = "ship_skill_img"/>
 																								<span>Mind Control-<br/><br/>
 																								LOCKED</span>
-																								
+
 							</div>
 							<div ng-if="ships['medusa']['skills']['mind_control']['unlocked']==1" class="tooltip_ship_skill"><img src="assets/images/Ships/abilities/mind_control.png" class = "ship_skill_img"/>
 																								<span>Mind Control-<br/><br/>
@@ -1439,7 +1493,7 @@
 							<div ng-if="ships['medusa']['skills']['siphon_shield']['unlocked']==0" class="tooltip_ship_skill"><img src="assets/images/locked.png" class = "ship_skill_img"/>
 																								<span>Siphon Shield-<br/><br/>
 																								LOCKED</span>
-																								
+
 							</div>
 							<div ng-if="ships['medusa']['skills']['siphon_shield']['unlocked']==1" class="tooltip_ship_skill"><img src="assets/images/Ships/abilities/siphon_shield.png" class = "ship_skill_img"/>
 																								<span>Siphon Shield-<br/><br/>
@@ -1450,7 +1504,7 @@
 							<div ng-if="ships['medusa']['skills']['evasion']['unlocked']==0" class="tooltip_ship_skill"><img src="assets/images/locked.png" class = "ship_skill_img"/>
 																								<span>Evasion-<br/><br/>
 																								LOCKED</span>
-																								
+
 							</div>
 							<div ng-if="ships['medusa']['skills']['evasion']['unlocked']==1" class="tooltip_ship_skill"><img src="assets/images/Ships/abilities/evasion.png" class = "ship_skill_img"/>
 																								<span>Evasion-<br/><br/>
@@ -1474,13 +1528,22 @@
 
 
 							<div class="build_ship_btn">
-								<button type="button" class="btn btn-success" ng-click="BuildShip('medusa', '1')">
-										<i class="fa-plane"></i> &nbsp Build 1  
+								<button ng-if="metal.current_owned<ships['medusa']['metal_cost'] || crystal.current_owned<ships['medusa']['crystal_cost']" type="button" class="btn btn-grey disabled">
+										<i class="fa-plane" style="color:black"></i> &nbsp Build 1
 								</button>
-								<button type="button" class="btn btn-success" ng-click="BuildShip('medusa', '10')">
+								<button ng-if="metal.current_owned>=ships['medusa']['metal_cost'] && crystal.current_owned>=ships['medusa']['crystal_cost']" type="button" class="btn btn-success" ng-click="BuildShip('medusa', '1')">
+										<i class="fa-plane"></i> &nbsp Build 1
+								</button>
+								<button ng-if="metal.current_owned<(ships['medusa']['metal_cost']*10) || crystal.current_owned<(ships['medusa']['crystal_cost']*10)" type="button" class="btn btn-grey disabled">
+										<i class="fa-plane" style="color:black"></i> &nbsp Build 10
+								</button>
+								<button ng-if="metal.current_owned>=(ships['medusa']['metal_cost']*10) && crystal.current_owned>=(ships['medusa']['crystal_cost']*10)" type="button" class="btn btn-success" ng-click="BuildShip('medusa', '10')">
 										<i class="fa-plane"></i> &nbsp Build  10
 								</button>
-								<button type="button" class="btn btn-success" ng-click="BuildShip('medusa', '100')">
+								<button ng-if="metal.current_owned<(ships['medusa']['metal_cost']*100) || crystal.current_owned<(ships['medusa']['crystal_cost']*100)" type="button" class="btn btn-grey disabled">
+										<i class="fa-plane" style="color:black"></i> &nbsp Build 100
+								</button>
+								<button ng-if="metal.current_owned>=(ships['medusa']['metal_cost']*100) && crystal.current_owned>=(ships['medusa']['crystal_cost']*100)" type="button" class="btn btn-success" ng-click="BuildShip('medusa', '100')">
 										<i class="fa-plane"></i> &nbsp Build  100
 								</button>
 							</div>
@@ -1532,7 +1595,7 @@
 							<div ng-if="ships['science_vessel']['skills']['toughness']['unlocked']==0" class="tooltip_ship_skill"><img src="assets/images/locked.png" class = "ship_skill_img"/>
 																								<span>Toughness-<br/><br/>
 																								LOCKED</span>
-																								
+
 							</div>
 							<div ng-if="ships['science_vessel']['skills']['toughness']['unlocked']==1" class="tooltip_ship_skill"><img src="assets/images/Ships/abilities/toughness.png" class = "ship_skill_img"/>
 																								<span>Toughness-<br/><br/>
@@ -1545,7 +1608,7 @@
 							<div ng-if="ships['science_vessel']['skills']['force_field']['unlocked']==0" class="tooltip_ship_skill"><img src="assets/images/locked.png" class = "ship_skill_img"/>
 																								<span>Force Field-<br/><br/>
 																								LOCKED</span>
-																								
+
 							</div>
 							<div ng-if="ships['science_vessel']['skills']['force_field']['unlocked']==1" class="tooltip_ship_skill"><img src="assets/images/Ships/abilities/force_field.png" class = "ship_skill_img"/>
 																								<span>Force Field-<br/><br/>
@@ -1558,7 +1621,7 @@
 							<div ng-if="ships['science_vessel']['skills']['advanced_repairbot']['unlocked']==0" class="tooltip_ship_skill"><img src="assets/images/locked.png" class = "ship_skill_img"/>
 																								<span>Advanced Repairbot-<br/><br/>
 																								LOCKED</span>
-																								
+
 							</div>
 							<div ng-if="ships['science_vessel']['skills']['advanced_repairbot']['unlocked']==1" class="tooltip_ship_skill"><img src="assets/images/Ships/abilities/advanced_repairbot.png" class = "ship_skill_img"/>
 																								<span>Advanced Repairbot-<br/><br/>
@@ -1571,7 +1634,7 @@
 							<div ng-if="ships['science_vessel']['skills']['ionic_storm']['unlocked']==0" class="tooltip_ship_skill"><img src="assets/images/locked.png" class = "ship_skill_img"/>
 																								<span>Ionic Storm-<br/><br/>
 																								LOCKED</span>
-																								
+
 							</div>
 							<div ng-if="ships['science_vessel']['skills']['ionic_storm']['unlocked']==1" class="tooltip_ship_skill"><img src="assets/images/Ships/abilities/ionic_storm.png" class = "ship_skill_img"/>
 																								<span>Ionic Storm-<br/><br/>
@@ -1595,13 +1658,22 @@
 
 
 							<div class="build_ship_btn">
-								<button type="button" class="btn btn-success" ng-click="BuildShip('science_vessel', '1')">
-										<i class="fa-plane"></i> &nbsp Build 1  
+								<button ng-if="metal.current_owned<ships['science_vessel']['metal_cost'] || crystal.current_owned<ships['science_vessel']['crystal_cost']" type="button" class="btn btn-grey disabled">
+										<i class="fa-plane" style="color:black"></i> &nbsp Build 1
 								</button>
-								<button type="button" class="btn btn-success" ng-click="BuildShip('science_vessel', '10')">
+								<button ng-if="metal.current_owned>=ships['science_vessel']['metal_cost'] && crystal.current_owned>=ships['science_vessel']['crystal_cost']" type="button" class="btn btn-success" ng-click="BuildShip('science_vessel', '1')">
+										<i class="fa-plane"></i> &nbsp Build 1
+								</button>
+								<button ng-if="metal.current_owned<(ships['science_vessel']['metal_cost']*10) || crystal.current_owned<(ships['science_vessel']['crystal_cost']*10)" type="button" class="btn btn-grey disabled">
+										<i class="fa-plane" style="color:black"></i> &nbsp Build 10
+								</button>
+								<button ng-if="metal.current_owned>=(ships['science_vessel']['metal_cost']*10) && crystal.current_owned>=(ships['science_vessel']['crystal_cost']*10)" type="button" class="btn btn-success" ng-click="BuildShip('science_vessel', '10')">
 										<i class="fa-plane"></i> &nbsp Build  10
 								</button>
-								<button type="button" class="btn btn-success" ng-click="BuildShip('science_vessel', '100')">
+								<button ng-if="metal.current_owned<(ships['science_vessel']['metal_cost']*100) || crystal.current_owned<(ships['science_vessel']['crystal_cost']*100)" type="button" class="btn btn-grey disabled">
+										<i class="fa-plane" style="color:black"></i> &nbsp Build 100
+								</button>
+								<button ng-if="metal.current_owned>=(ships['science_vessel']['metal_cost']*100) && crystal.current_owned>=(ships['science_vessel']['crystal_cost']*100)" type="button" class="btn btn-success" ng-click="BuildShip('science_vessel', '100')">
 										<i class="fa-plane"></i> &nbsp Build  100
 								</button>
 							</div>
@@ -1711,13 +1783,22 @@
 
 
 							<div class="build_ship_btn">
-								<button type="button" class="btn btn-success" ng-click="BuildShip('pantheon', '1')">
-										<i class="fa-plane"></i> &nbsp Build 1  
+								<button ng-if="metal.current_owned<ships['pantheon']['metal_cost'] || crystal.current_owned<ships['pantheon']['crystal_cost']" type="button" class="btn btn-grey disabled">
+										<i class="fa-plane" style="color:black"></i> &nbsp Build 1
 								</button>
-								<button type="button" class="btn btn-success" ng-click="BuildShip('pantheon', '10')">
+								<button ng-if="metal.current_owned>=ships['pantheon']['metal_cost'] && crystal.current_owned>=ships['pantheon']['crystal_cost']" type="button" class="btn btn-success" ng-click="BuildShip('pantheon', '1')">
+										<i class="fa-plane"></i> &nbsp Build 1
+								</button>
+								<button ng-if="metal.current_owned<(ships['pantheon']['metal_cost']*10) || crystal.current_owned<(ships['pantheon']['crystal_cost']*10)" type="button" class="btn btn-grey disabled">
+										<i class="fa-plane" style="color:black"></i> &nbsp Build 10
+								</button>
+								<button ng-if="metal.current_owned>=(ships['pantheon']['metal_cost']*10) && crystal.current_owned>=(ships['pantheon']['crystal_cost']*10)" type="button" class="btn btn-success" ng-click="BuildShip('pantheon', '10')">
 										<i class="fa-plane"></i> &nbsp Build  10
 								</button>
-								<button type="button" class="btn btn-success" ng-click="BuildShip('pantheon', '100')">
+								<button ng-if="metal.current_owned<(ships['pantheon']['metal_cost']*100) || crystal.current_owned<(ships['pantheon']['crystal_cost']*100)" type="button" class="btn btn-grey disabled">
+										<i class="fa-plane" style="color:black"></i> &nbsp Build 100
+								</button>
+								<button ng-if="metal.current_owned>=(ships['pantheon']['metal_cost']*100) && crystal.current_owned>=(ships['pantheon']['crystal_cost']*100)" type="button" class="btn btn-success" ng-click="BuildShip('pantheon', '100')">
 										<i class="fa-plane"></i> &nbsp Build  100
 								</button>
 							</div>
@@ -1835,7 +1916,7 @@
 
 						</td>
 					</tr>
-					<tr>
+					<tr ng-if="(raids['Oatis']['unlocked']==1)">
 						<td>
 									<h4>Clade-Lost City</h4>
 									Require Zone Level
@@ -1876,7 +1957,7 @@
 
 						</td>
 					</tr>
-					<tr>
+					<tr ng-if="(raids['Clade']['unlocked']==1)">
 						<td>
 									<h4>Neibos-Noxious Coliseum</h4>
 									Require Zone Level
@@ -1918,7 +1999,7 @@
 
 						</td>
 					</tr>
-					<tr>
+					<tr ng-if="(raids['Neibos']['unlocked']==1)">
 						<td>
 									<h4>Veotis-Planet of Blackice</h4>
 									Require Zone Level
@@ -1960,7 +2041,7 @@
 
 						</td>
 					</tr>
-					<tr>
+					<tr ng-if="(raids['Veotis']['unlocked']==1)">
 						<td>
 									<h4>Shora-Crimson Prison</h4>
 									Require Zone Level
@@ -2002,7 +2083,7 @@
 
 						</td>
 					</tr>
-					<tr>
+					<tr ng-if="(raids['Shora']['unlocked']==1)">
 						<td>
 									<h4>Dasloth-City of Black Angels</h4>
 									Require Zone Level
@@ -2045,7 +2126,7 @@
 
 						</td>
 					</tr>
-					<tr>
+					<tr ng-if="(raids['Dasloth']['unlocked']==1)">
 						<td>
 									<h4>Aria-Planet of Infinity</h4>
 									Require Zone Level
@@ -2087,7 +2168,7 @@
 
 						</td>
 					</tr>
-					<tr>
+					<tr ng-if="(raids['Aria']['unlocked']==1)">
 						<td>
 									<h4>Juiria-Cloud Temple</h4>
 									Require Zone Level
@@ -2129,7 +2210,7 @@
 
 						</td>
 					</tr>
-					<tr>
+					<tr ng-if="(raids['Juiria']['unlocked']==1)">
 						<td>
 									<h4>Stara-Factory of Fear</h4>
 									Require Zone Level
@@ -2172,7 +2253,7 @@
 
 						</td>
 					</tr>
-					<tr>
+					<tr ng-if="(raids['Stara']['unlocked']==1)">
 						<td>
 									<h4>Quamia-City of Salvation</h4>
 									Require Zone Level
@@ -2214,7 +2295,7 @@
 
 						</td>
 					</tr>
-					<tr>
+					<tr ng-if="(raids['Quamia']['unlocked']==1)">
 						<td>
 									<h4>Nosmov-Demigod&#39s Laststand</h4>
 									Require Zone Level
