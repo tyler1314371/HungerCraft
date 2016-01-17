@@ -7,7 +7,8 @@
 	<style media="screen" type="text/css">
 	input[type=range] {
 	  -webkit-appearance: none;
-	  width: 64%;
+	  display:inline;
+	  width: 40%;
 	  margin: 3.8px 0;
 	}
 	input[type=range]:focus {
@@ -96,9 +97,9 @@
 			left: -150px;
 			opacity: 0;
 }
-.battle_div_enemies {
+.battle_div_enemies_animate {
 	    position:relative;
-			top: 5px;
+			top: 0px;
 			left: 290px;
 			opacity: 0;
 }
@@ -124,8 +125,13 @@
 			display: inline;
 			top: -70px;
 			left: 130px;
-			opacity: 1;
+			opacity: 0;
 }
+
+.battle_assemble_skill {
+	display: inline;
+}
+
 
 
 #friendly_fleets, #enemy_fleets{
@@ -176,6 +182,44 @@
 	top: 25px;
 	left: 750px;
 }
+
+.ship_assemble_attack{
+	position:relative;
+	display: inline;
+	top: 24px;
+	left: -102px;
+}
+
+
+
+
+.ships_casualties_img{
+	border-radius: 7px 7px 7px 7px;
+	width: 50px;
+	height: 30px;
+}
+
+.remaining_hp_counter{
+	font-size: 150%;
+}
+.remaining_hp{
+	position: relative;
+	left: -200px;
+	opacity: 0;
+}
+.casualties {
+	    position:relative;
+		left: -200px;
+		opacity: 0;
+}
+.loot {
+	    position:relative;
+		left: -200px;
+		opacity: 0;
+}
+
+
+
 
 	</style>
 
@@ -269,22 +313,35 @@
 		<div class="ships_left">
 		<div id="LF_form" class="assemble_form">
 			<form>
-			<h4><img src="assets/images/Ships/light_fighter.jpg" class="ships_assemble_img" /> &nbsp Light Fighter</h4>
+			<h4><img src="assets/images/Ships/light_fighter.jpg" class="ships_assemble_img" /> &nbsp Light Fighter 
+			<div class="ship_assemble_attack"><img src="assets/images/sword.png" class="stat_img"/><b>{{format_number(LF_fleet_Attk)}}</b></div>
+			</h4>
+
 			<input type="range" name="amountRange" ng-model="LF_Slider" min="0" max={{ships.light_fighter.current_owned}} value="0" oninput="this.form.amountInput.value=this.value" />
-			<input name="amountInput" ng-model="LF_Text" min="0" max={{ships.light_fighter.current_owned}} value="0" oninput="this.form.amountRange.value=this.value" ng-style="{width:'100px'}"/><img src="assets/images/sword.png" class="stat_img"/>{{format_number(LF_fleet_Attk)}}
+			<input name="amountInput" ng-model="LF_Text" min="0" max={{ships.light_fighter.current_owned}} value="0" oninput="this.form.amountRange.value=this.value" ng-style="{position:'relative', width:'45px'}"/>
 			</form>
-			<br/><br/>
+			<div class="battle_assemble_skill "><img ng-src="{{skills_info.skills[0].src}}" class="ship_skill_img_battle"/></div>
+			<div class="battle_assemble_skill "><img src="assets/images/Ships/abilities/rapid_fire.png" class = "ship_skill_img_battle"/></div>
+
+
+			<br/>
 		</div>
 
 
 
 		<div id="HF_form" class="assemble_form">
 			<form>
-			<h4><img src="assets/images/Ships/heavy_fighter.jpg" class="ships_assemble_img" /> &nbsp Heavy Fighter</h4>
+			<h4><img src="assets/images/Ships/heavy_fighter.jpg" class="ships_assemble_img" /> &nbsp Heavy Fighter 
+			<div class="ship_assemble_attack"><img src="assets/images/sword.png" class="stat_img"/><b>{{format_number(HF_fleet_Attk)}}</b></div>
+			</h4>
+
 			<input type="range" name="amountRange" ng-model="HF_Slider" min="0" max={{ships.heavy_fighter.current_owned}} value="0" oninput="this.form.amountInput.value=this.value" />
-			<input name="amountInput" ng-model="HF_Text" min="0" max={{ships.heavy_fighter.current_owned}} value="0" oninput="this.form.amountRange.value=this.value" ng-style="{width:'100px'}"/><img src="assets/images/sword.png" class="stat_img"/>{{format_number(HF_fleet_Attk)}}
+			<input name="amountInput" ng-model="HF_Text" min="0" max={{ships.heavy_fighter.current_owned}} value="0" oninput="this.form.amountRange.value=this.value" ng-style="{position:'relative', width:'45px'}"/>
 			</form>
-			<br/><br/>
+			<div class="battle_assemble_skill"><img src="assets/images/Ships/abilities/rapid_fire.png" class = "ship_skill_img_battle"/></div>
+
+
+			<br/>
 		</div>
 
 
@@ -398,7 +455,7 @@
 
 	<div class="modal-footer" ng-controller="BattleCtrl">
 
-		<button type="button" class="btn btn-danger" ng-click="Advance()">Advance!</button>
+		<button type="button" class="btn btn-danger" ng-click="Advance()">Advance <i class="fa-arrow-right"></i></button>
 
 	</div>
 
@@ -472,7 +529,7 @@
 				<div class="battle_div_attack"><h5><b><img src="assets/images/sword.png" class="stat_img"/> {{format_number(current_LF_Attack)}}<br/></b></h5></div>
 				<div class="battle_div_skill"><img src="assets/images/Ships/abilities/rapid_fire.png" class = "ship_skill_img_battle"/></div>
 			</div>
-			<div id="HF_battle" ng-if="ships.heavy_fighter.assembled>0" class="battle_div">
+			<div id="HF_battle" ng-if="ships.heavy_fighter.assembled>0" class="battle_div battle_div_friendly">
 				<h4><img src="assets/images/Ships/heavy_fighter.jpg" class="ships_assemble_img" /> &nbsp Heavy Fighter Fleet ({{format_number(ships.heavy_fighter.assembled)}})</h4>
 				<div class="battle_div_attack"><h5><b><img src="assets/images/sword.png" class="stat_img"/> {{format_number(current_HF_Attack)}}<br/></b></h5></div>
 				<div class="battle_div_skill"><img src="assets/images/Ships/abilities/Loaded_ammo.png" class = "ship_skill_img_battle"/></div>
@@ -558,10 +615,13 @@
 
 
 			<div class="battle_div_enemies" ng-repeat="enemy in enemies">
-				<h4><img src="assets/images/Ships/light_fighter.jpg" class="ships_assemble_img" /> &nbsp {{enemy.name}} ({{enemy.info.amount}})</h4>
-				<div class="battle_div_attack"><h5><b><img src="assets/images/sword.png" class="stat_img"/> {{format_number(enemy.info.Attack * enemy.info.amount)}}<br/></b></h5></div>
-				<div class="battle_div_skill"><img src="assets/images/Ships/abilities/Loaded_ammo.png" class = "ship_skill_img_battle"/></div>
-				<div class="battle_div_reward">+2000<img src="assets/images/mineral.png" width="25" class ="artifact_img"/></div>
+				<div class="battle_div_enemies_animate">
+					<h4><img src="assets/images/Ships/light_fighter.jpg" class="ships_assemble_img" /> &nbsp {{enemy.name}} ({{enemy.info.amount}})</h4>
+					<div class="battle_div_attack"><h5><b><img src="assets/images/sword.png" class="stat_img"/> {{format_number(enemy.info.Attack * enemy.info.amount)}}<br/></b></h5></div>
+					<div class="battle_div_skill"><img src="assets/images/Ships/abilities/Loaded_ammo.png" class = "ship_skill_img_battle"/></div>
+				</div>
+				<div class="battle_div_reward"><b>+{{format_number(enemy.reward_metal * enemy.info.amount)}}</b><img src="assets/images/mineral.png" width="25" class ="artifact_img"/>&nbsp</div>
+				<div class="battle_div_reward"><b>+{{format_number(enemy.reward_crystal * enemy.info.amount)}}</b><img src="assets/images/crystal.png" width="25" class ="artifact_img"/>&nbsp</div>
 			</div>
 
 
@@ -635,11 +695,23 @@
 	</div>
 
 
-	<div class="modal-body" ng-controller="GameCtrl">
+	<div class="modal-body" ng-controller="PostBattleVictoryCtrl">
+
+
+	<div><b>Remaining HP</b></div>
+	<br/><br/><br/><br/>
+	<div><b>Casualties</b></div>
+	<br/><br/><br/><br/>
+	<div><b>Loot</b></div>
+	<br/><br/><br/><br/>
+
+
+
+
 	</div>
 
 	<div class="modal-footer">
-		<button type="button" class="btn btn-white" ng-click="currentModal.close();">Close</button>
+		<button type="button" class="btn btn-info" ng-click="currentModal.close();">Close</button>
 
 	</div>
 
@@ -647,19 +719,105 @@
 
 
 
+
+
+
 	<script type="text/ng-template" id="post_battle_defeat">
 	<div class="modal-header">
 		<button type="button" class="close" ng-click="currentModal.close();" aria-hidden="true">&times;</button>
 		<h3 class="modal-title" id ="modal-title">Defeat </h3>
-		<div>Artifacts are scattered throughout the universe and wield great power, collect them and improve your empire</div>
 	</div>
 
 
-	<div class="modal-body" ng-controller="GameCtrl">
+	<div class="modal-body" ng-controller="PostBattleDefeatCtrl">
+
+		<div class="remaining_hp">
+			<div><b>Remaining HP-</b></div> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+			<div id="remaining_hp_count" class="xe-counter" xe-counter data-count=".num" data-from="0" data-suffix="%" data-duration="2">
+				<strong class="num remaining_hp_counter" style="color:black;">0.0%</strong>
+			</div>
+		</div>
+		<br/>
+
+
+		<div class="casualties">
+			<div><b>Casualties-</b></div>
+			<div class="battle_div_causalties">
+				<div id="LF_casualties" ng-if="ships.light_fighter.assembled>0" class="battle_animate_casualties">
+					<h5><img src="assets/images/Ships/light_fighter.jpg" class="ships_casualties_img" /> &nbsp <font color="red"><b>-{{ships.light_fighter.casualties}}</b></font>
+					</h5>
+				</div>
+
+				<div id="HF_casualties" ng-if="ships.heavy_fighter.assembled>0" class="battle_animate_casualties">
+					<h5><img src="assets/images/Ships/heavy_fighter.jpg" class="ships_casualties_img" /> &nbsp <font color="red"><b>-{{ships.heavy_fighter.casualties}}</b></font></h5>
+				</div>
+
+				<div id="WG_casualties" ng-if="ships.worg.assembled>0" class="battle_animate_casualties">
+					<h5><img src="assets/images/Ships/worg.jpg" class="ships_casualties_img" /> &nbsp <font color="red"><b>-{{ships.worg.casualties}}</b></font></h5>
+				</div>
+
+				<div id="DS_casualties" ng-if="ships.destroyer.assembled>0" class="battle_animate_casualties">
+					<h5><img src="assets/images/Ships/destroyer.jpg" class="ships_casualties_img" /> &nbsp <font color="red"><b>-{{ships.destroyer.casualties}}</b></font></h5>
+				</div>
+
+
+				<div id="SU_casualties" ng-if="ships.succubus.assembled>0" class="battle_animate_casualties">
+					<h5><img src="assets/images/Ships/succubus.jpg" class="ships_casualties_img" /> &nbsp <font color="red"><b>-{{ships.succubus.casualties}}</b></font></h5>
+				</div>
+
+
+				<div id="COL_casualties" ng-if="ships.colossus.assembled>0" class="battle_animate_casualties">
+					<h5><img src="assets/images/Ships/colossus.jpg" class="ships_casualties_img" /> &nbsp <font color="red"><b>-{{ships.colossus.casualties}}</b></font></h5>
+				</div>
+
+				<div id="MD_casualties" ng-if="ships.medusa.assembled>0" class="battle_animate_casualties">
+					<h5><img src="assets/images/Ships/medusa.jpg" class="ships_casualties_img" /> &nbsp <font color="red"><b>-{{ships.medusa.casualties}}</b></font></h5>
+				</div>
+
+				<div id="SV_casualties" ng-if="ships.science_vessel.assembled>0" class="battle_animate_casualties">
+					<h5><img src="assets/images/Ships/science_vessel.jpg" class="ships_casualties_img" /> &nbsp <font color="red"><b>-{{ships.science_vessel.casualties}}</b></font></h5>
+				</div>
+
+
+				<div id="PTH_casualties" ng-if="ships.pantheon.assembled>0" class="battle_animate_casualties">
+					<h5><img src="assets/images/Ships/pantheon.jpg" class="ships_casualties_img" /> &nbsp <font color="red"><b>-{{ships.pantheon.casualties}}</b></font></h5>
+				</div>
+
+
+
+
+
+
+			</div>
+
+
+
+
+
+		</div>
+		<br/>
+
+
+
+
+
+
+		<div class="loot">
+			<div><b>Loot-</b></div><br/>
+			<div><font color="#6AEB6A"><b>+{{metal_reward}}</b></font><img src="assets/images/mineral.png" width="25" class ="artifact_img"/>&nbsp</div>
+			<div><font color="#6AEB6A"><b>+{{crystal_reward}}</b></font><img src="assets/images/crystal.png" width="25" class ="artifact_img"/>&nbsp</div>
+
+			
+			<img src="assets/images/artifacts/blue_stone.png" width="50" class ="artifact_img"/>
+		</div>
+
+
+
+
 	</div>
 
 	<div class="modal-footer">
-		<button type="button" class="btn btn-white" ng-click="currentModal.close();">Close</button>
+		<button type="button" class="btn btn-info" ng-click="currentModal.close();">Close</button>
 
 	</div>
 
@@ -789,7 +947,7 @@
 		<img src="{{item.icon}}" width="25" class ="artifact_img"/>
 		<span ng-if="item.title == 'M'" class="title"><div id="tooltip_hori_title" ng-controller="GameCtrl">{{format_number(metal.current_owned)}}<span>Metal, the most basic resource for any space expedition</span></div></span>
 		<span ng-if="item.title == 'C'" class="title"><div id="tooltip_hori_title" ng-controller="GameCtrl">{{format_number(crystal.current_owned)}}<span>Crystal, rare resource that is used for building advanced ships and researching</span></div></span>
-		<span ng-if="item.title == 'DM'" class="title"><div id="tooltip_hori_title" ng-controller="GameCtrl">{{format_number(dark_matter.current_owned)}}<span>Dark matter, a hypothetical kind of matter that cannot be seen with human eyes. They have the power to alter space and time</span></span>
+		<span ng-if="item.title == 'DM'" class="title"><div id="tooltip_hori_title" ng-controller="GameCtrl">{{format_number_0(dark_matter.current_owned)}}<span>Dark matter, a hypothetical kind of matter that cannot be seen with human eyes. They have the power to alter space and time</span></span>
 		<span ng-if="item.label" class="label label-{{item.label.classname}} pull-right" ng-class="{'hidden-collapsed': item.label.collapsedHide}">{{item.label.text}}</span>
 	</script>
 

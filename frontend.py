@@ -6,7 +6,7 @@ from flask import *
 import time
 
 
-
+'''
 #using python flask framework to host our backend
 app = Flask(__name__, template_folder='C:\\Users\\Redirection\\NIUC3\\Desktop\\Archives\\Tyler\\angular' , static_url_path='')
 cors = CORS(app)
@@ -62,7 +62,7 @@ def send_assets(path):
 @app.route('/app/tpls/<path:path>')
 def send_tpls(path):
 	return send_from_directory('E:\\HungerCraft\\angular\\app\\tpls', path)
-'''
+
 
 
 

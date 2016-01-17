@@ -26,13 +26,14 @@ var specialization = {
 var ships ={
 	light_fighter:{
 		unlocked:0,
-		current_owned:10000,
+		current_owned:10,
 		assembled:0,
+		casualties:0,
 		metal_cost:300,
 		crystal_cost:170,
 		stats:{
-			HP:100,
-			shield:10,
+			HP:1000,
+			shield:20,
 			attack:30
 		},
 		skills:{
@@ -44,8 +45,9 @@ var ships ={
 	},
 	heavy_fighter:{
 		unlocked:0,
-		current_owned:0,
+		current_owned:1,
 		assembled:0,
+		casualties:0,
 		metal_cost:1200,
 		crystal_cost:710,
 		stats:{
@@ -64,6 +66,7 @@ var ships ={
 		unlocked:0,
 		current_owned:0,
 		assembled:0,
+		casualties:0,
 		metal_cost:4200,
 		crystal_cost:900,
 		stats:{
@@ -86,6 +89,7 @@ var ships ={
 		unlocked:0,
 		current_owned:0,
 		assembled:0,
+		casualties:0,
 		metal_cost:31000,
 		crystal_cost:19000,
 		stats:{
@@ -112,6 +116,7 @@ var ships ={
 		unlocked:0,
 		current_owned:0,
 		assembled:0,
+		casualties:0,
 		metal_cost:20000,
 		crystal_cost:45000,
 		stats:{
@@ -138,6 +143,7 @@ var ships ={
 		unlocked:0,
 		current_owned:0,
 		assembled:0,
+		casualties:0,
 		metal_cost:8500000,
 		crystal_cost:290000,
 		stats:{
@@ -168,6 +174,7 @@ var ships ={
 		unlocked:0,
 		current_owned:0,
 		assembled:0,
+		casualties:0,
 		metal_cost:4500000,
 		crystal_cost:3900000,
 		stats:{
@@ -198,6 +205,7 @@ var ships ={
 		unlocked:0,
 		current_owned:0,
 		assembled:0,
+		casualties:0,
 		metal_cost:7500000,
 		crystal_cost:8900000,
 		stats:{
@@ -232,6 +240,7 @@ var ships ={
 		unlocked:0,
 		current_owned:0,
 		assembled:0,
+		casualties:0,
 		metal_cost:3500000000,
 		crystal_cost:190000000,
 		stats:{
@@ -266,6 +275,7 @@ var ships ={
 		unlocked:0,
 		current_owned:0,
 		assembled:0,
+		casualties:0,
 		metal_cost:0,
 		crystal_cost:0,
 		stats:{
@@ -575,7 +585,7 @@ angular.module('xenon.controllers', []).
 	}).
 	controller('GameCtrl', function($scope, $rootScope, $cookies, $modal, $sce, $layout, $location, $timeout, $interval)
 	{
-//REMOVE LATER, TEST CODE
+		//REMOVE LATER, TEST CODE
 
 		$scope.unlock_test = function(){
 
@@ -605,35 +615,23 @@ angular.module('xenon.controllers', []).
 				 raids[key]["unlocked"] = 0;
 				}
 		};
-
-/*		var poll_notification = window.setInterval(function(){
-
-		var AUTHOR_URL = 'http://localhost:5000/get_notification/'.concat('Tyler');
-			$.ajax({
-				dataType: 'json',
-				type: 'GET',
-				url: AUTHOR_URL,
-				success: function(message) {
-					console.log(message);
-
-				}
-			});
-
-		}, 2000);
+		$.ajaxSetup({
+	    async: false
+		});
 
 
-		window.onbeforeunload = function (event) {
-	  var message = 'Sure you want to leave?';
-		console.log("leave");
-	  if (typeof event == 'undefined') {
-	    event = window.event;
-	  }
-	  if (event) {
-	    event.returnValue = message;
-	  }
-	  return message;
-	}
-*/
+		$.getJSON( '../../assets/skills_info.json', function( data ) {
+		  $.each( data, function( key, val ) {
+				$rootScope.skills_info = data;
+		  });
+
+		});
+
+
+
+
+
+
 		$rootScope.layoutOptions.horizontalMenu.isVisible = true;
 		$scope.metal = metal;
 		$scope.crystal = crystal;
@@ -673,7 +671,7 @@ angular.module('xenon.controllers', []).
 		    return num.toFixed(1);
 		}
 		$scope.format_number_0= function(num) {
-			return num.toFixed(0);
+			return Number($scope.format_number(num)).toFixed(0);
 		}
 
 
@@ -799,7 +797,17 @@ angular.module('xenon.controllers', []).
 
 
 			    //raids[instance_name]['timer']= "02:00:00";
+			    if(ships.light_fighter.current_owned==0 && ships.heavy_fighter.current_owned==0 && ships.worg.current_owned==0 && 
+			    	ships.destroyer.current_owned==0 && ships.colossus.current_owned==0 && ships.succubus.current_owned==0 && 
+			    	ships.medusa.current_owned==0 && ships.science_vessel.current_owned==0 && ships.pantheon.current_owned==0 ){
 
+
+				toastr.error("You don't have any fighter"
+						, opts);
+				return false;
+
+			    }
+			    
 
 			    $rootScope.currentModal.close();
 			    $rootScope.current_instance=instance_name;
@@ -1349,6 +1357,44 @@ angular.module('xenon.controllers', []).
 		$rootScope.isLockscreenPage   = false;
 		$rootScope.isMainPage         = false;
 		$rootScope.layoutOptions.horizontalMenu.isVisible = false;
+
+		/*		var poll_notification = window.setInterval(function(){
+
+		var AUTHOR_URL = 'http://localhost:5000/get_notification/'.concat('Tyler');
+			$.ajax({
+				dataType: 'json',
+				type: 'GET',
+				url: AUTHOR_URL,
+				success: function(message) {
+					console.log(message);
+
+				}
+			});
+
+		}, 2000);
+
+
+		window.onbeforeunload = function (event) {
+	  var message = 'Sure you want to leave?';
+		console.log("leave");
+	  if (typeof event == 'undefined') {
+	    event = window.event;
+	  }
+	  if (event) {
+	    event.returnValue = message;
+	  }
+	  return message;
+	}
+*/
+
+
+
+
+
+
+
+
+
 
 		//var current_user = $cookies['current_user'];;
 		$rootScope.setCurrentUser = function (user) {
@@ -2252,6 +2298,20 @@ angular.module('xenon.controllers', []).
 		$scope.raids = raids;
 		$scope.ships = ships;
 		$scope.level = level;
+		var opts = {
+				"closeButton": true,
+				"debug": false,
+				"positionClass": "toast-top-full-width",
+				"onclick": null,
+				"showDuration": "300",
+				"hideDuration": "1000",
+				"timeOut": "5000",
+				"extendedTimeOut": "1000",
+				"showEasing": "swing",
+				"hideEasing": "linear",
+				"showMethod": "fadeIn",
+				"hideMethod": "fadeOut"
+				};
 		$scope.format_number= function(num) {
 			if (num >= 10000){
 				return (num/1000).toFixed(1) + 'k';
@@ -2275,7 +2335,8 @@ angular.module('xenon.controllers', []).
 
 
 		$rootScope.current_floor = 1;
-
+		$rootScope.metal_reward=0;
+		$rootScope.crystal_reward=0;
 
 		//CALCULATE BONUS
 
@@ -2556,6 +2617,16 @@ angular.module('xenon.controllers', []).
 
 		$scope.Advance = function()
 		{
+
+			if(ships.light_fighter.assembled+ships.heavy_fighter.assembled+ships.worg.assembled+
+				ships.destroyer.assembled+ships.medusa.assembled+ships.succubus.assembled+
+				ships.science_vessel.assembled+ships.colossus.assembled+ships.pantheon.assembled ==0){
+
+				toastr.error("Please select at least one fleet"
+						, opts);
+				return false;
+			}
+
 			$rootScope.currentModal.close();
 			$scope.openModal('battle', 'lg', 'static');
 		};
@@ -2563,8 +2634,126 @@ angular.module('xenon.controllers', []).
 
 
 
-	}).
-	controller('MainBattleCtrl', function($rootScope,$scope, $element, $modal, $timeout, $interval)
+	}).controller('PostBattleDefeatCtrl', function($rootScope,$scope, $element, $modal, $timeout, $interval)
+	{
+		$scope.metal = metal;
+		$scope.crystal = crystal;
+		$scope.research_lab = research_lab;
+		$scope.shipyard = shipyard;
+		$scope.dm_lab = dm_lab;
+		$scope.artifacts = artifacts;
+		$scope.specialization = specialization;
+		$scope.raids = raids;
+		$scope.ships = ships;
+		$scope.level = level;
+		var count=0;
+		$scope.instance_data;
+		$scope.ships_data;
+		$.ajaxSetup({
+    async: false
+	});
+
+
+
+		$scope.remaining_hp_percent = Number($rootScope.CUR_TOT_HP/$rootScope.MAX_TOT_HP_ROOT *100).toFixed(1);
+		var remaining_hp_counter = angular.element( document.querySelector( '#remaining_hp_count' ) );
+		remaining_hp_counter.attr('data-to', $scope.remaining_hp_percent );
+		$( ".remaining_hp" ).animate({ "left": "+=200px", "opacity":"1" }, 1300);
+
+		//calculate casualties
+		//0-50, 10-45
+
+
+
+
+		$scope.casualties_rate = (100-$scope.remaining_hp_percent)/1.6;
+		for (var key in ships) {
+
+
+				ships[key]["casualties"] = 0;
+
+
+
+			for(var i=0; i < ships[key]["assembled"]; i++){
+				if(Math.floor((Math.random() * 100) + 1) < $scope.casualties_rate)
+				{
+					ships[key]["current_owned"] -= 1;
+					ships[key]["casualties"] += 1;
+				}
+			}
+		}
+		
+		$timeout(function(){
+			$( ".casualties" ).animate({ "left": "+=200px", "opacity":"1" }, 1300);
+		}, 1300);
+
+		
+
+		//calculate loot
+		metal.current_owned += $rootScope.metal_reward;
+		crystal.current_owned += $rootScope.crystal_reward;
+		var dice = Math.floor((Math.random() * 100) + 1);
+		if(dice > 95)//Legend
+		{
+					ships[key]["current_owned"] -= 1;
+					ships[key]["casualties"] += 1;
+		}else if(dice > 75)//epic
+		{
+					ships[key]["current_owned"] -= 1;
+					ships[key]["casualties"] += 1;
+		}else if(dice > 65)//rare
+		{
+					ships[key]["current_owned"] -= 1;
+					ships[key]["casualties"] += 1;
+		}else//uncommon
+		{
+			ships[key]["current_owned"] -= 1;
+			ships[key]["casualties"] += 1;
+		}
+
+
+
+
+		$timeout(function(){
+			$( ".loot" ).animate({ "left": "+=200px", "opacity":"1" }, 1300);
+		}, 2600);
+
+
+
+	}).controller('PostBattleVictoryCtrl', function($rootScope,$scope, $element, $modal, $timeout, $interval)
+	{
+		$scope.metal = metal;
+		$scope.crystal = crystal;
+		$scope.research_lab = research_lab;
+		$scope.shipyard = shipyard;
+		$scope.dm_lab = dm_lab;
+		$scope.artifacts = artifacts;
+		$scope.specialization = specialization;
+		$scope.raids = raids;
+		$scope.ships = ships;
+		$scope.level = level;
+		var count=0;
+		$scope.instance_data;
+		$scope.ships_data;
+		$.ajaxSetup({
+    async: false
+	});
+
+
+		
+		
+
+
+
+
+
+
+
+
+
+
+
+	}).controller('MainBattleCtrl', function($rootScope,$scope, $element, $modal, $timeout, $interval)
 	{
 		$scope.metal = metal;
 		$scope.crystal = crystal;
@@ -2674,6 +2863,8 @@ angular.module('xenon.controllers', []).
 
 		$scope.MAX_TOT_HP = $scope.current_LF_HP+$scope.current_HF_HP+$scope.current_WG_HP+$scope.current_DS_HP+$scope.current_SU_HP+$scope.current_COL_HP+$scope.current_MD_HP+$scope.current_SV_HP+$scope.current_PTH_HP;
 		$scope.MAX_TOT_SHIELD = $scope.current_LF_Shield+$scope.current_HF_Shield+$scope.current_WG_Shield+$scope.current_DS_Shield+$scope.current_SU_Shield+$scope.current_COL_Shield+$scope.current_MD_Shield+$scope.current_SV_Shield+$scope.current_PTH_Shield;
+		$rootScope.MAX_TOT_HP_ROOT = $scope.MAX_TOT_HP;
+		$rootScope.MAX_TOT_SHIELD_ROOT = $scope.MAX_TOT_SHIELD;
 		//$scope.CUR_TOT_HP = $scope.current_LF_HP+$scope.current_HF_HP+$scope.current_WG_HP+$scope.current_DS_HP+$scope.current_SU_HP+$scope.current_COL_HP+$scope.current_MD_HP+$scope.current_SV_HP+$scope.current_PTH_HP;
 		//$scope.CUR_TOT_SHIELD = $scope.current_LF_Shield+$scope.current_HF_Shield+$scope.current_WG_Shield+$scope.current_DS_Shield+$scope.current_SU_Shield+$scope.current_COL_Shield+$scope.current_MD_Shield+$scope.current_SV_Shield+$scope.current_PTH_Shield;
 
@@ -2887,7 +3078,7 @@ angular.module('xenon.controllers', []).
 
 		$timeout(function(){
 
-			$( ".battle_div_enemies" ).animate({ "left": "-=215px", "opacity":"1" }, 500);
+			$( ".battle_div_enemies_animate" ).animate({ "left": "-=215px", "opacity":"1" }, 500);
 			$( ".battle_div_enemies_bar" ).animate({ "left": "-=150px", "opacity":"1" }, 500);
 			//$( "#TOT_battle_enemy" ).animate({ "left": "-=150px", "opacity":"1" }, 500);
 
@@ -2928,38 +3119,42 @@ angular.module('xenon.controllers', []).
 		$('.Start').hide();
 		$('.Abandon').hide();
 
+		//ready the loot
+		
+		var start;
+
 		//START FUNTION
 		$scope.Start = function()
 		{
 			$('.Start').hide();
-			var start = $interval(function(){
+			start = $interval(function(){
 
 								if ($scope.progress_TOT_Shield_enemy.value>0){
 
-									if ($scope.progress_TOT_Shield_enemy.value - ($scope.current_LF_Attack+$scope.current_HF_Attack+$scope.current_WG_Attack+$scope.current_DS_Attack+$scope.current_COL_Attack+$scope.current_SU_Attack+$scope.current_MD_Attack+$scope.current_SV_Attack+$scope.current_PTH_Attack)<0){
+									if ($scope.progress_TOT_Shield_enemy.value - ($scope.current_LF_Attack+$scope.current_HF_Attack+$scope.current_WG_Attack+$scope.current_DS_Attack+$scope.current_COL_Attack+$scope.current_SU_Attack+$scope.current_MD_Attack+$scope.current_SV_Attack+$scope.current_PTH_Attack)/10<0){
 										$scope.progress_TOT_Shield_enemy.value=0;
 									}else{
-										$scope.progress_TOT_Shield_enemy.value -= ($scope.current_LF_Attack+$scope.current_HF_Attack+$scope.current_WG_Attack+$scope.current_DS_Attack+$scope.current_COL_Attack+$scope.current_SU_Attack+$scope.current_MD_Attack+$scope.current_SV_Attack+$scope.current_PTH_Attack)
+										$scope.progress_TOT_Shield_enemy.value -= ($scope.current_LF_Attack+$scope.current_HF_Attack+$scope.current_WG_Attack+$scope.current_DS_Attack+$scope.current_COL_Attack+$scope.current_SU_Attack+$scope.current_MD_Attack+$scope.current_SV_Attack+$scope.current_PTH_Attack)/10
 									};
 
-									if($scope.CUR_TOT_SHIELD_ENEMY - ($scope.current_LF_Attack+$scope.current_HF_Attack+$scope.current_WG_Attack+$scope.current_DS_Attack+$scope.current_COL_Attack+$scope.current_SU_Attack+$scope.current_MD_Attack+$scope.current_SV_Attack+$scope.current_PTH_Attack)<0){
+									if($scope.CUR_TOT_SHIELD_ENEMY - ($scope.current_LF_Attack+$scope.current_HF_Attack+$scope.current_WG_Attack+$scope.current_DS_Attack+$scope.current_COL_Attack+$scope.current_SU_Attack+$scope.current_MD_Attack+$scope.current_SV_Attack+$scope.current_PTH_Attack)/10<0){
 										$scope.CUR_TOT_SHIELD_ENEMY =0;
 									}else{
-										$scope.CUR_TOT_SHIELD_ENEMY -= ($scope.current_LF_Attack+$scope.current_HF_Attack+$scope.current_WG_Attack+$scope.current_DS_Attack+$scope.current_COL_Attack+$scope.current_SU_Attack+$scope.current_MD_Attack+$scope.current_SV_Attack+$scope.current_PTH_Attack);
+										$scope.CUR_TOT_SHIELD_ENEMY -= ($scope.current_LF_Attack+$scope.current_HF_Attack+$scope.current_WG_Attack+$scope.current_DS_Attack+$scope.current_COL_Attack+$scope.current_SU_Attack+$scope.current_MD_Attack+$scope.current_SV_Attack+$scope.current_PTH_Attack)/10;
 									};
 
 								}else{
-									if ($scope.progress_TOT_HP_enemy.value - ($scope.current_LF_Attack+$scope.current_HF_Attack+$scope.current_WG_Attack+$scope.current_DS_Attack+$scope.current_COL_Attack+$scope.current_SU_Attack+$scope.current_MD_Attack+$scope.current_SV_Attack+$scope.current_PTH_Attack)<0){
+									if ($scope.progress_TOT_HP_enemy.value - ($scope.current_LF_Attack+$scope.current_HF_Attack+$scope.current_WG_Attack+$scope.current_DS_Attack+$scope.current_COL_Attack+$scope.current_SU_Attack+$scope.current_MD_Attack+$scope.current_SV_Attack+$scope.current_PTH_Attack)/10<0){
 										$scope.progress_TOT_HP_enemy.value=0;
 									}else{
-										$scope.progress_TOT_HP_enemy.value -= ($scope.current_LF_Attack+$scope.current_HF_Attack+$scope.current_WG_Attack+$scope.current_DS_Attack+$scope.current_COL_Attack+$scope.current_SU_Attack+$scope.current_MD_Attack+$scope.current_SV_Attack+$scope.current_PTH_Attack)
+										$scope.progress_TOT_HP_enemy.value -= ($scope.current_LF_Attack+$scope.current_HF_Attack+$scope.current_WG_Attack+$scope.current_DS_Attack+$scope.current_COL_Attack+$scope.current_SU_Attack+$scope.current_MD_Attack+$scope.current_SV_Attack+$scope.current_PTH_Attack)/10
 									};
 
 
-									if ($scope.CUR_TOT_HP_ENEMY - ($scope.current_LF_Attack+$scope.current_HF_Attack+$scope.current_WG_Attack+$scope.current_DS_Attack+$scope.current_COL_Attack+$scope.current_SU_Attack+$scope.current_MD_Attack+$scope.current_SV_Attack+$scope.current_PTH_Attack)<0){
+									if ($scope.CUR_TOT_HP_ENEMY - ($scope.current_LF_Attack+$scope.current_HF_Attack+$scope.current_WG_Attack+$scope.current_DS_Attack+$scope.current_COL_Attack+$scope.current_SU_Attack+$scope.current_MD_Attack+$scope.current_SV_Attack+$scope.current_PTH_Attack)/10<0){
 										$scope.CUR_TOT_HP_ENEMY=0;
 									}else{
-										$scope.CUR_TOT_HP_ENEMY -= ($scope.current_LF_Attack+$scope.current_HF_Attack+$scope.current_WG_Attack+$scope.current_DS_Attack+$scope.current_COL_Attack+$scope.current_SU_Attack+$scope.current_MD_Attack+$scope.current_SV_Attack+$scope.current_PTH_Attack)
+										$scope.CUR_TOT_HP_ENEMY -= ($scope.current_LF_Attack+$scope.current_HF_Attack+$scope.current_WG_Attack+$scope.current_DS_Attack+$scope.current_COL_Attack+$scope.current_SU_Attack+$scope.current_MD_Attack+$scope.current_SV_Attack+$scope.current_PTH_Attack)/10
 									};
 								}
 
@@ -2972,27 +3167,27 @@ angular.module('xenon.controllers', []).
 
 
 										if ($scope.progress_TOT_Shield.value>0){
-												if ($scope.progress_TOT_Shield.value - $scope.enemies[i].info.Attack * $scope.enemies[i].info.amount<0){
+												if ($scope.progress_TOT_Shield.value - $scope.enemies[i].info.Attack/10 * $scope.enemies[i].info.amount<0){
 													$scope.progress_TOT_Shield.value=0;
 												}else{
-													$scope.progress_TOT_Shield.value -= $scope.enemies[i].info.Attack * $scope.enemies[i].info.amount;
+													$scope.progress_TOT_Shield.value -= $scope.enemies[i].info.Attack/10 * $scope.enemies[i].info.amount;
 												};
-												if ($rootScope.CUR_TOT_SHIELD - $scope.enemies[i].info.Attack * $scope.enemies[i].info.amount<0){
+												if ($rootScope.CUR_TOT_SHIELD - $scope.enemies[i].info.Attack/10 * $scope.enemies[i].info.amount<0){
 													$rootScope.CUR_TOT_SHIELD=0;
 												}else{
-													$rootScope.CUR_TOT_SHIELD -= $scope.enemies[i].info.Attack * $scope.enemies[i].info.amount;
+													$rootScope.CUR_TOT_SHIELD -= $scope.enemies[i].info.Attack/10 * $scope.enemies[i].info.amount;
 												};
 
 											}else{
-												if ($scope.progress_TOT_HP.value - $scope.enemies[i].info.Attack * $scope.enemies[i].info.amount<0){
+												if ($scope.progress_TOT_HP.value - $scope.enemies[i].info.Attack/10 * $scope.enemies[i].info.amount<0){
 													$scope.progress_TOT_HP.value=0;
 												}else{
-													$scope.progress_TOT_HP.value -= $scope.enemies[i].info.Attack * $scope.enemies[i].info.amount;
+													$scope.progress_TOT_HP.value -= $scope.enemies[i].info.Attack/10 * $scope.enemies[i].info.amount;
 												};
-												if ($rootScope.CUR_TOT_HP - $scope.enemies[i].info.Attack * $scope.enemies[i].info.amount<0){
+												if ($rootScope.CUR_TOT_HP - $scope.enemies[i].info.Attack/10 * $scope.enemies[i].info.amount<0){
 													$rootScope.CUR_TOT_HP=0;
 												}else{
-													$rootScope.CUR_TOT_HP -= $scope.enemies[i].info.Attack * $scope.enemies[i].info.amount;
+													$rootScope.CUR_TOT_HP -= $scope.enemies[i].info.Attack/10 * $scope.enemies[i].info.amount;
 												};
 										}
 
@@ -3001,14 +3196,31 @@ angular.module('xenon.controllers', []).
 
 
 
-								//who won??
+								//calculate result
 								if($scope.CUR_TOT_HP_ENEMY <=0){
 									$scope.CUR_TOT_HP_ENEMY =0;
 									$interval.cancel(start);
 									$timeout(function(){
-										$( ".battle_div_enemies" ).animate({ "opacity":"0" }, 1000);
+										$( ".battle_div_enemies_animate" ).animate({ "opacity":"0" }, 1000);
 
-									}, 500);
+									}, 400);
+									$timeout(function(){
+										$( ".battle_div_reward" ).animate({"top":"-=60px", "opacity":"1" }, 2000);
+										$timeout(function(){
+										$( ".battle_div_reward" ).animate({"opacity":"0" }, 400);
+
+										}, 100);
+
+									}, 700);
+
+									
+
+									for(var i=0; i < $scope.enemies.length; i++){
+										$rootScope.metal_reward += $scope.enemies[i].reward_metal;
+										$rootScope.crystal_reward += $scope.enemies[i].reward_crystal;
+										
+									}
+
 
 
 
@@ -3017,7 +3229,7 @@ angular.module('xenon.controllers', []).
 										$timeout(function(){
 											$rootScope.currentModal.close();
 											$scope.openModal('post_battle_victory', 'lg', 'static');
-										}, 1700);
+										}, 2500);
 
 									}else{
 										$('.NextFloor').show("slow");
@@ -3033,8 +3245,8 @@ angular.module('xenon.controllers', []).
 
 									$timeout(function(){
 											$rootScope.currentModal.close();
-											$scope.openModal('post_battle_defeat', 'lg', 'static');
-										}, 1700);
+											$scope.openModal('post_battle_defeat', 'static');
+										}, 2500);
 								}
 
 			}, 100);
@@ -3048,6 +3260,9 @@ angular.module('xenon.controllers', []).
 
 		$scope.NextFloor = function()
 		{
+			$interval.cancel(start);
+
+
 			if($scope.instance_data[$rootScope.current_instance]['normal']['floor_num']== $rootScope.current_floor){
 				$rootScope.currentModal.close();
 				$scope.openModal('post_battle_victory', 'lg', 'static');
@@ -3071,9 +3286,10 @@ angular.module('xenon.controllers', []).
 		//Retreat FUNTION
 		$scope.Retreat = function()
 		{
-			$rootScope.currentModal.close();
+			$interval.cancel(start);
 
-			$scope.openModal('post_battle_defeat', 'lg', 'static');
+			$rootScope.currentModal.close();
+			$scope.openModal('post_battle_defeat', 'static');
 		};
 
 

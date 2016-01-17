@@ -6,13 +6,14 @@
 				"1": [
 					{
 						"name":"Oatis Light Fighter",
-						"reward_metal":10000,
+						"reward_metal":2000,
+						"reward_crystal":1000,
 						"info" : {
-							"HP": 30000,
+							"HP": 3000,
 							"Shields": 100,
-							"Attack": 1,
+							"Attack": 10	,
 							"Skills": ["1", "2"],
-							"amount": 10
+							"amount": 1
 						}
 					}
 
@@ -20,36 +21,39 @@
 				"2": [
 					{
 						"name":"Oatis Light Fighter",
-						"reward_metal":10000,
+						"reward_metal":2000,
+						"reward_crystal":1000,
 						"info" : {
-							"HP": 80000,
+							"HP": 3000,
 							"Shields": 100,
-							"Attack": 1000,
+							"Attack": 100,
 							"Skills": ["1", "2"],
 							"amount": 20
 						}
 					},
 					{
 
-						"name":"Oatis Light Fighter",
-						"reward_metal":10000,
+						"name":"Oatis Heavy Fighter",
+						"reward_metal":4000,
+						"reward_crystal":2000,
 						"info" : {
-							"HP": 80000,
-							"Shields": 100,
-							"Attack": 1000,
+							"HP": 8000,
+							"Shields": 400,
+							"Attack": 15,
 							"Skills": ["1", "2"],
-							"amount": 20
+							"amount": 5
 						}
 					}
 				],
 				"3": [
 					{
 						"name":"Devil's Rage",
-						"reward_metal":10000,
+						"reward_metal":50000,
+						"reward_crystal":10000,
 						"info" : {
-							"HP": 100000000,
+							"HP": 100000,
 							"Shields": 10000,
-							"Attack": 1120,
+							"Attack": 20,
 							"Skills": ["1", "2"],
 							"amount": 1
 						}
@@ -57,7 +61,7 @@
 				]
 			},
 			"drops": {
-				"uncommon": ["1", "2"],
+				"uncommon": ["Shards", "2"],
 				"rare": ["1"],
 				"epic": ["1"],
 				"legendary": ["1"]
