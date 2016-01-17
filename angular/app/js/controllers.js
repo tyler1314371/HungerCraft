@@ -26,7 +26,7 @@ var specialization = {
 var ships ={
 	light_fighter:{
 		unlocked:0,
-		current_owned:10,
+		current_owned:1000,
 		assembled:0,
 		casualties:0,
 		metal_cost:300,
@@ -2337,7 +2337,7 @@ angular.module('xenon.controllers', []).
 		$rootScope.current_floor = 1;
 		$rootScope.metal_reward=0;
 		$rootScope.crystal_reward=0;
-
+		$rootScope.artifact_reward=0;
 		//CALCULATE BONUS
 
 
@@ -2647,7 +2647,7 @@ angular.module('xenon.controllers', []).
 		$scope.ships = ships;
 		$scope.level = level;
 		var count=0;
-		$scope.instance_data;
+		$rootScope.instance_data;
 		$scope.ships_data;
 		$.ajaxSetup({
     async: false
@@ -2690,25 +2690,32 @@ angular.module('xenon.controllers', []).
 		
 
 		//calculate loot
+
+
+		$scope.drops = $rootScope.instance_data[$rootScope.current_instance]['normal']['drops'];
 		metal.current_owned += $rootScope.metal_reward;
 		crystal.current_owned += $rootScope.crystal_reward;
-		var dice = Math.floor((Math.random() * 100) + 1);
-		if(dice > 95)//Legend
-		{
-					ships[key]["current_owned"] -= 1;
-					ships[key]["casualties"] += 1;
-		}else if(dice > 75)//epic
-		{
-					ships[key]["current_owned"] -= 1;
-					ships[key]["casualties"] += 1;
-		}else if(dice > 65)//rare
-		{
-					ships[key]["current_owned"] -= 1;
-					ships[key]["casualties"] += 1;
-		}else//uncommon
-		{
-			ships[key]["current_owned"] -= 1;
-			ships[key]["casualties"] += 1;
+		$scope.artifact_loot=[];
+
+		for(var i=0; i < $rootScope.artifact_reward; i++){
+			var dice = Math.floor((Math.random() * 100) + 1);
+			if(dice > 95)//Legend
+			{
+				$scope.artifact_loot.push($scope.drops['legendary'][Math.floor(Math.random()*$scope.drops['legendary'].length)]);
+				
+						
+			}else if(dice > 75)//epic
+			{
+				$scope.artifact_loot.push($scope.drops['epic'][Math.floor(Math.random()*$scope.drops['epic'].length)]);
+						
+			}else if(dice > 65)//rare
+			{
+				$scope.artifact_loot.push($scope.drops['rare'][Math.floor(Math.random()*$scope.drops['rare'].length)]);
+						
+			}else//uncommon
+			{
+				$scope.artifact_loot.push($scope.drops['uncommon'][Math.floor(Math.random()*$scope.drops['uncommon'].length)]);
+			}
 		}
 
 
@@ -2718,7 +2725,7 @@ angular.module('xenon.controllers', []).
 			$( ".loot" ).animate({ "left": "+=200px", "opacity":"1" }, 1300);
 		}, 2600);
 
-
+		raids[$rootScope.current_instance]['timer']="00:30:00";
 
 	}).controller('PostBattleVictoryCtrl', function($rootScope,$scope, $element, $modal, $timeout, $interval)
 	{
@@ -2733,7 +2740,7 @@ angular.module('xenon.controllers', []).
 		$scope.ships = ships;
 		$scope.level = level;
 		var count=0;
-		$scope.instance_data;
+		$rootScope.instance_data;
 		$scope.ships_data;
 		$.ajaxSetup({
     async: false
@@ -2741,12 +2748,98 @@ angular.module('xenon.controllers', []).
 
 
 		
+		$scope.metal = metal;
+		$scope.crystal = crystal;
+		$scope.research_lab = research_lab;
+		$scope.shipyard = shipyard;
+		$scope.dm_lab = dm_lab;
+		$scope.artifacts = artifacts;
+		$scope.specialization = specialization;
+		$scope.raids = raids;
+		$scope.ships = ships;
+		$scope.level = level;
+		var count=0;
+		$rootScope.instance_data;
+		$scope.ships_data;
+		$.ajaxSetup({
+    async: false
+	});
+
+
+
+		$scope.remaining_hp_percent = Number($rootScope.CUR_TOT_HP/$rootScope.MAX_TOT_HP_ROOT *100).toFixed(1);
+		var remaining_hp_counter = angular.element( document.querySelector( '#remaining_hp_count' ) );
+		remaining_hp_counter.attr('data-to', $scope.remaining_hp_percent );
+		$( ".remaining_hp" ).animate({ "left": "+=200px", "opacity":"1" }, 1300);
+
+		//calculate casualties
+		//0-50, 10-45
+
+
+
+
+		$scope.casualties_rate = (100-$scope.remaining_hp_percent)/2;
+		for (var key in ships) {
+
+
+				ships[key]["casualties"] = 0;
+
+
+
+			for(var i=0; i < ships[key]["assembled"]; i++){
+				if(Math.floor((Math.random() * 100) + 1) < $scope.casualties_rate)
+				{
+					ships[key]["current_owned"] -= 1;
+					ships[key]["casualties"] += 1;
+				}
+			}
+		}
+		
+		$timeout(function(){
+			$( ".casualties" ).animate({ "left": "+=200px", "opacity":"1" }, 1300);
+		}, 1300);
+
 		
 
+		//calculate loot
+
+
+		$scope.drops = $rootScope.instance_data[$rootScope.current_instance]['normal']['drops'];
+		metal.current_owned += $rootScope.metal_reward;
+		crystal.current_owned += $rootScope.crystal_reward;
+		$scope.artifact_loot=[];
+
+		for(var i=0; i < $rootScope.artifact_reward; i++){
+			var dice = Math.floor((Math.random() * 100) + 1);
+			if(dice > 95)//Legend
+			{
+				$scope.artifact_loot.push($scope.drops['legendary'][Math.floor(Math.random()*$scope.drops['legendary'].length)]);
+				
+						
+			}else if(dice > 75)//epic
+			{
+				$scope.artifact_loot.push($scope.drops['epic'][Math.floor(Math.random()*$scope.drops['epic'].length)]);
+						
+			}else if(dice > 65)//rare
+			{
+				$scope.artifact_loot.push($scope.drops['rare'][Math.floor(Math.random()*$scope.drops['rare'].length)]);
+						
+			}else//uncommon
+			{
+				$scope.artifact_loot.push($scope.drops['uncommon'][Math.floor(Math.random()*$scope.drops['uncommon'].length)]);
+			}
+		}
+
+
+
+		$timeout(function(){
+			$( ".loot" ).animate({ "left": "+=200px", "opacity":"1" }, 1300);
+		}, 2600);
 
 
 
 
+		raids[$rootScope.current_instance]['timer']="01:00:00";
 
 
 
@@ -2766,7 +2859,6 @@ angular.module('xenon.controllers', []).
 		$scope.ships = ships;
 		$scope.level = level;
 		var count=0;
-		$scope.instance_data;
 		$scope.ships_data;
 		$.ajaxSetup({
     async: false
@@ -2804,7 +2896,7 @@ angular.module('xenon.controllers', []).
 		$.getJSON( '../../assets/raids_info.json', function( data ) {
 		  $.each( data, function( key, val ) {
 		    //console.log(data[$rootScope.current_instance]['normal']['floor_num']);
-				$scope.instance_data = data;
+				$rootScope.instance_data = data;
 
 		  });
 
@@ -2826,7 +2918,7 @@ angular.module('xenon.controllers', []).
 
 
 
-		$scope.total_floor_num = $scope.instance_data[$rootScope.current_instance]['normal']['floor_num'];
+		$scope.total_floor_num = $rootScope.instance_data[$rootScope.current_instance]['normal']['floor_num'];
 
 
 
@@ -3042,7 +3134,7 @@ angular.module('xenon.controllers', []).
 
 
 		//ENEMIES ready
-		$scope.enemies = $scope.instance_data[$rootScope.current_instance]['normal']['floors'][String($rootScope.current_floor)]
+		$scope.enemies = $rootScope.instance_data[$rootScope.current_instance]['normal']['floors'][String($rootScope.current_floor)]
 		$scope.enemies.forEach(function(data)
 		{
 		  if(count>0){
@@ -3214,21 +3306,33 @@ angular.module('xenon.controllers', []).
 									}, 700);
 
 									
-
+									//calculate reward
 									for(var i=0; i < $scope.enemies.length; i++){
 										$rootScope.metal_reward += $scope.enemies[i].reward_metal;
 										$rootScope.crystal_reward += $scope.enemies[i].reward_crystal;
-										
+
+										if ($scope.enemies[i].boss==1){
+											var dice = Math.floor((Math.random() * 100) + 1);
+											if(dice >90){
+
+											}else if (dice >65){
+
+											}else{
+												$rootScope.artifact_reward+=1;
+											}
+											
+										}
 									}
+									
 
 
 
 
-									if($scope.instance_data[$rootScope.current_instance]['normal']['floor_num']== $rootScope.current_floor){
+									if($rootScope.instance_data[$rootScope.current_instance]['normal']['floor_num']== $rootScope.current_floor){
 
 										$timeout(function(){
 											$rootScope.currentModal.close();
-											$scope.openModal('post_battle_victory', 'lg', 'static');
+											$scope.openModal('post_battle_victory','static');
 										}, 2500);
 
 									}else{
@@ -3263,7 +3367,7 @@ angular.module('xenon.controllers', []).
 			$interval.cancel(start);
 
 
-			if($scope.instance_data[$rootScope.current_instance]['normal']['floor_num']== $rootScope.current_floor){
+			if($rootScope.instance_data[$rootScope.current_instance]['normal']['floor_num']== $rootScope.current_floor){
 				$rootScope.currentModal.close();
 				$scope.openModal('post_battle_victory', 'lg', 'static');
 			}else{

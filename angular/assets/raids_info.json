@@ -8,6 +8,7 @@
 						"name":"Oatis Light Fighter",
 						"reward_metal":2000,
 						"reward_crystal":1000,
+						"boss":0,
 						"info" : {
 							"HP": 3000,
 							"Shields": 100,
@@ -23,6 +24,7 @@
 						"name":"Oatis Light Fighter",
 						"reward_metal":2000,
 						"reward_crystal":1000,
+						"boss":0,
 						"info" : {
 							"HP": 3000,
 							"Shields": 100,
@@ -36,6 +38,7 @@
 						"name":"Oatis Heavy Fighter",
 						"reward_metal":4000,
 						"reward_crystal":2000,
+						"boss":0,
 						"info" : {
 							"HP": 8000,
 							"Shields": 400,
@@ -50,6 +53,7 @@
 						"name":"Devil's Rage",
 						"reward_metal":50000,
 						"reward_crystal":10000,
+						"boss":1,
 						"info" : {
 							"HP": 100000,
 							"Shields": 10000,
@@ -61,10 +65,10 @@
 				]
 			},
 			"drops": {
-				"uncommon": ["Shards", "2"],
-				"rare": ["1"],
-				"epic": ["1"],
-				"legendary": ["1"]
+				"uncommon": ["uncommon", "uncommon"],
+				"rare": ["rare"],
+				"epic": ["epic"],
+				"legendary": ["legendary"]
 			}
 		}
 

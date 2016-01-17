@@ -529,6 +529,7 @@
 				<div class="battle_div_attack"><h5><b><img src="assets/images/sword.png" class="stat_img"/> {{format_number(current_LF_Attack)}}<br/></b></h5></div>
 				<div class="battle_div_skill"><img src="assets/images/Ships/abilities/rapid_fire.png" class = "ship_skill_img_battle"/></div>
 			</div>
+			<br/><br/>
 			<div id="HF_battle" ng-if="ships.heavy_fighter.assembled>0" class="battle_div battle_div_friendly">
 				<h4><img src="assets/images/Ships/heavy_fighter.jpg" class="ships_assemble_img" /> &nbsp Heavy Fighter Fleet ({{format_number(ships.heavy_fighter.assembled)}})</h4>
 				<div class="battle_div_attack"><h5><b><img src="assets/images/sword.png" class="stat_img"/> {{format_number(current_HF_Attack)}}<br/></b></h5></div>
@@ -617,7 +618,7 @@
 			<div class="battle_div_enemies" ng-repeat="enemy in enemies">
 				<div class="battle_div_enemies_animate">
 					<h4><img src="assets/images/Ships/light_fighter.jpg" class="ships_assemble_img" /> &nbsp {{enemy.name}} ({{enemy.info.amount}})</h4>
-					<div class="battle_div_attack"><h5><b><img src="assets/images/sword.png" class="stat_img"/> {{format_number(enemy.info.Attack * enemy.info.amount)}}<br/></b></h5></div>
+					<div class="battle_div_attack"><h5><b><img src="assets/images/sword.png" class="stat_img"/> {{format_number(enemy.info.Attack * enemy.info.amount)}}</b></h5></div>
 					<div class="battle_div_skill"><img src="assets/images/Ships/abilities/Loaded_ammo.png" class = "ship_skill_img_battle"/></div>
 				</div>
 				<div class="battle_div_reward"><b>+{{format_number(enemy.reward_metal * enemy.info.amount)}}</b><img src="assets/images/mineral.png" width="25" class ="artifact_img"/>&nbsp</div>
@@ -691,19 +692,93 @@
 	<div class="modal-header">
 		<button type="button" class="close" ng-click="currentModal.close();" aria-hidden="true">&times;</button>
 		<h3 class="modal-title" id ="modal-title">Vitory </h3>
-		<div>Artifacts are scattered throughout the universe and wield great power, collect them and improve your empire</div>
 	</div>
 
 
 	<div class="modal-body" ng-controller="PostBattleVictoryCtrl">
 
 
-	<div><b>Remaining HP</b></div>
-	<br/><br/><br/><br/>
-	<div><b>Casualties</b></div>
-	<br/><br/><br/><br/>
-	<div><b>Loot</b></div>
-	<br/><br/><br/><br/>
+	<div class="remaining_hp">
+			<div><b>Remaining HP-</b></div> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+			<div id="remaining_hp_count" class="xe-counter" xe-counter data-count=".num" data-from="0" data-suffix="%" data-duration="2">
+				<strong class="num remaining_hp_counter" style="color:black;">0.0%</strong>
+			</div>
+		</div>
+		<br/>
+
+
+		<div class="casualties">
+			<div><b>Casualties-</b></div>
+			<div class="battle_div_causalties">
+				<div id="LF_casualties" ng-if="ships.light_fighter.assembled>0" class="battle_animate_casualties">
+					<h5><img src="assets/images/Ships/light_fighter.jpg" class="ships_casualties_img" /> &nbsp <font color="red"><b>-{{ships.light_fighter.casualties}}</b></font>
+					</h5>
+				</div>
+
+				<div id="HF_casualties" ng-if="ships.heavy_fighter.assembled>0" class="battle_animate_casualties">
+					<h5><img src="assets/images/Ships/heavy_fighter.jpg" class="ships_casualties_img" /> &nbsp <font color="red"><b>-{{ships.heavy_fighter.casualties}}</b></font></h5>
+				</div>
+
+				<div id="WG_casualties" ng-if="ships.worg.assembled>0" class="battle_animate_casualties">
+					<h5><img src="assets/images/Ships/worg.jpg" class="ships_casualties_img" /> &nbsp <font color="red"><b>-{{ships.worg.casualties}}</b></font></h5>
+				</div>
+
+				<div id="DS_casualties" ng-if="ships.destroyer.assembled>0" class="battle_animate_casualties">
+					<h5><img src="assets/images/Ships/destroyer.jpg" class="ships_casualties_img" /> &nbsp <font color="red"><b>-{{ships.destroyer.casualties}}</b></font></h5>
+				</div>
+
+
+				<div id="SU_casualties" ng-if="ships.succubus.assembled>0" class="battle_animate_casualties">
+					<h5><img src="assets/images/Ships/succubus.jpg" class="ships_casualties_img" /> &nbsp <font color="red"><b>-{{ships.succubus.casualties}}</b></font></h5>
+				</div>
+
+
+				<div id="COL_casualties" ng-if="ships.colossus.assembled>0" class="battle_animate_casualties">
+					<h5><img src="assets/images/Ships/colossus.jpg" class="ships_casualties_img" /> &nbsp <font color="red"><b>-{{ships.colossus.casualties}}</b></font></h5>
+				</div>
+
+				<div id="MD_casualties" ng-if="ships.medusa.assembled>0" class="battle_animate_casualties">
+					<h5><img src="assets/images/Ships/medusa.jpg" class="ships_casualties_img" /> &nbsp <font color="red"><b>-{{ships.medusa.casualties}}</b></font></h5>
+				</div>
+
+				<div id="SV_casualties" ng-if="ships.science_vessel.assembled>0" class="battle_animate_casualties">
+					<h5><img src="assets/images/Ships/science_vessel.jpg" class="ships_casualties_img" /> &nbsp <font color="red"><b>-{{ships.science_vessel.casualties}}</b></font></h5>
+				</div>
+
+
+				<div id="PTH_casualties" ng-if="ships.pantheon.assembled>0" class="battle_animate_casualties">
+					<h5><img src="assets/images/Ships/pantheon.jpg" class="ships_casualties_img" /> &nbsp <font color="red"><b>-{{ships.pantheon.casualties}}</b></font></h5>
+				</div>
+
+
+
+
+
+
+			</div>
+
+
+
+
+
+		</div>
+		<br/>
+
+
+
+
+
+
+		<div class="loot">
+			<div><b>Loot-</b></div><br/>
+			<div><font color="#59D059"><b>+{{metal_reward}}</b></font><img src="assets/images/mineral.png" width="25" class ="artifact_img"/>&nbsp</div>
+			<div><font color="#59D059"><b>+{{crystal_reward}}</b></font><img src="assets/images/crystal.png" width="25" class ="artifact_img"/>&nbsp</div>
+
+			<div class="battle_div_enemies" ng-repeat="artifact in artifact_loot">
+				<img src="assets/images/artifacts/blue_stone.png" width="50" class ="artifact_img"/>{{artifact}} <br/>
+			</div>
+			
+		</div>
 
 
 
@@ -716,6 +791,23 @@
 	</div>
 
 	</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -804,11 +896,13 @@
 
 		<div class="loot">
 			<div><b>Loot-</b></div><br/>
-			<div><font color="#6AEB6A"><b>+{{metal_reward}}</b></font><img src="assets/images/mineral.png" width="25" class ="artifact_img"/>&nbsp</div>
-			<div><font color="#6AEB6A"><b>+{{crystal_reward}}</b></font><img src="assets/images/crystal.png" width="25" class ="artifact_img"/>&nbsp</div>
+			<div><font color="#59D059"><b>+{{metal_reward}}</b></font><img src="assets/images/mineral.png" width="25" class ="artifact_img"/>&nbsp</div>
+			<div><font color="#59D059"><b>+{{crystal_reward}}</b></font><img src="assets/images/crystal.png" width="25" class ="artifact_img"/>&nbsp</div>
 
+			<div class="battle_div_enemies" ng-repeat="artifact in artifact_loot">
+				<img src="assets/images/artifacts/blue_stone.png" width="50" class ="artifact_img"/>{{artifact}} <br/>
+			</div>
 			
-			<img src="assets/images/artifacts/blue_stone.png" width="50" class ="artifact_img"/>
 		</div>
 
 
