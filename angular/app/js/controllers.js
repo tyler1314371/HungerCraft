@@ -38,8 +38,7 @@ var ships ={
 		},
 		skills:{
 			rapid_fire:{
-				unlocked:0,
-				level:1
+				unlocked:0
 			}
 		}
 	},
@@ -57,8 +56,7 @@ var ships ={
 		},
 		skills:{
 			loaded_ammo:{
-				unlocked:0,
-				level:1
+				unlocked:0
 			}
 		}
 	},
@@ -76,12 +74,10 @@ var ships ={
 		},
 		skills:{
 			shield_piercing:{
-				unlocked:0,
-				level:1
+				unlocked:0
 			},
 			predators_reward:{
-				unlocked:0,
-				level:1
+				unlocked:0
 			}
 		}
 	},
@@ -99,16 +95,13 @@ var ships ={
 		},
 		skills:{
 			rapid_fire:{
-				unlocked:0,
-				level:1
+				unlocked:0
 			},
 			critical_strike:{
-				unlocked:0,
-				level:1
+				unlocked:0
 			},
 			tough_as_nails:{
-				unlocked:0,
-				level:1
+				unlocked:0
 			}
 		}
 	},
@@ -126,16 +119,13 @@ var ships ={
 		},
 		skills:{
 			corrosive_ammo:{
-				unlocked:0,
-				level:1
+				unlocked:0
 			},
 			lethal_dose:{
-				unlocked:0,
-				level:1
+				unlocked:0
 			},
 			weaken:{
-				unlocked:0,
-				level:1
+				unlocked:0
 			}
 		}
 	},
@@ -153,20 +143,16 @@ var ships ={
 		},
 		skills:{
 			taunt:{
-				unlocked:0,
-				level:1
+				unlocked:0
 			},
 			reinforced_armor:{
-				unlocked:0,
-				level:1
+				unlocked:0
 			},
 			advanced_communication:{
-				unlocked:0,
-				level:1
+				unlocked:0
 			},
 			reflect:{
-				unlocked:0,
-				level:1
+				unlocked:0
 			}
 		}
 	},
@@ -184,20 +170,16 @@ var ships ={
 		},
 		skills:{
 			restrict:{
-				unlocked:0,
-				level:1
+				unlocked:0
 			},
 			mind_control:{
-				unlocked:0,
-				level:1
+				unlocked:0
 			},
 			siphon_shield:{
-				unlocked:0,
-				level:1
+				unlocked:0
 			},
 			evasion:{
-				unlocked:0,
-				level:1
+				unlocked:0
 			}
 		}
 	},
@@ -215,24 +197,19 @@ var ships ={
 		},
 		skills:{
 			restoration:{
-				unlocked:0,
-				level:1
+				unlocked:0
 			},
 			toughness:{
-				unlocked:0,
-				level:1
+				unlocked:0
 			},
 			force_field:{
-				unlocked:0,
-				level:1
+				unlocked:0
 			},
 			advanced_repairbot:{
-				unlocked:0,
-				level:1
+				unlocked:0
 			},
 			ionic_storm:{
-				unlocked:0,
-				level:1
+				unlocked:0
 			}
 		}
 	},
@@ -250,24 +227,19 @@ var ships ={
 		},
 		skills:{
 			rapid_fire:{
-				unlocked:0,
-				level:1
+				unlocked:0
 			},
 			enlarged_cargo_space:{
-				unlocked:0,
-				level:1
+				unlocked:0
 			},
 			enrage:{
-				unlocked:0,
-				level:1
+				unlocked:0
 			},
 			imposing_presence:{
-				unlocked:0,
-				level:1
+				unlocked:0
 			},
 			leadership:{
-				unlocked:0,
-				level:1
+				unlocked:0
 			}
 		}
 	},
@@ -285,8 +257,7 @@ var ships ={
 		},
 		skills:{
 			rapid_fire:{
-				unlocked:0,
-				level:1
+				unlocked:0
 			}
 		}
 	},
@@ -296,28 +267,14 @@ var ships ={
 
 //ARTIFACTS
 var artifacts = {
-	Shard_of_Coldness: {
-		rarity:"uncommon",
-		unlocked: 1,
-		current_owned: 10,
-		based_increase_percent: 5
-	},
-	2: {
-		rarity:"rare",
-		unlocked: 0,
-		current_owned: 0
-	},
-	3: {
-		rarity:"epic",
-		unlocked: 0,
-		current_owned: 0
-	},
-	4: {
-		rarity:"legendary",
-		unlocked: 0,
-		current_owned: 0
-	}
-
+	artifact_list:[
+		{
+				name:"Shard of Coldness",
+				rarity:"uncommon",
+				current_owned: 0,
+				based_increase_percent: 5
+		}
+	]
 };
 
 
@@ -328,165 +285,78 @@ var raids = {
 		section:3,
 		difficulty:0,
 		unlocked:1,
-		required_level:10,
-		enemy:{
-			1:{
-				light_fighter:1
-			},
-			2:{
-				light_fighter:2
-			}
-		}
+		required_level:10
 	},
 	Clade:{
 		timer:"00:00:00",
 		section:5,
 		difficulty:0,
 		unlocked:0,
-		required_level:18,
-		enemy:{
-			1:{
-				light_fighter:1
-			},
-			2:{
-				light_fighter:2
-			}
-		}
+		required_level:18
 	},
 	Neibos:{
 		timer:"00:00:00",
 		section:5,
 		difficulty:0,
 		unlocked:0,
-		required_level:25,
-		enemy:{
-			1:{
-				light_fighter:1
-			},
-			2:{
-				light_fighter:2
-			}
-		}
+		required_level:25
+
 	},
 	Veotis:{
 		timer:"00:00:00",
 		section:5,
 		difficulty:0,
 		unlocked:0,
-		required_level:29,
-		enemy:{
-			1:{
-				light_fighter:1
-			},
-			2:{
-				light_fighter:2
-			}
-		}
+		required_level:29
 	},
 	Shora:{
 		timer:"00:00:00",
 		section:5,
 		difficulty:0,
 		unlocked:0,
-		required_level:36,
-		enemy:{
-			1:{
-				light_fighter:1
-			},
-			2:{
-				light_fighter:2
-			}
-		}
+		required_level:36
 	},
 	Dasloth:{
 		timer:"00:00:00",
 		section:7,
 		difficulty:0,
 		unlocked:0,
-		required_level:50,
-		enemy:{
-			1:{
-				light_fighter:1
-			},
-			2:{
-				light_fighter:2
-			}
-		}
+		required_level:50
 	},
 	Aria:{
 		timer:"00:00:00",
 		section:7,
 		difficulty:0,
 		unlocked:0,
-		required_level:60,
-		enemy:{
-			1:{
-				light_fighter:1
-			},
-			2:{
-				light_fighter:2
-			}
-		}
+		required_level:60
 	},
 	Juiria:{
 		timer:"00:00:00",
 		section:7,
 		difficulty:0,
 		unlocked:0,
-		required_level:64,
-		enemy:{
-			1:{
-				light_fighter:1
-			},
-			2:{
-				light_fighter:2
-			}
-		}
+		required_level:64
 	},
 	Stara:{
 		timer:"00:00:00",
 		section:7,
 		difficulty:0,
 		unlocked:0,
-		required_level:71,
-		enemy:{
-			1:{
-				light_fighter:1
-			},
-			2:{
-				light_fighter:2
-			}
-		}
+		required_level:71
 	},
 	Quamia:{
 		timer:"00:00:00",
 		section:7,
 		difficulty:0,
 		unlocked:0,
-		required_level:80,
-		enemy:{
-			1:{
-				light_fighter:1
-			},
-			2:{
-				light_fighter:2
-			}
-		}
+		required_level:80
 	},
 	Nosmov:{
 		timer:"00:00:00",
 		section:10,
 		difficulty:0,
 		unlocked:0,
-		required_level:94,
-		enemy:{
-			1:{
-				light_fighter:1
-			},
-			2:{
-				light_fighter:2
-			}
-		}
+		required_level:94
 	},
 }
 
@@ -626,6 +496,9 @@ angular.module('xenon.controllers', []).
 		  });
 
 		});
+
+
+
 
 
 
@@ -797,8 +670,8 @@ angular.module('xenon.controllers', []).
 
 
 			    //raids[instance_name]['timer']= "02:00:00";
-			    if(ships.light_fighter.current_owned==0 && ships.heavy_fighter.current_owned==0 && ships.worg.current_owned==0 && 
-			    	ships.destroyer.current_owned==0 && ships.colossus.current_owned==0 && ships.succubus.current_owned==0 && 
+			    if(ships.light_fighter.current_owned==0 && ships.heavy_fighter.current_owned==0 && ships.worg.current_owned==0 &&
+			    	ships.destroyer.current_owned==0 && ships.colossus.current_owned==0 && ships.succubus.current_owned==0 &&
 			    	ships.medusa.current_owned==0 && ships.science_vessel.current_owned==0 && ships.pantheon.current_owned==0 ){
 
 
@@ -807,7 +680,7 @@ angular.module('xenon.controllers', []).
 				return false;
 
 			    }
-			    
+
 
 			    $rootScope.currentModal.close();
 			    $rootScope.current_instance=instance_name;
@@ -1879,75 +1752,27 @@ angular.module('xenon.controllers', []).
 
 
 
-		$scope.calculate_nextlvl_discount = function(){
-			var discount = 1;
-
-			if(artifacts['Shard_of_Coldness']['unlocked']==1){
-		    	discount = (100 - $scope.diminish_artifacts(artifacts['Shard_of_Coldness']['based_increase_percent'], artifacts['Shard_of_Coldness']['current_owned']))/100;
-		    }
-
-		    //console.log(discount);
-		    return discount;
-		};
 
 
 
-
-
-
-
-
-
-
-
-		//workout the discount
-		$scope.real_metal_req = level.level_metal_req;
-		$scope.real_crystal_req = level.level_crystal_req;
-		$scope.real_metal_req = Math.floor(level.level_metal_req * $scope.calculate_nextlvl_discount());
-		$scope.real_crystal_req = Math.floor(level.level_crystal_req *	$scope.calculate_nextlvl_discount());
 
 
 		$scope.NextLevel = function(){
 
 
 
-
-			//works out the cost of this floor
-			level.level_metal_req = Math.floor(level.level_metal_req_ori* Math.pow(1.5,level.current_level));
-			level.level_crystal_req = Math.floor(level.level_crystal_req_ori * Math.pow(1.4,level.current_level));
-			$scope.real_metal_req = Math.floor(level.level_metal_req * $scope.calculate_nextlvl_discount());
-			$scope.real_crystal_req = Math.floor(level.level_crystal_req *	$scope.calculate_nextlvl_discount());
-
-				if (level.current_level ==1){
-		      $scope.real_metal_req = level.level_metal_req_ori;
-		      $scope.real_crystal_req = level.level_crystal_req_ori;
-		    }
-
-
 		    //check if user has enough
-		    if((metal.current_owned >= $scope.real_metal_req) && (crystal.current_owned >= $scope.real_crystal_req)){
+		    if((metal.current_owned >= level.level_metal_req) && (crystal.current_owned >=level.level_crystal_req)){
 
 
 		    	//LEVEL UP
 			      level.current_level = level.current_level + 1
-			      crystal.current_owned = crystal.current_owned - $scope.real_crystal_req;
-			      metal.current_owned = metal.current_owned - $scope.real_metal_req ;
+			      crystal.current_owned = crystal.current_owned - level.level_crystal_req;
+			      metal.current_owned = metal.current_owned - level.level_metal_req ;
+					}
 
-
-
-
-		      	//workout the discount for next lvl
-				level.level_metal_req = Math.floor(level.level_metal_req_ori* Math.pow(1.5,level.current_level));
-				level.level_crystal_req = Math.floor(level.level_crystal_req_ori * Math.pow(1.4,level.current_level));
-				$scope.real_metal_req = Math.floor(level.level_metal_req * $scope.calculate_nextlvl_discount());
-				$scope.real_crystal_req = Math.floor(level.level_crystal_req *	$scope.calculate_nextlvl_discount());
-
-
-
-
-
-
-
+					level.level_metal_req = Math.floor(level.level_metal_req_ori* Math.pow(1.5,level.current_level));
+					level.level_crystal_req = Math.floor(level.level_crystal_req_ori * Math.pow(1.4,level.current_level));
 
 				//CHECK RAIDS
 
@@ -1958,9 +1783,9 @@ angular.module('xenon.controllers', []).
 					}
 				}
 
-		    };
 
 
+				Update_Next_Level_Requirement();
 
 
 				$( "#globe" ).animate({ "opacity":"0" }, 500);
@@ -2682,12 +2507,12 @@ angular.module('xenon.controllers', []).
 				}
 			}
 		}
-		
+
 		$timeout(function(){
 			$( ".casualties" ).animate({ "left": "+=200px", "opacity":"1" }, 1300);
 		}, 1300);
 
-		
+
 
 		//calculate loot
 
@@ -2702,19 +2527,25 @@ angular.module('xenon.controllers', []).
 			if(dice > 95)//Legend
 			{
 				$scope.artifact_loot.push($scope.drops['legendary'][Math.floor(Math.random()*$scope.drops['legendary'].length)]);
-				
-						
+
+
 			}else if(dice > 75)//epic
 			{
 				$scope.artifact_loot.push($scope.drops['epic'][Math.floor(Math.random()*$scope.drops['epic'].length)]);
-						
+
 			}else if(dice > 65)//rare
 			{
 				$scope.artifact_loot.push($scope.drops['rare'][Math.floor(Math.random()*$scope.drops['rare'].length)]);
-						
+
 			}else//uncommon
 			{
-				$scope.artifact_loot.push($scope.drops['uncommon'][Math.floor(Math.random()*$scope.drops['uncommon'].length)]);
+				var artifact_name_temp=$scope.drops['uncommon'][Math.floor(Math.random()*$scope.drops['uncommon'].length)];
+				$scope.artifact_loot.push(artifact_name_temp);
+				for(var j=0; j < artifacts.artifact_list.length; j++){
+					if(artifacts.artifact_list[j].name==artifact_name_temp)
+						artifacts.artifact_list[j].current_owned+=1;
+				}
+
 			}
 		}
 
@@ -2747,7 +2578,7 @@ angular.module('xenon.controllers', []).
 	});
 
 
-		
+
 		$scope.metal = metal;
 		$scope.crystal = crystal;
 		$scope.research_lab = research_lab;
@@ -2794,12 +2625,12 @@ angular.module('xenon.controllers', []).
 				}
 			}
 		}
-		
+
 		$timeout(function(){
 			$( ".casualties" ).animate({ "left": "+=200px", "opacity":"1" }, 1300);
 		}, 1300);
 
-		
+
 
 		//calculate loot
 
@@ -2809,24 +2640,35 @@ angular.module('xenon.controllers', []).
 		crystal.current_owned += $rootScope.crystal_reward;
 		$scope.artifact_loot=[];
 
+
 		for(var i=0; i < $rootScope.artifact_reward; i++){
 			var dice = Math.floor((Math.random() * 100) + 1);
 			if(dice > 95)//Legend
 			{
 				$scope.artifact_loot.push($scope.drops['legendary'][Math.floor(Math.random()*$scope.drops['legendary'].length)]);
-				
-						
+
+
 			}else if(dice > 75)//epic
 			{
 				$scope.artifact_loot.push($scope.drops['epic'][Math.floor(Math.random()*$scope.drops['epic'].length)]);
-						
+
 			}else if(dice > 65)//rare
 			{
 				$scope.artifact_loot.push($scope.drops['rare'][Math.floor(Math.random()*$scope.drops['rare'].length)]);
-						
+
 			}else//uncommon
 			{
-				$scope.artifact_loot.push($scope.drops['uncommon'][Math.floor(Math.random()*$scope.drops['uncommon'].length)]);
+				var artifact_name_temp=$scope.drops['uncommon'][Math.floor(Math.random()*$scope.drops['uncommon'].length)];
+				$scope.artifact_loot.push(artifact_name_temp);
+				for(var j=0; j < artifacts.artifact_list.length; j++){
+
+					if(artifacts.artifact_list[j].name==artifact_name_temp){
+
+							artifacts.artifact_list[j].current_owned+=1;
+					}
+
+				}
+
 			}
 		}
 
@@ -2840,7 +2682,7 @@ angular.module('xenon.controllers', []).
 
 
 		raids[$rootScope.current_instance]['timer']="01:00:00";
-
+		Update_Next_Level_Requirement();
 
 
 
@@ -3212,7 +3054,7 @@ angular.module('xenon.controllers', []).
 		$('.Abandon').hide();
 
 		//ready the loot
-		
+
 		var start;
 
 		//START FUNTION
@@ -3305,7 +3147,7 @@ angular.module('xenon.controllers', []).
 
 									}, 700);
 
-									
+
 									//calculate reward
 									for(var i=0; i < $scope.enemies.length; i++){
 										$rootScope.metal_reward += $scope.enemies[i].reward_metal;
@@ -3314,16 +3156,16 @@ angular.module('xenon.controllers', []).
 										if ($scope.enemies[i].boss==1){
 											var dice = Math.floor((Math.random() * 100) + 1);
 											if(dice >90){
-
+												$rootScope.artifact_reward+=3;
 											}else if (dice >65){
-
+												$rootScope.artifact_reward+=2;
 											}else{
 												$rootScope.artifact_reward+=1;
 											}
-											
+
 										}
 									}
-									
+
 
 
 
@@ -3417,3 +3259,34 @@ angular.module('xenon.controllers', []).
 
 
 	});
+
+
+
+
+
+
+
+
+function Update_Next_Level_Requirement() {
+
+
+
+
+
+	var discount = 1;
+
+	if(artifacts['artifact_list'][0]['current_owned']>=1){
+			discount = (100 - $scope.diminish_artifacts(artifacts['artifact_list'][0]['based_increase_percent'], artifacts['artifact_list'][0]['current_owned']))/100;
+		}
+
+	level.level_metal_req =	Math.floor(level.level_metal_req * discount);
+	level.level_crystal_req =	Math.floor(level.level_crystal_req * discount);
+
+	return;
+}
+
+
+function Update_All_Ships_Bonuses() {
+	//check for bonuses....etc
+    return "heelo";
+}

@@ -24,13 +24,13 @@ color: white;
 
 		<br/><br/>
 		<div style="padding-left:25px;">
-			{{format_number(real_metal_req)}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/><br/>
-			{{format_number(real_crystal_req)}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/>
-					<button ng-if="metal.current_owned<real_metal_req || crystal.current_owned<real_crystal_req" class="btn btn-grey btn-icon btn-icon-standalone btn-icon-standalone-right disabled" ng-click="NextLevel()">
+			{{format_number(level.level_metal_req)}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/><br/>
+			{{format_number(level.level_crystal_req)}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/>
+					<button ng-if="metal.current_owned<level.level_metal_req || crystal.current_owned<level.level_crystal_req" class="btn btn-grey btn-icon btn-icon-standalone btn-icon-standalone-right disabled" ng-click="NextLevel()">
 							<i class="fa-arrow-right" style="color:black"></i>
 							<span><font color="black">Warp to next zone</font></span>
 					</button>
-	        <button ng-if="metal.current_owned>=real_metal_req && crystal.current_owned>=real_crystal_req" class="btn btn-success btn-icon btn-icon-standalone btn-icon-standalone-right" ng-click="NextLevel()">
+	        <button ng-if="metal.current_owned>=level.level_metal_req && crystal.current_owned>=level.level_crystal_req" class="btn btn-success btn-icon btn-icon-standalone btn-icon-standalone-right" ng-click="NextLevel()">
 	                  <i class="fa-arrow-right"></i>
 	                  <span>Warp to next zone</span>
 	        </button>

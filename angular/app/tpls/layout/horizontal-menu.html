@@ -313,7 +313,7 @@
 		<div class="ships_left">
 		<div id="LF_form" class="assemble_form">
 			<form>
-			<h4><img src="assets/images/Ships/light_fighter.jpg" class="ships_assemble_img" /> &nbsp Light Fighter 
+			<h4><img src="assets/images/Ships/light_fighter.jpg" class="ships_assemble_img" /> &nbsp Light Fighter
 			<div class="ship_assemble_attack"><img src="assets/images/sword.png" class="stat_img"/><b>{{format_number(LF_fleet_Attk)}}</b></div>
 			</h4>
 
@@ -331,7 +331,7 @@
 
 		<div id="HF_form" class="assemble_form">
 			<form>
-			<h4><img src="assets/images/Ships/heavy_fighter.jpg" class="ships_assemble_img" /> &nbsp Heavy Fighter 
+			<h4><img src="assets/images/Ships/heavy_fighter.jpg" class="ships_assemble_img" /> &nbsp Heavy Fighter
 			<div class="ship_assemble_attack"><img src="assets/images/sword.png" class="stat_img"/><b>{{format_number(HF_fleet_Attk)}}</b></div>
 			</h4>
 
@@ -621,8 +621,8 @@
 					<div class="battle_div_attack"><h5><b><img src="assets/images/sword.png" class="stat_img"/> {{format_number(enemy.info.Attack * enemy.info.amount)}}</b></h5></div>
 					<div class="battle_div_skill"><img src="assets/images/Ships/abilities/Loaded_ammo.png" class = "ship_skill_img_battle"/></div>
 				</div>
-				<div class="battle_div_reward"><b>+{{format_number(enemy.reward_metal * enemy.info.amount)}}</b><img src="assets/images/mineral.png" width="25" class ="artifact_img"/>&nbsp</div>
-				<div class="battle_div_reward"><b>+{{format_number(enemy.reward_crystal * enemy.info.amount)}}</b><img src="assets/images/crystal.png" width="25" class ="artifact_img"/>&nbsp</div>
+				<div class="battle_div_reward"><font color="#59D059"><b>+{{format_number(enemy.reward_metal * enemy.info.amount)}}</b></font><img src="assets/images/mineral.png" width="25" class ="artifact_img"/>&nbsp</div>
+				<div class="battle_div_reward"><font color="#59D059"><b>+{{format_number(enemy.reward_crystal * enemy.info.amount)}}</b></font><img src="assets/images/crystal.png" width="25" class ="artifact_img"/>&nbsp</div>
 			</div>
 
 
@@ -775,9 +775,9 @@
 			<div><font color="#59D059"><b>+{{crystal_reward}}</b></font><img src="assets/images/crystal.png" width="25" class ="artifact_img"/>&nbsp</div>
 
 			<div class="battle_div_enemies" ng-repeat="artifact in artifact_loot">
-				<img src="assets/images/artifacts/blue_stone.png" width="50" class ="artifact_img"/>{{artifact}} <br/>
+				<img src="assets/images/artifacts/blue_stone.png" width="50" class ="artifact_img"/>{{artifact}} <br/><br/>
 			</div>
-			
+
 		</div>
 
 
@@ -900,9 +900,9 @@
 			<div><font color="#59D059"><b>+{{crystal_reward}}</b></font><img src="assets/images/crystal.png" width="25" class ="artifact_img"/>&nbsp</div>
 
 			<div class="battle_div_enemies" ng-repeat="artifact in artifact_loot">
-				<img src="assets/images/artifacts/blue_stone.png" width="50" class ="artifact_img"/>{{artifact}} <br/>
+				<img src="assets/images/artifacts/blue_stone.png" width="50" class ="artifact_img"/>{{artifact}} <br/><br/>
 			</div>
-			
+
 		</div>
 
 
