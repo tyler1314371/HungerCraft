@@ -1,9 +1,15 @@
 {
 	"skills":[
 		{
-			"name":"rapid_fire",
-			"src":"assets/images/Ships/abilities/rapid_fire.png",
-			"description":"<div id='attention'>30%</div> chance of firing again after a round"
+			"name": "Rapid Fire",
+			"src": "assets/images/Ships/abilities/rapid_fire.png",
+			"description":"30% chance of firing again after a round"
+		},
+		{
+			"name": "Loaded Ammo",
+			"src": "assets/images/Ships/abilities/loaded_ammo.png",
+			"description":"LA description"
 		}
+
 	]
 }

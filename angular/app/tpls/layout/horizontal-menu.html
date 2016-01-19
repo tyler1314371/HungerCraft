@@ -320,8 +320,18 @@
 			<input type="range" name="amountRange" ng-model="LF_Slider" min="0" max={{ships.light_fighter.current_owned}} value="0" oninput="this.form.amountInput.value=this.value" />
 			<input name="amountInput" ng-model="LF_Text" min="0" max={{ships.light_fighter.current_owned}} value="0" oninput="this.form.amountRange.value=this.value" ng-style="{position:'relative', width:'45px'}"/>
 			</form>
-			<div class="battle_assemble_skill "><img ng-src="{{skills_info.skills[0].src}}" class="ship_skill_img_battle"/></div>
-			<div class="battle_assemble_skill "><img src="assets/images/Ships/abilities/rapid_fire.png" class = "ship_skill_img_battle"/></div>
+
+			<div class="battle_div_enemies" ng-repeat="skill in ships.light_fighter.skills">
+				<div ng-if="skill.unlocked==1" class="battle_assemble_skill tooltip_ship_skill"><img ng-src="{{skills_info.skills[find_index(skill.name, skills_info.skills)].src}}" class="ship_skill_img_battle"/>
+					<span>{{skill.name}}-<br/><br/>
+					{{skills_info.skills[find_index(skill.name, skills_info.skills)].description}}<br />
+					</span>
+
+				</div>
+			</div>
+
+			
+			
 
 
 			<br/>
@@ -338,8 +348,14 @@
 			<input type="range" name="amountRange" ng-model="HF_Slider" min="0" max={{ships.heavy_fighter.current_owned}} value="0" oninput="this.form.amountInput.value=this.value" />
 			<input name="amountInput" ng-model="HF_Text" min="0" max={{ships.heavy_fighter.current_owned}} value="0" oninput="this.form.amountRange.value=this.value" ng-style="{position:'relative', width:'45px'}"/>
 			</form>
-			<div class="battle_assemble_skill"><img src="assets/images/Ships/abilities/rapid_fire.png" class = "ship_skill_img_battle"/></div>
+			<div class="battle_div_enemies" ng-repeat="skill in ships.heavy_fighter.skills">
+				<div ng-if="skill.unlocked==1" class="battle_assemble_skill tooltip_ship_skill"><img ng-src="{{skills_info.skills[find_index(skill.name, skills_info.skills)].src}}" class="ship_skill_img_battle"/>
+					<span>{{skill.name}}-<br/><br/>
+					{{skills_info.skills[find_index(skill.name, skills_info.skills)].description}}<br />
+					</span>
 
+				</div>
+			</div>
 
 			<br/>
 		</div>
@@ -710,45 +726,46 @@
 		<div class="casualties">
 			<div><b>Casualties-</b></div>
 			<div class="battle_div_causalties">
-				<div id="LF_casualties" ng-if="ships.light_fighter.assembled>0" class="battle_animate_casualties">
+				<div id="LF_casualties" ng-if="ships.light_fighter.casualties>0" class="battle_animate_casualties">
 					<h5><img src="assets/images/Ships/light_fighter.jpg" class="ships_casualties_img" /> &nbsp <font color="red"><b>-{{ships.light_fighter.casualties}}</b></font>
 					</h5>
 				</div>
 
-				<div id="HF_casualties" ng-if="ships.heavy_fighter.assembled>0" class="battle_animate_casualties">
+				<div id="HF_casualties" ng-if="ships.heavy_fighter.casualties>0" class="battle_animate_casualties">
 					<h5><img src="assets/images/Ships/heavy_fighter.jpg" class="ships_casualties_img" /> &nbsp <font color="red"><b>-{{ships.heavy_fighter.casualties}}</b></font></h5>
 				</div>
 
-				<div id="WG_casualties" ng-if="ships.worg.assembled>0" class="battle_animate_casualties">
+				<div id="WG_casualties" ng-if="ships.worg.casualties>0" class="battle_animate_casualties">
 					<h5><img src="assets/images/Ships/worg.jpg" class="ships_casualties_img" /> &nbsp <font color="red"><b>-{{ships.worg.casualties}}</b></font></h5>
 				</div>
 
-				<div id="DS_casualties" ng-if="ships.destroyer.assembled>0" class="battle_animate_casualties">
+				<div id="DS_casualties" ng-if="ships.destroyer.casualties>0" class="battle_animate_casualties">
 					<h5><img src="assets/images/Ships/destroyer.jpg" class="ships_casualties_img" /> &nbsp <font color="red"><b>-{{ships.destroyer.casualties}}</b></font></h5>
 				</div>
 
 
-				<div id="SU_casualties" ng-if="ships.succubus.assembled>0" class="battle_animate_casualties">
+				<div id="SU_casualties" ng-if="ships.succubus.casualties>0" class="battle_animate_casualties">
 					<h5><img src="assets/images/Ships/succubus.jpg" class="ships_casualties_img" /> &nbsp <font color="red"><b>-{{ships.succubus.casualties}}</b></font></h5>
 				</div>
 
 
-				<div id="COL_casualties" ng-if="ships.colossus.assembled>0" class="battle_animate_casualties">
+				<div id="COL_casualties" ng-if="ships.colossus.casualties>0" class="battle_animate_casualties">
 					<h5><img src="assets/images/Ships/colossus.jpg" class="ships_casualties_img" /> &nbsp <font color="red"><b>-{{ships.colossus.casualties}}</b></font></h5>
 				</div>
 
-				<div id="MD_casualties" ng-if="ships.medusa.assembled>0" class="battle_animate_casualties">
+				<div id="MD_casualties" ng-if="ships.medusa.casualties>0" class="battle_animate_casualties">
 					<h5><img src="assets/images/Ships/medusa.jpg" class="ships_casualties_img" /> &nbsp <font color="red"><b>-{{ships.medusa.casualties}}</b></font></h5>
 				</div>
 
-				<div id="SV_casualties" ng-if="ships.science_vessel.assembled>0" class="battle_animate_casualties">
+				<div id="SV_casualties" ng-if="ships.science_vessel.casualties>0" class="battle_animate_casualties">
 					<h5><img src="assets/images/Ships/science_vessel.jpg" class="ships_casualties_img" /> &nbsp <font color="red"><b>-{{ships.science_vessel.casualties}}</b></font></h5>
 				</div>
 
 
-				<div id="PTH_casualties" ng-if="ships.pantheon.assembled>0" class="battle_animate_casualties">
+				<div id="PTH_casualties" ng-if="ships.pantheon.casualties>0" class="battle_animate_casualties">
 					<h5><img src="assets/images/Ships/pantheon.jpg" class="ships_casualties_img" /> &nbsp <font color="red"><b>-{{ships.pantheon.casualties}}</b></font></h5>
 				</div>
+
 
 
 
@@ -774,8 +791,8 @@
 			<div><font color="#59D059"><b>+{{metal_reward}}</b></font><img src="assets/images/mineral.png" width="25" class ="artifact_img"/>&nbsp</div>
 			<div><font color="#59D059"><b>+{{crystal_reward}}</b></font><img src="assets/images/crystal.png" width="25" class ="artifact_img"/>&nbsp</div>
 
-			<div class="battle_div_enemies" ng-repeat="artifact in artifact_loot">
-				<img src="assets/images/artifacts/blue_stone.png" width="50" class ="artifact_img"/>{{artifact}} <br/><br/>
+			<div class="battle_div_enemies" ng-repeat="artifact in artifact_loot track by $index">
+				<img ng-src="artifacts[artifact_list]" width="50" class ="artifact_img"/>{{artifact}} <br/><br/>
 			</div>
 
 		</div>
@@ -835,43 +852,43 @@
 		<div class="casualties">
 			<div><b>Casualties-</b></div>
 			<div class="battle_div_causalties">
-				<div id="LF_casualties" ng-if="ships.light_fighter.assembled>0" class="battle_animate_casualties">
+				<div id="LF_casualties" ng-if="ships.light_fighter.casualties>0" class="battle_animate_casualties">
 					<h5><img src="assets/images/Ships/light_fighter.jpg" class="ships_casualties_img" /> &nbsp <font color="red"><b>-{{ships.light_fighter.casualties}}</b></font>
 					</h5>
 				</div>
 
-				<div id="HF_casualties" ng-if="ships.heavy_fighter.assembled>0" class="battle_animate_casualties">
+				<div id="HF_casualties" ng-if="ships.heavy_fighter.casualties>0" class="battle_animate_casualties">
 					<h5><img src="assets/images/Ships/heavy_fighter.jpg" class="ships_casualties_img" /> &nbsp <font color="red"><b>-{{ships.heavy_fighter.casualties}}</b></font></h5>
 				</div>
 
-				<div id="WG_casualties" ng-if="ships.worg.assembled>0" class="battle_animate_casualties">
+				<div id="WG_casualties" ng-if="ships.worg.casualties>0" class="battle_animate_casualties">
 					<h5><img src="assets/images/Ships/worg.jpg" class="ships_casualties_img" /> &nbsp <font color="red"><b>-{{ships.worg.casualties}}</b></font></h5>
 				</div>
 
-				<div id="DS_casualties" ng-if="ships.destroyer.assembled>0" class="battle_animate_casualties">
+				<div id="DS_casualties" ng-if="ships.destroyer.casualties>0" class="battle_animate_casualties">
 					<h5><img src="assets/images/Ships/destroyer.jpg" class="ships_casualties_img" /> &nbsp <font color="red"><b>-{{ships.destroyer.casualties}}</b></font></h5>
 				</div>
 
-
-				<div id="SU_casualties" ng-if="ships.succubus.assembled>0" class="battle_animate_casualties">
+casualties
+				<div id="SU_casualties" ng-if="ships.succubus.casualties>0" class="battle_animate_casualties">
 					<h5><img src="assets/images/Ships/succubus.jpg" class="ships_casualties_img" /> &nbsp <font color="red"><b>-{{ships.succubus.casualties}}</b></font></h5>
 				</div>
 
 
-				<div id="COL_casualties" ng-if="ships.colossus.assembled>0" class="battle_animate_casualties">
+				<div id="COL_casualties" ng-if="ships.colossus.casualties>0" class="battle_animate_casualties">
 					<h5><img src="assets/images/Ships/colossus.jpg" class="ships_casualties_img" /> &nbsp <font color="red"><b>-{{ships.colossus.casualties}}</b></font></h5>
 				</div>
 
-				<div id="MD_casualties" ng-if="ships.medusa.assembled>0" class="battle_animate_casualties">
+				<div id="MD_casualties" ng-if="ships.medusa.casualties>0" class="battle_animate_casualties">
 					<h5><img src="assets/images/Ships/medusa.jpg" class="ships_casualties_img" /> &nbsp <font color="red"><b>-{{ships.medusa.casualties}}</b></font></h5>
 				</div>
-
-				<div id="SV_casualties" ng-if="ships.science_vessel.assembled>0" class="battle_animate_casualties">
+casualties
+				<div id="SV_casualties" ng-if="ships.science_vessel.casualties>0" class="battle_animate_casualties">
 					<h5><img src="assets/images/Ships/science_vessel.jpg" class="ships_casualties_img" /> &nbsp <font color="red"><b>-{{ships.science_vessel.casualties}}</b></font></h5>
 				</div>
 
 
-				<div id="PTH_casualties" ng-if="ships.pantheon.assembled>0" class="battle_animate_casualties">
+				<div id="PTH_casualties" ng-if="ships.pantheon.casualties>0" class="battle_animate_casualties">
 					<h5><img src="assets/images/Ships/pantheon.jpg" class="ships_casualties_img" /> &nbsp <font color="red"><b>-{{ships.pantheon.casualties}}</b></font></h5>
 				</div>
 
@@ -899,7 +916,7 @@
 			<div><font color="#59D059"><b>+{{metal_reward}}</b></font><img src="assets/images/mineral.png" width="25" class ="artifact_img"/>&nbsp</div>
 			<div><font color="#59D059"><b>+{{crystal_reward}}</b></font><img src="assets/images/crystal.png" width="25" class ="artifact_img"/>&nbsp</div>
 
-			<div class="battle_div_enemies" ng-repeat="artifact in artifact_loot">
+			<div class="battle_div_enemies" ng-repeat="artifact in artifact_loot track by $index">
 				<img src="assets/images/artifacts/blue_stone.png" width="50" class ="artifact_img"/>{{artifact}} <br/><br/>
 			</div>
 

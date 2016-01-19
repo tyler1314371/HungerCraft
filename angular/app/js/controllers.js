@@ -31,16 +31,19 @@ var ships ={
 		casualties:0,
 		metal_cost:300,
 		crystal_cost:170,
+		metal_cost_base:300,
+		crystal_cost_base:170,
 		stats:{
 			HP:1000,
 			shield:20,
 			attack:30
 		},
-		skills:{
-			rapid_fire:{
-				unlocked:0
+		skills:[
+			{
+				name:"Rapid Fire",
+				unlocked:1
 			}
-		}
+		]
 	},
 	heavy_fighter:{
 		unlocked:0,
@@ -54,11 +57,12 @@ var ships ={
 			shield:100,
 			attack:100
 		},
-		skills:{
-			loaded_ammo:{
-				unlocked:0
+		skills:[
+			{
+				name:"Loaded Ammo",
+				unlocked:1
 			}
-		}
+		]
 	},
 	worg:{
 		unlocked:0,
@@ -270,6 +274,8 @@ var artifacts = {
 	artifact_list:[
 		{
 				name:"Shard of Coldness",
+				img_src:"assets/images/artifacts/blue_stone.png",
+				description:"",
 				rarity:"uncommon",
 				current_owned: 0,
 				based_increase_percent: 5
@@ -891,19 +897,7 @@ angular.module('xenon.controllers', []).
 
 
 
-		    //artifacts
-		    $scope.diminish_artifacts = function(base_amount, number_owned){
 
-		    	//console.log(Math.floor(base_amount * number_owned *(1/(Math.pow(number_owned,0.4)) )));
-		    	var result = Math.floor(base_amount * number_owned * (1/(Math.pow(number_owned,0.4))));
-
-		    	if (result>99.99){
-		    		result = 99.99;
-		    	}
-
-
-		    return result
-		};
 
 
 
@@ -1622,18 +1616,6 @@ angular.module('xenon.controllers', []).
 		    }
 		    return color;
 		}
-		$scope.diminish_artifacts = function(base_amount, number_owned){
-
-		    	//console.log(Math.floor(base_amount * number_owned *(1/(Math.pow(number_owned,0.4)) )));
-		    	var result = Math.floor(base_amount * number_owned * (1/(Math.pow(number_owned,0.4))));
-
-		    	if (result>99.99){
-		    		result = 99.99;
-		    	}
-
-
-		    return result
-		};
 
 
 
@@ -2148,6 +2130,10 @@ angular.module('xenon.controllers', []).
 				return (num/1000000000).toFixed(1) + 'b';
 			}
 		    return num;
+		};
+		$scope.find_index= function(item, list) {
+			
+			return find_index_g(item, list);
 		}
 		$scope.openModal = function(modal_id, modal_size, modal_backdrop)
 		{
@@ -3263,6 +3249,18 @@ angular.module('xenon.controllers', []).
 
 
 
+ function diminish_artifacts(base_amount, number_owned){
+
+		    	//console.log(Math.floor(base_amount * number_owned *(1/(Math.pow(number_owned,0.4)) )));
+		    	var result = Math.floor(base_amount * number_owned * (1/(Math.pow(number_owned,0.4))));
+
+		    	if (result>99.99){
+		    		result = 99.99;
+		    	}
+
+
+		    return result
+		};
 
 
 
@@ -3276,7 +3274,7 @@ function Update_Next_Level_Requirement() {
 	var discount = 1;
 
 	if(artifacts['artifact_list'][0]['current_owned']>=1){
-			discount = (100 - $scope.diminish_artifacts(artifacts['artifact_list'][0]['based_increase_percent'], artifacts['artifact_list'][0]['current_owned']))/100;
+			discount = (100 - diminish_artifacts(artifacts['artifact_list'][0]['based_increase_percent'], artifacts['artifact_list'][0]['current_owned']))/100;
 		}
 
 	level.level_metal_req =	Math.floor(level.level_metal_req * discount);
@@ -3289,4 +3287,17 @@ function Update_Next_Level_Requirement() {
 function Update_All_Ships_Bonuses() {
 	//check for bonuses....etc
     return "heelo";
+}
+
+
+function find_index_g(item, list) {
+			
+			for (var i = 0; i < list.length ; i++) {
+        		if (list[i].name == item) {
+            		return i;
+		        }
+		 	}
+
+		 	return 'none';
+
 }
