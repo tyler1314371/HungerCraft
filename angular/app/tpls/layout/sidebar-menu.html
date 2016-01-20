@@ -413,14 +413,19 @@
 
 
 							<b>Abilities</b>:<br/>
-							<div ng-if="ships['light_fighter']['skills']['rapid_fire']['unlocked']==0" class="tooltip_ship_skill"><img src="assets/images/locked.png" class = "ship_skill_img"/>
-																								<span>Rapid Fire-<br/><br/>
-																								LOCKED</span>
-							</div>
-							<div ng-if="ships['light_fighter']['skills']['rapid_fire']['unlocked']==1" class="tooltip_ship_skill"><img src="assets/images/Ships/abilities/rapid_fire.png" class = "ship_skill_img"/>
-																								<span>Rapid Fire-<br/><br/>
-																								<div id="attention">30%</div> chance of firing again after a round<br />
-																								</span>
+							<div ng-repeat="skill in ships.light_fighter.skills" class="battle_assemble_skill">
+								<div ng-if="skill.unlocked==1" class="tooltip_ship_skill battle_assemble_skill"><img ng-src="{{skills_info.skills[find_index(skill.name, skills_info.skills)].src}}" class="ship_skill_img"/>
+									<span>{{skill.name}}-<br/><br/>
+									{{skills_info.skills[find_index(skill.name, skills_info.skills)].description}}<br />
+									</span>
+
+								</div>
+								<div ng-if="skill.unlocked==0" class="tooltip_ship_skill battle_assemble_skill"><img ng-src="assets/images/locked.png" class="ship_skill_img"/>
+									<span>{{skill.name}}-<br/><br/>
+									Locked<br />
+									</span>
+
+								</div>
 							</div>
 							<br/><br/>
 
@@ -494,16 +499,19 @@
 
 
 							<b>Abilities</b>:<br/>
-							<div ng-if="ships['heavy_fighter']['skills']['loaded_ammo']['unlocked']==0" class="tooltip_ship_skill"><img src="assets/images/locked.png" class = "ship_skill_img"/>
-																								<span>Loaded Ammo-<br/><br/>
-																								LOCKED</span>
+							<div ng-repeat="skill in ships.heavy_fighter.skills" class="battle_assemble_skill">
+								<div ng-if="skill.unlocked==1" class="tooltip_ship_skill battle_assemble_skill"><img ng-src="{{skills_info.skills[find_index(skill.name, skills_info.skills)].src}}" class="ship_skill_img"/>
+									<span>{{skill.name}}-<br/><br/>
+									{{skills_info.skills[find_index(skill.name, skills_info.skills)].description}}<br />
+									</span>
 
-							</div>
-							<div ng-if="ships['heavy_fighter']['skills']['loaded_ammo']['unlocked']==1" class="tooltip_ship_skill"><img src="assets/images/Ships/abilities/Loaded_ammo.png" class = "ship_skill_img"/>
-																								<span>Loaded Ammo-<br/><br/>
-																								<div id="attention">30%</div> chance of skipping a round, but deal <div id="attention">350%</div> damage in the next round<br />
-																								</span>
+								</div>
+								<div ng-if="skill.unlocked==0" class="tooltip_ship_skill battle_assemble_skill"><img ng-src="assets/images/locked.png" class="ship_skill_img"/>
+									<span>{{skill.name}}-<br/><br/>
+									Locked<br />
+									</span>
 
+								</div>
 							</div>
 							<br/><br/>
 
@@ -572,27 +580,19 @@
 
 
 							<b>Abilities</b>:<br/>
-							<div ng-if="ships['worg']['skills']['shield_piercing']['unlocked']==0" class="tooltip_ship_skill"><img src="assets/images/locked.png" class = "ship_skill_img"/>
-																								<span>Shield Piercing-<br/><br/>
-																								LOCKED</span>
+							<div ng-repeat="skill in ships.worg.skills" class="battle_assemble_skill">
+								<div ng-if="skill.unlocked==1" class="tooltip_ship_skill battle_assemble_skill"><img ng-src="{{skills_info.skills[find_index(skill.name, skills_info.skills)].src}}" class="ship_skill_img"/>
+									<span>{{skill.name}}-<br/><br/>
+									{{skills_info.skills[find_index(skill.name, skills_info.skills)].description}}<br />
+									</span>
 
-							</div>
-							<div ng-if="ships['worg']['skills']['shield_piercing']['unlocked']==1" class="tooltip_ship_skill"><img src="assets/images/Ships/abilities/shield_piercing.png" class = "ship_skill_img"/>
-																								<span>Shield Piercing-<br/><br/>
-																								<div id="attention">50%</div> damage bypasses enemy shields <br />
-																								</span>
+								</div>
+								<div ng-if="skill.unlocked==0" class="tooltip_ship_skill battle_assemble_skill"><img ng-src="assets/images/locked.png" class="ship_skill_img"/>
+									<span>{{skill.name}}-<br/><br/>
+									Locked<br />
+									</span>
 
-							</div>
-							<div ng-if="ships['worg']['skills']['predators_reward']['unlocked']==0" class="tooltip_ship_skill"><img src="assets/images/locked.png" class = "ship_skill_img"/>
-																								<span>Predator&#39s Reward-<br/><br/>
-																								LOCKED</span>
-
-							</div>
-							<div ng-if="ships['worg']['skills']['predators_reward']['unlocked']==1" class="tooltip_ship_skill"><img src="assets/images/Ships/abilities/predators_reward.png" class = "ship_skill_img"/>
-																								<span>Predator&#39s Reward-<br/><br/>
-																								Deal extra damage equals to <div id="attention">5%</div> of enemy&#39s shield value<br />
-																								</span>
-
+								</div>
 							</div>
 							<br/><br/>
 
@@ -661,39 +661,19 @@
 
 
 							<b>Abilities</b>:<br/>
-							<div ng-if="ships['destroyer']['skills']['rapid_fire']['unlocked']==0" class="tooltip_ship_skill"><img src="assets/images/locked.png" class = "ship_skill_img"/>
-																								<span>Rapid Fire-<br/><br/>
-																								LOCKED</span>
+							<div ng-repeat="skill in ships.destroyer.skills" class="battle_assemble_skill">
+								<div ng-if="skill.unlocked==1" class="tooltip_ship_skill battle_assemble_skill"><img ng-src="{{skills_info.skills[find_index(skill.name, skills_info.skills)].src}}" class="ship_skill_img"/>
+									<span>{{skill.name}}-<br/><br/>
+									{{skills_info.skills[find_index(skill.name, skills_info.skills)].description}}<br />
+									</span>
 
-							</div>
-							<div ng-if="ships['destroyer']['skills']['rapid_fire']['unlocked']==1" class="tooltip_ship_skill"><img src="assets/images/Ships/abilities/rapid_fire.png" class = "ship_skill_img"/>
-																								<span>Rapid Fire-<br/><br/>
-																								<div id="attention">30%</div> chance of firing again after a round
-																								</span>
+								</div>
+								<div ng-if="skill.unlocked==0" class="tooltip_ship_skill battle_assemble_skill"><img ng-src="assets/images/locked.png" class="ship_skill_img"/>
+									<span>{{skill.name}}-<br/><br/>
+									Locked<br />
+									</span>
 
-
-							</div>
-							<div ng-if="ships['destroyer']['skills']['critical_strike']['unlocked']==0" class="tooltip_ship_skill"><img src="assets/images/locked.png" class = "ship_skill_img"/>
-																								<span>Critical Strike-<br/><br/>
-																								LOCKED</span>
-
-							</div>
-							<div ng-if="ships['destroyer']['skills']['critical_strike']['unlocked']==1" class="tooltip_ship_skill"><img src="assets/images/Ships/abilities/critical_strike.png" class = "ship_skill_img"/>
-																								<span>Critical Strike-<br/><br/>
-																								<div id="attention">25%</div> chance of dealing <div id="attention">200%</div> damage this round
-																								</span>
-
-							</div>
-							<div ng-if="ships['destroyer']['skills']['tough_as_nails']['unlocked']==0" class="tooltip_ship_skill"><img src="assets/images/locked.png" class = "ship_skill_img"/>
-																								<span>Tough as Nails-<br/><br/>
-																								LOCKED</span>
-
-							</div>
-							<div ng-if="ships['destroyer']['skills']['tough_as_nails']['unlocked']==1" class="tooltip_ship_skill"><img src="assets/images/Ships/abilities/tough_as_nails.png" class = "ship_skill_img"/>
-																								<span>Tough as Nails-<br/><br/>
-																								Receives <div id="attention">50%</div> damage when below <div id="attention">25%</div> HP
-																								</span>
-
+								</div>
 							</div>
 							<br/><br/>
 
@@ -762,41 +742,19 @@
 
 
 							<b>Abilities</b>:<br/>
-							<div ng-if="ships['succubus']['skills']['corrosive_ammo']['unlocked']==0" class="tooltip_ship_skill"><img src="assets/images/locked.png" class = "ship_skill_img"/>
-																								<span>Corrosive Ammo-<br/><br/>
-																								LOCKED</span>
+							<div ng-repeat="skill in ships.succubus.skills" class="battle_assemble_skill">
+								<div ng-if="skill.unlocked==1" class="tooltip_ship_skill battle_assemble_skill"><img ng-src="{{skills_info.skills[find_index(skill.name, skills_info.skills)].src}}" class="ship_skill_img"/>
+									<span>{{skill.name}}-<br/><br/>
+									{{skills_info.skills[find_index(skill.name, skills_info.skills)].description}}<br />
+									</span>
 
-							</div>
-							<div ng-if="ships['succubus']['skills']['corrosive_ammo']['unlocked']==1" class="tooltip_ship_skill"><img src="assets/images/Ships/abilities/corrosive_ammo.png" class = "ship_skill_img"/>
-																								<span>Corrosive Ammo-<br/><br/>
-																								Enemies receive <div id="attention">20%</div> of succubus&#39 attack as damage at the end of every rounds
-																								</span>
+								</div>
+								<div ng-if="skill.unlocked==0" class="tooltip_ship_skill battle_assemble_skill"><img ng-src="assets/images/locked.png" class="ship_skill_img"/>
+									<span>{{skill.name}}-<br/><br/>
+									Locked<br />
+									</span>
 
-
-							</div>
-							<div ng-if="ships['succubus']['skills']['lethal_dose']['unlocked']==0" class="tooltip_ship_skill"><img src="assets/images/locked.png" class = "ship_skill_img"/>
-																								<span>Lethal Dose-<br/><br/>
-																								LOCKED</span>
-
-							</div>
-							<div ng-if="ships['succubus']['skills']['lethal_dose']['unlocked']==1" class="tooltip_ship_skill"><img src="assets/images/Ships/abilities/lethal_dose.png" class = "ship_skill_img"/>
-																								<span>Lethal Dose-<br/><br/>
-																								Corrosive ammo deals <div id="attention">50%</div> more damage
-																								</span>
-
-							</div>
-							<div ng-if="ships['succubus']['skills']['weaken']['unlocked']==0" class="tooltip_ship_skill"><img src="assets/images/locked.png" class = "ship_skill_img"/>
-																								<span>Weaken-<br/><br/>
-																								LOCKED</span>
-
-							</div>
-							<div ng-if="ships['succubus']['skills']['weaken']['unlocked']==1" class="tooltip_ship_skill"><img src="assets/images/Ships/abilities/weaken.png" class = "ship_skill_img"/>
-																								<span>Weaken-<br/><br/>
-																								Enemies deal <div id="attention">5%</div> less damage<br/><br/>
-
-																								*this stacks <div id="attention">diminishingly</div>
-																								</span>
-
+								</div>
 							</div>
 							<br/><br/>
 
@@ -865,50 +823,19 @@
 
 
 							<b>Abilities</b>:<br/>
-							<div ng-if="ships['colossus']['skills']['taunt']['unlocked']==0" class="tooltip_ship_skill"><img src="assets/images/locked.png" class = "ship_skill_img"/>
-																								<span>Taunt-<br/><br/>
-																								LOCKED</span>
+							<div ng-repeat="skill in ships.colossus.skills" class="battle_assemble_skill">
+								<div ng-if="skill.unlocked==1" class="tooltip_ship_skill battle_assemble_skill"><img ng-src="{{skills_info.skills[find_index(skill.name, skills_info.skills)].src}}" class="ship_skill_img"/>
+									<span>{{skill.name}}-<br/><br/>
+									{{skills_info.skills[find_index(skill.name, skills_info.skills)].description}}<br />
+									</span>
 
-							</div>
-							<div ng-if="ships['colossus']['skills']['taunt']['unlocked']==1" class="tooltip_ship_skill"><img src="assets/images/Ships/abilities/taunt.png" class = "ship_skill_img"/>
-																								<span>Taunt-<br/><br/>
-																								<div id="attention">70%</div> chance of redirectly all damage to itself this round
-																								</span>
+								</div>
+								<div ng-if="skill.unlocked==0" class="tooltip_ship_skill battle_assemble_skill"><img ng-src="assets/images/locked.png" class="ship_skill_img"/>
+									<span>{{skill.name}}-<br/><br/>
+									Locked<br />
+									</span>
 
-
-							</div>
-							<div ng-if="ships['colossus']['skills']['reinforced_armor']['unlocked']==0" class="tooltip_ship_skill"><img src="assets/images/locked.png" class = "ship_skill_img"/>
-																								<span>Reinforced Armor-<br/><br/>
-																								LOCKED</span>
-																								<br />
-							</div>
-							<div ng-if="ships['colossus']['skills']['reinforced_armor']['unlocked']==1" class="tooltip_ship_skill"><img src="assets/images/Ships/abilities/reinforced_armor.png" class = "ship_skill_img"/>
-																								<span>Reinforced Armor-<br/><br/>
-																								<div id="attention">Immune</div> to any corrosive effects
-																								</span>
-
-							</div>
-							<div ng-if="ships['colossus']['skills']['advanced_communication']['unlocked']==0" class="tooltip_ship_skill"><img src="assets/images/locked.png" class = "ship_skill_img"/>
-																								<span>Advanced Communication-<br/><br/>
-																								LOCKED</span>
-
-							</div>
-							<div ng-if="ships['colossus']['skills']['advanced_communication']['unlocked']==1" class="tooltip_ship_skill"><img src="assets/images/Ships/abilities/advanced_communication.png" class = "ship_skill_img"/>
-																								<span>Advanced Communication-<br/><br/>
-																								<div id="attention">Immune</div> to any disorientation effects
-																								</span>
-
-							</div>
-							<div ng-if="ships['colossus']['skills']['reflect']['unlocked']==0" class="tooltip_ship_skill"><img src="assets/images/locked.png" class = "ship_skill_img"/>
-																								<span>Reflect-<br/><br/>
-																								LOCKED</span>
-
-							</div>
-							<div ng-if="ships['colossus']['skills']['reflect']['unlocked']==1" class="tooltip_ship_skill"><img src="assets/images/Ships/abilities/reflect.png" class = "ship_skill_img"/>
-																								<span>Reflect-<br/><br/>
-																								Reflect <div id="attention">30%</div> damage to attackers
-																								</span>
-
+								</div>
 							</div>
 							<br/><br/>
 
@@ -976,53 +903,19 @@
 
 
 							<b>Abilities</b>:<br/>
-							<div ng-if="ships['medusa']['skills']['restrict']['unlocked']==0" class="tooltip_ship_skill"><img src="assets/images/locked.png" class = "ship_skill_img"/>
-																								<span>Restrict-<br/><br/>
-																								LOCKED</span>
+							<div ng-repeat="skill in ships.medusa.skills" class="battle_assemble_skill">
+								<div ng-if="skill.unlocked==1" class="tooltip_ship_skill battle_assemble_skill"><img ng-src="{{skills_info.skills[find_index(skill.name, skills_info.skills)].src}}" class="ship_skill_img"/>
+									<span>{{skill.name}}-<br/><br/>
+									{{skills_info.skills[find_index(skill.name, skills_info.skills)].description}}<br />
+									</span>
 
-							</div>
-							<div ng-if="ships['medusa']['skills']['restrict']['unlocked']==1" class="tooltip_ship_skill"><img src="assets/images/Ships/abilities/restrict.png" class = "ship_skill_img"/>
-																								<span>Restrict-<br/><br/>
-																								<div id="attention">80%</div> chance to make one enemy ship can not attack next turn
+								</div>
+								<div ng-if="skill.unlocked==0" class="tooltip_ship_skill battle_assemble_skill"><img ng-src="assets/images/locked.png" class="ship_skill_img"/>
+									<span>{{skill.name}}-<br/><br/>
+									Locked<br />
+									</span>
 
-																								*this <div id="attention">does not</div> work on bosses
-																								</span>
-
-
-							</div>
-							<div ng-if="ships['medusa']['skills']['mind_control']['unlocked']==0" class="tooltip_ship_skill"><img src="assets/images/locked.png" class = "ship_skill_img"/>
-																								<span>Mind Control-<br/><br/>
-																								LOCKED</span>
-
-							</div>
-							<div ng-if="ships['medusa']['skills']['mind_control']['unlocked']==1" class="tooltip_ship_skill"><img src="assets/images/Ships/abilities/mind_control.png" class = "ship_skill_img"/>
-																								<span>Mind Control-<br/><br/>
-																								One enemy ship has a <div id="attention">20%</div> chance of firing at their allies
-																								<br/><br/>* this <div id="attention">does not</div> work on bosses
-																								</span>
-
-							</div>
-							<div ng-if="ships['medusa']['skills']['siphon_shield']['unlocked']==0" class="tooltip_ship_skill"><img src="assets/images/locked.png" class = "ship_skill_img"/>
-																								<span>Siphon Shield-<br/><br/>
-																								LOCKED</span>
-
-							</div>
-							<div ng-if="ships['medusa']['skills']['siphon_shield']['unlocked']==1" class="tooltip_ship_skill"><img src="assets/images/Ships/abilities/siphon_shield.png" class = "ship_skill_img"/>
-																								<span>Siphon Shield-<br/><br/>
-																								Recovering shield equal to <div id="attention">50%</div> of the amount of damage dealt
-																								</span>
-
-							</div>
-							<div ng-if="ships['medusa']['skills']['evasion']['unlocked']==0" class="tooltip_ship_skill"><img src="assets/images/locked.png" class = "ship_skill_img"/>
-																								<span>Evasion-<br/><br/>
-																								LOCKED</span>
-
-							</div>
-							<div ng-if="ships['medusa']['skills']['evasion']['unlocked']==1" class="tooltip_ship_skill"><img src="assets/images/Ships/abilities/evasion.png" class = "ship_skill_img"/>
-																								<span>Evasion-<br/><br/>
-																								<div id="attention">30%</div> chance of dodging attacks
-																								</span>
-
+								</div>
 							</div>
 							<br/><br/>
 
@@ -1090,69 +983,19 @@
 
 
 							<b>Abilities</b>:<br/>
-							<div ng-if="ships['science_vessel']['skills']['restoration']['unlocked']==0" class="tooltip_ship_skill"><img src="assets/images/locked.png" class = "ship_skill_img"/>
-																								<span>Restoration-<br/><br/>
-																								LOCKED</span>
+							<div ng-repeat="skill in ships.science_vessel.skills" class="battle_assemble_skill">
+								<div ng-if="skill.unlocked==1" class="tooltip_ship_skill battle_assemble_skill"><img ng-src="{{skills_info.skills[find_index(skill.name, skills_info.skills)].src}}" class="ship_skill_img"/>
+									<span>{{skill.name}}-<br/><br/>
+									{{skills_info.skills[find_index(skill.name, skills_info.skills)].description}}<br />
+									</span>
 
-							</div>
-							<div ng-if="ships['science_vessel']['skills']['restoration']['unlocked']==1" class="tooltip_ship_skill"><img src="assets/images/Ships/abilities/restoration.png" class = "ship_skill_img"/>
-																								<span>Restoration-<br/><br/>
-																								Every friendly ship restores extra <div id="attention">10%</div> of shield at the start of each turn
-																								<br/><br/>
-																								*this stacks <div id="attention">diminishingly</div>
-																								</span>
+								</div>
+								<div ng-if="skill.unlocked==0" class="tooltip_ship_skill battle_assemble_skill"><img ng-src="assets/images/locked.png" class="ship_skill_img"/>
+									<span>{{skill.name}}-<br/><br/>
+									Locked<br />
+									</span>
 
-
-							</div>
-							<div ng-if="ships['science_vessel']['skills']['toughness']['unlocked']==0" class="tooltip_ship_skill"><img src="assets/images/locked.png" class = "ship_skill_img"/>
-																								<span>Toughness-<br/><br/>
-																								LOCKED</span>
-
-							</div>
-							<div ng-if="ships['science_vessel']['skills']['toughness']['unlocked']==1" class="tooltip_ship_skill"><img src="assets/images/Ships/abilities/toughness.png" class = "ship_skill_img"/>
-																								<span>Toughness-<br/><br/>
-																								Every friendly ship has their shields increased by <div id="attention">10%</div>
-																								<br/><br/>
-																								*this stacks <div id="attention">diminishingly</div>
-																								</span>
-
-							</div>
-							<div ng-if="ships['science_vessel']['skills']['force_field']['unlocked']==0" class="tooltip_ship_skill"><img src="assets/images/locked.png" class = "ship_skill_img"/>
-																								<span>Force Field-<br/><br/>
-																								LOCKED</span>
-
-							</div>
-							<div ng-if="ships['science_vessel']['skills']['force_field']['unlocked']==1" class="tooltip_ship_skill"><img src="assets/images/Ships/abilities/force_field.png" class = "ship_skill_img"/>
-																								<span>Force Field-<br/><br/>
-																								Reduce damage taken to every ship by <div id="attention">10%</div>
-																								<br/><br/>
-																								*this stacks <div id="attention">diminishingly</div>
-																								</span>
-
-							</div>
-							<div ng-if="ships['science_vessel']['skills']['advanced_repairbot']['unlocked']==0" class="tooltip_ship_skill"><img src="assets/images/locked.png" class = "ship_skill_img"/>
-																								<span>Advanced Repairbot-<br/><br/>
-																								LOCKED</span>
-
-							</div>
-							<div ng-if="ships['science_vessel']['skills']['advanced_repairbot']['unlocked']==1" class="tooltip_ship_skill"><img src="assets/images/Ships/abilities/advanced_repairbot.png" class = "ship_skill_img"/>
-																								<span>Advanced Repairbot-<br/><br/>
-																								<div id="attention">40%</div> chance of removing any corrosive effects at the end of each turn
-																								<br/><br/>
-																								*this stacks <div id="attention">diminishingly</div>
-																								</span>
-
-							</div>
-							<div ng-if="ships['science_vessel']['skills']['ionic_storm']['unlocked']==0" class="tooltip_ship_skill"><img src="assets/images/locked.png" class = "ship_skill_img"/>
-																								<span>Ionic Storm-<br/><br/>
-																								LOCKED</span>
-
-							</div>
-							<div ng-if="ships['science_vessel']['skills']['ionic_storm']['unlocked']==1" class="tooltip_ship_skill"><img src="assets/images/Ships/abilities/ionic_storm.png" class = "ship_skill_img"/>
-																								<span>Ionic Storm-<br/><br/>
-																								<div id="attention">30%</div> chance of removing one random enemy buff when attacking
-																								</span>
-
+								</div>
 							</div>
 							<br/><br/>
 
@@ -1220,64 +1063,19 @@
 
 
 							<b>Abilities</b>:<br/>
-							<div ng-if="ships['pantheon']['skills']['rapid_fire']['unlocked']==0" class="tooltip_ship_skill"><img src="assets/images/locked.png" class = "ship_skill_img"/>
-																								<span>Restoration-<br/><br/>
-																								LOCKED</span>
+							<div ng-repeat="skill in ships.pantheon.skills" class="battle_assemble_skill">
+								<div ng-if="skill.unlocked==1" class="tooltip_ship_skill battle_assemble_skill"><img ng-src="{{skills_info.skills[find_index(skill.name, skills_info.skills)].src}}" class="ship_skill_img"/>
+									<span>{{skill.name}}-<br/><br/>
+									{{skills_info.skills[find_index(skill.name, skills_info.skills)].description}}<br />
+									</span>
 
-							</div>
-							<div ng-if="ships['pantheon']['skills']['rapid_fire']['unlocked']==1" class="tooltip_ship_skill"><img src="assets/images/Ships/abilities/rapid_fire.png" class = "ship_skill_img"/>
-																								<span>Rapid Fire-<br/><br/>
-																								<div id="attention">30%</div> chance of firing again after a round<br />
-																								</span>
+								</div>
+								<div ng-if="skill.unlocked==0" class="tooltip_ship_skill battle_assemble_skill"><img ng-src="assets/images/locked.png" class="ship_skill_img"/>
+									<span>{{skill.name}}-<br/><br/>
+									Locked<br />
+									</span>
 
-
-							</div>
-							<div ng-if="ships['pantheon']['skills']['enlarged_cargo_space']['unlocked']==0" class="tooltip_ship_skill"><img src="assets/images/locked.png" class = "ship_skill_img"/>
-																								<span>Enlarged Cargo Space-<br/><br/>
-																								LOCKED</span>
-							</div>
-							<div ng-if="ships['pantheon']['skills']['enlarged_cargo_space']['unlocked']==1" class="tooltip_ship_skill"><img src="assets/images/Ships/abilities/enlarged_cargo_space.png" class = "ship_skill_img"/>
-																								<span>Enlarged Cargo Space-<br/><br/>
-																								Gain <div id="attention">30%</div> more metal and crystal after sussesful raid
-																								<br/><br/>
-																								*this stacks <div id="attention">diminishingly</div>
-																								</span>
-
-							</div>
-							<div ng-if="ships['pantheon']['skills']['enrage']['unlocked']==0" class="tooltip_ship_skill"><img src="assets/images/locked.png" class = "ship_skill_img"/>
-																								<span>Enrage-<br/><br/>
-																								LOCKED</span>
-							</div>
-							<div ng-if="ships['pantheon']['skills']['enrage']['unlocked']==1" class="tooltip_ship_skill"><img src="assets/images/Ships/abilities/enrage.png" class = "ship_skill_img"/>
-																								<span>Enrage-<br/><br/>
-																								Deal <div id="attention">60%</div> more damage when fleet HP is below <div id="attention">40%</div>
-
-																								</span>
-
-							</div>
-							<div ng-if="ships['pantheon']['skills']['imposing_presence']['unlocked']==0" class="tooltip_ship_skill"><img src="assets/images/locked.png" class = "ship_skill_img"/>
-																								<span>Imposing Presence-<br/><br/>
-																								LOCKED</span>
-							</div>
-							<div ng-if="ships['pantheon']['skills']['imposing_presence']['unlocked']==1" class="tooltip_ship_skill"><img src="assets/images/Ships/abilities/imposing_presence.png" class = "ship_skill_img"/>
-																								<span>Imposing Presence-<br/><br/>
-																								Enemy fleet&#39 HP is reduced by <div id="attention">10%</div>
-																								<br/><br/>
-																								*this stacks <div id="attention">diminishingly</div>
-																								</span>
-
-							</div>
-							<div ng-if="ships['pantheon']['skills']['leadership']['unlocked']==0" class="tooltip_ship_skill"><img src="assets/images/locked.png" class = "ship_skill_img"/>
-																								<span>Leadership-<br/><br/>
-																								LOCKED</span>
-							</div>
-							<div ng-if="ships['pantheon']['skills']['leadership']['unlocked']==1" class="tooltip_ship_skill"><img src="assets/images/Ships/abilities/leadership.png" class = "ship_skill_img"/>
-																								<span>Leadership-<br/><br/>
-																								All ally ships deal <div id="attention">10%</div> more damage
-																								<br/><br/>
-																								*this stacks <div id="attention">diminishingly</div>
-																								</span>
-
+								</div>
 							</div>
 							<br/><br/>
 

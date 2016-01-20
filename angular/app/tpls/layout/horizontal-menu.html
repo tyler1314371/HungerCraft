@@ -311,37 +311,37 @@
 	<div class="modal-body" ng-controller="BattleCtrl">
 
 		<div class="ships_left">
-		<div id="LF_form" class="assemble_form">
-			<form>
-			<h4><img src="assets/images/Ships/light_fighter.jpg" class="ships_assemble_img" /> &nbsp Light Fighter
-			<div class="ship_assemble_attack"><img src="assets/images/sword.png" class="stat_img"/><b>{{format_number(LF_fleet_Attk)}}</b></div>
-			</h4>
+			<div id="LF_form" class="assemble_form">
+				<form>
+				<div class="ship_assemble_attack"><img src="assets/images/sword.png" class="stat_img"/><b>{{format_number(LF_fleet_Attk)}}</b></div>
+				<h4><img src="assets/images/Ships/light_fighter.jpg" class="ships_assemble_img" /> &nbsp Light Fighter
+				</h4>
 
-			<input type="range" name="amountRange" ng-model="LF_Slider" min="0" max={{ships.light_fighter.current_owned}} value="0" oninput="this.form.amountInput.value=this.value" />
-			<input name="amountInput" ng-model="LF_Text" min="0" max={{ships.light_fighter.current_owned}} value="0" oninput="this.form.amountRange.value=this.value" ng-style="{position:'relative', width:'45px'}"/>
-			</form>
+				<input type="range" name="amountRange" ng-model="LF_Slider" min="0" max={{ships.light_fighter.current_owned}} value="0" oninput="this.form.amountInput.value=this.value" />
+				<input name="amountInput" ng-model="LF_Text" min="0" max={{ships.light_fighter.current_owned}} value="0" oninput="this.form.amountRange.value=this.value" ng-style="{position:'relative', width:'45px'}"/>
+				</form>
 
-			<div class="battle_div_enemies" ng-repeat="skill in ships.light_fighter.skills">
-				<div ng-if="skill.unlocked==1" class="battle_assemble_skill tooltip_ship_skill"><img ng-src="{{skills_info.skills[find_index(skill.name, skills_info.skills)].src}}" class="ship_skill_img_battle"/>
-					<span>{{skill.name}}-<br/><br/>
-					{{skills_info.skills[find_index(skill.name, skills_info.skills)].description}}<br />
-					</span>
+				<div class="battle_div_enemies" ng-repeat="skill in ships.light_fighter.skills">
+					<div ng-if="skill.unlocked==1" class="battle_assemble_skill tooltip_ship_skill"><img ng-src="{{skills_info.skills[find_index(skill.name, skills_info.skills)].src}}" class="ship_skill_img_battle"/>
+						<span>{{skill.name}}-<br/><br/>
+						{{skills_info.skills[find_index(skill.name, skills_info.skills)].description}}<br />
+						</span>
 
+					</div>
 				</div>
+
+
+
+
+
+				<br/>
 			</div>
-
-			
-			
-
-
-			<br/>
-		</div>
 
 
 
 		<div id="HF_form" class="assemble_form">
 			<form>
-			<h4><img src="assets/images/Ships/heavy_fighter.jpg" class="ships_assemble_img" /> &nbsp Heavy Fighter
+			<h4><img src="assets/images/Ships/heavy_fighter.jpg" class="ships_assemble_img" /> &nbsp Light Fighter
 			<div class="ship_assemble_attack"><img src="assets/images/sword.png" class="stat_img"/><b>{{format_number(HF_fleet_Attk)}}</b></div>
 			</h4>
 
@@ -358,8 +358,8 @@
 				</div>
 			</div>
 
-			
-			
+
+
 
 
 			<br/>
@@ -386,8 +386,8 @@
 				</div>
 			</div>
 
-			
-			
+
+
 
 
 			<br/>
@@ -397,33 +397,84 @@
 
 		<div id="DS_form" class="assemble_form">
 			<form>
-			<h4><img src="assets/images/Ships/destroyer.jpg" class="ships_assemble_img" /> &nbsp Destroyer</h4>
+			<h4><img src="assets/images/Ships/destroyer.jpg" class="ships_assemble_img" /> &nbsp Destroyer
+			<div class="ship_assemble_attack"><img src="assets/images/sword.png" class="stat_img"/><b>{{format_number(DS_fleet_Attk)}}</b></div>
+			</h4>
+
 			<input type="range" name="amountRange" ng-model="DS_Slider" min="0" max={{ships.destroyer.current_owned}} value="0" oninput="this.form.amountInput.value=this.value" />
-			<input name="amountInput" ng-model="DS_Text" min="0" max={{ships.destroyer.current_owned}} value="0" oninput="this.form.amountRange.value=this.value" ng-style="{width:'100px'}"/><b><img src="assets/images/sword.png" class="stat_img"/></b>{{format_number(DS_fleet_Attk)}}
+			<input name="amountInput" ng-model="DS_Text" min="0" max={{ships.destroyer.current_owned}} value="0" oninput="this.form.amountRange.value=this.value" ng-style="{position:'relative', width:'45px'}"/>
 			</form>
-			<br/><br/>
+
+			<div class="battle_div_enemies" ng-repeat="skill in ships.destroyer.skills">
+				<div ng-if="skill.unlocked==1" class="battle_assemble_skill tooltip_ship_skill"><img ng-src="{{skills_info.skills[find_index(skill.name, skills_info.skills)].src}}" class="ship_skill_img_battle"/>
+					<span>{{skill.name}}-<br/><br/>
+					{{skills_info.skills[find_index(skill.name, skills_info.skills)].description}}<br />
+					</span>
+
+				</div>
+			</div>
+
+
+
+
+
+			<br/>
 		</div>
 
 
 
 		<div id="SU_form" class="assemble_form">
 			<form>
-			<h4><img src="assets/images/Ships/succubus.jpg" class="ships_assemble_img" /> &nbsp Succubus</h4>
+			<h4><img src="assets/images/Ships/succubus.jpg" class="ships_assemble_img" /> &nbsp Succubus
+			<div class="ship_assemble_attack"><img src="assets/images/sword.png" class="stat_img"/><b>{{format_number(SU_fleet_Attk)}}</b></div>
+			</h4>
+
 			<input type="range" name="amountRange" ng-model="SU_Slider" min="0" max={{ships.succubus.current_owned}} value="0" oninput="this.form.amountInput.value=this.value" />
-			<input name="amountInput" ng-model="SU_Text" min="0" max={{ships.succubus.current_owned}} value="0" oninput="this.form.amountRange.value=this.value" ng-style="{width:'100px'}"/><b><img src="assets/images/sword.png" class="stat_img"/></b>{{format_number(SU_fleet_Attk)}}
+			<input name="amountInput" ng-model="SU_Text" min="0" max={{ships.succubus.current_owned}} value="0" oninput="this.form.amountRange.value=this.value" ng-style="{position:'relative', width:'45px'}"/>
 			</form>
-			<br/><br/>
+
+			<div class="battle_div_enemies" ng-repeat="skill in ships.succubus.skills">
+				<div ng-if="skill.unlocked==1" class="battle_assemble_skill tooltip_ship_skill"><img ng-src="{{skills_info.skills[find_index(skill.name, skills_info.skills)].src}}" class="ship_skill_img_battle"/>
+					<span>{{skill.name}}-<br/><br/>
+					{{skills_info.skills[find_index(skill.name, skills_info.skills)].description}}<br />
+					</span>
+
+				</div>
+			</div>
+
+
+
+
+
+			<br/>
 		</div>
 
 
 
 		<div id="COL_form" class="assemble_form">
 			<form>
-			<h4><img src="assets/images/Ships/colossus.jpg" class="ships_assemble_img" /> &nbsp Colossus</h4>
+			<h4><img src="assets/images/Ships/colossus.jpg" class="ships_assemble_img" /> &nbsp Colossus
+			<div class="ship_assemble_attack"><img src="assets/images/sword.png" class="stat_img"/><b>{{format_number(COL_fleet_Attk)}}</b></div>
+			</h4>
+
 			<input type="range" name="amountRange" ng-model="COL_Slider" min="0" max={{ships.colossus.current_owned}} value="0" oninput="this.form.amountInput.value=this.value" />
-			<input name="amountInput" ng-model="COL_Text" min="0" max={{ships.colossus.current_owned}} value="0" oninput="this.form.amountRange.value=this.value" ng-style="{width:'100px'}"/><b><img src="assets/images/sword.png" class="stat_img"/></b>{{format_number(COL_fleet_Attk)}}
+			<input name="amountInput" ng-model="COL_Text" min="0" max={{ships.colossus.current_owned}} value="0" oninput="this.form.amountRange.value=this.value" ng-style="{position:'relative', width:'45px'}"/>
 			</form>
-			<br/><br/>
+
+			<div class="battle_div_enemies" ng-repeat="skill in ships.colossus.skills">
+				<div ng-if="skill.unlocked==1" class="battle_assemble_skill tooltip_ship_skill"><img ng-src="{{skills_info.skills[find_index(skill.name, skills_info.skills)].src}}" class="ship_skill_img_battle"/>
+					<span>{{skill.name}}-<br/><br/>
+					{{skills_info.skills[find_index(skill.name, skills_info.skills)].description}}<br />
+					</span>
+
+				</div>
+			</div>
+
+
+
+
+
+			<br/>
 		</div>
 
 
@@ -431,11 +482,28 @@
 
 		<div id="MD_form" class="assemble_form">
 			<form>
-			<h4><img src="assets/images/Ships/medusa.jpg" class="ships_assemble_img" /> &nbsp Medusa</h4>
+			<h4><img src="assets/images/Ships/medusa.jpg" class="ships_assemble_img" /> &nbsp Medusa
+			<div class="ship_assemble_attack"><img src="assets/images/sword.png" class="stat_img"/><b>{{format_number(MD_fleet_Attk)}}</b></div>
+			</h4>
+
 			<input type="range" name="amountRange" ng-model="MD_Slider" min="0" max={{ships.medusa.current_owned}} value="0" oninput="this.form.amountInput.value=this.value" />
-			<input name="amountInput" ng-model="MD_Text" min="0" max={{ships.medusa.current_owned}} value="0" oninput="this.form.amountRange.value=this.value" ng-style="{width:'100px'}"/><b><img src="assets/images/sword.png" class="stat_img"/></b>{{format_number(MD_fleet_Attk)}}
+			<input name="amountInput" ng-model="MD_Text" min="0" max={{ships.medusa.current_owned}} value="0" oninput="this.form.amountRange.value=this.value" ng-style="{position:'relative', width:'45px'}"/>
 			</form>
-			<br/><br/>
+
+			<div class="battle_div_enemies" ng-repeat="skill in ships.medusa.skills">
+				<div ng-if="skill.unlocked==1" class="battle_assemble_skill tooltip_ship_skill"><img ng-src="{{skills_info.skills[find_index(skill.name, skills_info.skills)].src}}" class="ship_skill_img_battle"/>
+					<span>{{skill.name}}-<br/><br/>
+					{{skills_info.skills[find_index(skill.name, skills_info.skills)].description}}<br />
+					</span>
+
+				</div>
+			</div>
+
+
+
+
+
+			<br/>
 		</div>
 
 
@@ -443,25 +511,58 @@
 
 		<div id="SV_form" class="assemble_form">
 			<form>
-			<h4><img src="assets/images/Ships/science_vessel.jpg" class="ships_assemble_img" /> &nbsp Science Vessel</h4>
+			<h4><img src="assets/images/Ships/science_vessel.jpg" class="ships_assemble_img" /> &nbsp Science Vessel
+			<div class="ship_assemble_attack"><img src="assets/images/sword.png" class="stat_img"/><b>{{format_number(SV_fleet_Attk)}}</b></div>
+			</h4>
+
 			<input type="range" name="amountRange" ng-model="SV_Slider" min="0" max={{ships.science_vessel.current_owned}} value="0" oninput="this.form.amountInput.value=this.value" />
-			<input name="amountInput" ng-model="SV_Text" min="0" max={{ships.science_vessel.current_owned}} value="0" oninput="this.form.amountRange.value=this.value" ng-style="{width:'100px'}"/><b><img src="assets/images/sword.png" class="stat_img"/></b>{{format_number(SV_fleet_Attk)}}
+			<input name="amountInput" ng-model="SV_Text" min="0" max={{ships.science_vessel.current_owned}} value="0" oninput="this.form.amountRange.value=this.value" ng-style="{position:'relative', width:'45px'}"/>
 			</form>
-			<br/><br/>
-		</div>
-		</div>
+
+			<div class="battle_div_enemies" ng-repeat="skill in ships.science_vessel.skills">
+				<div ng-if="skill.unlocked==1" class="battle_assemble_skill tooltip_ship_skill"><img ng-src="{{skills_info.skills[find_index(skill.name, skills_info.skills)].src}}" class="ship_skill_img_battle"/>
+					<span>{{skill.name}}-<br/><br/>
+					{{skills_info.skills[find_index(skill.name, skills_info.skills)].description}}<br />
+					</span>
+
+				</div>
+			</div>
 
 
 
-		<div id="PTH_form" class="assemble_form">
-			<form>
-			<h4><img src="assets/images/Ships/pantheon.jpg" class="ships_assemble_img" /> &nbsp Pantheon</h4>
-			<input type="range" name="amountRange" ng-model="PTH_Slider" min="0" max={{ships.pantheon.current_owned}} value="0" oninput="this.form.amountInput.value=this.value" />
-			<input name="amountInput" ng-model="PTH_Text" min="0" max={{ships.pantheon.current_owned}} value="0" oninput="this.form.amountRange.value=this.value" ng-style="{width:'100px'}"/><b><img src="assets/images/sword.png" class="stat_img"/></b>{{format_number(PTH_fleet_Attk)}}
-			</form>
+
+
 			<br/>
 		</div>
 
+
+
+			<div id="PTH_form" class="assemble_form">
+				<form>
+				<h4><img src="assets/images/Ships/pantheon.jpg" class="ships_assemble_img" /> &nbsp Pantheon
+				<div class="ship_assemble_attack"><img src="assets/images/sword.png" class="stat_img"/><b>{{format_number(PTH_fleet_Attk)}}</b></div>
+				</h4>
+
+				<input type="range" name="amountRange" ng-model="PTH_Slider" min="0" max={{ships.pantheon.current_owned}} value="0" oninput="this.form.amountInput.value=this.value" />
+				<input name="amountInput" ng-model="PTH_Text" min="0" max={{ships.pantheon.current_owned}} value="0" oninput="this.form.amountRange.value=this.value" ng-style="{position:'relative', width:'45px'}"/>
+				</form>
+
+				<div class="battle_div_enemies" ng-repeat="skill in ships.pantheon.skills">
+					<div ng-if="skill.unlocked==1" class="battle_assemble_skill tooltip_ship_skill"><img ng-src="{{skills_info.skills[find_index(skill.name, skills_info.skills)].src}}" class="ship_skill_img_battle"/>
+						<span>{{skill.name}}-<br/><br/>
+						{{skills_info.skills[find_index(skill.name, skills_info.skills)].description}}<br />
+						</span>
+
+					</div>
+				</div>
+
+
+
+
+
+				<br/>
+			</div>
+		</div>
 
 
 

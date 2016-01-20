@@ -41,7 +41,7 @@ var ships ={
 		skills:[
 			{
 				name:"Rapid Fire",
-				unlocked:1
+				unlocked:0
 			}
 		]
 	},
@@ -76,14 +76,12 @@ var ships ={
 			shield:50,
 			attack:80
 		},
-		skills:{
-			shield_piercing:{
-				unlocked:0
-			},
-			predators_reward:{
-				unlocked:0
+		skills:[
+			{
+				name:"Rapid Fire",
+				unlocked:1
 			}
-		}
+		]
 	},
 	destroyer:{
 		unlocked:0,
@@ -97,17 +95,12 @@ var ships ={
 			shield:500,
 			attack:450
 		},
-		skills:{
-			rapid_fire:{
-				unlocked:0
-			},
-			critical_strike:{
-				unlocked:0
-			},
-			tough_as_nails:{
-				unlocked:0
+		skills:[
+			{
+				name:"Rapid Fire",
+				unlocked:1
 			}
-		}
+		]
 	},
 	succubus:{
 		unlocked:0,
@@ -121,17 +114,12 @@ var ships ={
 			shield:1200,
 			attack:150
 		},
-		skills:{
-			corrosive_ammo:{
-				unlocked:0
-			},
-			lethal_dose:{
-				unlocked:0
-			},
-			weaken:{
-				unlocked:0
+		skills:[
+			{
+				name:"Rapid Fire",
+				unlocked:1
 			}
-		}
+		]
 	},
 	colossus:{
 		unlocked:0,
@@ -145,20 +133,12 @@ var ships ={
 			shield:10000,
 			attack:200
 		},
-		skills:{
-			taunt:{
-				unlocked:0
-			},
-			reinforced_armor:{
-				unlocked:0
-			},
-			advanced_communication:{
-				unlocked:0
-			},
-			reflect:{
-				unlocked:0
+		skills:[
+			{
+				name:"Rapid Fire",
+				unlocked:1
 			}
-		}
+		]
 	},
 	medusa:{
 		unlocked:0,
@@ -172,20 +152,12 @@ var ships ={
 			shield:20000,
 			attack:100
 		},
-		skills:{
-			restrict:{
-				unlocked:0
-			},
-			mind_control:{
-				unlocked:0
-			},
-			siphon_shield:{
-				unlocked:0
-			},
-			evasion:{
-				unlocked:0
+		skills:[
+			{
+				name:"Rapid Fire",
+				unlocked:1
 			}
-		}
+		]
 	},
 	science_vessel:{
 		unlocked:0,
@@ -199,23 +171,12 @@ var ships ={
 			shield:13000,
 			attack:140
 		},
-		skills:{
-			restoration:{
-				unlocked:0
-			},
-			toughness:{
-				unlocked:0
-			},
-			force_field:{
-				unlocked:0
-			},
-			advanced_repairbot:{
-				unlocked:0
-			},
-			ionic_storm:{
-				unlocked:0
+		skills:[
+			{
+				name:"Rapid Fire",
+				unlocked:1
 			}
-		}
+		]
 	},
 	pantheon:{
 		unlocked:0,
@@ -229,23 +190,12 @@ var ships ={
 			shield:20000,
 			attack:400
 		},
-		skills:{
-			rapid_fire:{
-				unlocked:0
-			},
-			enlarged_cargo_space:{
-				unlocked:0
-			},
-			enrage:{
-				unlocked:0
-			},
-			imposing_presence:{
-				unlocked:0
-			},
-			leadership:{
-				unlocked:0
+		skills:[
+			{
+				name:"Rapid Fire",
+				unlocked:1
 			}
-		}
+		]
 	},
 	wormhole_device:{
 		unlocked:0,
@@ -259,11 +209,12 @@ var ships ={
 			shield:0,
 			attack:0
 		},
-		skills:{
-			rapid_fire:{
-				unlocked:0
+		skills:[
+			{
+				name:"Rapid Fire",
+				unlocked:1
 			}
-		}
+		]
 	},
 }
 
@@ -401,7 +352,7 @@ var dark_matter = {
 
 //BUILDING
 var shipyard = {
-	current_lab_level: 0,
+	current_lab_level: 3,
 	current_cost_metal:150,
 	base_cost_metal: 150,
 	current_cost_crystal:70,
@@ -409,7 +360,7 @@ var shipyard = {
 };
 
 var research_lab = {
-	current_lab_level: 0,
+	current_lab_level: 3,
 	current_cost_metal:150,
 	base_cost_metal: 150,
 	current_cost_crystal:70,
@@ -435,7 +386,7 @@ var level = {
 	level_crystal_req:200,
 	level_metal_req_ori:300,
 	level_crystal_req_ori:200,
-	current_level:1,
+	current_level:10,
 	color1: '#000080',
 	color2: '#339966'
 };
@@ -504,7 +455,10 @@ angular.module('xenon.controllers', []).
 		});
 
 
+		$scope.find_index= function(item, list) {
 
+			return find_index_g(item, list);
+		}
 
 
 
@@ -512,7 +466,7 @@ angular.module('xenon.controllers', []).
 
 
 		$rootScope.layoutOptions.horizontalMenu.isVisible = true;
-		
+
 		$scope.metal = metal;
 		$scope.crystal = crystal;
 		$scope.research_lab = research_lab;
@@ -2133,7 +2087,7 @@ angular.module('xenon.controllers', []).
 		    return num;
 		};
 		$scope.find_index= function(item, list) {
-			
+
 			return find_index_g(item, list);
 		}
 		$scope.openModal = function(modal_id, modal_size, modal_backdrop)
@@ -3292,7 +3246,7 @@ function Update_All_Ships_Bonuses() {
 
 
 function find_index_g(item, list) {
-			
+
 			for (var i = 0; i < list.length ; i++) {
         		if (list[i].name == item) {
             		return i;
