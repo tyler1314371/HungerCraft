@@ -104,10 +104,10 @@
       <table style="width:100%">
         <tr>
             <td ng-if="metal.current_mine_level!=0" style="text-align: center; width: auto">
-              <h4>Metal Mine (Level {{metal.current_mine_level}})</h4>
+              <h4><div id="attention"><b>Metal Mine (Level {{metal.current_mine_level}})</b></div></h4>
             </td>
             <td ng-if="metal.current_mine_level==0" style="text-align: center; width: auto">
-              <h4>????????</h4>
+              <h4><div id="attention"><b>????????</b></div></h4>
             </td>
         </tr>
       </table>
@@ -126,7 +126,8 @@
             </td>
             <td>
 
-              <div class="plus_resource" ng-hide="hidden" ng-class="{fade: startFade}">+{{format_number_0(metal.income)}} <img src="assets/images/mineral.png" width="25" class ="artifact_img"/> </div>
+              <div class="plus_resource" ng-hide="hidden" ng-class="{fade: startFade}"><font color="#6AEB6A"><b>+{{format_number(metal.income)}}</b></font>
+              <img src="assets/images/mineral.png" width="25" class ="artifact_img"/> </div>
 
         			<div progressbar class="progress_metal active" max="progress_metal.max" value="progress_metal.value" type="{{progress_metal.color}}" ng-style="{position:'relative', height :'20px', width :'450px', 'border-radius':'15px 15px 15px 15px', 'background-color':'white'}">
         			<span><img src="assets/images/mining.png" width="20" class ="artifact_img"/></span>
@@ -138,7 +139,10 @@
 
 
               <div class= "upgrade_button_resource">
-                {{format_number_0(metal.current_cost)}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/>
+                
+
+
+
                 <button ng-if="metal.current_cost > metal.current_owned" class="btn btn-grey btn-icon btn-icon-standalone btn-icon-standalone-right disabled" >
                     <i class="fa-bolt" style="color:black"></i>
                     <span><font color="black">Upgrade</font></span>
@@ -147,6 +151,13 @@
                     <i class="fa-bolt"></i>
                     <span>Upgrade</span>
                 </button>
+
+
+                <b>
+                <font ng-if="metal.current_cost <= metal.current_owned" color="#6AEB6A">{{format_number(metal.current_cost)}}</font>
+                <font ng-if="metal.current_cost > metal.current_owned" color="#F63249">{{format_number(metal.current_cost)}}</font>
+                </b>
+                <img src="assets/images/mineral.png" width="25" class ="artifact_img"/>
               </div>
             </td>
           </tr>
@@ -181,10 +192,10 @@
       <table style="width:100%" ng-if="metal.current_mine_level!=0">
         <tr>
             <td ng-if="crystal.current_mine_level!=0" style="text-align: center; width: auto">
-              <h4>Crystal Mine (Level {{crystal.current_mine_level}})</h4>
+              <h4><div id="attention"><b>Crystal Mine (Level {{crystal.current_mine_level}})</b></div></h4>
             </td>
             <td ng-if="crystal.current_mine_level==0" style="text-align: center; width: auto">
-              <h4>????????</h4>
+              <h4><div id="attention"><b>????????</b></div></h4>
             </td>
         </tr>
       </table>
@@ -202,7 +213,7 @@
               <img src="assets/images/icon/crystal_mine.jpg" width="500" class="resource_img"/></div>
             </td>
             <td>
-              <div class="plus_resource" ng-hide="hidden" ng-class="{fade: startFade}">+{{format_number_0(crystal.income)}} <img src="assets/images/crystal.png" width="25" class ="artifact_img"/> </div>
+              <div class="plus_resource" ng-hide="hidden" ng-class="{fade: startFade}"><font color="#6AEB6A"><b>+{{format_number(crystal.income)}}</b></font> <img src="assets/images/crystal.png" width="25" class ="artifact_img"/> </div>
 
               <div progressbar class="progress_crystal active" max="progress_crystal.max" value="progress_crystal.value" type="{{progress_crystal.color}}" ng-style="{position:'relative', height :'20px', width :'450px', 'border-radius':'15px 15px 15px 15px', 'background-color':'white'}">
               <span><img src="assets/images/mining.png" width="20" class ="artifact_img"/></span>
@@ -214,7 +225,7 @@
 
 
               <div class= "upgrade_button_resource">
-                {{format_number_0(crystal.current_cost)}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/>
+                
                 <button ng-if="crystal.current_cost > crystal.current_owned" class="btn btn-grey btn-icon btn-icon-standalone btn-icon-standalone-right disabled">
                     <i class="fa-bolt" style="color:black"></i>
                     <span><font color="black">Upgrade</font></span>
@@ -223,6 +234,11 @@
                     <i class="fa-bolt"></i>
                     <span>Upgrade</span>
                 </button>
+                <b>
+                <font ng-if="crystal.current_cost <= crystal.current_owned" color="#6AEB6A">{{format_number(crystal.current_cost)}}</font>
+                <font ng-if="crystal.current_cost > crystal.current_owned" color="#F63249">{{format_number(crystal.current_cost)}}</font>
+                </b>
+                <img src="assets/images/crystal.png" width="25" class ="artifact_img"/>
               </div>
 
             </td>
@@ -259,13 +275,15 @@
       <br />
       <br />
 
+
+
       <table style="width:100%" ng-if="crystal.current_mine_level!=0">
         <tr>
             <td ng-if="shipyard.current_lab_level!=0" style="text-align: center; width: auto">
-              <h4>Shipyard (Level {{shipyard.current_lab_level}})</h4>
+              <h4><div id="attention"><b>Shipyard (Level {{shipyard.current_lab_level}})</b></div></h4>
             </td>
             <td ng-if="shipyard.current_lab_level==0" style="text-align: center; width: auto">
-              <h4>????????</h4>
+              <h4><div id="attention"><b>????????</b></div></h4>
             </td>
         </tr>
       </table>
@@ -284,17 +302,27 @@
             </td>
             <td style="width: 300px;  padding-bottom: 150px;">
 
-              <div id="attention">{{format_number(shipyard.current_lab_level * 0.2)}}%</div> increase all ships' attack<br/>
+              <div id="attention">{{format_number_1(shipyard.current_lab_level * 0.2)}}%</div> increase all ships' attack<br/>
             </td>
             <td>
 
-              {{format_number_0(shipyard.current_cost_metal)}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/><br/>
-              {{format_number_0(shipyard.current_cost_crystal)}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/>
-              <button class="btn btn-success btn-icon btn-icon-standalone btn-icon-standalone-right" ng-click="UpgradeShipyard()">
+              <button ng-if="shipyard.current_cost_metal > metal.current_owned || shipyard.current_cost_crystal > crystal.current_owned" class="btn btn-grey btn-icon btn-icon-standalone btn-icon-standalone-right disabled">
+                    <i class="fa-bolt" style="color:black"></i>
+                    <span><font color="black">Upgrade</font></span>
+              </button>
+              <button ng-if="shipyard.current_cost_metal <= metal.current_owned && shipyard.current_cost_crystal <= crystal.current_owned" class="btn btn-success btn-icon btn-icon-standalone btn-icon-standalone-right" ng-click="UpgradeShipyard()">
                   <i class="fa-bolt"></i>
                   <span>Upgrade</span>
               </button>
-
+              <b>
+              <font ng-if="shipyard.current_cost_metal > metal.current_owned" color="#F63249">{{format_number(shipyard.current_cost_metal)}}</font>
+              <font ng-if="shipyard.current_cost_metal <= metal.current_owned" color="#6AEB6A">{{format_number(shipyard.current_cost_metal)}}</font>
+              <img src="assets/images/mineral.png" width="25" class ="artifact_img"/>
+              +
+              <font ng-if="shipyard.current_cost_crystal > crystal.current_owned" color="#F63249">{{format_number(shipyard.current_cost_crystal)}}</font>
+              <font ng-if="shipyard.current_cost_crystal <= crystal.current_owned" color="#6AEB6A">{{format_number(shipyard.current_cost_crystal)}}</font>
+              <img src="assets/images/crystal.png" width="25" class ="artifact_img"/>
+              </b>
             </td>
           </tr>
 
@@ -335,10 +363,10 @@
       <table style="width:100%" ng-if="shipyard.current_lab_level!=0">
         <tr>
             <td ng-if="research_lab.current_lab_level!=0" style="text-align: center; width: auto">
-              <h4>Research Lab (Level {{research_lab.current_lab_level}})</h4>
+              <h4><div id="attention"><b>Research Lab (Level {{research_lab.current_lab_level}})</b></div></h4>
             </td>
             <td ng-if="research_lab.current_lab_level==0" style="text-align: center; width: auto">
-              <h4>????????</h4>
+              <h4><div id="attention"><b>????????</b></div>s</h4>
             </td>
         </tr>
       </table>
@@ -357,17 +385,29 @@
             </td>
             <td style="width: 300px;  padding-bottom: 100px;">
 
-              <div id="attention">{{format_number(research_lab.current_lab_level * 0.15)}}%</div> increase all ships' HP<br/>
-              <div id="attention">{{format_number(research_lab.current_lab_level * 0.1)}}%</div> increase all ships' shields<br/><br/>
+              <div id="attention">{{format_number_1(research_lab.current_lab_level * 0.15)}}%</div> increase all ships' HP<br/>
+              <div id="attention">{{format_number_1(research_lab.current_lab_level * 0.1)}}%</div> increase all ships' shields<br/><br/>
             </td>
             <td>
 
-              {{format_number_0(research_lab.current_cost_metal)}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/><br/>
-              {{format_number_0(research_lab.current_cost_crystal)}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/>
-              <button class="btn btn-success btn-icon btn-icon-standalone btn-icon-standalone-right" ng-click="UpgradeLab()">
+              <button ng-if="research_lab.current_cost_metal > metal.current_owned || research_lab.current_cost_crystal > crystal.current_owned" class="btn btn-grey btn-icon btn-icon-standalone btn-icon-standalone-right disabled">
+                    <i class="fa-bolt" style="color:black"></i>
+                    <span><font color="black">Upgrade</font></span>
+              </button>
+              <button ng-if="research_lab.current_cost_metal <= metal.current_owned && research_lab.current_cost_crystal <= crystal.current_owned" class="btn btn-success btn-icon btn-icon-standalone btn-icon-standalone-right" ng-click="UpgradeLab()">
                   <i class="fa-bolt"></i>
                   <span>Upgrade</span>
               </button>
+              <b>
+              <font ng-if="research_lab.current_cost_metal > metal.current_owned" color="#F63249">{{format_number(research_lab.current_cost_metal)}}</font>
+              <font ng-if="research_lab.current_cost_metal <= metal.current_owned" color="#6AEB6A">{{format_number(research_lab.current_cost_metal)}}</font>
+              <img src="assets/images/mineral.png" width="25" class ="artifact_img"/>
+              +
+              <font ng-if="research_lab.current_cost_crystal > crystal.current_owned" color="#F63249">{{format_number(research_lab.current_cost_crystal)}}</font>
+              <font ng-if="research_lab.current_cost_crystal <= crystal.current_owned" color="#6AEB6A">{{format_number(research_lab.current_cost_crystal)}}</font>
+              <img src="assets/images/crystal.png" width="25" class ="artifact_img"/>
+              </b>
+              
 
             </td>
           </tr>
@@ -410,10 +450,10 @@
       <table style="width:100%" ng-if="research_lab.current_lab_level!=0">
         <tr>
             <td ng-if="dm_lab.current_lab_level!=0" style="text-align: center; width: auto">
-              <h4>Dark Matter Lab (Level {{dm_lab.current_lab_level}})</h4>
+              <h4><div id="attention"><b>Dark Matter Lab (Level {{dm_lab.current_lab_level}})</b></div></h4>
             </td>
             <td ng-if="dm_lab.current_lab_level==0" style="text-align: center; width: auto">
-              <h4>????????</h4>
+              <h4><div id="attention"><b>????????</b></div>s</h4>
             </td>
         </tr>
       </table>
@@ -431,20 +471,34 @@
               <img src="assets/images/icon/dm_lab.jpg" width="500" class="resource_img"/></div>
             </td>
             <td>
-              <div class="plus_resource" ng-hide="dm_hidden" ng-class="{fade: startFade}">+{{format_number(dm_lab.income * dm_lab.current_lab_level)}} <img src="assets/images/dark_matter.png" width="25" class ="artifact_img"/> </div>
+              <div class="plus_resource" ng-hide="dm_hidden" ng-class="{fade: startFade}"><font color="#6AEB6A"><b>+{{format_number(dm_lab.income * dm_lab.current_lab_level)}}</b></font> <img src="assets/images/dark_matter.png" width="25" class ="artifact_img"/> </div>
 
               <div progressbar class="progress_dm active" max="progress_dm.max" value="progress_dm.value" type="{{progress_dm.color}}" ng-style="{position:'relative', height :'20px', width :'450px', 'border-radius':'15px 15px 15px 15px', 'background-color':'white'}">
               <span><img src="assets/images/mining.png" width="20" class ="artifact_img"/> {{dm_lab.timer}}</span>
               </div>
 
-            <div class= "upgrade_button_resource">
-              {{format_number_0(dm_lab.current_cost_metal)}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/><br/>
-              {{format_number_0(dm_lab.current_cost_crystal)}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/>
-              <button class="btn btn-success btn-icon btn-icon-standalone btn-icon-standalone-right" ng-click="UpgradeDMLab()">
-                  <i class="fa-bolt"></i>
-                  <span>Upgrade</span>
-              </button>
-            </div>
+              <div class= "upgrade_button_resource">
+                <button ng-if="dm_lab.current_cost_metal > metal.current_owned || dm_lab.current_cost_crystal > crystal.current_owned" class="btn btn-grey btn-icon btn-icon-standalone btn-icon-standalone-right disabled" >
+                      <i class="fa-bolt" style="color:black"></i>
+                      <span><font color="black">Upgrade</font></span>
+                </button>
+                <button ng-if="dm_lab.current_cost_metal <= metal.current_owned && dm_lab.current_cost_crystal <= crystal.current_owned" class="btn btn-grey btn-success btn-icon-standalone btn-icon-standalone-right" ng-click="UpgradeDMLab()">
+                      <i class="fa-bolt"></i>
+                      <span>Upgrade</span>
+                </button>
+
+
+                 <b>
+                <font ng-if="dm_lab.current_cost_metal > metal.current_owned" color="#F63249">{{format_number(dm_lab.current_cost_metal)}}</font>
+                <font ng-if="dm_lab.current_cost_metal <= metal.current_owned" color="#6AEB6A">{{format_number(dm_lab.current_cost_metal)}}</font>
+                <img src="assets/images/mineral.png" width="25" class ="artifact_img"/>
+                +
+                <font ng-if="dm_lab.current_cost_crystal > crystal.current_owned" color="#F63249">{{format_number(dm_lab.current_cost_crystal)}}</font>
+                <font ng-if="dm_lab.current_cost_crystal <= crystal.current_owned" color="#6AEB6A">{{format_number(dm_lab.current_cost_crystal)}}</font>
+                <img src="assets/images/crystal.png" width="25" class ="artifact_img"/>
+                </b>
+                
+              </div>
 
             </td>
           </tr>

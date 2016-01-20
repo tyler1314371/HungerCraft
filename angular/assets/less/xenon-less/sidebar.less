@@ -1,7 +1,7 @@
 .sidebar-menu {
 	display: table-cell;
 	position: relative;
-	width: @sidebar-width;
+	width: 120px;
 	background: #000000;
 	z-index: 1;
 
@@ -234,6 +234,25 @@
 	@media screen and (min-width: @screen-sm) {
 
 		&.collapsed {
+			// Fixed sidebar
+			&.fixed {
+				//position: fixed;
+				height: 100%;
+
+				.sidebar-menu-inner {
+					position: fixed;
+					left: 0;
+					top: 10;
+					bottom: 0;
+					width: inherit;
+					overflow: hidden;
+
+					.page-body.right-sidebar & {
+						left: auto;
+						right: 0;
+					}
+				}
+			}
 			width: @sidebar-collapsed-width;
 			z-index: 10;
 			overflow: visible;
@@ -243,6 +262,7 @@
 			}
 
 			+ .main-content {
+
 
 				.user-info-navbar {
 

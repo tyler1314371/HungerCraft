@@ -46,7 +46,7 @@ var ships ={
 		]
 	},
 	heavy_fighter:{
-		unlocked:0,
+		unlocked:1,
 		current_owned:1,
 		assembled:0,
 		casualties:0,
@@ -65,8 +65,8 @@ var ships ={
 		]
 	},
 	worg:{
-		unlocked:0,
-		current_owned:0,
+		unlocked:1,
+		current_owned:1,
 		assembled:0,
 		casualties:0,
 		metal_cost:4200,
@@ -512,6 +512,7 @@ angular.module('xenon.controllers', []).
 
 
 		$rootScope.layoutOptions.horizontalMenu.isVisible = true;
+		
 		$scope.metal = metal;
 		$scope.crystal = crystal;
 		$scope.research_lab = research_lab;
@@ -547,10 +548,10 @@ angular.module('xenon.controllers', []).
 			if (num >= 1000000000){
 				return (num/1000000000).toFixed(1) + 'b';
 			}
-		    return num.toFixed(1);
+		    return num.toFixed(0);
 		}
-		$scope.format_number_0= function(num) {
-			return Number($scope.format_number(num)).toFixed(0);
+		$scope.format_number_1= function(num) {
+			return Number(num).toFixed(1);
 		}
 
 

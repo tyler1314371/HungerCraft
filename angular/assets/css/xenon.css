@@ -914,7 +914,7 @@ body {
 .sidebar-menu {
   display: table-cell;
   position: relative;
-  width: 340px;
+  width: 120px;
   background: #000000;
   z-index: 1;
 }
@@ -1162,6 +1162,21 @@ body {
     width: 80px;
     z-index: 10;
     overflow: visible;
+  }
+  .sidebar-menu.collapsed.fixed {
+    height: 100%;
+  }
+  .sidebar-menu.collapsed.fixed .sidebar-menu-inner {
+    position: fixed;
+    left: 0;
+    top: 10;
+    bottom: 0;
+    width: inherit;
+    overflow: hidden;
+  }
+  .page-body.right-sidebar .sidebar-menu.collapsed.fixed .sidebar-menu-inner {
+    left: auto;
+    right: 0;
   }
   .sidebar-menu.collapsed .hidden-collapsed {
     display: none !important;

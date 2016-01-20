@@ -13,7 +13,7 @@ color: white;
 		<h2 class="chat-header">
 
 
-			Zone Level {{level.current_level}}
+			<div id="attention"><b>Zone Level {{level.current_level}}</b></div>
 		</h2>
 
 		<br/><br/>
@@ -23,17 +23,27 @@ color: white;
 		</div>
 
 		<br/><br/>
-		<div style="padding-left:25px;">
-			{{format_number(level.level_metal_req)}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/><br/>
-			{{format_number(level.level_crystal_req)}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/>
-					<button ng-if="metal.current_owned<level.level_metal_req || crystal.current_owned<level.level_crystal_req" class="btn btn-grey btn-icon btn-icon-standalone btn-icon-standalone-right disabled" ng-click="NextLevel()">
-							<i class="fa-arrow-right" style="color:black"></i>
-							<span><font color="black">Warp to next zone</font></span>
-					</button>
+		<div style="padding-left:55px;">
+			
+			<button ng-if="metal.current_owned<level.level_metal_req || crystal.current_owned<level.level_crystal_req" class="btn btn-grey btn-icon btn-icon-standalone btn-icon-standalone-right disabled" ng-click="NextLevel()">
+			<i class="fa-arrow-right" style="color:black"></i>
+			<span><font color="black">Warp to next zone</font></span>
+			</button>
 	        <button ng-if="metal.current_owned>=level.level_metal_req && crystal.current_owned>=level.level_crystal_req" class="btn btn-success btn-icon btn-icon-standalone btn-icon-standalone-right" ng-click="NextLevel()">
 	                  <i class="fa-arrow-right"></i>
 	                  <span>Warp to next zone</span>
 	        </button>
+	     </div>
+	     <div style="padding-left:55px;">
+		 	<b>
+			     <font ng-if="level.level_metal_req > metal.current_owned" color="#F63249">{{format_number(level.level_metal_req)}}</font>
+		         <font ng-if="level.level_metal_req <= metal.current_owned" color="#6AEB6A">{{format_number(level.level_metal_req)}}</font>
+		         <img src="assets/images/mineral.png" width="25" class ="artifact_img"/>
+		         +
+		         <font ng-if="level.level_crystal_req > crystal.current_owned" color="#F63249">{{format_number(level.level_crystal_req)}}</font>
+		         <font ng-if="level.level_crystal_req <= crystal.current_owned" color="#6AEB6A">{{format_number(level.level_crystal_req)}}</font>
+		         <img src="assets/images/crystal.png" width="25" class ="artifact_img"/>
+		    </b>
 		</div>
 
 

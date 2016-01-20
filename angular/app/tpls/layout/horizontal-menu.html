@@ -348,6 +348,7 @@
 			<input type="range" name="amountRange" ng-model="HF_Slider" min="0" max={{ships.heavy_fighter.current_owned}} value="0" oninput="this.form.amountInput.value=this.value" />
 			<input name="amountInput" ng-model="HF_Text" min="0" max={{ships.heavy_fighter.current_owned}} value="0" oninput="this.form.amountRange.value=this.value" ng-style="{position:'relative', width:'45px'}"/>
 			</form>
+
 			<div class="battle_div_enemies" ng-repeat="skill in ships.heavy_fighter.skills">
 				<div ng-if="skill.unlocked==1" class="battle_assemble_skill tooltip_ship_skill"><img ng-src="{{skills_info.skills[find_index(skill.name, skills_info.skills)].src}}" class="ship_skill_img_battle"/>
 					<span>{{skill.name}}-<br/><br/>
@@ -357,6 +358,10 @@
 				</div>
 			</div>
 
+			
+			
+
+
 			<br/>
 		</div>
 
@@ -364,11 +369,28 @@
 
 		<div id="WG_form" class="assemble_form">
 			<form>
-			<h4><img src="assets/images/Ships/worg.jpg" class="ships_assemble_img" /> &nbsp Worg</h4>
-			<input type="range" name="amountRange" ng-model="WG_Slider" min="0" max={{ships.worg.current_owned}} value="0" oninput="this.form.amountInput.value=this.value" /><b>
-			<input name="amountInput" ng-model="WG_Text" min="0" max={{ships.worg.current_owned}} value="0" oninput="this.form.amountRange.value=this.value" ng-style="{width:'100px'}"/><img src="assets/images/sword.png" class="stat_img"/></b>{{format_number(WG_fleet_Attk)}}
+			<h4><img src="assets/images/Ships/worg.jpg" class="ships_assemble_img" /> &nbsp Worg
+			<div class="ship_assemble_attack"><img src="assets/images/sword.png" class="stat_img"/><b>{{format_number(WG_fleet_Attk)}}</b></div>
+			</h4>
+
+			<input type="range" name="amountRange" ng-model="WG_Slider" min="0" max={{ships.worg.current_owned}} value="0" oninput="this.form.amountInput.value=this.value" />
+			<input name="amountInput" ng-model="WG_Text" min="0" max={{ships.worg.current_owned}} value="0" oninput="this.form.amountRange.value=this.value" ng-style="{position:'relative', width:'45px'}"/>
 			</form>
-			<br/><br/>
+
+			<div class="battle_div_enemies" ng-repeat="skill in ships.worg.skills">
+				<div ng-if="skill.unlocked==1" class="battle_assemble_skill tooltip_ship_skill"><img ng-src="{{skills_info.skills[find_index(skill.name, skills_info.skills)].src}}" class="ship_skill_img_battle"/>
+					<span>{{skill.name}}-<br/><br/>
+					{{skills_info.skills[find_index(skill.name, skills_info.skills)].description}}<br />
+					</span>
+
+				</div>
+			</div>
+
+			
+			
+
+
+			<br/>
 		</div>
 
 
@@ -456,8 +478,7 @@
 		<!--Stats-->
 		<div class="stat_div">
 				<h5>
-							<b>Fleet Stats</b><br/>
-							<img src="assets/images/shield.png" class="stat_img_tot"/><b>{{format_number(LF_fleet_Shield +  HF_fleet_Shield + WG_fleet_Shield + DS_fleet_Shield + COL_fleet_Shield + SU_fleet_Shield+ SV_fleet_Shield + MD_fleet_Shield+ PTH_fleet_Shield)}} </b><br/>
+							<img src="assets/images/shield.png" class="stat_img_tot"/><b>{{format_number(LF_fleet_Shield +  HF_fleet_Shield + WG_fleet_Shield + DS_fleet_Shield + COL_fleet_Shield + SU_fleet_Shield+ SV_fleet_Shield + MD_fleet_Shield+ PTH_fleet_Shield)}} </b>/
 							<img src="assets/images/heart.png" class="stat_img_tot"/><b>{{format_number(LF_fleet_HP +  HF_fleet_HP + WG_fleet_HP + DS_fleet_HP + COL_fleet_HP + SU_fleet_HP+ SV_fleet_HP + MD_fleet_HP+ PTH_fleet_HP)}} </b><br/>
 				</h5>
 
@@ -1058,7 +1079,7 @@ casualties
 		<img src="{{item.icon}}" width="25" class ="artifact_img"/>
 		<span ng-if="item.title == 'M'" class="title"><div id="tooltip_hori_title" ng-controller="GameCtrl">{{format_number(metal.current_owned)}}<span>Metal, the most basic resource for any space expedition</span></div></span>
 		<span ng-if="item.title == 'C'" class="title"><div id="tooltip_hori_title" ng-controller="GameCtrl">{{format_number(crystal.current_owned)}}<span>Crystal, rare resource that is used for building advanced ships and researching</span></div></span>
-		<span ng-if="item.title == 'DM'" class="title"><div id="tooltip_hori_title" ng-controller="GameCtrl">{{format_number_0(dark_matter.current_owned)}}<span>Dark matter, a hypothetical kind of matter that cannot be seen with human eyes. They have the power to alter space and time</span></span>
+		<span ng-if="item.title == 'DM'" class="title"><div id="tooltip_hori_title" ng-controller="GameCtrl">{{format_number(dark_matter.current_owned)}}<span>Dark matter, a hypothetical kind of matter that cannot be seen with human eyes. They have the power to alter space and time</span></span>
 		<span ng-if="item.label" class="label label-{{item.label.classname}} pull-right" ng-class="{'hidden-collapsed': item.label.collapsedHide}">{{item.label.text}}</span>
 	</script>
 

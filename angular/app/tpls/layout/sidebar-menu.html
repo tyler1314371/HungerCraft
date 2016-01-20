@@ -407,9 +407,9 @@
 						</td>
 						<td ng-if="shipyard.current_lab_level>=2 && research_lab.current_lab_level>=3 && level.current_level>=10" class="ship_info" style="position: relative;">
 							<h5>
-							<b><img src="assets/images/heart.png" class="stat_img"/></b>: {{format_number_0(ships.light_fighter.stats.HP)}}<br/>
-							<b><img src="assets/images/shield.png" class="stat_img"/></b>: {{format_number_0(ships.light_fighter.stats.shield)}}<br/>
-							<b><img src="assets/images/sword.png" class="stat_img"/></b>: {{format_number_0(ships.light_fighter.stats.attack)}}<br/><br/>
+							<b><img src="assets/images/heart.png" class="stat_img"/></b>: {{format_number(ships.light_fighter.stats.HP)}}<br/>
+							<b><img src="assets/images/shield.png" class="stat_img"/></b>: {{format_number(ships.light_fighter.stats.shield)}}<br/>
+							<b><img src="assets/images/sword.png" class="stat_img"/></b>: {{format_number(ships.light_fighter.stats.attack)}}<br/><br/>
 
 
 							<b>Abilities</b>:<br/>
@@ -426,8 +426,8 @@
 
 
 							<b>Cost</b>:<br/>
-							{{format_number_0(ships.light_fighter.metal_cost)}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/>
-							{{format_number_0(ships.light_fighter.crystal_cost)}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/><br/><br/><br/>
+							{{format_number(ships.light_fighter.metal_cost)}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/>
+							{{format_number(ships.light_fighter.crystal_cost)}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/><br/><br/><br/>
 
 
 							<b>Currently Owned</b>:<br/>
@@ -488,9 +488,9 @@
 						</td>
 						<td ng-if="ships['heavy_fighter']['unlocked']==1" class="ship_info" style="position: relative;">
 							<h5>
-							<b><img src="assets/images/heart.png" class="stat_img"/></b>: {{format_number_0(ships.heavy_fighter.stats.HP)}}<br/>
-							<b><img src="assets/images/shield.png" class="stat_img"/></b>: {{format_number_0(ships.heavy_fighter.stats.shield)}}<br/>
-							<b><img src="assets/images/sword.png" class="stat_img"/></b>: {{format_number_0(ships.heavy_fighter.stats.attack)}}<br/><br/>
+							<b><img src="assets/images/heart.png" class="stat_img"/></b>: {{format_number(ships.heavy_fighter.stats.HP)}}<br/>
+							<b><img src="assets/images/shield.png" class="stat_img"/></b>: {{format_number(ships.heavy_fighter.stats.shield)}}<br/>
+							<b><img src="assets/images/sword.png" class="stat_img"/></b>: {{format_number(ships.heavy_fighter.stats.attack)}}<br/><br/>
 
 
 							<b>Abilities</b>:<br/>
@@ -509,8 +509,8 @@
 
 
 							<b>Cost</b>:<br/>
-							{{format_number_0(ships.heavy_fighter.metal_cost)}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/>
-							{{format_number_0(ships.heavy_fighter.crystal_cost)}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/><br/><br/><br/>
+							{{format_number(ships.heavy_fighter.metal_cost)}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/>
+							{{format_number(ships.heavy_fighter.crystal_cost)}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/><br/><br/><br/>
 
 
 							<b>Currently Owned</b>:<br/>
@@ -566,9 +566,9 @@
 						</td>
 						<td ng-if="ships['worg']['unlocked']==1" class="ship_info" style="position: relative;">
 							<h5>
-							<b><img src="assets/images/heart.png" class="stat_img"/></b>: {{format_number_0(ships.worg.stats.HP)}}<br/>
-							<b><img src="assets/images/shield.png" class="stat_img"/></b>: {{format_number_0(ships.worg.stats.shield)}}<br/>
-							<b><img src="assets/images/sword.png" class="stat_img"/></b>: {{format_number_0(ships.worg.stats.attack)}}<br/><br/>
+							<b><img src="assets/images/heart.png" class="stat_img"/></b>: {{format_number(ships.worg.stats.HP)}}<br/>
+							<b><img src="assets/images/shield.png" class="stat_img"/></b>: {{format_number(ships.worg.stats.shield)}}<br/>
+							<b><img src="assets/images/sword.png" class="stat_img"/></b>: {{format_number(ships.worg.stats.attack)}}<br/><br/>
 
 
 							<b>Abilities</b>:<br/>
@@ -598,8 +598,8 @@
 
 
 							<b>Cost</b>:<br/>
-							{{format_number_0(ships.worg.metal_cost)}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/>
-							{{format_number_0(ships.worg.crystal_cost)}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/><br/><br/><br/>
+							{{format_number(ships.worg.metal_cost)}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/>
+							{{format_number(ships.worg.crystal_cost)}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/><br/><br/><br/>
 
 
 							<b>Currently Owned</b>:<br/>
@@ -655,9 +655,9 @@
 						</td>
 						<td ng-if="ships['destroyer']['unlocked']==1" class="ship_info" style="position: relative;">
 							<h5>
-							<b><img src="assets/images/heart.png" class="stat_img"/></b>: {{format_number_0(ships.destroyer.stats.HP)}}<br/>
-							<b><img src="assets/images/shield.png" class="stat_img"/></b>: {{format_number_0(ships.destroyer.stats.shield)}}<br/>
-							<b><img src="assets/images/sword.png" class="stat_img"/></b>: {{format_number_0(ships.destroyer.stats.attack)}}<br/><br/>
+							<b><img src="assets/images/heart.png" class="stat_img"/></b>: {{format_number(ships.destroyer.stats.HP)}}<br/>
+							<b><img src="assets/images/shield.png" class="stat_img"/></b>: {{format_number(ships.destroyer.stats.shield)}}<br/>
+							<b><img src="assets/images/sword.png" class="stat_img"/></b>: {{format_number(ships.destroyer.stats.attack)}}<br/><br/>
 
 
 							<b>Abilities</b>:<br/>
@@ -699,8 +699,8 @@
 
 
 							<b>Cost</b>:<br/>
-							{{format_number_0(ships.destroyer.metal_cost)}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/>
-							{{format_number_0(ships.destroyer.crystal_cost)}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/><br/><br/><br/>
+							{{format_number(ships.destroyer.metal_cost)}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/>
+							{{format_number(ships.destroyer.crystal_cost)}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/><br/><br/><br/>
 
 
 							<b>Currently Owned</b>:<br/>
@@ -756,9 +756,9 @@
 						</td>
 						<td ng-if="ships['succubus']['unlocked']==1" class="ship_info" style="position: relative;">
 							<h5>
-							<b><img src="assets/images/heart.png" class="stat_img"/></b>: {{format_number_0(ships.succubus.stats.HP)}}<br/>
-							<b><img src="assets/images/shield.png" class="stat_img"/></b>: {{format_number_0(ships.succubus.stats.shield)}}<br/>
-							<b><img src="assets/images/sword.png" class="stat_img"/></b>: {{format_number_0(ships.succubus.stats.attack)}}<br/><br/>
+							<b><img src="assets/images/heart.png" class="stat_img"/></b>: {{format_number(ships.succubus.stats.HP)}}<br/>
+							<b><img src="assets/images/shield.png" class="stat_img"/></b>: {{format_number(ships.succubus.stats.shield)}}<br/>
+							<b><img src="assets/images/sword.png" class="stat_img"/></b>: {{format_number(ships.succubus.stats.attack)}}<br/><br/>
 
 
 							<b>Abilities</b>:<br/>
@@ -802,8 +802,8 @@
 
 
 							<b>Cost</b>:<br/>
-							{{format_number_0(ships.succubus.metal_cost)}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/>
-							{{format_number_0(ships.succubus.crystal_cost)}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/><br/><br/><br/>
+							{{format_number(ships.succubus.metal_cost)}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/>
+							{{format_number(ships.succubus.crystal_cost)}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/><br/><br/><br/>
 
 
 							<b>Currently Owned</b>:<br/>
@@ -859,9 +859,9 @@
 						</td>
 						<td ng-if="ships['colossus']['unlocked']==1" class="ship_info" style="position: relative;">
 							<h5>
-							<b><img src="assets/images/heart.png" class="stat_img"/></b>: {{format_number_0(ships.colossus.stats.HP)}}<br/>
-							<b><img src="assets/images/shield.png" class="stat_img"/></b>: {{format_number_0(ships.colossus.stats.shield)}}<br/>
-							<b><img src="assets/images/sword.png" class="stat_img"/></b>: {{format_number_0(ships.colossus.stats.attack)}}<br/><br/>
+							<b><img src="assets/images/heart.png" class="stat_img"/></b>: {{format_number(ships.colossus.stats.HP)}}<br/>
+							<b><img src="assets/images/shield.png" class="stat_img"/></b>: {{format_number(ships.colossus.stats.shield)}}<br/>
+							<b><img src="assets/images/sword.png" class="stat_img"/></b>: {{format_number(ships.colossus.stats.attack)}}<br/><br/>
 
 
 							<b>Abilities</b>:<br/>
@@ -914,8 +914,8 @@
 
 
 							<b>Cost</b>:<br/>
-							{{format_number_0(ships.colossus.metal_cost)}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/>
-							{{format_number_0(ships.colossus.crystal_cost)}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/><br/><br/><br/>
+							{{format_number(ships.colossus.metal_cost)}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/>
+							{{format_number(ships.colossus.crystal_cost)}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/><br/><br/><br/>
 
 
 							<b>Currently Owned</b>:<br/>
@@ -970,9 +970,9 @@
 						</td>
 						<td ng-if="ships['medusa']['unlocked']==1" class="ship_info" style="position: relative;">
 							<h5>
-							<b><img src="assets/images/heart.png" class="stat_img"/></b>: {{format_number_0(ships.medusa.stats.HP)}}<br/>
-							<b><img src="assets/images/shield.png" class="stat_img"/></b>: {{format_number_0(ships.medusa.stats.shield)}}<br/>
-							<b><img src="assets/images/sword.png" class="stat_img"/></b>: {{format_number_0(ships.medusa.stats.attack)}}<br/><br/>
+							<b><img src="assets/images/heart.png" class="stat_img"/></b>: {{format_number(ships.medusa.stats.HP)}}<br/>
+							<b><img src="assets/images/shield.png" class="stat_img"/></b>: {{format_number(ships.medusa.stats.shield)}}<br/>
+							<b><img src="assets/images/sword.png" class="stat_img"/></b>: {{format_number(ships.medusa.stats.attack)}}<br/><br/>
 
 
 							<b>Abilities</b>:<br/>
@@ -1028,8 +1028,8 @@
 
 
 							<b>Cost</b>:<br/>
-							{{format_number_0(ships.medusa.metal_cost)}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/>
-							{{format_number_0(ships.medusa.crystal_cost)}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/><br/><br/><br/>
+							{{format_number(ships.medusa.metal_cost)}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/>
+							{{format_number(ships.medusa.crystal_cost)}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/><br/><br/><br/>
 
 
 							<b>Currently Owned</b>:<br/>
@@ -1084,9 +1084,9 @@
 						</td>
 						<td ng-if="ships['science_vessel']['unlocked']==1" class="ship_info" style="position: relative;">
 							<h5>
-							<b><img src="assets/images/heart.png" class="stat_img"/></b>: {{format_number_0(ships.science_vessel.stats.HP)}}<br/>
-							<b><img src="assets/images/shield.png" class="stat_img"/></b>: {{format_number_0(ships.science_vessel.stats.shield)}}<br/>
-							<b><img src="assets/images/sword.png" class="stat_img"/></b>: {{format_number_0(ships.science_vessel.stats.attack)}}<br/><br/>
+							<b><img src="assets/images/heart.png" class="stat_img"/></b>: {{format_number(ships.science_vessel.stats.HP)}}<br/>
+							<b><img src="assets/images/shield.png" class="stat_img"/></b>: {{format_number(ships.science_vessel.stats.shield)}}<br/>
+							<b><img src="assets/images/sword.png" class="stat_img"/></b>: {{format_number(ships.science_vessel.stats.attack)}}<br/><br/>
 
 
 							<b>Abilities</b>:<br/>
@@ -1158,8 +1158,8 @@
 
 
 							<b>Cost</b>:<br/>
-							{{format_number_0(ships.science_vessel.metal_cost)}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/>
-							{{format_number_0(ships.science_vessel.crystal_cost)}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/><br/><br/><br/>
+							{{format_number(ships.science_vessel.metal_cost)}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/>
+							{{format_number(ships.science_vessel.crystal_cost)}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/><br/><br/><br/>
 
 
 							<b>Currently Owned</b>:<br/>
@@ -1214,9 +1214,9 @@
 						</td>
 						<td ng-if="ships['pantheon']['unlocked']==1" class="ship_info" style="position: relative;">
 							<h5>
-							<b><img src="assets/images/heart.png" class="stat_img"/></b>: {{format_number_0(ships.pantheon.stats.HP)}}<br/>
-							<b><img src="assets/images/shield.png" class="stat_img"/></b>: {{format_number_0(ships.pantheon.stats.shield)}}<br/>
-							<b><img src="assets/images/sword.png" class="stat_img"/></b>: {{format_number_0(ships.pantheon.stats.attack)}}<br/><br/>
+							<b><img src="assets/images/heart.png" class="stat_img"/></b>: {{format_number(ships.pantheon.stats.HP)}}<br/>
+							<b><img src="assets/images/shield.png" class="stat_img"/></b>: {{format_number(ships.pantheon.stats.shield)}}<br/>
+							<b><img src="assets/images/sword.png" class="stat_img"/></b>: {{format_number(ships.pantheon.stats.attack)}}<br/><br/>
 
 
 							<b>Abilities</b>:<br/>
@@ -1283,8 +1283,8 @@
 
 
 							<b>Cost</b>:<br/>
-							{{format_number_0(ships.pantheon.metal_cost)}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/>
-							{{format_number_0(ships.pantheon.crystal_cost)}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/><br/><br/><br/>
+							{{format_number(ships.pantheon.metal_cost)}}<img src="assets/images/mineral.png" width="25" class ="artifact_img"/>
+							{{format_number(ships.pantheon.crystal_cost)}}<img src="assets/images/crystal.png" width="25" class ="artifact_img"/><br/><br/><br/>
 
 
 							<b>Currently Owned</b>:<br/>
@@ -1923,7 +1923,7 @@
 
 	<span ng-if="item.title == 'M'" class="title"><div id="tooltip_hori_title" ng-controller="GameCtrl">{{ format_number(metal.current_owned) }}<span>Metal, the most basic resource for any space expedition</span></div></span>
 	<span ng-if="item.title == 'C'" class="title"><div id="tooltip_hori_title" ng-controller="GameCtrl">{{format_number(crystal.current_owned)}}<span>Crystal, rare resource that is used for research and trading</span></div></span>
-	<span ng-if="item.title == 'DM'" class="title"><div id="tooltip_hori_title" ng-controller="GameCtrl">{{format_number_0(dark_matter.current_owned)}}<span>Dark matter, a hypothetical kind of matter that cannot be seen with <br/>
+	<span ng-if="item.title == 'DM'" class="title"><div id="tooltip_hori_title" ng-controller="GameCtrl">{{format_number(dark_matter.current_owned)}}<span>Dark matter, a hypothetical kind of matter that cannot be seen with <br/>
 																																																						telescopes but accounts for most of the matter in the universe. <br/>
 																																																						Increase your mine and crystal mine income by <div id="attention">{{dark_matter.current_increase}}%</div> for each dark matter you have</span></div></span>
 	<span ng-if="item.label" class="label label-{{item.label.classname}} pull-right" ng-class="{'hidden-collapsed': item.label.collapsedHide}">{{item.label.text}}</span>
