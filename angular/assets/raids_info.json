@@ -46,6 +46,20 @@
 							"Skills": ["1", "2"],
 							"amount": 5
 						}
+					},
+					{
+
+						"name":"Oatis Cannon",
+						"reward_metal":4000,
+						"reward_crystal":2000,
+						"boss":0,
+						"info" : {
+							"HP": 8000,
+							"Shields": 1000,
+							"Attack": 35,
+							"Skills": ["1", "2"],
+							"amount": 3
+						}
 					}
 				],
 				"3": [

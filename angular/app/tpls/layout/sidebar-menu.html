@@ -398,14 +398,14 @@
 						<td style="width: 500px; position: relative;">
 							<h4>Light Fighter</h4>
 							<small>Light Fighers are the most basic unit of a fleet</small><br/>
-							<img ng-if="shipyard.current_lab_level<2 || research_lab.current_lab_level<3 || level.current_level<10" src="assets/images/Ships/light_fighter.jpg" class="ships_img image-grey" />
-							<div ng-if="shipyard.current_lab_level<2 || research_lab.current_lab_level<3 || level.current_level<10" class="ships_locked_image">
+							<img ng-if="shipyard.current_lab_level<2 || research_lab.current_lab_level<3 || level.current_level<6" src="assets/images/Ships/light_fighter.jpg" class="ships_img image-grey" />
+							<div ng-if="shipyard.current_lab_level<2 || research_lab.current_lab_level<3 || level.current_level<6" class="ships_locked_image">
 								<img src="assets/images/locked.png" width="50" />
 							</div>
-							<img ng-if="shipyard.current_lab_level>=2 && research_lab.current_lab_level>=3 && level.current_level>=10" src="assets/images/Ships/light_fighter.jpg" class="ships_img" />
+							<img ng-if="shipyard.current_lab_level>=2 && research_lab.current_lab_level>=3 && level.current_level>=6" src="assets/images/Ships/light_fighter.jpg" class="ships_img" />
 
 						</td>
-						<td ng-if="shipyard.current_lab_level>=2 && research_lab.current_lab_level>=3 && level.current_level>=10" class="ship_info" style="position: relative;">
+						<td ng-if="shipyard.current_lab_level>=2 && research_lab.current_lab_level>=3 && level.current_level>=6" class="ship_info" style="position: relative;">
 							<h5>
 							<b><img src="assets/images/heart.png" class="stat_img"/></b>: {{format_number(ships.light_fighter.stats.HP)}}<br/>
 							<b><img src="assets/images/shield.png" class="stat_img"/></b>: {{format_number(ships.light_fighter.stats.shield)}}<br/>
@@ -484,14 +484,14 @@
 						<td style="width: 500px; position: relative;">
 							<h4>Heavy Fighter</h4>
 							<small>Heavy Fighters are slower than the Light Fighters, but packs a bigger punch</small><br/>
-							<img ng-if="ships['heavy_fighter']['unlocked']==0" src="assets/images/Ships/heavy_fighter.jpg" class="ships_img image-grey" />
-							<div ng-if="ships['heavy_fighter']['unlocked']==0" class="ships_locked_image">
+							<img ng-if="shipyard.current_lab_level<7 || research_lab.current_lab_level<5 || level.current_level<12" src="assets/images/Ships/heavy_fighter.jpg" class="ships_img image-grey" />
+							<div ng-if="shipyard.current_lab_level<7 || research_lab.current_lab_level<5 || level.current_level<12" class="ships_locked_image">
 								<img src="assets/images/locked.png" width="50" />
 							</div>
-							<img ng-if="ships['heavy_fighter']['unlocked']==1" src="assets/images/Ships/heavy_fighter.jpg" class="ships_img" />
+							<img ng-if="shipyard.current_lab_level>=7 && research_lab.current_lab_level>=5 && level.current_level>=12" src="assets/images/Ships/heavy_fighter.jpg" class="ships_img" />
 
 						</td>
-						<td ng-if="ships['heavy_fighter']['unlocked']==1" class="ship_info" style="position: relative;">
+						<td ng-if="shipyard.current_lab_level>=7 && research_lab.current_lab_level>=5 && level.current_level>=12" class="ship_info" style="position: relative;">
 							<h5>
 							<b><img src="assets/images/heart.png" class="stat_img"/></b>: {{format_number(ships.heavy_fighter.stats.HP)}}<br/>
 							<b><img src="assets/images/shield.png" class="stat_img"/></b>: {{format_number(ships.heavy_fighter.stats.shield)}}<br/>
@@ -549,30 +549,34 @@
 								</button>
 							</div>
 						</td>
-						<td ng-if="ships['heavy_fighter']['unlocked']==0" class="ship_info">
+						<td ng-if="shipyard.current_lab_level<7 || research_lab.current_lab_level<5 || level.current_level<12" class="ship_info">
 							<h5>
 							<b>Requirements</b>:<br/>
-							Requirement1<br/>
-							Requirement2<br/>
-							Requirement3<br/>
+							<font ng-if="shipyard.current_lab_level>=7" color="#6AEB6A">Shipyard Level 7 <br/></font>
+             				<font ng-if="shipyard.current_lab_level<7" color="#F63249">Shipyard Level 7 <br/></font>
+             				<font ng-if="research_lab.current_lab_level>=5" color="#6AEB6A">Research Lab Level 5 <br/></font>
+             				<font ng-if="research_lab.current_lab_level<5" color="#F63249">Research Lab Level 5 <br/></font>
+             				<font ng-if="level.current_level>=12" color="#6AEB6A">Zone Level 12 <br/></font>
+             				<font ng-if="level.current_level<12" color="#F63249">Zone Level 12 <br/></font>
 						</td>
+
 
 
 					</tr>
 
 
-					<tr>
+					<tr ng-if="shipyard.current_lab_level>=7 && research_lab.current_lab_level>=5 && level.current_level>=12">
 						<td style="width: 500px; position: relative;">
 							<h4>Worg</h4>
 							<small>Worgs are fierce and relentless, their weapons are capable of piercing enemy shield and dealing massive damage to shielded enemies</small><br/>
-							<img ng-if="ships['worg']['unlocked']==0" src="assets/images/Ships/worg.jpg" class="ships_img image-grey" />
-							<div ng-if="ships['worg']['unlocked']==0" class="ships_locked_image">
+							<img ng-if="shipyard.current_lab_level<10 || research_lab.current_lab_level<8 || level.current_level<18" src="assets/images/Ships/worg.jpg" class="ships_img image-grey" />
+							<div ng-if="shipyard.current_lab_level<10 || research_lab.current_lab_level<8 || level.current_level<18" class="ships_locked_image">
 								<img src="assets/images/locked.png" width="50" />
 							</div>
-							<img ng-if="ships['worg']['unlocked']==1" src="assets/images/Ships/worg.jpg" class="ships_img" />
+							<img ng-if="shipyard.current_lab_level>=10 && research_lab.current_lab_level>=8 && level.current_level>=18" src="assets/images/Ships/worg.jpg" class="ships_img" />
 
 						</td>
-						<td ng-if="ships['worg']['unlocked']==1" class="ship_info" style="position: relative;">
+						<td ng-if="shipyard.current_lab_level>=10 && research_lab.current_lab_level>=8 && level.current_level>=18" class="ship_info" style="position: relative;">
 							<h5>
 							<b><img src="assets/images/heart.png" class="stat_img"/></b>: {{format_number(ships.worg.stats.HP)}}<br/>
 							<b><img src="assets/images/shield.png" class="stat_img"/></b>: {{format_number(ships.worg.stats.shield)}}<br/>
@@ -630,30 +634,34 @@
 								</button>
 							</div>
 						</td>
-						<td ng-if="ships['worg']['unlocked']==0" class="ship_info">
+						<td ng-if="shipyard.current_lab_level<10 || research_lab.current_lab_level<8 || level.current_level<18" class="ship_info">
 							<h5>
 							<b>Requirements</b>:<br/>
-							Requirement1<br/>
-							Requirement2<br/>
-							Requirement3<br/>
+							<font ng-if="shipyard.current_lab_level>=10" color="#6AEB6A">Shipyard Level 10 <br/></font>
+             				<font ng-if="shipyard.current_lab_level<10" color="#F63249">Shipyard Level 10 <br/></font>
+             				<font ng-if="research_lab.current_lab_level>=8" color="#6AEB6A">Research Lab Level 8 <br/></font>
+             				<font ng-if="research_lab.current_lab_level<8" color="#F63249">Research Lab Level 8 <br/></font>
+             				<font ng-if="level.current_level>=18" color="#6AEB6A">Zone Level 18 <br/></font>
+             				<font ng-if="level.current_level<18" color="#F63249">Zone Level 18 <br/></font>
 						</td>
+
 
 
 					</tr>
 
 
-					<tr>
+					<tr ng-if="shipyard.current_lab_level>=10 && research_lab.current_lab_level>=8 && level.current_level>=18">
 						<td style="width: 500px; position: relative;">
 							<h4>Destroyer</h4>
 							<small>Only the empires with considerable assets can afford to build Destroyers, they are the backbone of any advanced fleets</small><br/>
-							<img ng-if="ships['destroyer']['unlocked']==0" src="assets/images/Ships/destroyer.jpg" class="ships_img image-grey" />
-							<div ng-if="ships['destroyer']['unlocked']==0" class="ships_locked_image">
+							<img ng-if="shipyard.current_lab_level<13 || research_lab.current_lab_level<10 || level.current_level<23" src="assets/images/Ships/destroyer.jpg" class="ships_img image-grey" />
+							<div ng-if="shipyard.current_lab_level<13 || research_lab.current_lab_level<10 || level.current_level<23" class="ships_locked_image">
 								<img src="assets/images/locked.png" width="50" />
 							</div>
-							<img ng-if="ships['destroyer']['unlocked']==1" src="assets/images/Ships/destroyer.jpg" class="ships_img" />
+							<img ng-if="shipyard.current_lab_level>=13 && research_lab.current_lab_level>=10 && level.current_level>=23" src="assets/images/Ships/destroyer.jpg" class="ships_img" />
 
 						</td>
-						<td ng-if="ships['destroyer']['unlocked']==1" class="ship_info" style="position: relative;">
+						<td ng-if="shipyard.current_lab_level>=13 && research_lab.current_lab_level>=10 && level.current_level>=23" class="ship_info" style="position: relative;">
 							<h5>
 							<b><img src="assets/images/heart.png" class="stat_img"/></b>: {{format_number(ships.destroyer.stats.HP)}}<br/>
 							<b><img src="assets/images/shield.png" class="stat_img"/></b>: {{format_number(ships.destroyer.stats.shield)}}<br/>
@@ -711,30 +719,34 @@
 								</button>
 							</div>
 						</td>
-						<td ng-if="ships['destroyer']['unlocked']==0" class="ship_info">
+						<td ng-if="shipyard.current_lab_level<13 || research_lab.current_lab_level<10 || level.current_level<23" class="ship_info">
 							<h5>
 							<b>Requirements</b>:<br/>
-							Requirement1<br/>
-							Requirement2<br/>
-							Requirement3<br/>
+							<font ng-if="shipyard.current_lab_level>=13" color="#6AEB6A">Shipyard Level 13 <br/></font>
+             				<font ng-if="shipyard.current_lab_level<13" color="#F63249">Shipyard Level 13 <br/></font>
+             				<font ng-if="research_lab.current_lab_level>=10" color="#6AEB6A">Research Lab Level 10 <br/></font>
+             				<font ng-if="research_lab.current_lab_level<10" color="#F63249">Research Lab Level 10 <br/></font>
+             				<font ng-if="level.current_level>=23" color="#6AEB6A">Zone Level 23 <br/></font>
+             				<font ng-if="level.current_level<23" color="#F63249">Zone Level 23 <br/></font>
 						</td>
+
 
 
 					</tr>
 
 
-					<tr>
+					<tr ng-if="shipyard.current_lab_level>=13 && research_lab.current_lab_level>=10 && level.current_level>=23">
 						<td style="width: 500px; position: relative;">
 							<h4>Succubus</h4>
 							<small>Succubuses are specially made to deal with big fleets. Their corrosive ammo can reduce shields and they can also weaken enemy ships to gain advantage </small><br/>
-							<img ng-if="ships['succubus']['unlocked']==0" src="assets/images/Ships/succubus.jpg" class="ships_img image-grey" />
-							<div ng-if="ships['succubus']['unlocked']==0" class="ships_locked_image">
+							<img ng-if="shipyard.current_lab_level<17 || research_lab.current_lab_level<14 || level.current_level<27" src="assets/images/Ships/succubus.jpg" class="ships_img image-grey" />
+							<div ng-if="shipyard.current_lab_level<17 || research_lab.current_lab_level<14 || level.current_level<27" class="ships_locked_image">
 								<img src="assets/images/locked.png" width="50" />
 							</div>
-							<img ng-if="ships['succubus']['unlocked']==1" src="assets/images/Ships/succubus.jpg" class="ships_img" />
+							<img ng-if="shipyard.current_lab_level>=17 && research_lab.current_lab_level>=14 && level.current_level>=27" src="assets/images/Ships/succubus.jpg" class="ships_img" />
 
 						</td>
-						<td ng-if="ships['succubus']['unlocked']==1" class="ship_info" style="position: relative;">
+						<td ng-if="shipyard.current_lab_level>=17 && research_lab.current_lab_level>=14 && level.current_level>=27" class="ship_info" style="position: relative;">
 							<h5>
 							<b><img src="assets/images/heart.png" class="stat_img"/></b>: {{format_number(ships.succubus.stats.HP)}}<br/>
 							<b><img src="assets/images/shield.png" class="stat_img"/></b>: {{format_number(ships.succubus.stats.shield)}}<br/>
@@ -792,30 +804,34 @@
 								</button>
 							</div>
 						</td>
-						<td ng-if="ships['succubus']['unlocked']==0" class="ship_info">
+						<td ng-if="shipyard.current_lab_level<17 || research_lab.current_lab_level<14 || level.current_level<27" class="ship_info">
 							<h5>
 							<b>Requirements</b>:<br/>
-							Requirement1<br/>
-							Requirement2<br/>
-							Requirement3<br/>
+							<font ng-if="shipyard.current_lab_level>=17" color="#6AEB6A">Shipyard Level 17 <br/></font>
+             				<font ng-if="shipyard.current_lab_level<17" color="#F63249">Shipyard Level 17 <br/></font>
+             				<font ng-if="research_lab.current_lab_level>=14" color="#6AEB6A">Research Lab Level 14 <br/></font>
+             				<font ng-if="research_lab.current_lab_level<14" color="#F63249">Research Lab Level 14 <br/></font>
+             				<font ng-if="level.current_level>=27" color="#6AEB6A">Zone Level 27 <br/></font>
+             				<font ng-if="level.current_level<27" color="#F63249">Zone Level 27 <br/></font>
 						</td>
+
 
 
 					</tr>
 
 
-					<tr>
+					<tr ng-if="shipyard.current_lab_level>=17 && research_lab.current_lab_level>=14 && level.current_level>=27">
 						<td style="width: 500px; position: relative;">
 							<h4>Colossus</h4>
 							<small>Colossi are used to soaking enemy firepower in the frontline. Their considerable shields and armor are hard to breach.</small><br/>
-							<img ng-if="ships['colossus']['unlocked']==0" src="assets/images/Ships/colossus.jpg" class="ships_img image-grey" />
-							<div ng-if="ships['colossus']['unlocked']==0" class="ships_locked_image">
+							<img ng-if="shipyard.current_lab_level<19 || research_lab.current_lab_level<18 || level.current_level<33" src="assets/images/Ships/colossus.jpg" class="ships_img image-grey" />
+							<div ng-if="shipyard.current_lab_level<19 || research_lab.current_lab_level<18 || level.current_level<33" class="ships_locked_image">
 								<img src="assets/images/locked.png" width="50" />
 							</div>
-							<img ng-if="ships['colossus']['unlocked']==1" src="assets/images/Ships/colossus.jpg" class="ships_img" />
+							<img ng-if="shipyard.current_lab_level>=19 && research_lab.current_lab_level>=18 && level.current_level>=33" src="assets/images/Ships/colossus.jpg" class="ships_img" />
 
 						</td>
-						<td ng-if="ships['colossus']['unlocked']==1" class="ship_info" style="position: relative;">
+						<td ng-if="shipyard.current_lab_level>=19 && research_lab.current_lab_level>=18 && level.current_level>=33" class="ship_info" style="position: relative;">
 							<h5>
 							<b><img src="assets/images/heart.png" class="stat_img"/></b>: {{format_number(ships.colossus.stats.HP)}}<br/>
 							<b><img src="assets/images/shield.png" class="stat_img"/></b>: {{format_number(ships.colossus.stats.shield)}}<br/>
@@ -873,29 +889,33 @@
 								</button>
 							</div>
 						</td>
-						<td ng-if="ships['colossus']['unlocked']==0" class="ship_info">
+						<td ng-if="shipyard.current_lab_level<19 || research_lab.current_lab_level<18 || level.current_level<33" class="ship_info">
 							<h5>
 							<b>Requirements</b>:<br/>
-							Requirement1<br/>
-							Requirement2<br/>
-							Requirement3<br/>
+							<font ng-if="shipyard.current_lab_level>=19" color="#6AEB6A">Shipyard Level 19 <br/></font>
+             				<font ng-if="shipyard.current_lab_level<19" color="#F63249">Shipyard Level 19 <br/></font>
+             				<font ng-if="research_lab.current_lab_level>=18" color="#6AEB6A">Research Lab Level 18 <br/></font>
+             				<font ng-if="research_lab.current_lab_level<18" color="#F63249">Research Lab Level 18 <br/></font>
+             				<font ng-if="level.current_level>=33" color="#6AEB6A">Zone Level 33 <br/></font>
+             				<font ng-if="level.current_level<33" color="#F63249">Zone Level 33 <br/></font>
 						</td>
+
 
 
 					</tr>
 
-					<tr>
+					<tr ng-if="shipyard.current_lab_level>=19 && research_lab.current_lab_level>=18 && level.current_level>=33">
 						<td style="width: 500px; position: relative;">
 							<h4>Medusa</h4>
 							<small>Medusa is famous for its disorientation effects, being able to restrict enemy ships&#39 movement, and even disrupt their communication to make them turn on each other. </small><br/>
-							<img ng-if="ships['medusa']['unlocked']==0" src="assets/images/Ships/medusa.jpg" class="ships_img image-grey" />
-							<div ng-if="ships['medusa']['unlocked']==0" class="ships_locked_image">
+							<img ng-if="shipyard.current_lab_level<24 || research_lab.current_lab_level<22 || level.current_level<37" src="assets/images/Ships/medusa.jpg" class="ships_img image-grey" />
+							<div ng-if="shipyard.current_lab_level<24 || research_lab.current_lab_level<22 || level.current_level<37" class="ships_locked_image">
 								<img src="assets/images/locked.png" width="50" />
 							</div>
-							<img ng-if="ships['medusa']['unlocked']==1" src="assets/images/Ships/medusa.jpg" class="ships_img" />
+							<img ng-if="shipyard.current_lab_level>=24 && research_lab.current_lab_level>=22 && level.current_level>=37" src="assets/images/Ships/medusa.jpg" class="ships_img" />
 
 						</td>
-						<td ng-if="ships['medusa']['unlocked']==1" class="ship_info" style="position: relative;">
+						<td ng-if="shipyard.current_lab_level>=24 && research_lab.current_lab_level>=22 && level.current_level>=37" class="ship_info" style="position: relative;">
 							<h5>
 							<b><img src="assets/images/heart.png" class="stat_img"/></b>: {{format_number(ships.medusa.stats.HP)}}<br/>
 							<b><img src="assets/images/shield.png" class="stat_img"/></b>: {{format_number(ships.medusa.stats.shield)}}<br/>
@@ -953,29 +973,33 @@
 								</button>
 							</div>
 						</td>
-						<td ng-if="ships['medusa']['unlocked']==0" class="ship_info">
+						<td ng-if="shipyard.current_lab_level<24 || research_lab.current_lab_level<22 || level.current_level<37" class="ship_info">
 							<h5>
 							<b>Requirements</b>:<br/>
-							Requirement1<br/>
-							Requirement2<br/>
-							Requirement3<br/>
+							<font ng-if="shipyard.current_lab_level>=24" color="#6AEB6A">Shipyard Level 24 <br/></font>
+             				<font ng-if="shipyard.current_lab_level<24" color="#F63249">Shipyard Level 24 <br/></font>
+             				<font ng-if="research_lab.current_lab_level>=22" color="#6AEB6A">Research Lab Level 22 <br/></font>
+             				<font ng-if="research_lab.current_lab_level<22" color="#F63249">Research Lab Level 22 <br/></font>
+             				<font ng-if="level.current_level>=37" color="#6AEB6A">Zone Level 37 <br/></font>
+             				<font ng-if="level.current_level<37" color="#F63249">Zone Level 37 <br/></font>
 						</td>
+
 
 
 					</tr>
 
-					<tr>
+					<tr ng-if="shipyard.current_lab_level>=24 && research_lab.current_lab_level>=22 && level.current_level>=37">
 						<td style="width: 500px; position: relative;">
 							<h4>Science Vessel</h4>
 							<small>Science Vessels are built with advanced technology. They are capable of restoring shields for allies and decrease the damage taken</small><br/>
-							<img ng-if="ships['science_vessel']['unlocked']==0" src="assets/images/Ships/science_vessel.jpg" class="ships_img image-grey" />
-							<div ng-if="ships['science_vessel']['unlocked']==0" class="ships_locked_image">
+							<img ng-if="shipyard.current_lab_level<29 || research_lab.current_lab_level<29 || level.current_level<41" src="assets/images/Ships/science_vessel.jpg" class="ships_img image-grey" />
+							<div ng-if="shipyard.current_lab_level<29 || research_lab.current_lab_level<29 || level.current_level<41" class="ships_locked_image">
 								<img src="assets/images/locked.png" width="50" />
 							</div>
-							<img ng-if="ships['science_vessel']['unlocked']==1" src="assets/images/Ships/science_vessel.jpg" class="ships_img" />
+							<img ng-if="shipyard.current_lab_level>=29 && research_lab.current_lab_level>=29 && level.current_level>=41" src="assets/images/Ships/science_vessel.jpg" class="ships_img" />
 
 						</td>
-						<td ng-if="ships['science_vessel']['unlocked']==1" class="ship_info" style="position: relative;">
+						<td ng-if="shipyard.current_lab_level>=29 && research_lab.current_lab_level>=29 && level.current_level>=41" class="ship_info" style="position: relative;">
 							<h5>
 							<b><img src="assets/images/heart.png" class="stat_img"/></b>: {{format_number(ships.science_vessel.stats.HP)}}<br/>
 							<b><img src="assets/images/shield.png" class="stat_img"/></b>: {{format_number(ships.science_vessel.stats.shield)}}<br/>
@@ -1033,29 +1057,33 @@
 								</button>
 							</div>
 						</td>
-						<td ng-if="ships['science_vessel']['unlocked']==0" class="ship_info">
+						<td ng-if="shipyard.current_lab_level<29 || research_lab.current_lab_level<29 || level.current_level<41" class="ship_info">
 							<h5>
 							<b>Requirements</b>:<br/>
-							Requirement1<br/>
-							Requirement2<br/>
-							Requirement3<br/>
+							<font ng-if="shipyard.current_lab_level>=29" color="#6AEB6A">Shipyard Level 29 <br/></font>
+             				<font ng-if="shipyard.current_lab_level<29" color="#F63249">Shipyard Level 29 <br/></font>
+             				<font ng-if="research_lab.current_lab_level>=29" color="#6AEB6A">Research Lab Level 29 <br/></font>
+             				<font ng-if="research_lab.current_lab_level<29" color="#F63249">Research Lab Level 29 <br/></font>
+             				<font ng-if="level.current_level>=41" color="#6AEB6A">Zone Level 41 <br/></font>
+             				<font ng-if="level.current_level<41" color="#F63249">Zone Level 41 <br/></font>
 						</td>
+
 
 
 					</tr>
 
-					<tr>
+					<tr ng-if="shipyard.current_lab_level>=29 && research_lab.current_lab_level>=29 && level.current_level>=41">
 						<td style="width: 500px; position: relative;">
 							<h4>Pantheon</h4>
 							<small>Pantheon can increase a fleet&#39 damage and can deal massive damage when are at low shield to turn the tide of the battle</small><br/>
-							<img ng-if="ships['pantheon']['unlocked']==0" src="assets/images/Ships/pantheon.jpg" class="ships_img image-grey" />
-							<div ng-if="ships['pantheon']['unlocked']==0" class="ships_locked_image">
+							<img ng-if="shipyard.current_lab_level<34 || research_lab.current_lab_level<13 || level.current_level<49" src="assets/images/Ships/pantheon.jpg" class="ships_img image-grey" />
+							<div ng-if="shipyard.current_lab_level<34 || research_lab.current_lab_level<31 || level.current_level<49" class="ships_locked_image">
 								<img src="assets/images/locked.png" width="50" />
 							</div>
-							<img ng-if="ships['pantheon']['unlocked']==1" src="assets/images/Ships/pantheon.jpg" class="ships_img" />
+							<img ng-if="shipyard.current_lab_level>=34 && research_lab.current_lab_level>=31 && level.current_level>=49" src="assets/images/Ships/pantheon.jpg" class="ships_img" />
 
 						</td>
-						<td ng-if="ships['pantheon']['unlocked']==1" class="ship_info" style="position: relative;">
+						<td ng-if="shipyard.current_lab_level>=34 && research_lab.current_lab_level>=31 && level.current_level>=49" class="ship_info" style="position: relative;">
 							<h5>
 							<b><img src="assets/images/heart.png" class="stat_img"/></b>: {{format_number(ships.pantheon.stats.HP)}}<br/>
 							<b><img src="assets/images/shield.png" class="stat_img"/></b>: {{format_number(ships.pantheon.stats.shield)}}<br/>
@@ -1113,13 +1141,17 @@
 								</button>
 							</div>
 						</td>
-						<td ng-if="ships['pantheon']['unlocked']==0" class="ship_info">
+						<td ng-if="shipyard.current_lab_level<34 || research_lab.current_lab_level<31 || level.current_level<49" class="ship_info">
 							<h5>
 							<b>Requirements</b>:<br/>
-							Requirement1<br/>
-							Requirement2<br/>
-							Requirement3<br/>
+							<font ng-if="shipyard.current_lab_level>=34" color="#6AEB6A">Shipyard Level 34 <br/></font>
+             				<font ng-if="shipyard.current_lab_level<34" color="#F63249">Shipyard Level 34 <br/></font>
+             				<font ng-if="research_lab.current_lab_level>=31" color="#6AEB6A">Research Lab Level 31 <br/></font>
+             				<font ng-if="research_lab.current_lab_level<31" color="#F63249">Research Lab Level 31 <br/></font>
+             				<font ng-if="level.current_level>=49" color="#6AEB6A">Zone Level 49 <br/></font>
+             				<font ng-if="level.current_level<49" color="#F63249">Zone Level 49 <br/></font>
 						</td>
+
 
 
 					</tr>
@@ -1192,12 +1224,11 @@
 											<button class="btn btn-purple" ng-click="RefreshRaidCD('Oatis');">Refresh cooldown</button>2<img src="assets/images/dark_matter.png" width="25" class ="artifact_img"/>
 											<br /><br />
 
-											{{raids['Oatis']['section']}} Secions<br/><br/>
-
 											Enemies:<br />
 											Oatis light fighter<br />
 											Oatis heavy fighter<br />
 											Devil&#39s Rage <img src="assets/images/skull.png" class = "skull_img"/><br />
+											<!--
 											<div class="boss_skill_tooltip">
 												<img src="assets/images/Ships/abilities/rapid_fire.png" class="boss_skill_img"/>
 												<p>
@@ -1219,6 +1250,7 @@
 												Reflects <font color="#dea373">20%</font> of damage to attackers<br />
 												</p>
 											</div>
+											-->
 										</span>
 
 									</div>

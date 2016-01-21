@@ -341,15 +341,15 @@
              <font ng-if="metal.current_mine_level<8" color="#F63249">Metal Mine Level 8 <br/></font>
              <font ng-if="crystal.current_mine_level>=5" color="#6AEB6A">Crystal Mine Level 5 <br/></font>
              <font ng-if="crystal.current_mine_level<5" color="#F63249">Crystal Mine Level 5 <br/></font>
-             <font ng-if="level.current_level>=7" color="#6AEB6A">Zone Level 7 <br/></font>
-             <font ng-if="level.current_level<7" color="#F63249">Zone Level 7 <br/></font>
+             <font ng-if="level.current_level>=6" color="#6AEB6A">Zone Level 6 <br/></font>
+             <font ng-if="level.current_level<6" color="#F63249">Zone Level 6 <br/></font>
             </td>
             <td >
-              <button ng-if="metal.current_mine_level<8 || crystal.current_mine_level<5 || level.current_level<7" class="btn btn-grey btn-icon btn-icon-standalone btn-icon-standalone-right disabled" >
+              <button ng-if="metal.current_mine_level<8 || crystal.current_mine_level<5 || level.current_level<6" class="btn btn-grey btn-icon btn-icon-standalone btn-icon-standalone-right disabled" >
                   <i class="fa-upload" style="color:black"></i>
                   <span><font color="black">Build</font></span>
               </button>
-              <button ng-if="metal.current_mine_level>=8 && crystal.current_mine_level>=5 && level.current_level>=7" class="btn btn-success btn-icon btn-icon-standalone btn-icon-standalone-right" ng-click="Build('shipyard')">
+              <button ng-if="metal.current_mine_level>=8 && crystal.current_mine_level>=5 && level.current_level>=6" class="btn btn-success btn-icon btn-icon-standalone btn-icon-standalone-right" ng-click="Build('shipyard')">
                   <i class="fa-upload"></i>
                   <span>Build</span>
               </button>
@@ -366,7 +366,7 @@
               <h4><div id="attention"><b>Research Lab (Level {{research_lab.current_lab_level}})</b></div></h4>
             </td>
             <td ng-if="research_lab.current_lab_level==0" style="text-align: center; width: auto">
-              <h4><div id="attention"><b>????????</b></div>s</h4>
+              <h4><div id="attention"><b>????????</b></div></h4>
             </td>
         </tr>
       </table>
@@ -427,15 +427,15 @@
              <font ng-if="metal.current_mine_level<10" color="#F63249">Metal Mine Level 10 <br/></font>
              <font ng-if="crystal.current_mine_level>=7" color="#6AEB6A">Crystal Mine Level 7 <br/></font>
              <font ng-if="crystal.current_mine_level<7" color="#F63249">Crystal Mine Level 7 <br/></font>
-             <font ng-if="level.current_level>=10" color="#6AEB6A">Zone Level 10 <br/></font>
-             <font ng-if="level.current_level<10" color="#F63249">Zone Level 10 <br/></font>
+             <font ng-if="level.current_level>=9" color="#6AEB6A">Zone Level 9 <br/></font>
+             <font ng-if="level.current_level<9" color="#F63249">Zone Level 9 <br/></font>
             </td>
             <td >
-              <button ng-if="metal.current_mine_level<10 || crystal.current_mine_level<7 || level.current_level<10" class="btn btn-grey btn-icon btn-icon-standalone btn-icon-standalone-right disabled">
+              <button ng-if="metal.current_mine_level<10 || crystal.current_mine_level<7 || level.current_level<9" class="btn btn-grey btn-icon btn-icon-standalone btn-icon-standalone-right disabled">
                   <i class="fa-upload" style="color:black"></i>
                   <span><font color="black">Build</font></span>
               </button>
-              <button ng-if="metal.current_mine_level>=10 && crystal.current_mine_level>=7 && level.current_level>=10" class="btn btn-success btn-icon btn-icon-standalone btn-icon-standalone-right" ng-click="Build('research_lab')">
+              <button ng-if="metal.current_mine_level>=10 && crystal.current_mine_level>=7 && level.current_level>=9" class="btn btn-success btn-icon btn-icon-standalone btn-icon-standalone-right" ng-click="Build('research_lab')">
                   <i class="fa-upload"></i>
                   <span>Build</span>
               </button>
@@ -453,7 +453,7 @@
               <h4><div id="attention"><b>Dark Matter Lab (Level {{dm_lab.current_lab_level}})</b></div></h4>
             </td>
             <td ng-if="dm_lab.current_lab_level==0" style="text-align: center; width: auto">
-              <h4><div id="attention"><b>????????</b></div>s</h4>
+              <h4><div id="attention"><b>????????</b></div></h4>
             </td>
         </tr>
       </table>

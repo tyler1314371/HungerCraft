@@ -26,7 +26,7 @@ var specialization = {
 var ships ={
 	light_fighter:{
 		unlocked:0,
-		current_owned:1000,
+		current_owned:0,
 		assembled:0,
 		casualties:0,
 		metal_cost:300,
@@ -39,15 +39,12 @@ var ships ={
 			attack:30
 		},
 		skills:[
-			{
-				name:"Rapid Fire",
-				unlocked:0
-			}
+			
 		]
 	},
 	heavy_fighter:{
-		unlocked:1,
-		current_owned:1,
+		unlocked:0,
+		current_owned:0,
 		assembled:0,
 		casualties:0,
 		metal_cost:1200,
@@ -58,15 +55,12 @@ var ships ={
 			attack:100
 		},
 		skills:[
-			{
-				name:"Loaded Ammo",
-				unlocked:1
-			}
+			
 		]
 	},
 	worg:{
-		unlocked:1,
-		current_owned:1,
+		unlocked:0,
+		current_owned:0,
 		assembled:0,
 		casualties:0,
 		metal_cost:4200,
@@ -77,10 +71,7 @@ var ships ={
 			attack:80
 		},
 		skills:[
-			{
-				name:"Rapid Fire",
-				unlocked:1
-			}
+			
 		]
 	},
 	destroyer:{
@@ -96,10 +87,7 @@ var ships ={
 			attack:450
 		},
 		skills:[
-			{
-				name:"Rapid Fire",
-				unlocked:1
-			}
+			
 		]
 	},
 	succubus:{
@@ -115,10 +103,7 @@ var ships ={
 			attack:150
 		},
 		skills:[
-			{
-				name:"Rapid Fire",
-				unlocked:1
-			}
+			
 		]
 	},
 	colossus:{
@@ -134,10 +119,7 @@ var ships ={
 			attack:200
 		},
 		skills:[
-			{
-				name:"Rapid Fire",
-				unlocked:1
-			}
+			
 		]
 	},
 	medusa:{
@@ -153,10 +135,7 @@ var ships ={
 			attack:100
 		},
 		skills:[
-			{
-				name:"Rapid Fire",
-				unlocked:1
-			}
+			
 		]
 	},
 	science_vessel:{
@@ -172,10 +151,7 @@ var ships ={
 			attack:140
 		},
 		skills:[
-			{
-				name:"Rapid Fire",
-				unlocked:1
-			}
+			
 		]
 	},
 	pantheon:{
@@ -191,10 +167,7 @@ var ships ={
 			attack:400
 		},
 		skills:[
-			{
-				name:"Rapid Fire",
-				unlocked:1
-			}
+			
 		]
 	},
 	wormhole_device:{
@@ -210,10 +183,7 @@ var ships ={
 			attack:0
 		},
 		skills:[
-			{
-				name:"Rapid Fire",
-				unlocked:1
-			}
+			
 		]
 	},
 }
@@ -241,15 +211,15 @@ var raids = {
 		timer:"00:00:00",
 		section:3,
 		difficulty:0,
-		unlocked:1,
-		required_level:10
+		unlocked:0,
+		required_level:8
 	},
 	Clade:{
 		timer:"00:00:00",
 		section:5,
 		difficulty:0,
 		unlocked:0,
-		required_level:18
+		required_level:14
 	},
 	Neibos:{
 		timer:"00:00:00",
@@ -324,7 +294,7 @@ var raids = {
 
 //RESOURCES
 var metal = {
-	current_owned:1000000,
+	current_owned:0,
 	current_mine_level:0,
 	current_cost:50,
 	ori_cost: 50,
@@ -333,7 +303,7 @@ var metal = {
 };
 
 var crystal = {
-	current_owned:1000000,
+	current_owned:0,
 	current_mine_level:0,
 	current_cost:60,
 	ori_cost: 60,
@@ -352,7 +322,7 @@ var dark_matter = {
 
 //BUILDING
 var shipyard = {
-	current_lab_level: 3,
+	current_lab_level: 0,
 	current_cost_metal:150,
 	base_cost_metal: 150,
 	current_cost_crystal:70,
@@ -360,7 +330,7 @@ var shipyard = {
 };
 
 var research_lab = {
-	current_lab_level: 3,
+	current_lab_level: 0,
 	current_cost_metal:150,
 	base_cost_metal: 150,
 	current_cost_crystal:70,
@@ -382,11 +352,11 @@ var dm_lab = {
 
 
 var level = {
-	level_metal_req:300,
-	level_crystal_req:200,
-	level_metal_req_ori:300,
-	level_crystal_req_ori:200,
-	current_level:10,
+	level_metal_req:250,
+	level_crystal_req:150,
+	level_metal_req_ori:250,
+	level_crystal_req_ori:150,
+	current_level:1,
 	color1: '#000080',
 	color2: '#339966'
 };
@@ -458,6 +428,10 @@ angular.module('xenon.controllers', []).
 		$scope.find_index= function(item, list) {
 
 			return find_index_g(item, list);
+		}
+		$scope.diminish_artifacts= function(base_amount, number_owned) {
+
+			return diminish_artifacts(base_amount, number_owned);
 		}
 
 
@@ -560,7 +534,7 @@ angular.module('xenon.controllers', []).
 
 		         metal.current_mine_level = metal.current_mine_level + 1;
 		    	   metal.current_owned = metal.current_owned - metal.current_cost;
-						 metal.current_cost = Math.floor(metal.ori_cost * Math.pow(1.45,metal.current_mine_level));
+						 metal.current_cost = Math.floor(metal.ori_cost * Math.pow(1.55,metal.current_mine_level));
 
 		    };
 		};
@@ -571,7 +545,7 @@ angular.module('xenon.controllers', []).
 
 		         crystal.current_mine_level = crystal.current_mine_level + 1;
 		    	   crystal.current_owned = crystal.current_owned - crystal.current_cost;
-						 crystal.current_cost = Math.floor(crystal.ori_cost * Math.pow(1.5,crystal.current_mine_level));
+						 crystal.current_cost = Math.floor(crystal.ori_cost * Math.pow(1.4,crystal.current_mine_level));
 
 		    };
 		};
@@ -2138,6 +2112,11 @@ angular.module('xenon.controllers', []).
         	if (newValue>ships.light_fighter.current_owned){
         		$scope.LF_Text = ships.light_fighter.current_owned;
         	}
+        	if (!Number(newValue)){
+        		$scope.LF_Text = 0;
+        		$scope.LF_Slider = 0;
+        	}
+        	
         	$scope.LF_fleet_HP = ships.light_fighter.stats.HP * $scope.LF_Text;
         	$scope.LF_fleet_Shield = ships.light_fighter.stats.shield * $scope.LF_Text;
         	$scope.LF_fleet_Attk = ships.light_fighter.stats.attack * $scope.LF_Text;
@@ -2165,6 +2144,10 @@ angular.module('xenon.controllers', []).
 		$scope.$watch('HF_Text', function (newValue, oldValue) {
         	if (newValue>ships.heavy_fighter.current_owned){
         		$scope.HF_Text = ships.heavy_fighter.current_owned;
+        	}
+        	if (!Number(newValue)){
+        		$scope.HF_Text = 0;
+        		$scope.HF_Slider = 0;
         	}
         	$scope.HF_fleet_HP = ships.heavy_fighter.stats.HP * $scope.HF_Text;
         	$scope.HF_fleet_Shield = ships.heavy_fighter.stats.shield * $scope.HF_Text;
@@ -2194,6 +2177,10 @@ angular.module('xenon.controllers', []).
         	if (newValue>ships.worg.current_owned){
         		$scope.WG_Text = ships.worg.current_owned;
         	}
+        	if (!Number(newValue)){
+        		$scope.WG_Text = 0;
+        		$scope.WG_Slider = 0;
+        	}
         	$scope.WG_fleet_HP = ships.worg.stats.HP * $scope.WG_Text;
         	$scope.WG_fleet_Shield = ships.worg.stats.shield * $scope.WG_Text;
         	$scope.WG_fleet_Attk = ships.worg.stats.attack * $scope.WG_Text;
@@ -2221,6 +2208,10 @@ angular.module('xenon.controllers', []).
         	if (newValue>ships.destroyer.current_owned){
         		$scope.DS_Text = ships.destroyer.current_owned;
         	}
+        	if (!Number(newValue)){
+        		$scope.DS_Text = 0;
+        		$scope.DS_Slider = 0;
+        	}
         	$scope.DS_fleet_HP = ships.destroyer.stats.HP * $scope.DS_Text;
         	$scope.DS_fleet_Shield = ships.destroyer.stats.shield * $scope.DS_Text;
         	$scope.DS_fleet_Attk = ships.destroyer.stats.attack * $scope.DS_Text;
@@ -2247,6 +2238,10 @@ angular.module('xenon.controllers', []).
 		$scope.$watch('SU_Text', function (newValue, oldValue) {
         	if (newValue>ships.succubus.current_owned){
         		$scope.SU_Text = ships.succubus.current_owned;
+        	}
+        	if (!Number(newValue)){
+        		$scope.SU_Text = 0;
+        		$scope.SU_Slider = 0;
         	}
         	$scope.SU_fleet_HP = ships.succubus.stats.HP * $scope.SU_Text;
         	$scope.SU_fleet_Shield = ships.succubus.stats.shield * $scope.SU_Text;
@@ -2277,6 +2272,10 @@ angular.module('xenon.controllers', []).
         	if (newValue>ships.colossus.current_owned){
         		$scope.COL_Text = ships.colossus.current_owned;
         	}
+        	if (!Number(newValue)){
+        		$scope.COL_Text = 0;
+        		$scope.COL_Slider = 0;
+        	}
         	$scope.COL_fleet_HP = ships.colossus.stats.HP * $scope.COL_Text;
         	$scope.COL_fleet_Shield = ships.colossus.stats.shield * $scope.COL_Text;
         	$scope.COL_fleet_Attk = ships.colossus.stats.attack * $scope.COL_Text;
@@ -2304,6 +2303,10 @@ angular.module('xenon.controllers', []).
 		$scope.$watch('MD_Text', function (newValue, oldValue) {
         	if (newValue>ships.medusa.current_owned){
         		$scope.MD_Text = ships.medusa.current_owned;
+        	}
+        	if (!Number(newValue)){
+        		$scope.MD_Text = 0;
+        		$scope.MD_Slider = 0;
         	}
         	$scope.MD_fleet_HP = ships.medusa.stats.HP * $scope.MD_Text;
         	$scope.MD_fleet_Shield = ships.medusa.stats.shield * $scope.MD_Text;
@@ -2333,6 +2336,10 @@ angular.module('xenon.controllers', []).
         	if (newValue>ships.science_vessel.current_owned){
         		$scope.SV_Text = ships.science_vessel.current_owned;
         	}
+        	if (!Number(newValue)){
+        		$scope.SV_Text = 0;
+        		$scope.SV_Slider = 0;
+        	}
         	$scope.SV_fleet_HP = ships.science_vessel.stats.HP * $scope.SV_Text;
         	$scope.SV_fleet_Shield = ships.science_vessel.stats.shield * $scope.SV_Text;
         	$scope.SV_fleet_Attk = ships.science_vessel.stats.attack * $scope.SV_Text;
@@ -2360,6 +2367,10 @@ angular.module('xenon.controllers', []).
 		$scope.$watch('PTH_Text', function (newValue, oldValue) {
         	if (newValue>ships.pantheon.current_owned){
         		$scope.PTH_Text = ships.pantheon.current_owned;
+        	}
+        	if (!Number(newValue)){
+        		$scope.PTH_Text = 0;
+        		$scope.PTH_Slider = 0;
         	}
         	$scope.PTH_fleet_HP = ships.pantheon.stats.HP * $scope.PTH_Text;
         	$scope.PTH_fleet_Shield = ships.pantheon.stats.shield * $scope.PTH_Text;
@@ -2418,7 +2429,10 @@ angular.module('xenon.controllers', []).
 		$.ajaxSetup({
     async: false
 	});
+		$scope.find_index= function(item, list) {
 
+			return find_index_g(item, list);
+		}
 
 
 		$scope.remaining_hp_percent = Number($rootScope.CUR_TOT_HP/$rootScope.MAX_TOT_HP_ROOT *100).toFixed(1);
@@ -2497,7 +2511,7 @@ angular.module('xenon.controllers', []).
 			$( ".loot" ).animate({ "left": "+=200px", "opacity":"1" }, 1300);
 		}, 2600);
 
-		raids[$rootScope.current_instance]['timer']="00:30:00";
+		raids[$rootScope.current_instance]['timer']="00:15:00";
 
 	}).controller('PostBattleVictoryCtrl', function($rootScope,$scope, $element, $modal, $timeout, $interval)
 	{
@@ -2517,7 +2531,10 @@ angular.module('xenon.controllers', []).
 		$.ajaxSetup({
     async: false
 	});
+		$scope.find_index= function(item, list) {
 
+			return find_index_g(item, list);
+		}
 
 
 		$scope.metal = metal;
@@ -2622,7 +2639,7 @@ angular.module('xenon.controllers', []).
 
 
 
-		raids[$rootScope.current_instance]['timer']="01:00:00";
+		raids[$rootScope.current_instance]['timer']="00:30:00";
 		Update_Next_Level_Requirement();
 
 
@@ -3006,30 +3023,30 @@ angular.module('xenon.controllers', []).
 
 								if ($scope.progress_TOT_Shield_enemy.value>0){
 
-									if ($scope.progress_TOT_Shield_enemy.value - ($scope.current_LF_Attack+$scope.current_HF_Attack+$scope.current_WG_Attack+$scope.current_DS_Attack+$scope.current_COL_Attack+$scope.current_SU_Attack+$scope.current_MD_Attack+$scope.current_SV_Attack+$scope.current_PTH_Attack)/10<0){
+									if ($scope.progress_TOT_Shield_enemy.value - ($scope.current_LF_Attack+$scope.current_HF_Attack+$scope.current_WG_Attack+$scope.current_DS_Attack+$scope.current_COL_Attack+$scope.current_SU_Attack+$scope.current_MD_Attack+$scope.current_SV_Attack+$scope.current_PTH_Attack)/5<0){
 										$scope.progress_TOT_Shield_enemy.value=0;
 									}else{
-										$scope.progress_TOT_Shield_enemy.value -= ($scope.current_LF_Attack+$scope.current_HF_Attack+$scope.current_WG_Attack+$scope.current_DS_Attack+$scope.current_COL_Attack+$scope.current_SU_Attack+$scope.current_MD_Attack+$scope.current_SV_Attack+$scope.current_PTH_Attack)/10
+										$scope.progress_TOT_Shield_enemy.value -= ($scope.current_LF_Attack+$scope.current_HF_Attack+$scope.current_WG_Attack+$scope.current_DS_Attack+$scope.current_COL_Attack+$scope.current_SU_Attack+$scope.current_MD_Attack+$scope.current_SV_Attack+$scope.current_PTH_Attack)/5
 									};
 
-									if($scope.CUR_TOT_SHIELD_ENEMY - ($scope.current_LF_Attack+$scope.current_HF_Attack+$scope.current_WG_Attack+$scope.current_DS_Attack+$scope.current_COL_Attack+$scope.current_SU_Attack+$scope.current_MD_Attack+$scope.current_SV_Attack+$scope.current_PTH_Attack)/10<0){
+									if($scope.CUR_TOT_SHIELD_ENEMY - ($scope.current_LF_Attack+$scope.current_HF_Attack+$scope.current_WG_Attack+$scope.current_DS_Attack+$scope.current_COL_Attack+$scope.current_SU_Attack+$scope.current_MD_Attack+$scope.current_SV_Attack+$scope.current_PTH_Attack)/5<0){
 										$scope.CUR_TOT_SHIELD_ENEMY =0;
 									}else{
-										$scope.CUR_TOT_SHIELD_ENEMY -= ($scope.current_LF_Attack+$scope.current_HF_Attack+$scope.current_WG_Attack+$scope.current_DS_Attack+$scope.current_COL_Attack+$scope.current_SU_Attack+$scope.current_MD_Attack+$scope.current_SV_Attack+$scope.current_PTH_Attack)/10;
+										$scope.CUR_TOT_SHIELD_ENEMY -= ($scope.current_LF_Attack+$scope.current_HF_Attack+$scope.current_WG_Attack+$scope.current_DS_Attack+$scope.current_COL_Attack+$scope.current_SU_Attack+$scope.current_MD_Attack+$scope.current_SV_Attack+$scope.current_PTH_Attack)/5;
 									};
 
 								}else{
-									if ($scope.progress_TOT_HP_enemy.value - ($scope.current_LF_Attack+$scope.current_HF_Attack+$scope.current_WG_Attack+$scope.current_DS_Attack+$scope.current_COL_Attack+$scope.current_SU_Attack+$scope.current_MD_Attack+$scope.current_SV_Attack+$scope.current_PTH_Attack)/10<0){
+									if ($scope.progress_TOT_HP_enemy.value - ($scope.current_LF_Attack+$scope.current_HF_Attack+$scope.current_WG_Attack+$scope.current_DS_Attack+$scope.current_COL_Attack+$scope.current_SU_Attack+$scope.current_MD_Attack+$scope.current_SV_Attack+$scope.current_PTH_Attack)/5<0){
 										$scope.progress_TOT_HP_enemy.value=0;
 									}else{
-										$scope.progress_TOT_HP_enemy.value -= ($scope.current_LF_Attack+$scope.current_HF_Attack+$scope.current_WG_Attack+$scope.current_DS_Attack+$scope.current_COL_Attack+$scope.current_SU_Attack+$scope.current_MD_Attack+$scope.current_SV_Attack+$scope.current_PTH_Attack)/10
+										$scope.progress_TOT_HP_enemy.value -= ($scope.current_LF_Attack+$scope.current_HF_Attack+$scope.current_WG_Attack+$scope.current_DS_Attack+$scope.current_COL_Attack+$scope.current_SU_Attack+$scope.current_MD_Attack+$scope.current_SV_Attack+$scope.current_PTH_Attack)/5
 									};
 
 
-									if ($scope.CUR_TOT_HP_ENEMY - ($scope.current_LF_Attack+$scope.current_HF_Attack+$scope.current_WG_Attack+$scope.current_DS_Attack+$scope.current_COL_Attack+$scope.current_SU_Attack+$scope.current_MD_Attack+$scope.current_SV_Attack+$scope.current_PTH_Attack)/10<0){
+									if ($scope.CUR_TOT_HP_ENEMY - ($scope.current_LF_Attack+$scope.current_HF_Attack+$scope.current_WG_Attack+$scope.current_DS_Attack+$scope.current_COL_Attack+$scope.current_SU_Attack+$scope.current_MD_Attack+$scope.current_SV_Attack+$scope.current_PTH_Attack)/5<0){
 										$scope.CUR_TOT_HP_ENEMY=0;
 									}else{
-										$scope.CUR_TOT_HP_ENEMY -= ($scope.current_LF_Attack+$scope.current_HF_Attack+$scope.current_WG_Attack+$scope.current_DS_Attack+$scope.current_COL_Attack+$scope.current_SU_Attack+$scope.current_MD_Attack+$scope.current_SV_Attack+$scope.current_PTH_Attack)/10
+										$scope.CUR_TOT_HP_ENEMY -= ($scope.current_LF_Attack+$scope.current_HF_Attack+$scope.current_WG_Attack+$scope.current_DS_Attack+$scope.current_COL_Attack+$scope.current_SU_Attack+$scope.current_MD_Attack+$scope.current_SV_Attack+$scope.current_PTH_Attack)/5
 									};
 								}
 
@@ -3042,27 +3059,27 @@ angular.module('xenon.controllers', []).
 
 
 										if ($scope.progress_TOT_Shield.value>0){
-												if ($scope.progress_TOT_Shield.value - $scope.enemies[i].info.Attack/10 * $scope.enemies[i].info.amount<0){
+												if ($scope.progress_TOT_Shield.value - $scope.enemies[i].info.Attack/5 * $scope.enemies[i].info.amount<0){
 													$scope.progress_TOT_Shield.value=0;
 												}else{
-													$scope.progress_TOT_Shield.value -= $scope.enemies[i].info.Attack/10 * $scope.enemies[i].info.amount;
+													$scope.progress_TOT_Shield.value -= $scope.enemies[i].info.Attack/5 * $scope.enemies[i].info.amount;
 												};
-												if ($rootScope.CUR_TOT_SHIELD - $scope.enemies[i].info.Attack/10 * $scope.enemies[i].info.amount<0){
+												if ($rootScope.CUR_TOT_SHIELD - $scope.enemies[i].info.Attack/5 * $scope.enemies[i].info.amount<0){
 													$rootScope.CUR_TOT_SHIELD=0;
 												}else{
-													$rootScope.CUR_TOT_SHIELD -= $scope.enemies[i].info.Attack/10 * $scope.enemies[i].info.amount;
+													$rootScope.CUR_TOT_SHIELD -= $scope.enemies[i].info.Attack/5 * $scope.enemies[i].info.amount;
 												};
 
 											}else{
-												if ($scope.progress_TOT_HP.value - $scope.enemies[i].info.Attack/10 * $scope.enemies[i].info.amount<0){
+												if ($scope.progress_TOT_HP.value - $scope.enemies[i].info.Attack/5 * $scope.enemies[i].info.amount<0){
 													$scope.progress_TOT_HP.value=0;
 												}else{
-													$scope.progress_TOT_HP.value -= $scope.enemies[i].info.Attack/10 * $scope.enemies[i].info.amount;
+													$scope.progress_TOT_HP.value -= $scope.enemies[i].info.Attack/5 * $scope.enemies[i].info.amount;
 												};
-												if ($rootScope.CUR_TOT_HP - $scope.enemies[i].info.Attack/10 * $scope.enemies[i].info.amount<0){
+												if ($rootScope.CUR_TOT_HP - $scope.enemies[i].info.Attack/5 * $scope.enemies[i].info.amount<0){
 													$rootScope.CUR_TOT_HP=0;
 												}else{
-													$rootScope.CUR_TOT_HP -= $scope.enemies[i].info.Attack/10 * $scope.enemies[i].info.amount;
+													$rootScope.CUR_TOT_HP -= $scope.enemies[i].info.Attack/5 * $scope.enemies[i].info.amount;
 												};
 										}
 
@@ -3110,18 +3127,14 @@ angular.module('xenon.controllers', []).
 
 
 
-
+								$timeout(function(){
 									if($rootScope.instance_data[$rootScope.current_instance]['normal']['floor_num']== $rootScope.current_floor){
-
-										$timeout(function(){
 											$rootScope.currentModal.close();
 											$scope.openModal('post_battle_victory','static');
-										}, 2500);
-
 									}else{
 										$('.NextFloor').show("slow");
 									}
-
+								}, 2500);
 
 								}else if ($rootScope.CUR_TOT_HP <=0){
 									$rootScope.CUR_TOT_HP=0;
@@ -3136,7 +3149,7 @@ angular.module('xenon.controllers', []).
 										}, 2500);
 								}
 
-			}, 100);
+			}, 200);
 
 
 
