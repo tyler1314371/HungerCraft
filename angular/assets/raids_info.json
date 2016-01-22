@@ -10,11 +10,11 @@
 						"reward_crystal":1000,
 						"boss":0,
 						"info" : {
-							"HP": 3000,
+							"HP": 2400,
 							"Shields": 100,
-							"Attack": 10	,
+							"Attack": 55,
 							"Skills": ["1", "2"],
-							"amount": 1
+							"amount": 10
 						}
 					}
 
@@ -26,9 +26,9 @@
 						"reward_crystal":1000,
 						"boss":0,
 						"info" : {
-							"HP": 3000,
+							"HP": 2400,
 							"Shields": 100,
-							"Attack": 100,
+							"Attack": 55,
 							"Skills": ["1", "2"],
 							"amount": 20
 						}
@@ -40,9 +40,9 @@
 						"reward_crystal":2000,
 						"boss":0,
 						"info" : {
-							"HP": 8000,
+							"HP": 3500,
 							"Shields": 400,
-							"Attack": 15,
+							"Attack": 110,
 							"Skills": ["1", "2"],
 							"amount": 5
 						}
@@ -50,13 +50,13 @@
 					{
 
 						"name":"Oatis Cannon",
-						"reward_metal":4000,
-						"reward_crystal":2000,
+						"reward_metal":8000,
+						"reward_crystal":0,
 						"boss":0,
 						"info" : {
-							"HP": 8000,
+							"HP": 4000,
 							"Shields": 1000,
-							"Attack": 35,
+							"Attack": 40,
 							"Skills": ["1", "2"],
 							"amount": 3
 						}
@@ -71,7 +71,7 @@
 						"info" : {
 							"HP": 100000,
 							"Shields": 10000,
-							"Attack": 20,
+							"Attack": 1500,
 							"Skills": ["1", "2"],
 							"amount": 1
 						}
@@ -79,7 +79,181 @@
 				]
 			},
 			"drops": {
-				"uncommon": ["Shard of Coldness"],
+				"uncommon": ["Shard of Coldness", "Dust of Greed"],
+				"rare": ["rare"],
+				"epic": ["epic"],
+				"legendary": ["legendary"]
+			}
+		}
+
+	},
+	"Clade": {
+		"normal": {
+			"floor_num":5,
+			"floors": {
+				"1": [
+					{
+						"name":"Oatis Light Fighter",
+						"reward_metal":2000,
+						"reward_crystal":1000,
+						"boss":0,
+						"info" : {
+							"HP": 2400,
+							"Shields": 100,
+							"Attack": 55,
+							"Skills": ["1", "2"],
+							"amount": 10
+						}
+					}
+
+				],
+				"2": [
+					{
+						"name":"Oatis Light Fighter",
+						"reward_metal":2000,
+						"reward_crystal":1000,
+						"boss":0,
+						"info" : {
+							"HP": 2400,
+							"Shields": 100,
+							"Attack": 55,
+							"Skills": ["1", "2"],
+							"amount": 20
+						}
+					},
+					{
+
+						"name":"Oatis Heavy Fighter",
+						"reward_metal":4000,
+						"reward_crystal":2000,
+						"boss":0,
+						"info" : {
+							"HP": 3500,
+							"Shields": 400,
+							"Attack": 110,
+							"Skills": ["1", "2"],
+							"amount": 5
+						}
+					},
+					{
+
+						"name":"Oatis Cannon",
+						"reward_metal":8000,
+						"reward_crystal":0,
+						"boss":0,
+						"info" : {
+							"HP": 4000,
+							"Shields": 1000,
+							"Attack": 40,
+							"Skills": ["1", "2"],
+							"amount": 3
+						}
+					}
+				],
+				"3": [
+					{
+						"name":"Devil's Rage",
+						"reward_metal":50000,
+						"reward_crystal":10000,
+						"boss":1,
+						"info" : {
+							"HP": 100000,
+							"Shields": 10000,
+							"Attack": 1500,
+							"Skills": ["1", "2"],
+							"amount": 1
+						}
+					}
+				],
+				"4": [
+					{
+						"name":"Oatis Light Fighter",
+						"reward_metal":2000,
+						"reward_crystal":1000,
+						"boss":0,
+						"info" : {
+							"HP": 2400,
+							"Shields": 100,
+							"Attack": 55,
+							"Skills": ["1", "2"],
+							"amount": 20
+						}
+					},
+					{
+
+						"name":"Oatis Heavy Fighter",
+						"reward_metal":4000,
+						"reward_crystal":2000,
+						"boss":0,
+						"info" : {
+							"HP": 3500,
+							"Shields": 400,
+							"Attack": 110,
+							"Skills": ["1", "2"],
+							"amount": 5
+						}
+					},
+					{
+
+						"name":"Oatis Cannon",
+						"reward_metal":8000,
+						"reward_crystal":0,
+						"boss":0,
+						"info" : {
+							"HP": 4000,
+							"Shields": 1000,
+							"Attack": 40,
+							"Skills": ["1", "2"],
+							"amount": 3
+						}
+					}
+				],
+				"5": [
+					{
+						"name":"Oatis Light Fighter",
+						"reward_metal":2000,
+						"reward_crystal":1000,
+						"boss":0,
+						"info" : {
+							"HP": 2400,
+							"Shields": 100,
+							"Attack": 55,
+							"Skills": ["1", "2"],
+							"amount": 20
+						}
+					},
+					{
+
+						"name":"Oatis Heavy Fighter",
+						"reward_metal":4000,
+						"reward_crystal":2000,
+						"boss":0,
+						"info" : {
+							"HP": 3500,
+							"Shields": 400,
+							"Attack": 110,
+							"Skills": ["1", "2"],
+							"amount": 5
+						}
+					},
+					{
+
+						"name":"Oatis Cannon",
+						"reward_metal":8000,
+						"reward_crystal":0,
+						"boss":0,
+						"info" : {
+							"HP": 4000,
+							"Shields": 1000,
+							"Attack": 40,
+							"Skills": ["1", "2"],
+							"amount": 3
+						}
+					}
+				]
+			},
+			"drops": {
+				"uncommon": ["Shard of Coldness", "Dust of Greed"],
 				"rare": ["rare"],
 				"epic": ["epic"],
 				"legendary": ["legendary"]

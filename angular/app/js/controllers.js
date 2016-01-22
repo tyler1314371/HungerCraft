@@ -29,14 +29,17 @@ var ships ={
 		current_owned:0,
 		assembled:0,
 		casualties:0,
-		metal_cost:300,
-		crystal_cost:170,
+		metal_cost:500,
+		crystal_cost:270,
 		metal_cost_base:300,
 		crystal_cost_base:170,
 		stats:{
 			HP:1000,
 			shield:20,
-			attack:30
+			attack:30,
+			HP_base:1000,
+			shield_base:20,
+			attack_base:30
 		},
 		skills:[
 			
@@ -52,7 +55,10 @@ var ships ={
 		stats:{
 			HP:450,
 			shield:100,
-			attack:100
+			attack:100,
+			HP_base:450,
+			shield_base:100,
+			attack_base:100
 		},
 		skills:[
 			
@@ -68,7 +74,10 @@ var ships ={
 		stats:{
 			HP:250,
 			shield:50,
-			attack:80
+			attack:80,
+			HP_base:250,
+			shield_base:50,
+			attack_base:80
 		},
 		skills:[
 			
@@ -84,7 +93,10 @@ var ships ={
 		stats:{
 			HP:10000,
 			shield:500,
-			attack:450
+			attack:450,
+			HP_base:10000,
+			shield_base:500,
+			attack_base:450
 		},
 		skills:[
 			
@@ -100,7 +112,10 @@ var ships ={
 		stats:{
 			HP:4300,
 			shield:1200,
-			attack:150
+			attack:150,
+			HP_base:4300,
+			shield_base:1200,
+			attack_base:150
 		},
 		skills:[
 			
@@ -116,7 +131,10 @@ var ships ={
 		stats:{
 			HP:150000,
 			shield:10000,
-			attack:200
+			attack:200,
+			HP_base:150000,
+			shield_base:10000,
+			attack_base:200
 		},
 		skills:[
 			
@@ -132,7 +150,10 @@ var ships ={
 		stats:{
 			HP:10000,
 			shield:20000,
-			attack:100
+			attack:100,
+			HP_base:10000,
+			shield_base:20000,
+			attack_base:100
 		},
 		skills:[
 			
@@ -148,7 +169,10 @@ var ships ={
 		stats:{
 			HP:20000,
 			shield:13000,
-			attack:140
+			attack:140,
+			HP_base:20000,
+			shield_base:13000,
+			attack_base:140
 		},
 		skills:[
 			
@@ -164,28 +188,15 @@ var ships ={
 		stats:{
 			HP:70000,
 			shield:20000,
-			attack:400
+			attack:400,
+			HP_base:70000,
+			shield_base:20000,
+			attack_base:400
 		},
 		skills:[
 			
 		]
-	},
-	wormhole_device:{
-		unlocked:0,
-		current_owned:0,
-		assembled:0,
-		casualties:0,
-		metal_cost:0,
-		crystal_cost:0,
-		stats:{
-			HP:0,
-			shield:0,
-			attack:0
-		},
-		skills:[
-			
-		]
-	},
+	}
 }
 
 
@@ -200,6 +211,14 @@ var artifacts = {
 				rarity:"uncommon",
 				current_owned: 0,
 				based_increase_percent: 5
+		},
+		{
+				name:"Dust of Greed",
+				img_src:"assets/images/artifacts/Browndust.png",
+				description:"",
+				rarity:"uncommon",
+				current_owned: 0,
+				based_increase_percent: 15
 		}
 	]
 };
@@ -211,7 +230,7 @@ var raids = {
 		timer:"00:00:00",
 		section:3,
 		difficulty:0,
-		unlocked:0,
+		unlocked:1,
 		required_level:8
 	},
 	Clade:{
@@ -294,7 +313,7 @@ var raids = {
 
 //RESOURCES
 var metal = {
-	current_owned:0,
+	current_owned:11111110,
 	current_mine_level:0,
 	current_cost:50,
 	ori_cost: 50,
@@ -303,7 +322,7 @@ var metal = {
 };
 
 var crystal = {
-	current_owned:0,
+	current_owned:1111110,
 	current_mine_level:0,
 	current_cost:60,
 	ori_cost: 60,
@@ -322,7 +341,7 @@ var dark_matter = {
 
 //BUILDING
 var shipyard = {
-	current_lab_level: 0,
+	current_lab_level: 3,
 	current_cost_metal:150,
 	base_cost_metal: 150,
 	current_cost_crystal:70,
@@ -330,7 +349,7 @@ var shipyard = {
 };
 
 var research_lab = {
-	current_lab_level: 0,
+	current_lab_level: 3,
 	current_cost_metal:150,
 	base_cost_metal: 150,
 	current_cost_crystal:70,
@@ -356,7 +375,7 @@ var level = {
 	level_crystal_req:150,
 	level_metal_req_ori:250,
 	level_crystal_req_ori:150,
-	current_level:1,
+	current_level:10,
 	color1: '#000080',
 	color2: '#339966'
 };
@@ -560,7 +579,9 @@ angular.module('xenon.controllers', []).
 						 research_lab.current_cost_metal = Math.floor(research_lab.base_cost_metal * Math.pow(1.5,research_lab.current_lab_level));
 						 research_lab.current_cost_crystal = Math.floor(research_lab.base_cost_crystal * Math.pow(1.5,research_lab.current_lab_level));
 
+
 		    };
+		    Update_All_Ships_Bonuses();
 		};
 		$scope.UpgradeDMLab = function(){
 		    if((metal.current_owned >= dm_lab.current_cost_metal) && (crystal.current_owned >= dm_lab.current_cost_crystal)){
@@ -585,6 +606,7 @@ angular.module('xenon.controllers', []).
 						 shipyard.current_cost_crystal = Math.floor(shipyard.base_cost_crystal * Math.pow(1.5,shipyard.current_lab_level));
 
 		    };
+		    Update_All_Ships_Bonuses();
 		};
 
 		$scope.EnterInstance = function(instance_name){
@@ -610,7 +632,7 @@ angular.module('xenon.controllers', []).
 			    	ships.medusa.current_owned==0 && ships.science_vessel.current_owned==0 && ships.pantheon.current_owned==0 ){
 
 
-				toastr.error("You don't have any fighter"
+				toastr.error("You don't have any fleets"
 						, opts);
 				return false;
 
@@ -877,10 +899,11 @@ angular.module('xenon.controllers', []).
 
 
 
-			metal.income = Math.floor(metal.income_base  * metal.current_mine_level * Math.pow(1.1,metal.current_mine_level));
-			crystal.income = Math.floor(crystal.income_base  * crystal.current_mine_level * Math.pow(1.1,crystal.current_mine_level));
+			//metal.income = Math.floor(metal.income_base  * metal.current_mine_level * Math.pow(1.1,metal.current_mine_level));
+			//crystal.income = Math.floor(crystal.income_base  * crystal.current_mine_level * Math.pow(1.1,crystal.current_mine_level));
 
-
+			Update_metal_income();
+			Update_crystal_income();
 
 
 
@@ -1184,13 +1207,7 @@ angular.module('xenon.controllers', []).
 */
 
 
-
-
-
-
-
-
-
+		
 
 		//var current_user = $cookies['current_user'];;
 		$rootScope.setCurrentUser = function (user) {
@@ -3232,6 +3249,18 @@ angular.module('xenon.controllers', []).
 
 
 
+function find_index_g(item, list) {
+
+			for (var i = 0; i < list.length ; i++) {
+        		if (list[i].name == item) {
+            		return i;
+		        }
+		 	}
+
+		 	return 'none';
+
+}
+
 
 function Update_Next_Level_Requirement() {
 
@@ -3252,20 +3281,44 @@ function Update_Next_Level_Requirement() {
 }
 
 
+
 function Update_All_Ships_Bonuses() {
+	for (var ship in ships) {
+
+		ships[ship]['stats']['HP'] = ships[ship]['stats']['HP_base'] * (research_lab['current_lab_level'] * 0.15/100 + 1);
+		ships[ship]['stats']['shield'] = ships[ship]['stats']['shield_base'] * (research_lab['current_lab_level'] * 0.1/100 + 1);
+		ships[ship]['stats']['attack'] = ships[ship]['stats']['attack_base'] * (shipyard['current_lab_level'] * 0.2/100 + 1);
+
+	}
+
+	return;
+}
+function Update_metal_income() {
+	//check for bonuses....etc
+	var temp_metal_income;
+	temp_metal_income = Math.floor(metal.income_base  * metal.current_mine_level * Math.pow(1.1,metal.current_mine_level));
+
+	//Dust of Greed
+	if(artifacts['artifact_list'][1]['current_owned']>=1){
+		temp_metal_income = Math.floor(temp_metal_income * (artifacts['artifact_list'][1]['current_owned'] * artifacts['artifact_list'][1]['based_increase_percent']/100 +1));
+	}
+
+
+	metal.income = temp_metal_income;
+    return;
+}
+function Update_crystal_income() {
+	//check for bonuses....etc
+	var temp_crystal_income;
+	temp_crystal_income = Math.floor(crystal.income_base  * crystal.current_mine_level * Math.pow(1.1,crystal.current_mine_level));
+
+
+	crystal.income = temp_crystal_income;
+    return;
+}
+function Update_building_cost(building) {
 	//check for bonuses....etc
     return "heelo";
 }
 
 
-function find_index_g(item, list) {
-
-			for (var i = 0; i < list.length ; i++) {
-        		if (list[i].name == item) {
-            		return i;
-		        }
-		 	}
-
-		 	return 'none';
-
-}
