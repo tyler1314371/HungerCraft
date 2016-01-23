@@ -436,6 +436,10 @@ angular.module('xenon.controllers', []).
 		});
 
 
+
+
+
+
 		$.getJSON( '../../assets/skills_info.json', function( data ) {
 		  $.each( data, function( key, val ) {
 				$rootScope.skills_info = data;
@@ -455,7 +459,7 @@ angular.module('xenon.controllers', []).
 
 
 
-
+		window.onbeforeunload = Save;
 
 
 		$rootScope.layoutOptions.horizontalMenu.isVisible = true;
@@ -1176,6 +1180,9 @@ angular.module('xenon.controllers', []).
 		$rootScope.isLockscreenPage   = false;
 		$rootScope.isMainPage         = false;
 		$rootScope.layoutOptions.horizontalMenu.isVisible = false;
+		$.ajaxSetup({
+	    async: false
+		});
 
 		/*		var poll_notification = window.setInterval(function(){
 
@@ -1193,20 +1200,11 @@ angular.module('xenon.controllers', []).
 		}, 2000);
 
 
-		window.onbeforeunload = function (event) {
-	  var message = 'Sure you want to leave?';
-		console.log("leave");
-	  if (typeof event == 'undefined') {
-	    event = window.event;
-	  }
-	  if (event) {
-	    event.returnValue = message;
-	  }
-	  return message;
-	}
+		
 */
 
-
+		
+		
 		
 
 		//var current_user = $cookies['current_user'];;
@@ -1293,8 +1291,29 @@ angular.module('xenon.controllers', []).
 					, opts);
 				return false;
 			}
-			 toastr.success("Account created", "Success", opts);
-			 $rootScope.currentModal.close();
+
+
+			var AUTHOR_URL = 'http://localhost:5000/register/'.concat(username).concat('/').concat(password).concat('/').concat(email);
+			$.ajax({
+				dataType: 'json',
+				type: 'GET',
+				url: AUTHOR_URL,
+				success: function(message) {
+					console.log(message);
+					if(message=="ok"){
+						toastr.success("Account created", "Success", opts);
+			 			$rootScope.currentModal.close();
+					}else if(message == "failed_dup_user"){
+						toastr.error("please try another username"
+						, "Username is taken"
+						, opts);
+					}
+
+				}
+			});
+
+
+			 
 		};
 
 
@@ -3322,3 +3341,115 @@ function Update_building_cost(building) {
 }
 
 
+function Save() {
+	var user=getCookie("current_user");
+	var formated_save_data ={
+		metal_info:{
+			current_owned: metal.current_owned,
+			current_mine_level: metal.current_mine_level,
+			current_cost: metal.current_cost,
+			ori_cost: metal.ori_cost,
+			income: metal.ori_cost,
+			income_base : metal.income_base
+		},
+		crystal_info:{
+			current_owned: crystal.current_owned,
+			current_mine_level: crystal.current_mine_level,
+			current_cost: crystal.current_cost,
+			ori_cost: crystal.ori_cost,
+			income: crystal.ori_cost,
+			income_base : crystal.income_base
+		},
+		dm_info:{
+			current_owned: dark_matter.current_owned,
+			based_increase: dark_matter.based_increase,
+			current_increase: dark_matter.current_increase
+		},
+		shipyard_info:{
+			current_lab_level: shipyard.current_lab_level,
+			current_cost_metal:shipyard.current_cost_metal,
+			base_cost_metal: shipyard.base_cost_metal,
+			current_cost_crystal:shipyard.current_cost_crystal,
+			base_cost_crystal: shipyard.base_cost_crystal
+
+		},
+		research_lab_info:{
+			current_lab_level: research_lab.current_lab_level,
+			current_cost_metal:research_lab.current_cost_metal,
+			base_cost_metal: research_lab.base_cost_metal,
+			current_cost_crystal:research_lab.current_cost_crystal,
+			base_cost_crystal: research_lab.base_cost_crystal
+
+		},
+		dm_lab_info:{
+			current_lab_level: dm_lab.current_lab_level,
+			current_cost_metal:dm_lab.current_cost_metal,
+			base_cost_metal: dm_lab.base_cost_metal,
+			current_cost_crystal:dm_lab.current_cost_crystal,
+			base_cost_crystal: dm_lab.base_cost_crystal
+
+		},
+		level_info:{
+			level_metal_req: level.level_metal_req,
+			level_crystal_req:level.level_crystal_req,
+			level_metal_req_ori:level.level_metal_req_ori,
+			level_crystal_req_ori:level.level_crystal_req_ori,
+			current_level:level.current_level,
+			color1: level.color1,
+			color2: level.color2
+		}
+	};
+
+
+
+
+
+	var data = {
+	      data: JSON.stringify(formated_save_data)
+	   }
+	
+
+
+
+
+  	var AUTHOR_URL = 'http://localhost:5000/save/'.concat(user);
+		$.ajax({
+        type: "POST",
+        url: AUTHOR_URL,
+        data: data,
+        dataType: "json"            
+    }).done(function(data){
+        console.log(data);
+    });
+}
+
+
+
+function Load(username) {
+	var x = document.cookie;
+	console.log(x);
+
+  	var AUTHOR_URL = 'http://localhost:5000/load/'.concat("username");
+		 $.ajax({
+        type: "POST",
+        url: "/json",
+        data: artifacts,
+        dataType: "json"            
+    }).done(function(data){
+        console.log(data);
+    });
+}
+
+
+function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0; i<ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1);
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}

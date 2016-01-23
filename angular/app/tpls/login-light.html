@@ -106,7 +106,7 @@
 
 
 
-	<div class="row">
+	<div class="row" id="login">
 
 		<div class="col-sm-6">
 			<script>
@@ -127,8 +127,7 @@
 				function login() {
     			var username = document.forms["LoginForm"]["username"].value;
 					var password = document.forms["LoginForm"]["password"].value;
-					if (username == null || username == "") {
-		        var opts = {
+					var opts = {
 							"closeButton": true,
 							"debug": false,
 							"positionClass": "toast-top-full-width",
@@ -142,27 +141,15 @@
 							"showMethod": "fadeIn",
 							"hideMethod": "fadeOut"
 							};
-							toastr.error("Please fill in Username"
-							, "Username is empty"
-							, opts);
+							
+					if (username == null || username == "") {
+				        toastr.error("Please fill in Username"
+									, "Username is empty"
+									, opts);
 
 							return false;
 		    	}
 					if (password == null || password == "") {
-						var opts = {
-							"closeButton": true,
-							"debug": false,
-							"positionClass": "toast-top-full-width",
-							"onclick": null,
-							"showDuration": "300",
-							"hideDuration": "1000",
-							"timeOut": "5000",
-							"extendedTimeOut": "1000",
-							"showEasing": "swing",
-							"hideEasing": "linear",
-							"showMethod": "fadeIn",
-							"hideMethod": "fadeOut"
-							};
 							toastr.error("Please fill in Password"
 							, "Password is empty"
 							, opts);
@@ -170,8 +157,34 @@
 		    	}
 
 					//connect to server
+					$.ajaxSetup({
+				    async: false
+					});
+					var AUTHOR_URL = 'http://localhost:5000/login/'.concat(username).concat('/').concat(password);
+					$.ajax({
+						dataType: 'json',
+						type: 'GET',
+						url: AUTHOR_URL,
+						success: function(message) {
+							
+							if(message=="ok"){
+								window.location.hash = '#/app/dashboard-variant-1';
 
-					window.location.hash = '#/app/dashboard-variant-1';
+
+								angular.element(document.getElementById('login')).scope().setCurrentUser(username);
+							}else if(message == "error_wrong_password"){
+								toastr.error("please try again"
+								, "Wrong Password"
+								, opts);
+							}else if(message == "error_no_user"){
+								toastr.error("please register :)"
+								, "No Such User"
+								, opts);
+							}
+
+						}
+					});
+					
 				};
 
 
@@ -202,7 +215,7 @@
 
 				<div class="form-group">
 					<label class="control-label" for="password">Password</label>
-					<input type="text" class="form-control" id="password" autocomplete="off" name="password"/>
+					<input type="password" class="form-control" id="password" autocomplete="off" name="password"/>
 				</div>
 
 

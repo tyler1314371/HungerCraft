@@ -10,26 +10,32 @@ cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
 
-@app.route("/login/<user_id>")
+@app.route("/login/<user_id>/<pwd>")
 @cross_origin()
-def login(user_id):
-	return json.dumps('login')
+def login(user_id,pwd):
+	return json.dumps(login_user(user_id,pwd))
 
 
-@app.route("/get_notification/<user_id>")
+@app.route("/register/<user_id>/<pwd>/<email>")
 @cross_origin()
-def get_notification(user_id):
-	print 'polling for ' + user_id
-	return json.dumps(user_id)
+def register(user_id,pwd,email):
+	if(register_user(user_id,pwd,email)):
+		return json.dumps('ok')
+	else:
+		return json.dumps('failed_dup_user')
 
-
-
-@app.route("/action/<user_id>/<actions>")
+@app.route("/save/<user_id>", methods=['GET', 'POST'])
 @cross_origin()
-def action():
+def save(user_id):
+
+	data = json.loads(request.form.get('data'))
+	print(data)
+	#save_user(user_id,dataDict);
+	return json.dumps("save")
 
 
 
-app.run()
+
+app.run("0.0.0.0",5000)
 
 
