@@ -29,11 +29,13 @@ def register(user_id,pwd,email):
 def save(user_id):
 
 	data = json.loads(request.form.get('data'))
-	print(data)
-	#save_user(user_id,dataDict);
+	save_user(user_id,data);
 	return json.dumps("save")
 
-
+@app.route("/load/<user_id>")
+@cross_origin()
+def load(user_id):
+	return json.dumps(load_user(user_id))
 
 
 app.run("0.0.0.0",5000)

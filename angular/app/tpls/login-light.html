@@ -172,6 +172,7 @@
 
 
 								angular.element(document.getElementById('login')).scope().setCurrentUser(username);
+								angular.element(document.getElementById('login')).scope().Load(username);
 							}else if(message == "error_wrong_password"){
 								toastr.error("please try again"
 								, "Wrong Password"
@@ -180,6 +181,14 @@
 								toastr.error("please register :)"
 								, "No Such User"
 								, opts);
+							}else if (message == "ok_new_user"){
+								window.location.hash = '#/app/dashboard-variant-1';
+
+
+								angular.element(document.getElementById('login')).scope().setCurrentUser(username);
+								angular.element(document.getElementById('login')).scope().Save(username);
+								angular.element(document.getElementById('login')).scope().Load(username);
+
 							}
 
 						}

@@ -230,7 +230,7 @@ var raids = {
 		timer:"00:00:00",
 		section:3,
 		difficulty:0,
-		unlocked:1,
+		unlocked:0,
 		required_level:8
 	},
 	Clade:{
@@ -313,7 +313,7 @@ var raids = {
 
 //RESOURCES
 var metal = {
-	current_owned:11111110,
+	current_owned:0,
 	current_mine_level:0,
 	current_cost:50,
 	ori_cost: 50,
@@ -322,7 +322,7 @@ var metal = {
 };
 
 var crystal = {
-	current_owned:1111110,
+	current_owned:0,
 	current_mine_level:0,
 	current_cost:60,
 	ori_cost: 60,
@@ -341,7 +341,7 @@ var dark_matter = {
 
 //BUILDING
 var shipyard = {
-	current_lab_level: 3,
+	current_lab_level: 0,
 	current_cost_metal:150,
 	base_cost_metal: 150,
 	current_cost_crystal:70,
@@ -349,7 +349,7 @@ var shipyard = {
 };
 
 var research_lab = {
-	current_lab_level: 3,
+	current_lab_level: 0,
 	current_cost_metal:150,
 	base_cost_metal: 150,
 	current_cost_crystal:70,
@@ -375,14 +375,14 @@ var level = {
 	level_crystal_req:150,
 	level_metal_req_ori:250,
 	level_crystal_req_ori:150,
-	current_level:10,
+	current_level:1,
 	color1: '#000080',
 	color2: '#339966'
 };
 
 
 var update_state;
-
+var Loaded = 0;
 
 
 
@@ -402,6 +402,15 @@ angular.module('xenon.controllers', []).
 	controller('GameCtrl', function($scope, $rootScope, $cookies, $modal, $sce, $layout, $location, $timeout, $interval)
 	{
 		//REMOVE LATER, TEST CODE
+		
+		window.onbeforeunload = Save;
+		if(!Loaded){
+			Load();
+			Loaded = 1;
+		}
+		
+		
+
 
 		$scope.unlock_test = function(){
 
@@ -459,7 +468,7 @@ angular.module('xenon.controllers', []).
 
 
 
-		window.onbeforeunload = Save;
+		
 
 
 		$rootScope.layoutOptions.horizontalMenu.isVisible = true;
@@ -1203,13 +1212,17 @@ angular.module('xenon.controllers', []).
 		
 */
 
-		
+		$scope.Load = function(username)
+		{
+			Load(username);
+		};
 		
 		
 
 		//var current_user = $cookies['current_user'];;
 		$rootScope.setCurrentUser = function (user) {
 			$cookies.current_user= user;
+			$rootScope.current_user = user;
 		};
 
 		$scope.openModal = function(modal_id, modal_size, modal_backdrop)
@@ -1299,10 +1312,14 @@ angular.module('xenon.controllers', []).
 				type: 'GET',
 				url: AUTHOR_URL,
 				success: function(message) {
-					console.log(message);
+					
 					if(message=="ok"){
 						toastr.success("Account created", "Success", opts);
 			 			$rootScope.currentModal.close();
+
+			 			Save(username);
+
+
 					}else if(message == "failed_dup_user"){
 						toastr.error("please try another username"
 						, "Username is taken"
@@ -1535,7 +1552,10 @@ angular.module('xenon.controllers', []).
 
 
 
-
+		$scope.logout = function()
+		{
+			Save();
+		};
 
 
 
@@ -3341,8 +3361,15 @@ function Update_building_cost(building) {
 }
 
 
-function Save() {
+function Save(username) {
 	var user=getCookie("current_user");
+	if(user){
+		var AUTHOR_URL = 'http://localhost:5000/save/'.concat(user);
+	}else if(username){
+		var AUTHOR_URL = 'http://localhost:5000/save/'.concat(username);
+	}else{
+		//error
+	}
 	var formated_save_data ={
 		metal_info:{
 			current_owned: metal.current_owned,
@@ -3386,7 +3413,10 @@ function Save() {
 			current_cost_metal:dm_lab.current_cost_metal,
 			base_cost_metal: dm_lab.base_cost_metal,
 			current_cost_crystal:dm_lab.current_cost_crystal,
-			base_cost_crystal: dm_lab.base_cost_crystal
+			base_cost_crystal: dm_lab.base_cost_crystal,
+			income:dm_lab.income,
+			timer:dm_lab.timer
+
 
 		},
 		level_info:{
@@ -3397,7 +3427,56 @@ function Save() {
 			current_level:level.current_level,
 			color1: level.color1,
 			color2: level.color2
-		}
+		},
+		raids_info:{
+			Oatis:{
+				timer:raids.Oatis.timer,
+				unlocked:raids.Oatis.unlocked
+			},
+			Clade:{
+				timer:raids.Clade.timer,
+				unlocked:raids.Clade.unlocked
+			},
+			Neibos:{
+				timer:raids.Neibos.timer,
+				unlocked:raids.Neibos.unlocked
+
+			},
+			Veotis:{
+				timer:raids.Veotis.timer,
+				unlocked:raids.Veotis.unlocked
+			},
+			Shora:{
+				timer:raids.Shora.timer,
+				unlocked:raids.Shora.unlocked
+			},
+			Dasloth:{
+				timer:raids.Dasloth.timer,
+				unlocked:raids.Dasloth.unlocked
+			},
+			Aria:{
+				timer:raids.Aria.timer,
+				unlocked:raids.Aria.unlocked
+			},
+			Juiria:{
+				timer:raids.Juiria.timer,
+				unlocked:raids.Juiria.unlocked
+			},
+			Stara:{
+				timer:raids.Stara.timer,
+				unlocked:raids.Stara.unlocked
+			},
+			Quamia:{
+				timer:raids.Quamia.timer,
+				unlocked:raids.Quamia.unlocked
+			},
+			Nosmov:{
+				timer:raids.Nosmov.timer,
+				unlocked:raids.Nosmov.unlocked
+			}
+		},
+		artifacts_info: artifacts,
+		ships_info: ships
 	};
 
 
@@ -3410,9 +3489,6 @@ function Save() {
 	
 
 
-
-
-  	var AUTHOR_URL = 'http://localhost:5000/save/'.concat(user);
 		$.ajax({
         type: "POST",
         url: AUTHOR_URL,
@@ -3426,17 +3502,102 @@ function Save() {
 
 
 function Load(username) {
-	var x = document.cookie;
-	console.log(x);
 
-  	var AUTHOR_URL = 'http://localhost:5000/load/'.concat("username");
+	var user=getCookie("current_user");
+	if(user){
+		var AUTHOR_URL = 'http://localhost:5000/load/'.concat(user);
+	}else if(username){
+		var AUTHOR_URL = 'http://localhost:5000/load/'.concat(username);
+	}else{
+		//error
+	}
+	
+
+  	
 		 $.ajax({
-        type: "POST",
-        url: "/json",
-        data: artifacts,
+        type: "GET",
+        url: AUTHOR_URL,
         dataType: "json"            
     }).done(function(data){
-        console.log(data);
+    	var json = JSON.stringify(eval("(" + data + ")"));
+        var json_result = JSON.parse(json);
+    	//console.log(json_result);
+		crystal.current_mine_level = json_result.crystal_info.current_mine_level;
+		crystal.current_owned = json_result.crystal_info.current_owned;
+		crystal.current_cost = json_result.crystal_info.current_cost;
+		crystal.income = json_result.crystal_info.income;
+		crystal.income_base = json_result.crystal_info.income_base;
+		crystal.ori_cost = json_result.crystal_info.ori_cost;
+
+		metal.current_mine_level = json_result.metal_info.current_mine_level;
+		metal.current_owned = json_result.metal_info.current_owned;
+		metal.current_cost = json_result.metal_info.current_cost;
+		metal.income = json_result.metal_info.income;
+		metal.income_base = json_result.metal_info.income_base;
+		metal.ori_cost = json_result.metal_info.ori_cost;
+
+		dark_matter.current_owned = json_result.dm_info.current_owned
+		dark_matter.based_increase = json_result.dm_info.based_increase
+        dark_matter.current_increase =  json_result.dm_info.current_increase
+
+
+        shipyard.current_lab_level = json_result.shipyard_info.current_lab_level;
+		shipyard.current_cost_metal = json_result.shipyard_info.current_cost_metal;
+		shipyard.base_cost_metal = json_result.shipyard_info.base_cost_metal;
+		shipyard.current_cost_crystal = json_result.shipyard_info.current_cost_crystal;
+		shipyard.base_cost_crystal = json_result.shipyard_info.base_cost_crystal;
+		
+
+		research_lab.current_lab_level = json_result.research_lab_info.current_lab_level;
+		research_lab.current_cost_metal = json_result.research_lab_info.current_cost_metal;
+		research_lab.base_cost_metal = json_result.research_lab_info.base_cost_metal;
+		research_lab.current_cost_crystal = json_result.research_lab_info.current_cost_crystal;
+		research_lab.base_cost_crystal = json_result.research_lab_info.base_cost_crystal;
+
+		dm_lab.current_lab_level = json_result.dm_lab_info.current_lab_level;
+		dm_lab.current_cost_metal = json_result.dm_lab_info.current_cost_metal;
+		dm_lab.base_cost_metal = json_result.dm_lab_info.base_cost_metal;
+		dm_lab.current_cost_crystal = json_result.dm_lab_info.current_cost_crystal;
+		dm_lab.base_cost_crystal = json_result.dm_lab_info.base_cost_crystal;
+		dm_lab.income = json_result.dm_lab_info.income;
+		dm_lab.timer = json_result.dm_lab_info.timer;
+
+		level.level_metal_req = json_result.level_info.level_metal_req;
+		level.level_crystal_req = json_result.level_info.level_crystal_req;
+		level.level_metal_req_ori = json_result.level_info.level_metal_req_ori;
+		level.level_crystal_req_ori = json_result.level_info.level_crystal_req_ori;
+		level.current_level = json_result.level_info.current_level;
+		level.color1 = json_result.level_info.color1;
+		level.color2 = json_result.level_info.color2;
+		
+		raids.Oatis.timer = json_result.raids_info.Oatis.timer;
+		raids.Oatis.unlocked = json_result.raids_info.Oatis.unlocked;
+		raids.Clade.timer = json_result.raids_info.Clade.timer;
+		raids.Clade.unlocked = json_result.raids_info.Clade.unlocked;
+		raids.Neibos.timer = json_result.raids_info.Neibos.timer;
+		raids.Neibos.unlocked = json_result.raids_info.Neibos.unlocked;
+		raids.Veotis.timer = json_result.raids_info.Veotis.timer;
+		raids.Veotis.unlocked = json_result.raids_info.Veotis.unlocked;
+		raids.Shora.timer = json_result.raids_info.Shora.timer;
+		raids.Shora.unlocked = json_result.raids_info.Shora.unlocked;
+		raids.Dasloth.timer = json_result.raids_info.Dasloth.timer;
+		raids.Dasloth.unlocked = json_result.raids_info.Dasloth.unlocked;
+		raids.Aria.timer = json_result.raids_info.Aria.timer;
+		raids.Aria.unlocked = json_result.raids_info.Aria.unlocked;
+		raids.Juiria.timer = json_result.raids_info.Juiria.timer;
+		raids.Juiria.unlocked = json_result.raids_info.Juiria.unlocked;
+		raids.Stara.timer = json_result.raids_info.Stara.timer;
+		raids.Stara.unlocked = json_result.raids_info.Stara.unlocked;
+		raids.Quamia.timer = json_result.raids_info.Quamia.timer;
+		raids.Quamia.unlocked = json_result.raids_info.Quamia.unlocked;
+		raids.Nosmov.timer = json_result.raids_info.Nosmov.timer;
+		raids.Nosmov.unlocked = json_result.raids_info.Nosmov.unlocked;
+
+		artifacts = json_result.artifacts_info;
+		ships = json_result.ships_info;
+
+
+
     });
 }
 
@@ -3452,4 +3613,9 @@ function getCookie(cname) {
         }
     }
     return "";
+}
+
+function Reload(username) {
+	Save();
+	Load();
 }

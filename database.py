@@ -7,12 +7,8 @@ c = conn.cursor()
 
 #Create table
 c. execute('''CREATE TABLE IF NOT EXISTS users(username text, password text, email text, info_set integer)''')
-c. execute('''CREATE TABLE IF NOT EXISTS artifacts_1(username text, info text)''')
+c. execute('''CREATE TABLE IF NOT EXISTS artifacts_ships_1(username text, info text)''')
 c. execute('''CREATE TABLE IF NOT EXISTS resources_1(username text, info text)''')
-c. execute('''CREATE TABLE IF NOT EXISTS ships_1(username text, info text)''')
-c. execute('''CREATE TABLE IF NOT EXISTS artifacts_2(username text, info text)''')
-c. execute('''CREATE TABLE IF NOT EXISTS resources_2(username text, info text)''')
-c. execute('''CREATE TABLE IF NOT EXISTS ships_3(username text, info text)''')
 
 ########################### NOTIFICATIONS #############################
 def login_user(username,pwd):
@@ -37,6 +33,7 @@ def register_user(username, pwd, email):
 	if(c.fetchall()):
 		return 0
 	c.execute("INSERT INTO users VALUES (?,?,?,?)", [username, pwd, email, "1"])
+	c.execute("INSERT INTO resources_1 VALUES (?,?)", [username, "new_user"])
 	conn.commit()
 	return 1
 
@@ -45,6 +42,12 @@ def update_tutorial(user):
 	conn.commit()
 
 def save_user(user, data):
-	print(user)
-	print(data)
+	c.execute("UPDATE resources_1 SET info = ? WHERE username = ? ", [str(data), user])
 	conn.commit()
+
+def load_user(user):
+	c.execute("SELECT info FROM resources_1 WHERE username = ?", [user])
+	result = c.fetchall()
+	if(result):
+		return result
+	return "error_no_user"
