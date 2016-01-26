@@ -314,18 +314,18 @@
 			<div id="LF_form" class="assemble_form">
 				<form>
 				<h4><div class="ship_assemble_attack"><img src="assets/images/sword.png" class="stat_img"/><b>{{format_number(LF_fleet_Attk)}}</b></div>
-				
+
 				</h4>
 				<h4>
 				<img src="assets/images/Ships/light_fighter.jpg" class="ships_assemble_img" /> &nbsp Light Fighter
-				
+
 				</h4>
-				
+
 
 				<input type="range" name="amountRange" ng-model="LF_Slider" min="0" max={{ships.light_fighter.current_owned}} value="0" oninput="this.form.amountInput.value=this.value" />
 				<input name="amountInput" ng-model="LF_Text" min="0" max={{ships.light_fighter.current_owned}} value="0" oninput="this.form.amountRange.value=this.value" ng-style="{position:'relative', width:'45px'}"/>
 				</form>
-				
+
 				<div class="battle_div_enemies" ng-repeat="skill in ships.light_fighter.skills">
 					<div ng-if="skill.unlocked==1" class="battle_assemble_skill tooltip_ship_skill"><img ng-src="{{skills_info.skills[find_index(skill.name, skills_info.skills)].src}}" class="ship_skill_img_battle"/>
 						<span>{{skill.name}}-<br/><br/>
@@ -339,7 +339,7 @@
 
 
 
-				
+
 			</div>
 
 
@@ -351,7 +351,7 @@
 			</h4>
 			<h4>
 			<img src="assets/images/Ships/heavy_fighter.jpg" class="ships_assemble_img" /> &nbsp Heavy Fighter
-				
+
 			</h4>
 
 			<input type="range" name="amountRange" ng-model="HF_Slider" min="0" max={{ships.heavy_fighter.current_owned}} value="0" oninput="this.form.amountInput.value=this.value" />
@@ -371,7 +371,7 @@
 
 
 
-			
+
 		</div>
 
 
@@ -383,7 +383,7 @@
 			</h4>
 			<h4>
 			<img src="assets/images/Ships/worg.jpg" class="ships_assemble_img" /> &nbsp Worg
-				
+
 			</h4>
 
 			<input type="range" name="amountRange" ng-model="WG_Slider" min="0" max={{ships.worg.current_owned}} value="0" oninput="this.form.amountInput.value=this.value" />
@@ -403,7 +403,7 @@
 
 
 
-			
+
 		</div>
 
 
@@ -415,7 +415,7 @@
 			</h4>
 			<h4>
 			<img src="assets/images/Ships/destroyer.jpg" class="ships_assemble_img" /> &nbsp Destroyer
-				
+
 			</h4>
 
 			<input type="range" name="amountRange" ng-model="DS_Slider" min="0" max={{ships.destroyer.current_owned}} value="0" oninput="this.form.amountInput.value=this.value" />
@@ -435,7 +435,7 @@
 
 
 
-			
+
 		</div>
 
 
@@ -447,7 +447,7 @@
 			</h4>
 			<h4>
 			<img src="assets/images/Ships/succubus.jpg" class="ships_assemble_img" /> &nbsp Succubus
-				
+
 			</h4>
 
 			<input type="range" name="amountRange" ng-model="SU_Slider" min="0" max={{ships.succubus.current_owned}} value="0" oninput="this.form.amountInput.value=this.value" />
@@ -467,7 +467,7 @@
 
 
 
-			
+
 		</div>
 
 
@@ -479,7 +479,7 @@
 			</h4>
 			<h4>
 			<img src="assets/images/Ships/colossus.jpg" class="ships_assemble_img" /> &nbsp Colossus
-				
+
 			</h4>
 
 			<input type="range" name="amountRange" ng-model="COL_Slider" min="0" max={{ships.colossus.current_owned}} value="0" oninput="this.form.amountInput.value=this.value" />
@@ -499,7 +499,7 @@
 
 
 
-			
+
 		</div>
 
 
@@ -512,7 +512,7 @@
 			</h4>
 			<h4>
 			<img src="assets/images/Ships/medusa.jpg" class="ships_assemble_img" /> &nbsp Medusa
-				
+
 			</h4>
 
 			<input type="range" name="amountRange" ng-model="MD_Slider" min="0" max={{ships.medusa.current_owned}} value="0" oninput="this.form.amountInput.value=this.value" />
@@ -532,7 +532,7 @@
 
 
 
-			
+
 		</div>
 
 
@@ -545,7 +545,7 @@
 			</h4>
 			<h4>
 			<img src="assets/images/Ships/science_vessel.jpg" class="ships_assemble_img" /> &nbsp Science Vessel
-				
+
 			</h4>
 
 			<input type="range" name="amountRange" ng-model="SV_Slider" min="0" max={{ships.science_vessel.current_owned}} value="0" oninput="this.form.amountInput.value=this.value" />
@@ -565,7 +565,7 @@
 
 
 
-			
+
 		</div>
 
 
@@ -577,7 +577,7 @@
 				</h4>
 				<h4>
 				<img src="assets/images/Ships/pantheon.jpg" class="ships_assemble_img" /> &nbsp Pantheon
-					
+
 				</h4>
 
 				<input type="range" name="amountRange" ng-model="PTH_Slider" min="0" max={{ships.pantheon.current_owned}} value="0" oninput="this.form.amountInput.value=this.value" />
@@ -597,7 +597,7 @@
 
 
 
-				
+
 			</div>
 		</div>
 
@@ -705,13 +705,13 @@
 				<div class="battle_div_attack"><h5><b><img src="assets/images/sword.png" class="stat_img"/> {{format_number(current_LF_Attack)}}<br/></b></h5></div>
 			<br/><br/>
 			</div>
-			
+
 			<div id="HF_battle" ng-if="ships.heavy_fighter.assembled>0" class="battle_div battle_div_friendly">
 				<h4><img src="assets/images/Ships/heavy_fighter.jpg" class="ships_assemble_img" /> &nbsp Heavy Fighter Fleet ({{format_number(ships.heavy_fighter.assembled)}})</h4>
 				<div class="battle_div_attack"><h5><b><img src="assets/images/sword.png" class="stat_img"/> {{format_number(current_HF_Attack)}}<br/></b></h5></div>
 			<br/><br/>
 			</div>
-			
+
 			<div id="WG_battle" ng-if="ships.worg.assembled>0" class="battle_div battle_div_friendly">
 				<h4><img src="assets/images/Ships/worg.jpg" class="ships_assemble_img" /> &nbsp Worg Fleet ({{format_number(ships.worg.assembled)}})</h4>
 				<div class="battle_div_attack"><h5><b><img src="assets/images/sword.png" class="stat_img"/> {{format_number(current_WG_Attack)}}<br/></b></h5></div>
@@ -728,33 +728,33 @@
 			<div id="SU_battle" ng-if="ships.succubus.assembled>0" class="battle_div battle_div_friendly">
 				<h4><img src="assets/images/Ships/succubus.jpg" class="ships_assemble_img" /> &nbsp Succubus Fleet ({{format_number(ships.succubus.assembled)}})</h4>
 				<div class="battle_div_attack"><h5><b><img src="assets/images/sword.png" class="stat_img"/> {{format_number(current_SU_Attack)}}<br/></b></h5></div>
-			<br/><br/>	
+			<br/><br/>
 			</div>
 
 
 			<div id="COL_battle" ng-if="ships.colossus.assembled>0" class="battle_div battle_div_friendly">
 				<h4><img src="assets/images/Ships/colossus.jpg" class="ships_assemble_img" /> &nbsp Colossus Fleet ({{format_number(ships.colossus.assembled)}})</h4>
 				<div class="battle_div_attack"><h5><b><img src="assets/images/sword.png" class="stat_img"/> {{format_number(current_COL_Attack)}}<br/></b></h5></div>
-			<br/><br/>	
+			<br/><br/>
 			</div>
 
 			<div id="MD_battle" ng-if="ships.medusa.assembled>0" class="battle_div battle_div_friendly">
 				<h4><img src="assets/images/Ships/medusa.jpg" class="ships_assemble_img" /> &nbsp Medusa Fleet ({{format_number(ships.medusa.assembled)}})</h4>
 				<div class="battle_div_attack"><h5><b><img src="assets/images/sword.png" class="stat_img"/> {{format_number(current_MD_Attack)}}<br/></b></h5></div>
-			<br/><br/>	
+			<br/><br/>
 			</div>
 
 			<div id="SV_battle" ng-if="ships.science_vessel.assembled>0" class="battle_div battle_div_friendly">
 				<h4><img src="assets/images/Ships/science_vessel.jpg" class="ships_assemble_img" /> &nbsp Science Vessel Fleet ({{format_number(ships.science_vessel.assembled)}})</h4>
 				<div class="battle_div_attack"><h5><b><img src="assets/images/sword.png" class="stat_img"/> {{format_number(current_SV_Attack)}}<br/></b></h5></div>
-			<br/><br/>	
+			<br/><br/>
 			</div>
 
 
 			<div id="PTH_battle" ng-if="ships.pantheon.assembled>0" class="battle_div battle_div_friendly">
 				<h4><img src="assets/images/Ships/pantheon.jpg" class="ships_assemble_img" /> &nbsp Pantheon Fleet ({{format_number(ships.pantheon.assembled)}})</h4>
 				<div class="battle_div_attack"><h5><b><img src="assets/images/sword.png" class="stat_img"/> {{format_number(current_PTH_Attack)}}<br/></b></h5></div>
-			<br/><br/>	
+			<br/><br/>
 			</div>
 
 		</div>
@@ -788,7 +788,7 @@
 				<div class="battle_div_enemies_animate">
 					<h4><font color="#F63249"><img src="assets/images/Ships/light_fighter.jpg" class="ships_assemble_img" /> &nbsp {{enemy.name}} ({{enemy.info.amount}})</h4>
 					<div class="battle_div_attack"><h5><b><img src="assets/images/sword.png" class="stat_img"/> {{format_number(enemy.info.Attack * enemy.info.amount)}}</b></h5></div></font>
-					
+
 				</div>
 				<div class="battle_div_reward"><font color="#59D059"><b>+{{format_number(enemy.reward_metal * enemy.info.amount)}}</b></font><img src="assets/images/mineral.png" width="25" class ="artifact_img"/>&nbsp</div>
 				<div class="battle_div_reward"><font color="#59D059"><b>+{{format_number(enemy.reward_crystal * enemy.info.amount)}}</b></font><img src="assets/images/crystal.png" width="25" class ="artifact_img"/>&nbsp</div>
@@ -860,7 +860,7 @@
 	<script type="text/ng-template" id="post_battle_victory">
 	<div class="modal-header">
 		<button type="button" class="close" ng-click="currentModal.close();" aria-hidden="true">&times;</button>
-		<h3 class="modal-title" id ="modal-title">Vitory </h3>
+		<h3 class="modal-title" id ="modal-title">Victory </h3>
 	</div>
 
 

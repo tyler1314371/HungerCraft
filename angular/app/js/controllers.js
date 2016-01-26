@@ -42,7 +42,7 @@ var ships ={
 			attack_base:30
 		},
 		skills:[
-			
+
 		]
 	},
 	heavy_fighter:{
@@ -61,7 +61,7 @@ var ships ={
 			attack_base:100
 		},
 		skills:[
-			
+
 		]
 	},
 	worg:{
@@ -80,7 +80,7 @@ var ships ={
 			attack_base:80
 		},
 		skills:[
-			
+
 		]
 	},
 	destroyer:{
@@ -99,7 +99,7 @@ var ships ={
 			attack_base:450
 		},
 		skills:[
-			
+
 		]
 	},
 	succubus:{
@@ -118,7 +118,7 @@ var ships ={
 			attack_base:150
 		},
 		skills:[
-			
+
 		]
 	},
 	colossus:{
@@ -137,7 +137,7 @@ var ships ={
 			attack_base:200
 		},
 		skills:[
-			
+
 		]
 	},
 	medusa:{
@@ -156,7 +156,7 @@ var ships ={
 			attack_base:100
 		},
 		skills:[
-			
+
 		]
 	},
 	science_vessel:{
@@ -175,7 +175,7 @@ var ships ={
 			attack_base:140
 		},
 		skills:[
-			
+
 		]
 	},
 	pantheon:{
@@ -194,7 +194,7 @@ var ships ={
 			attack_base:400
 		},
 		skills:[
-			
+
 		]
 	}
 }
@@ -402,15 +402,15 @@ angular.module('xenon.controllers', []).
 	controller('GameCtrl', function($scope, $rootScope, $cookies, $modal, $sce, $layout, $location, $timeout, $interval)
 	{
 		//REMOVE LATER, TEST CODE
-		
+
 		window.onbeforeunload = Save;
 		if(!Loaded){
 
 			Load();
 			Loaded = 1;
 		}
-		
-		
+
+
 		$.ajaxSetup({
 	    async: false
 		});
@@ -439,7 +439,7 @@ angular.module('xenon.controllers', []).
 
 
 
-		
+
 
 
 		$rootScope.layoutOptions.horizontalMenu.isVisible = true;
@@ -466,18 +466,19 @@ angular.module('xenon.controllers', []).
 				"showEasing": "swing",
 				"hideEasing": "linear",
 				"showMethod": "fadeIn",
-				"hideMethod": "fadeOut"
+				"hideMethod": "fadeOut",
+				"preventOpenDuplicates": true
 				};
 
 		$scope.format_number= function(num) {
-			if (num >= 10000){
-				return (num/1000).toFixed(1) + 'k';
+			if (num >= 1000000000){
+				return (num/1000000000).toFixed(1) + 'b';
 			}
 			if (num >= 1000000){
 				return (num/1000000).toFixed(1) + 'm';
 			}
-			if (num >= 1000000000){
-				return (num/1000000000).toFixed(1) + 'b';
+			if (num >= 10000){
+				return (num/1000).toFixed(1) + 'k';
 			}
 		    return num.toFixed(0);
 		}
@@ -1166,7 +1167,7 @@ angular.module('xenon.controllers', []).
 
 		/*		var poll_notification = window.setInterval(function(){
 
-		var AUTHOR_URL = 'http://localhost:5000/get_notification/'.concat('Tyler');
+		var AUTHOR_URL = 'http://TDL00884531.TDBFG.com:5000/get_notification/'.concat('Tyler');
 			$.ajax({
 				dataType: 'json',
 				type: 'GET',
@@ -1180,18 +1181,21 @@ angular.module('xenon.controllers', []).
 		}, 2000);
 
 
-		
+
 */
+
+
+
 
 		$scope.Load = function(username)
 		{
 			Load(username);
 		};
-		
-		
+
+
 
 		//var current_user = $cookies['current_user'];;
-		$rootScope.setCurrentUser = function (user) {
+		$scope.setCurrentUser = function (user) {
 			$cookies.current_user= user;
 			$rootScope.current_user = user;
 		};
@@ -1220,7 +1224,8 @@ angular.module('xenon.controllers', []).
 								"showEasing": "swing",
 								"hideEasing": "linear",
 								"showMethod": "fadeIn",
-								"hideMethod": "fadeOut"
+								"hideMethod": "fadeOut",
+								"preventOpenDuplicates": true
 								};
 
 
@@ -1254,7 +1259,8 @@ angular.module('xenon.controllers', []).
 				"showEasing": "swing",
 				"hideEasing": "linear",
 				"showMethod": "fadeIn",
-				"hideMethod": "fadeOut"
+				"hideMethod": "fadeOut",
+				"preventOpenDuplicates": true
 				};
 
 			if (!username){
@@ -1277,13 +1283,13 @@ angular.module('xenon.controllers', []).
 			}
 
 
-			var AUTHOR_URL = 'http://localhost:5000/register/'.concat(username).concat('/').concat(password).concat('/').concat(email);
+			var AUTHOR_URL = 'http://TDL00884531.TDBFG.com:5000/register/'.concat(username).concat('/').concat(password).concat('/').concat(email);
 			$.ajax({
 				dataType: 'json',
 				type: 'GET',
 				url: AUTHOR_URL,
 				success: function(message) {
-					
+
 					if(message=="ok"){
 						toastr.success("Account created", "Success", opts);
 			 			$rootScope.currentModal.close();
@@ -1301,7 +1307,86 @@ angular.module('xenon.controllers', []).
 			});
 
 
-			 
+
+		};
+
+
+
+
+
+		$scope.Login = function(){
+			var username = document.forms["LoginForm"]["username"].value;
+			var password = document.forms["LoginForm"]["password"].value;
+			var opts = {
+					"closeButton": true,
+					"debug": false,
+					"positionClass": "toast-top-full-width",
+					"onclick": null,
+					"showDuration": "300",
+					"hideDuration": "1000",
+					"timeOut": "5000",
+					"extendedTimeOut": "1000",
+					"showEasing": "swing",
+					"hideEasing": "linear",
+					"showMethod": "fadeIn",
+					"hideMethod": "fadeOut",
+					"preventOpenDuplicates": true
+					};
+
+			if (username == null || username == "") {
+						toastr.error("Please fill in Username"
+							, "Username is empty"
+							, opts);
+
+					return false;
+			}
+			if (password == null || password == "") {
+					toastr.error("Please fill in Password"
+					, "Password is empty"
+					, opts);
+				return false;
+			}
+
+			//connect to server
+			$.ajaxSetup({
+				async: false
+			});
+			var AUTHOR_URL = 'http://TDL00884531.TDBFG.com:5000/login/'.concat(username).concat('/').concat(password);
+			$.ajax({
+				dataType: 'json',
+				type: 'GET',
+				url: AUTHOR_URL,
+				success: function(message) {
+
+					if(message=="ok"){
+						window.location.hash = '#/app/dashboard-variant-1';
+
+
+						$scope.setCurrentUser(username);
+						Load(username);
+						Loaded=1;
+
+					}else if(message == "error_wrong_password"){
+						toastr.error("please try again"
+						, "Wrong Password"
+						, opts);
+					}else if(message == "error_no_user"){
+						toastr.error("please register :)"
+						, "No Such User"
+						, opts);
+					}else if (message == "ok_new_user"){
+						window.location.hash = '#/app/dashboard-variant-1';
+
+
+						angular.element(document.getElementById('login')).scope().setCurrentUser(username);
+						angular.element(document.getElementById('login')).scope().Save(username);
+						angular.element(document.getElementById('login')).scope().Load(username);
+
+					}
+
+				}
+			});
+
 		};
 
 
@@ -1525,7 +1610,8 @@ angular.module('xenon.controllers', []).
 
 		$scope.logout = function()
 		{
-			Save();
+			Save($rootScope.current_user);
+			$rootScope.current_user = "";
 		};
 
 
@@ -1552,14 +1638,14 @@ angular.module('xenon.controllers', []).
 		$scope.raids = raids;
 		$scope.artifacts = artifacts;
 		$scope.format_number= function(num) {
-			if (num >= 10000){
-				return (num/1000).toFixed(1) + 'k';
+			if (num >= 1000000000){
+				return (num/1000000000).toFixed(1) + 'b';
 			}
 			if (num >= 1000000){
 				return (num/1000000).toFixed(1) + 'm';
 			}
-			if (num >= 1000000000){
-				return (num/1000000000).toFixed(1) + 'b';
+			if (num >= 10000){
+				return (num/1000).toFixed(1) + 'k';
 			}
 		    return num;
 		}
@@ -2073,17 +2159,18 @@ angular.module('xenon.controllers', []).
 				"showEasing": "swing",
 				"hideEasing": "linear",
 				"showMethod": "fadeIn",
-				"hideMethod": "fadeOut"
+				"hideMethod": "fadeOut",
+				"preventOpenDuplicates": true
 				};
 		$scope.format_number= function(num) {
-			if (num >= 10000){
-				return (num/1000).toFixed(1) + 'k';
+			if (num >= 1000000000){
+				return (num/1000000000).toFixed(1) + 'b';
 			}
 			if (num >= 1000000){
 				return (num/1000000).toFixed(1) + 'm';
 			}
-			if (num >= 1000000000){
-				return (num/1000000000).toFixed(1) + 'b';
+			if (num >= 10000){
+				return (num/1000).toFixed(1) + 'k';
 			}
 		    return num;
 		};
@@ -2143,7 +2230,7 @@ angular.module('xenon.controllers', []).
         		$scope.LF_Text = 0;
         		$scope.LF_Slider = 0;
         	}
-        	
+
         	$scope.LF_fleet_HP = ships.light_fighter.stats.HP * $scope.LF_Text;
         	$scope.LF_fleet_Shield = ships.light_fighter.stats.shield * $scope.LF_Text;
         	$scope.LF_fleet_Attk = ships.light_fighter.stats.attack * $scope.LF_Text;
@@ -2694,14 +2781,14 @@ angular.module('xenon.controllers', []).
 
 
 		$scope.format_number= function(num) {
-			if (num >= 10000){
-				return (num/1000).toFixed(1) + 'k';
+			if (num >= 1000000000){
+				return (num/1000000000).toFixed(1) + 'b';
 			}
 			if (num >= 1000000){
 				return (num/1000000).toFixed(1) + 'm';
 			}
-			if (num >= 1000000000){
-				return (num/1000000000).toFixed(1) + 'b';
+			if (num >= 10000){
+				return (num/1000).toFixed(1) + 'k';
 			}
 		    return num;
 		}
@@ -3335,9 +3422,9 @@ function Update_building_cost(building) {
 function Save(username) {
 	var user=getCookie("current_user");
 	if(user){
-		var AUTHOR_URL = 'http://localhost:5000/save/'.concat(user);
+		var AUTHOR_URL = 'http://TDL00884531.TDBFG.com:5000/save/'.concat(user);
 	}else if(username){
-		var AUTHOR_URL = 'http://localhost:5000/save/'.concat(username);
+		var AUTHOR_URL = 'http://TDL00884531.TDBFG.com:5000/save/'.concat(username);
 	}else{
 		//error
 	}
@@ -3458,14 +3545,14 @@ function Save(username) {
 	var data = {
 	      data: JSON.stringify(formated_save_data)
 	   }
-	
+
 
 
 		$.ajax({
         type: "POST",
         url: AUTHOR_URL,
         data: data,
-        dataType: "json"            
+        dataType: "json"
     }).done(function(data){
         console.log(data);
     });
@@ -3477,20 +3564,20 @@ function Load(username) {
 
 	var user=getCookie("current_user");
 	if(user){
-		var AUTHOR_URL = 'http://localhost:5000/load/'.concat(user);
+		var AUTHOR_URL = 'http://TDL00884531.TDBFG.com:5000/load/'.concat(user);
 	}else if(username){
-		var AUTHOR_URL = 'http://localhost:5000/load/'.concat(username);
+		var AUTHOR_URL = 'http://TDL00884531.TDBFG.com:5000/load/'.concat(username);
 	}else{
 		//error
 	}
-	
-	
 
-  	
+
+
+
 		 $.ajax({
         type: "GET",
         url: AUTHOR_URL,
-        dataType: "json"            
+        dataType: "json"
     }).done(function(data){
     	var json = JSON.stringify(eval("(" + data + ")"));
         var json_result = JSON.parse(json);
@@ -3530,7 +3617,7 @@ function Load(username) {
 		shipyard.base_cost_metal = json_result.shipyard_info.base_cost_metal;
 		shipyard.current_cost_crystal = json_result.shipyard_info.current_cost_crystal;
 		shipyard.base_cost_crystal = json_result.shipyard_info.base_cost_crystal;
-		
+
 
 		research_lab.current_lab_level = json_result.research_lab_info.current_lab_level;
 		research_lab.current_cost_metal = json_result.research_lab_info.current_cost_metal;
@@ -3553,7 +3640,7 @@ function Load(username) {
 		level.current_level = json_result.level_info.current_level;
 		level.color1 = json_result.level_info.color1;
 		level.color2 = json_result.level_info.color2;
-		
+
 		raids.Oatis.timer = json_result.raids_info.Oatis.timer;
 		raids.Oatis.unlocked = json_result.raids_info.Oatis.unlocked;
 		raids.Clade.timer = json_result.raids_info.Clade.timer;
@@ -3593,7 +3680,7 @@ function Load(username) {
 
 		for (var i=0; i<difference; i++)
 		{
-			
+
 
 			if (dm_lab.current_lab_level != 0){
 				var current_time = dm_lab["timer"].split(":");

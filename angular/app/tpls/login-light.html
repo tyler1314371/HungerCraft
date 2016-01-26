@@ -12,7 +12,7 @@
 				<div class="form-group">
 					<label for="field-1" class="control-label"><font color=black>UserName</font></label>
 
-					<input type="text" class="form-control" id="reg_username" placeholder="Enter Here..">
+					<input type="text" class="form-control" id="reg_username" placeholder="Jone Doe">
 				</div>
 
 			</div>
@@ -34,7 +34,7 @@
 				<div class="form-group">
 					<label for="field-3" class="control-label"><font color=black>Email Address</font></label>
 
-					<input type="text" class="form-control" id="reg_email" placeholder="Enter Here..">
+					<input type="text" class="form-control" id="reg_email" placeholder="We promise we won't send you any emails">
 				</div>
 
 			</div>
@@ -124,77 +124,7 @@
 
 
 
-				function login() {
-    			var username = document.forms["LoginForm"]["username"].value;
-					var password = document.forms["LoginForm"]["password"].value;
-					var opts = {
-							"closeButton": true,
-							"debug": false,
-							"positionClass": "toast-top-full-width",
-							"onclick": null,
-							"showDuration": "300",
-							"hideDuration": "1000",
-							"timeOut": "5000",
-							"extendedTimeOut": "1000",
-							"showEasing": "swing",
-							"hideEasing": "linear",
-							"showMethod": "fadeIn",
-							"hideMethod": "fadeOut"
-							};
-							
-					if (username == null || username == "") {
-				        toastr.error("Please fill in Username"
-									, "Username is empty"
-									, opts);
 
-							return false;
-		    	}
-					if (password == null || password == "") {
-							toastr.error("Please fill in Password"
-							, "Password is empty"
-							, opts);
-						return false;
-		    	}
-
-					//connect to server
-					$.ajaxSetup({
-				    async: false
-					});
-					var AUTHOR_URL = 'http://localhost:5000/login/'.concat(username).concat('/').concat(password);
-					$.ajax({
-						dataType: 'json',
-						type: 'GET',
-						url: AUTHOR_URL,
-						success: function(message) {
-							
-							if(message=="ok"){
-								window.location.hash = '#/app/dashboard-variant-1';
-
-
-								angular.element(document.getElementById('login')).scope().setCurrentUser(username);
-								
-							}else if(message == "error_wrong_password"){
-								toastr.error("please try again"
-								, "Wrong Password"
-								, opts);
-							}else if(message == "error_no_user"){
-								toastr.error("please register :)"
-								, "No Such User"
-								, opts);
-							}else if (message == "ok_new_user"){
-								window.location.hash = '#/app/dashboard-variant-1';
-
-
-								angular.element(document.getElementById('login')).scope().setCurrentUser(username);
-								angular.element(document.getElementById('login')).scope().Save(username);
-								angular.element(document.getElementById('login')).scope().Load(username);
-
-							}
-
-						}
-					});
-					
-				};
 
 
 
@@ -207,7 +137,7 @@
 			</div>
 
 			<!-- Add class "fade-in-effect" for login form effect -->
-			<form method="post" role="form" id="login" class="login-form fade-in-effect" onsubmit="login()" name="LoginForm">
+			<form method="post" role="form" id="login" class="login-form fade-in-effect" ng-submit="Login()" name="LoginForm">
 
 				<div class="login-header">
 					<img src="assets/images/WarpGate.png" alt="" width="350"/>

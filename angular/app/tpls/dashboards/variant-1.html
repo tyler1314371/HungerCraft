@@ -107,7 +107,7 @@
               <h4><div id="attention"><b>Metal Mine (Level {{metal.current_mine_level}})</b></div></h4>
             </td>
             <td ng-if="metal.current_mine_level==0" style="text-align: center; width: auto">
-              <h4><div id="attention"><b>????????</b></div></h4>
+              <h4><div id="attention"><b>(Unknown Building)</b></div></h4>
             </td>
         </tr>
       </table>
@@ -139,7 +139,7 @@
 
 
               <div class= "upgrade_button_resource">
-                
+
 
 
 
@@ -195,7 +195,7 @@
               <h4><div id="attention"><b>Crystal Mine (Level {{crystal.current_mine_level}})</b></div></h4>
             </td>
             <td ng-if="crystal.current_mine_level==0" style="text-align: center; width: auto">
-              <h4><div id="attention"><b>????????</b></div></h4>
+              <h4><div id="attention"><b>(Unknown Building)</b></div></h4>
             </td>
         </tr>
       </table>
@@ -225,7 +225,7 @@
 
 
               <div class= "upgrade_button_resource">
-                
+
                 <button ng-if="crystal.current_cost > crystal.current_owned" class="btn btn-grey btn-icon btn-icon-standalone btn-icon-standalone-right disabled">
                     <i class="fa-bolt" style="color:black"></i>
                     <span><font color="black">Upgrade</font></span>
@@ -283,7 +283,7 @@
               <h4><div id="attention"><b>Shipyard (Level {{shipyard.current_lab_level}})</b></div></h4>
             </td>
             <td ng-if="shipyard.current_lab_level==0" style="text-align: center; width: auto">
-              <h4><div id="attention"><b>????????</b></div></h4>
+              <h4><div id="attention"><b>(Unknown Building)</b></div></h4>
             </td>
         </tr>
       </table>
@@ -366,7 +366,7 @@
               <h4><div id="attention"><b>Research Lab (Level {{research_lab.current_lab_level}})</b></div></h4>
             </td>
             <td ng-if="research_lab.current_lab_level==0" style="text-align: center; width: auto">
-              <h4><div id="attention"><b>????????</b></div></h4>
+              <h4><div id="attention"><b>(Unknown Building)</b></div></h4>
             </td>
         </tr>
       </table>
@@ -407,7 +407,7 @@
               <font ng-if="research_lab.current_cost_crystal <= crystal.current_owned" color="#6AEB6A">{{format_number(research_lab.current_cost_crystal)}}</font>
               <img src="assets/images/crystal.png" width="25" class ="artifact_img"/>
               </b>
-              
+
 
             </td>
           </tr>
@@ -453,7 +453,7 @@
               <h4><div id="attention"><b>Dark Matter Lab (Level {{dm_lab.current_lab_level}})</b></div></h4>
             </td>
             <td ng-if="dm_lab.current_lab_level==0" style="text-align: center; width: auto">
-              <h4><div id="attention"><b>????????</b></div></h4>
+              <h4><div id="attention"><b>(Unknown Building)</b></div></h4>
             </td>
         </tr>
       </table>
@@ -497,7 +497,7 @@
                 <font ng-if="dm_lab.current_cost_crystal <= crystal.current_owned" color="#6AEB6A">{{format_number(dm_lab.current_cost_crystal)}}</font>
                 <img src="assets/images/crystal.png" width="25" class ="artifact_img"/>
                 </b>
-                
+
               </div>
 
             </td>
