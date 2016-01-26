@@ -28,8 +28,8 @@ def register(user_id,pwd,email):
 @cross_origin()
 def save(user_id):
 
-	data = json.loads(request.form.get('data'))
-	save_user(user_id,data);
+	#data = json.loads(request.form.get('data'))
+	save_user(user_id,request.form.get('data'));
 	return json.dumps("save")
 
 @app.route("/load/<user_id>")

@@ -405,41 +405,12 @@ angular.module('xenon.controllers', []).
 		
 		window.onbeforeunload = Save;
 		if(!Loaded){
+
 			Load();
 			Loaded = 1;
 		}
 		
 		
-
-
-		$scope.unlock_test = function(){
-
-		    for (var key in artifacts) {
-				 artifacts[key]["unlocked"] = 1;
-				}
-			for (var key in ships) {
-				 ships[key]["unlocked"] = 1;
-				 for (var skill in ships[key]['skills']){
-				 	ships[key]['skills'][skill]['unlocked'] = 1;
-				 }
-
-				}
-			for (var key in raids) {
-				 raids[key]["unlocked"] = 1;
-				}
-		};
-		$scope.lock_test = function(){
-
-		    for (var key in artifacts) {
-				 artifacts[key]["unlocked"] = 0;
-				}
-			for (var key in ships) {
-				 ships[key]["unlocked"] = 0;
-				}
-			for (var key in raids) {
-				 raids[key]["unlocked"] = 0;
-				}
-		};
 		$.ajaxSetup({
 	    async: false
 		});
@@ -3476,7 +3447,8 @@ function Save(username) {
 			}
 		},
 		artifacts_info: artifacts,
-		ships_info: ships
+		ships_info: ships,
+		last_logout_date: new Date()
 	};
 
 
@@ -3512,6 +3484,7 @@ function Load(username) {
 		//error
 	}
 	
+	
 
   	
 		 $.ajax({
@@ -3522,6 +3495,17 @@ function Load(username) {
     	var json = JSON.stringify(eval("(" + data + ")"));
         var json_result = JSON.parse(json);
     	//console.log(json_result);
+
+
+		var a = new Date();
+		var b = new Date(json_result.last_logout_date)
+
+		var difference = (a - b) / 1000;
+		console.log(difference);
+
+
+
+
 		crystal.current_mine_level = json_result.crystal_info.current_mine_level;
 		crystal.current_owned = json_result.crystal_info.current_owned;
 		crystal.current_cost = json_result.crystal_info.current_cost;
@@ -3595,6 +3579,137 @@ function Load(username) {
 
 		artifacts = json_result.artifacts_info;
 		ships = json_result.ships_info;
+
+		Update_metal_income();
+		Update_crystal_income();
+		if (metal.income!=0){
+				metal.current_owned = Math.round(metal.current_owned + metal.income * difference);
+			}
+		if (crystal.income!=0){
+						crystal.current_owned = Math.round(crystal.current_owned + crystal.income * difference);
+					}
+
+
+
+		for (var i=0; i<difference; i++)
+		{
+			
+
+			if (dm_lab.current_lab_level != 0){
+				var current_time = dm_lab["timer"].split(":");
+				var hour = Number(current_time[0]);
+				var minute = Number(current_time[1]);
+				var second = Number(current_time[2]);
+
+
+				if(second == 0 && minute ==0 && hour ==0){
+
+					dark_matter.current_owned+=(dm_lab['current_lab_level']*1);
+					dm_lab["timer"]="24:00:00";
+
+				}
+
+				second -= 1;
+
+				if(second < 0){
+					second = 0;
+					minute -=1;
+					if(minute<0){
+						minute = 0;
+						if(hour!=0){
+							hour-=1;
+							minute+=59;
+							second+=59;
+						}
+					}else
+					{
+						second+=59;
+					}
+				}
+
+
+
+				//parse back
+
+				if(hour<10){
+					hour = "0"+String(hour);
+				}else{
+					hour = String(hour);
+				}
+				if(minute<10){
+					minute = "0"+String(minute);
+				}else{
+					minute = String(minute);
+				}
+				if(second<10){
+					second = "0"+String(second);
+				}else{
+					second = String(second);
+				}
+
+
+				dm_lab["timer"] = hour+":"+minute+":"+second
+
+			}
+
+
+
+			for (var key in raids) {
+				var current_time = raids[key]["timer"].split(":");
+				var hour = Number(current_time[0]);
+				var minute = Number(current_time[1]);
+				var second = Number(current_time[2]);
+
+
+
+				if(second == 0 && minute ==0 && hour ==0){
+					continue;
+				}
+
+				second -= 1;
+
+				if(second < 0){
+					second = 0;
+					minute -=1;
+					if(minute<0){
+						minute = 0;
+						if(hour!=0){
+							hour-=1;
+							minute+=59;
+							second+=59;
+						}
+					}else
+					{
+						second+=59;
+					}
+				}
+
+
+
+				//parse back
+
+				if(hour<10){
+					hour = "0"+String(hour);
+				}else{
+					hour = String(hour);
+				}
+				if(minute<10){
+					minute = "0"+String(minute);
+				}else{
+					minute = String(minute);
+				}
+				if(second<10){
+					second = "0"+String(second);
+				}else{
+					second = String(second);
+				}
+
+
+				raids[key]["timer"] = hour+":"+minute+":"+second
+
+			}
+
+		}
 
 
 
