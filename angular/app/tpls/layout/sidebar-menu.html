@@ -1,9 +1,9 @@
 <style media="screen" type="text/css">
 
 
-.artifact_tooltip_uncommon { position: relative; display: inline;}
-.artifact_tooltip_uncommon span { display: none; color: #FFFFFF; }
-.artifact_tooltip_uncommon:hover span {
+.artifact_uncommon { position: relative; display: inline;}
+.artifact_uncommon span { display: none; color: #FFFFFF; }
+.artifact_uncommon:hover span {
 	display: block;
 	position: absolute;
 	width: 200px;
@@ -17,9 +17,9 @@
     border-color: #6AEB6A;
     border-radius: 7px;
 	z-index: 11;}
-.artifact_tooltip_rare { position: relative; }
-.artifact_tooltip_rare span { display: none; color: #FFFFFF; }
-.artifact_tooltip_rare:hover span {
+.artifact_rare { position: relative; }
+.artifact_rare span { display: none; color: #FFFFFF; }
+.artifact_rare:hover span {
 	display: block;
 	position: absolute;
 	width: auto;
@@ -32,9 +32,9 @@
 	border-style: solid;
     border-color: #4646F3;
     border-radius: 7px; }
-.artifact_tooltip_epic { position: relative; }
-.artifact_tooltip_epic span { display: none; color: #FFFFFF; }
-.artifact_tooltip_epic:hover span {
+.artifact_epic { position: relative; }
+.artifact_epic span { display: none; color: #FFFFFF; }
+.artifact_epic:hover span {
 	display: block;
 	position: absolute;
 	width: auto;
@@ -47,9 +47,9 @@
 	border-style: solid;
     border-color: #C741C7;
     border-radius: 7px; }
-.artifact_tooltip_legendary { position: relative; }
-.artifact_tooltip_legendary span { display: none; color: #FFFFFF; }
-.artifact_tooltip_legendary:hover span {
+.artifact_legendary { position: relative; }
+.artifact_legendary span { display: none; color: #FFFFFF; }
+.artifact_legendary:hover span {
 	display: block;
 	position: absolute;
 	width: auto;
@@ -314,13 +314,13 @@
 
 	<div class="modal-body" ng-controller="GameCtrl">
 
-			
+
 			<table id="skill_tree" style="width:60%">
 
 					<tr>
 						<td style="position: relative; width= 100px;">
 
-							<div ng-if="artifacts.artifact_list[0].current_owned!=0" class="artifact_tooltip_uncommon"><img ng-src="{{artifacts.artifact_list[0].img_src}}" width="50" class ="artifact_img"/>&nbsp&nbsp x <div id="attention"> {{artifacts.artifact_list[0].current_owned}}</div>
+							<div ng-if="artifacts.artifact_list[0].current_owned!=0" class="{{artifacts.artifact_list[0].rarity}}"><img ng-src="{{artifacts.artifact_list[0].img_src}}" width="50" class ="artifact_img"/>&nbsp&nbsp x <div id="attention"> {{artifacts.artifact_list[0].current_owned}}</div>
 																									<span><h5>{{artifacts.artifact_list[0].name}}-</h5>
 
 																									<br/>
@@ -331,7 +331,7 @@
 																									</span>
 																									<br />
 							</div>
-							<div ng-if="artifacts.artifact_list[0].current_owned==0" class="artifact_tooltip_uncommon"><img src="assets/images/locked.png" width="50" class ="artifact_img"/>
+							<div ng-if="artifacts.artifact_list[0].current_owned==0" class="{{artifacts.artifact_list[0].rarity}}"><img src="assets/images/locked.png" width="50" class ="artifact_img"/>
 							<font color="#FD3636">(Undiscovered)</font>
 																									<span>{{artifacts.artifact_list[0].name}}-<br/>
 
@@ -353,7 +353,7 @@
 					<tr>
 						<td style="position: relative; width= 100px;">
 
-							<div ng-if="artifacts.artifact_list[1].current_owned!=0" class="artifact_tooltip_uncommon"><img ng-src="{{artifacts.artifact_list[1].img_src}}" width="50" class ="artifact_img"/>&nbsp&nbsp x <div id="attention"> {{artifacts.artifact_list[1].current_owned}}</div>
+							<div ng-if="artifacts.artifact_list[1].current_owned!=0" class="{{artifacts.artifact_list[1].rarity}}"><img ng-src="{{artifacts.artifact_list[1].img_src}}" width="50" class ="artifact_img"/>&nbsp&nbsp x <div id="attention"> {{artifacts.artifact_list[1].current_owned}}</div>
 																									<span><h5>{{artifacts.artifact_list[1].name}}-</h5>
 
 																									<br/>
@@ -364,7 +364,7 @@
 																									</span>
 																									<br />
 							</div>
-							<div ng-if="artifacts.artifact_list[1].current_owned==0" class="artifact_tooltip_uncommon"><img src="assets/images/locked.png" width="50" class ="artifact_img"/>
+							<div ng-if="artifacts.artifact_list[1].current_owned==0" class="{{artifacts.artifact_list[1].rarity}}"><img src="assets/images/locked.png" width="50" class ="artifact_img"/>
 							<font color="#FD3636">(Undiscovered)</font>
 																									<span>{{artifacts.artifact_list[1].name}}-<br/>
 

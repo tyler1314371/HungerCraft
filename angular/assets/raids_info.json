@@ -249,5 +249,869 @@
 			}
 		}
 
+	},
+	"Neibos": {
+		"normal": {
+			"floor_num":5,
+			"floor_description":[
+				"1", "2", "3"
+			],
+			"floors": {
+				"1": [
+					{
+						"name":"Oatis Light Fighter",
+						"img_src": "assets/images/Ships/light_fighter.jpg",
+						"reward_metal":2000,
+						"reward_crystal":1000,
+						"boss":0,
+						"info" : {
+							"HP": 2400,
+							"Shields": 100,
+							"Attack": 55,
+							"Skills": ["1", "2"],
+							"amount": 10
+						}
+					}
+
+				],
+				"2": [
+					{
+						"name":"Oatis Light Fighter",
+						"img_src": "assets/images/Ships/light_fighter.jpg",
+						"reward_metal":2000,
+						"reward_crystal":1000,
+						"boss":0,
+						"info" : {
+							"HP": 2400,
+							"Shields": 100,
+							"Attack": 55,
+							"Skills": ["1", "2"],
+							"amount": 20
+						}
+					},
+					{
+
+						"name":"Oatis Heavy Fighter",
+						"img_src": "assets/images/Ships/light_fighter.jpg",
+						"reward_metal":4000,
+						"reward_crystal":2000,
+						"boss":0,
+						"info" : {
+							"HP": 3500,
+							"Shields": 400,
+							"Attack": 110,
+							"Skills": ["1", "2"],
+							"amount": 5
+						}
+					},
+					{
+
+						"name":"Oatis Cannon",
+						"img_src": "assets/images/Ships/light_fighter.jpg",
+						"reward_metal":8000,
+						"reward_crystal":0,
+						"boss":0,
+						"info" : {
+							"HP": 4000,
+							"Shields": 1000,
+							"Attack": 40,
+							"Skills": ["1", "2"],
+							"amount": 3
+						}
+					}
+				],
+				"3": [
+					{
+						"name":"Devil's Rage",
+						"img_src": "assets/images/Ships/light_fighter.jpg",
+						"reward_metal":50000,
+						"reward_crystal":10000,
+						"boss":1,
+						"info" : {
+							"HP": 100000,
+							"Shields": 10000,
+							"Attack": 1500,
+							"Skills": ["1", "2"],
+							"amount": 1
+						}
+					}
+				]
+			},
+			"drops": {
+				"uncommon": ["Shard of Coldness", "Dust of Greed"],
+				"rare": ["rare"],
+				"epic": ["epic"],
+				"legendary": ["legendary"]
+			}
+		}
+
+	},
+	"Veotis": {
+		"normal": {
+			"floor_num":3,
+			"floor_description":[
+				"1", "2", "3"
+			],
+			"floors": {
+				"1": [
+					{
+						"name":"Oatis Light Fighter",
+						"img_src": "assets/images/Ships/light_fighter.jpg",
+						"reward_metal":2000,
+						"reward_crystal":1000,
+						"boss":0,
+						"info" : {
+							"HP": 2400,
+							"Shields": 100,
+							"Attack": 55,
+							"Skills": ["1", "2"],
+							"amount": 10
+						}
+					}
+
+				],
+				"2": [
+					{
+						"name":"Oatis Light Fighter",
+						"img_src": "assets/images/Ships/light_fighter.jpg",
+						"reward_metal":2000,
+						"reward_crystal":1000,
+						"boss":0,
+						"info" : {
+							"HP": 2400,
+							"Shields": 100,
+							"Attack": 55,
+							"Skills": ["1", "2"],
+							"amount": 20
+						}
+					},
+					{
+
+						"name":"Oatis Heavy Fighter",
+						"img_src": "assets/images/Ships/light_fighter.jpg",
+						"reward_metal":4000,
+						"reward_crystal":2000,
+						"boss":0,
+						"info" : {
+							"HP": 3500,
+							"Shields": 400,
+							"Attack": 110,
+							"Skills": ["1", "2"],
+							"amount": 5
+						}
+					},
+					{
+
+						"name":"Oatis Cannon",
+						"img_src": "assets/images/Ships/light_fighter.jpg",
+						"reward_metal":8000,
+						"reward_crystal":0,
+						"boss":0,
+						"info" : {
+							"HP": 4000,
+							"Shields": 1000,
+							"Attack": 40,
+							"Skills": ["1", "2"],
+							"amount": 3
+						}
+					}
+				],
+				"3": [
+					{
+						"name":"Devil's Rage",
+						"img_src": "assets/images/Ships/light_fighter.jpg",
+						"reward_metal":50000,
+						"reward_crystal":10000,
+						"boss":1,
+						"info" : {
+							"HP": 100000,
+							"Shields": 10000,
+							"Attack": 1500,
+							"Skills": ["1", "2"],
+							"amount": 1
+						}
+					}
+				]
+			},
+			"drops": {
+				"uncommon": ["Shard of Coldness", "Dust of Greed"],
+				"rare": ["rare"],
+				"epic": ["epic"],
+				"legendary": ["legendary"]
+			}
+		}
+
+	},
+	"Shora": {
+		"normal": {
+			"floor_num":3,
+			"floor_description":[
+				"1", "2", "3"
+			],
+			"floors": {
+				"1": [
+					{
+						"name":"Oatis Light Fighter",
+						"img_src": "assets/images/Ships/light_fighter.jpg",
+						"reward_metal":2000,
+						"reward_crystal":1000,
+						"boss":0,
+						"info" : {
+							"HP": 2400,
+							"Shields": 100,
+							"Attack": 55,
+							"Skills": ["1", "2"],
+							"amount": 10
+						}
+					}
+
+				],
+				"2": [
+					{
+						"name":"Oatis Light Fighter",
+						"img_src": "assets/images/Ships/light_fighter.jpg",
+						"reward_metal":2000,
+						"reward_crystal":1000,
+						"boss":0,
+						"info" : {
+							"HP": 2400,
+							"Shields": 100,
+							"Attack": 55,
+							"Skills": ["1", "2"],
+							"amount": 20
+						}
+					},
+					{
+
+						"name":"Oatis Heavy Fighter",
+						"img_src": "assets/images/Ships/light_fighter.jpg",
+						"reward_metal":4000,
+						"reward_crystal":2000,
+						"boss":0,
+						"info" : {
+							"HP": 3500,
+							"Shields": 400,
+							"Attack": 110,
+							"Skills": ["1", "2"],
+							"amount": 5
+						}
+					},
+					{
+
+						"name":"Oatis Cannon",
+						"img_src": "assets/images/Ships/light_fighter.jpg",
+						"reward_metal":8000,
+						"reward_crystal":0,
+						"boss":0,
+						"info" : {
+							"HP": 4000,
+							"Shields": 1000,
+							"Attack": 40,
+							"Skills": ["1", "2"],
+							"amount": 3
+						}
+					}
+				],
+				"3": [
+					{
+						"name":"Devil's Rage",
+						"img_src": "assets/images/Ships/light_fighter.jpg",
+						"reward_metal":50000,
+						"reward_crystal":10000,
+						"boss":1,
+						"info" : {
+							"HP": 100000,
+							"Shields": 10000,
+							"Attack": 1500,
+							"Skills": ["1", "2"],
+							"amount": 1
+						}
+					}
+				]
+			},
+			"drops": {
+				"uncommon": ["Shard of Coldness", "Dust of Greed"],
+				"rare": ["rare"],
+				"epic": ["epic"],
+				"legendary": ["legendary"]
+			}
+		}
+
+	},
+	"Dasloth": {
+		"normal": {
+			"floor_num":3,
+			"floor_description":[
+				"1", "2", "3"
+			],
+			"floors": {
+				"1": [
+					{
+						"name":"Oatis Light Fighter",
+						"img_src": "assets/images/Ships/light_fighter.jpg",
+						"reward_metal":2000,
+						"reward_crystal":1000,
+						"boss":0,
+						"info" : {
+							"HP": 2400,
+							"Shields": 100,
+							"Attack": 55,
+							"Skills": ["1", "2"],
+							"amount": 10
+						}
+					}
+
+				],
+				"2": [
+					{
+						"name":"Oatis Light Fighter",
+						"img_src": "assets/images/Ships/light_fighter.jpg",
+						"reward_metal":2000,
+						"reward_crystal":1000,
+						"boss":0,
+						"info" : {
+							"HP": 2400,
+							"Shields": 100,
+							"Attack": 55,
+							"Skills": ["1", "2"],
+							"amount": 20
+						}
+					},
+					{
+
+						"name":"Oatis Heavy Fighter",
+						"img_src": "assets/images/Ships/light_fighter.jpg",
+						"reward_metal":4000,
+						"reward_crystal":2000,
+						"boss":0,
+						"info" : {
+							"HP": 3500,
+							"Shields": 400,
+							"Attack": 110,
+							"Skills": ["1", "2"],
+							"amount": 5
+						}
+					},
+					{
+
+						"name":"Oatis Cannon",
+						"img_src": "assets/images/Ships/light_fighter.jpg",
+						"reward_metal":8000,
+						"reward_crystal":0,
+						"boss":0,
+						"info" : {
+							"HP": 4000,
+							"Shields": 1000,
+							"Attack": 40,
+							"Skills": ["1", "2"],
+							"amount": 3
+						}
+					}
+				],
+				"3": [
+					{
+						"name":"Devil's Rage",
+						"img_src": "assets/images/Ships/light_fighter.jpg",
+						"reward_metal":50000,
+						"reward_crystal":10000,
+						"boss":1,
+						"info" : {
+							"HP": 100000,
+							"Shields": 10000,
+							"Attack": 1500,
+							"Skills": ["1", "2"],
+							"amount": 1
+						}
+					}
+				]
+			},
+			"drops": {
+				"uncommon": ["Shard of Coldness", "Dust of Greed"],
+				"rare": ["rare"],
+				"epic": ["epic"],
+				"legendary": ["legendary"]
+			}
+		}
+
+	},
+	"Aria": {
+		"normal": {
+			"floor_num":3,
+			"floor_description":[
+				"1", "2", "3"
+			],
+			"floors": {
+				"1": [
+					{
+						"name":"Oatis Light Fighter",
+						"img_src": "assets/images/Ships/light_fighter.jpg",
+						"reward_metal":2000,
+						"reward_crystal":1000,
+						"boss":0,
+						"info" : {
+							"HP": 2400,
+							"Shields": 100,
+							"Attack": 55,
+							"Skills": ["1", "2"],
+							"amount": 10
+						}
+					}
+
+				],
+				"2": [
+					{
+						"name":"Oatis Light Fighter",
+						"img_src": "assets/images/Ships/light_fighter.jpg",
+						"reward_metal":2000,
+						"reward_crystal":1000,
+						"boss":0,
+						"info" : {
+							"HP": 2400,
+							"Shields": 100,
+							"Attack": 55,
+							"Skills": ["1", "2"],
+							"amount": 20
+						}
+					},
+					{
+
+						"name":"Oatis Heavy Fighter",
+						"img_src": "assets/images/Ships/light_fighter.jpg",
+						"reward_metal":4000,
+						"reward_crystal":2000,
+						"boss":0,
+						"info" : {
+							"HP": 3500,
+							"Shields": 400,
+							"Attack": 110,
+							"Skills": ["1", "2"],
+							"amount": 5
+						}
+					},
+					{
+
+						"name":"Oatis Cannon",
+						"img_src": "assets/images/Ships/light_fighter.jpg",
+						"reward_metal":8000,
+						"reward_crystal":0,
+						"boss":0,
+						"info" : {
+							"HP": 4000,
+							"Shields": 1000,
+							"Attack": 40,
+							"Skills": ["1", "2"],
+							"amount": 3
+						}
+					}
+				],
+				"3": [
+					{
+						"name":"Devil's Rage",
+						"img_src": "assets/images/Ships/light_fighter.jpg",
+						"reward_metal":50000,
+						"reward_crystal":10000,
+						"boss":1,
+						"info" : {
+							"HP": 100000,
+							"Shields": 10000,
+							"Attack": 1500,
+							"Skills": ["1", "2"],
+							"amount": 1
+						}
+					}
+				]
+			},
+			"drops": {
+				"uncommon": ["Shard of Coldness", "Dust of Greed"],
+				"rare": ["rare"],
+				"epic": ["epic"],
+				"legendary": ["legendary"]
+			}
+		}
+
+	},
+	"Juiria": {
+		"normal": {
+			"floor_num":3,
+			"floor_description":[
+				"1", "2", "3"
+			],
+			"floors": {
+				"1": [
+					{
+						"name":"Oatis Light Fighter",
+						"img_src": "assets/images/Ships/light_fighter.jpg",
+						"reward_metal":2000,
+						"reward_crystal":1000,
+						"boss":0,
+						"info" : {
+							"HP": 2400,
+							"Shields": 100,
+							"Attack": 55,
+							"Skills": ["1", "2"],
+							"amount": 10
+						}
+					}
+
+				],
+				"2": [
+					{
+						"name":"Oatis Light Fighter",
+						"img_src": "assets/images/Ships/light_fighter.jpg",
+						"reward_metal":2000,
+						"reward_crystal":1000,
+						"boss":0,
+						"info" : {
+							"HP": 2400,
+							"Shields": 100,
+							"Attack": 55,
+							"Skills": ["1", "2"],
+							"amount": 20
+						}
+					},
+					{
+
+						"name":"Oatis Heavy Fighter",
+						"img_src": "assets/images/Ships/light_fighter.jpg",
+						"reward_metal":4000,
+						"reward_crystal":2000,
+						"boss":0,
+						"info" : {
+							"HP": 3500,
+							"Shields": 400,
+							"Attack": 110,
+							"Skills": ["1", "2"],
+							"amount": 5
+						}
+					},
+					{
+
+						"name":"Oatis Cannon",
+						"img_src": "assets/images/Ships/light_fighter.jpg",
+						"reward_metal":8000,
+						"reward_crystal":0,
+						"boss":0,
+						"info" : {
+							"HP": 4000,
+							"Shields": 1000,
+							"Attack": 40,
+							"Skills": ["1", "2"],
+							"amount": 3
+						}
+					}
+				],
+				"3": [
+					{
+						"name":"Devil's Rage",
+						"img_src": "assets/images/Ships/light_fighter.jpg",
+						"reward_metal":50000,
+						"reward_crystal":10000,
+						"boss":1,
+						"info" : {
+							"HP": 100000,
+							"Shields": 10000,
+							"Attack": 1500,
+							"Skills": ["1", "2"],
+							"amount": 1
+						}
+					}
+				]
+			},
+			"drops": {
+				"uncommon": ["Shard of Coldness", "Dust of Greed"],
+				"rare": ["rare"],
+				"epic": ["epic"],
+				"legendary": ["legendary"]
+			}
+		}
+
+	},
+	"Stara": {
+		"normal": {
+			"floor_num":3,
+			"floor_description":[
+				"1", "2", "3"
+			],
+			"floors": {
+				"1": [
+					{
+						"name":"Oatis Light Fighter",
+						"img_src": "assets/images/Ships/light_fighter.jpg",
+						"reward_metal":2000,
+						"reward_crystal":1000,
+						"boss":0,
+						"info" : {
+							"HP": 2400,
+							"Shields": 100,
+							"Attack": 55,
+							"Skills": ["1", "2"],
+							"amount": 10
+						}
+					}
+
+				],
+				"2": [
+					{
+						"name":"Oatis Light Fighter",
+						"img_src": "assets/images/Ships/light_fighter.jpg",
+						"reward_metal":2000,
+						"reward_crystal":1000,
+						"boss":0,
+						"info" : {
+							"HP": 2400,
+							"Shields": 100,
+							"Attack": 55,
+							"Skills": ["1", "2"],
+							"amount": 20
+						}
+					},
+					{
+
+						"name":"Oatis Heavy Fighter",
+						"img_src": "assets/images/Ships/light_fighter.jpg",
+						"reward_metal":4000,
+						"reward_crystal":2000,
+						"boss":0,
+						"info" : {
+							"HP": 3500,
+							"Shields": 400,
+							"Attack": 110,
+							"Skills": ["1", "2"],
+							"amount": 5
+						}
+					},
+					{
+
+						"name":"Oatis Cannon",
+						"img_src": "assets/images/Ships/light_fighter.jpg",
+						"reward_metal":8000,
+						"reward_crystal":0,
+						"boss":0,
+						"info" : {
+							"HP": 4000,
+							"Shields": 1000,
+							"Attack": 40,
+							"Skills": ["1", "2"],
+							"amount": 3
+						}
+					}
+				],
+				"3": [
+					{
+						"name":"Devil's Rage",
+						"img_src": "assets/images/Ships/light_fighter.jpg",
+						"reward_metal":50000,
+						"reward_crystal":10000,
+						"boss":1,
+						"info" : {
+							"HP": 100000,
+							"Shields": 10000,
+							"Attack": 1500,
+							"Skills": ["1", "2"],
+							"amount": 1
+						}
+					}
+				]
+			},
+			"drops": {
+				"uncommon": ["Shard of Coldness", "Dust of Greed"],
+				"rare": ["rare"],
+				"epic": ["epic"],
+				"legendary": ["legendary"]
+			}
+		}
+
+	},
+	"Quamia": {
+		"normal": {
+			"floor_num":3,
+			"floor_description":[
+				"1", "2", "3"
+			],
+			"floors": {
+				"1": [
+					{
+						"name":"Oatis Light Fighter",
+						"img_src": "assets/images/Ships/light_fighter.jpg",
+						"reward_metal":2000,
+						"reward_crystal":1000,
+						"boss":0,
+						"info" : {
+							"HP": 2400,
+							"Shields": 100,
+							"Attack": 55,
+							"Skills": ["1", "2"],
+							"amount": 10
+						}
+					}
+
+				],
+				"2": [
+					{
+						"name":"Oatis Light Fighter",
+						"img_src": "assets/images/Ships/light_fighter.jpg",
+						"reward_metal":2000,
+						"reward_crystal":1000,
+						"boss":0,
+						"info" : {
+							"HP": 2400,
+							"Shields": 100,
+							"Attack": 55,
+							"Skills": ["1", "2"],
+							"amount": 20
+						}
+					},
+					{
+
+						"name":"Oatis Heavy Fighter",
+						"img_src": "assets/images/Ships/light_fighter.jpg",
+						"reward_metal":4000,
+						"reward_crystal":2000,
+						"boss":0,
+						"info" : {
+							"HP": 3500,
+							"Shields": 400,
+							"Attack": 110,
+							"Skills": ["1", "2"],
+							"amount": 5
+						}
+					},
+					{
+
+						"name":"Oatis Cannon",
+						"img_src": "assets/images/Ships/light_fighter.jpg",
+						"reward_metal":8000,
+						"reward_crystal":0,
+						"boss":0,
+						"info" : {
+							"HP": 4000,
+							"Shields": 1000,
+							"Attack": 40,
+							"Skills": ["1", "2"],
+							"amount": 3
+						}
+					}
+				],
+				"3": [
+					{
+						"name":"Devil's Rage",
+						"img_src": "assets/images/Ships/light_fighter.jpg",
+						"reward_metal":50000,
+						"reward_crystal":10000,
+						"boss":1,
+						"info" : {
+							"HP": 100000,
+							"Shields": 10000,
+							"Attack": 1500,
+							"Skills": ["1", "2"],
+							"amount": 1
+						}
+					}
+				]
+			},
+			"drops": {
+				"uncommon": ["Shard of Coldness", "Dust of Greed"],
+				"rare": ["rare"],
+				"epic": ["epic"],
+				"legendary": ["legendary"]
+			}
+		}
+
+	},
+	"Nosmov": {
+		"normal": {
+			"floor_num":3,
+			"floor_description":[
+				"1", "2", "3"
+			],
+			"floors": {
+				"1": [
+					{
+						"name":"Oatis Light Fighter",
+						"img_src": "assets/images/Ships/light_fighter.jpg",
+						"reward_metal":2000,
+						"reward_crystal":1000,
+						"boss":0,
+						"info" : {
+							"HP": 2400,
+							"Shields": 100,
+							"Attack": 55,
+							"Skills": ["1", "2"],
+							"amount": 10
+						}
+					}
+
+				],
+				"2": [
+					{
+						"name":"Oatis Light Fighter",
+						"img_src": "assets/images/Ships/light_fighter.jpg",
+						"reward_metal":2000,
+						"reward_crystal":1000,
+						"boss":0,
+						"info" : {
+							"HP": 2400,
+							"Shields": 100,
+							"Attack": 55,
+							"Skills": ["1", "2"],
+							"amount": 20
+						}
+					},
+					{
+
+						"name":"Oatis Heavy Fighter",
+						"img_src": "assets/images/Ships/light_fighter.jpg",
+						"reward_metal":4000,
+						"reward_crystal":2000,
+						"boss":0,
+						"info" : {
+							"HP": 3500,
+							"Shields": 400,
+							"Attack": 110,
+							"Skills": ["1", "2"],
+							"amount": 5
+						}
+					},
+					{
+
+						"name":"Oatis Cannon",
+						"img_src": "assets/images/Ships/light_fighter.jpg",
+						"reward_metal":8000,
+						"reward_crystal":0,
+						"boss":0,
+						"info" : {
+							"HP": 4000,
+							"Shields": 1000,
+							"Attack": 40,
+							"Skills": ["1", "2"],
+							"amount": 3
+						}
+					}
+				],
+				"3": [
+					{
+						"name":"Devil's Rage",
+						"img_src": "assets/images/Ships/light_fighter.jpg",
+						"reward_metal":50000,
+						"reward_crystal":10000,
+						"boss":1,
+						"info" : {
+							"HP": 100000,
+							"Shields": 10000,
+							"Attack": 1500,
+							"Skills": ["1", "2"],
+							"amount": 1
+						}
+					}
+				]
+			},
+			"drops": {
+				"uncommon": ["Shard of Coldness", "Dust of Greed"],
+				"rare": ["rare"],
+				"epic": ["epic"],
+				"legendary": ["legendary"]
+			}
+		}
+
 	}
 }

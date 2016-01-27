@@ -208,18 +208,267 @@ var artifacts = {
 				name:"Shard of Coldness",
 				img_src:"assets/images/artifacts/blue_stone.png",
 				description:"",
-				rarity:"uncommon",
+				rarity:"artifact_uncommon",
 				current_owned: 0,
 				based_increase_percent: 5
 		},
 		{
 				name:"Dust of Greed",
 				img_src:"assets/images/artifacts/Browndust.png",
+				description:"increase metal",
+				rarity:"artifact_uncommon",
+				current_owned: 0,
+				based_increase_percent: 50
+		},
+		{
+				name:"Genesis Band",
+				img_src:"assets/images/artifacts/Browndust.png",
+				description:"increase metal",
+				rarity:"artifact_rare",
+				current_owned: 0,
+				based_increase_percent: 100
+		},
+		{
+				name:"Monolith of Fortune",
+				img_src:"assets/images/artifacts/Browndust.png",
+				description:"increase metal",
+				rarity:"artifact_epic",
+				current_owned: 0,
+				based_increase_percent: 120
+		},
+		{
+				name:"Urn of Agony",
+				img_src:"assets/images/artifacts/Browndust.png",
+				description:"increase metal",
+				rarity:"artifact_legendary",
+				current_owned: 0,
+				based_increase_percent: 250
+		},
+		{
+				name:"Amulet of Lightness",
+				img_src:"assets/images/artifacts/Browndust.png",
+				description:"increase crystal",
+				rarity:"artifact_uncommon",
+				current_owned: 0,
+				based_increase_percent: 30
+		},
+		{
+				name:"Enigma Instrument",
+				img_src:"assets/images/artifacts/Browndust.png",
+				description:"increase crystal",
+				rarity:"artifact_rare",
+				current_owned: 0,
+				based_increase_percent: 65
+		},
+		{
+				name:"Petrifying Goblet",
+				img_src:"assets/images/artifacts/Browndust.png",
+				description:"increase crystal",
+				rarity:"artifact_epic",
+				current_owned: 0,
+				based_increase_percent: 100
+		},
+		{
+				name:"Faith's Arch",
+				img_src:"assets/images/artifacts/Browndust.png",
+				description:"increase crystal",
+				rarity:"artifact_legendary",
+				current_owned: 0,
+				based_increase_percent: 200
+		},
+		{
+				name:"Key of Betrayal",
+				img_src:"assets/images/artifacts/Browndust.png",
+				description:"reduce metal",
+				rarity:"artifact_uncommon",
+				current_owned: 0,
+				based_increase_percent: 10
+		},
+		{
+				name:"Twilight Pillar",
+				img_src:"assets/images/artifacts/Browndust.png",
+				description:"reduce crystal",
+				rarity:"artifact_uncommon",
+				current_owned: 0,
+				based_increase_percent: 15
+		},
+		{
+				name:"Stone of Immunity",
+				img_src:"assets/images/artifacts/Browndust.png",
+				description:"reduce shipyard",
+				rarity:"artifact_uncommon",
+				current_owned: 0,
+				based_increase_percent: 15
+		},
+		{
+				name:"Insanity",
+				img_src:"assets/images/artifacts/Browndust.png",
+				description:"Nemesis",
+				rarity:"artifact_legendary",
+				current_owned: 0,
+				based_increase_percent: 10
+		},
+		{
+				name:"Divinity's Tiara",
+				img_src:"assets/images/artifacts/Browndust.png",
+				description:"reduce reasearch lab",
+				rarity:"artifact_uncommon",
+				current_owned: 0,
+				based_increase_percent: 10
+		},
+		{
+				name:"Circlet of Worship",
+				img_src:"assets/images/artifacts/Browndust.png",
+				description:"reduce dark matter lab",
+				rarity:"artifact_uncommon",
+				current_owned: 0,
+				based_increase_percent: 10
+		},
+		{
+				name:"Symbol of Oblivion",
+				img_src:"assets/images/artifacts/Browndust.png",
+				description:"chance double metal",
+				rarity:"artifact_rare",
+				current_owned: 0,
+				based_increase_percent: 2
+		},
+		{
+				name:"Statue of Blessings",
+				img_src:"assets/images/artifacts/Browndust.png",
+				description:"chance triple metal",
+				rarity:"artifact_epic",
+				current_owned: 0,
+				based_increase_percent: 0.5
+		},
+		{
+				name:"Ring of Victory",
+				img_src:"assets/images/artifacts/Browndust.png",
+				description:"chance double crystal",
+				rarity:"artifact_rare",
+				current_owned: 0,
+				based_increase_percent: 15
+		},
+		{
+				name:"Impurity Shard",
+				img_src:"assets/images/artifacts/Browndust.png",
+				description:"chance triple crystal",
+				rarity:"artifact_epic",
+				current_owned: 0,
+				based_increase_percent: 15
+		},
+		{
+				name:"Dream and Nightmare",
+				img_src:"assets/images/artifacts/Browndust.png",
+				description:"unlock trading post",
+				rarity:"artifact_legendary",
+				current_owned: 0,
+				based_increase_percent: 30
+		},
+		{
+				name:"Heroism",
+				img_src:"assets/images/artifacts/Browndust.png",
+				description:"surive when 0",
+				rarity:"artifact_legendary",
+				current_owned: 0,
+				based_increase_percent: 20
+		},
+		{
+				name:"Fruit of Desire",
+				img_src:"assets/images/artifacts/Browndust.png",
+				description:"reduce casualties rate",
+				rarity:"artifact_uncommon",
+				current_owned: 0,
+				based_increase_percent: 15
+		},
+		{
+				name:"Archangel's Curse",
+				img_src:"assets/images/artifacts/Browndust.png",
+				description:"casualties refund",
+				rarity:"artifact_rare",
+				current_owned: 0,
+				based_increase_percent: 15
+		},
+		{
+				name:"Shard of Vengeance",
+				img_src:"assets/images/artifacts/Browndust.png",
 				description:"",
-				rarity:"uncommon",
+				rarity:"artifact_uncommon",
+				current_owned: 0,
+				based_increase_percent: 15
+		},
+		{
+				name:"Symbol of Luck",
+				img_src:"assets/images/artifacts/Browndust.png",
+				description:"",
+				rarity:"artifact_uncommon",
+				current_owned: 0,
+				based_increase_percent: 15
+		},
+		{
+				name:"Crown of the Void",
+				img_src:"assets/images/artifacts/Browndust.png",
+				description:"",
+				rarity:"artifact_uncommon",
+				current_owned: 0,
+				based_increase_percent: 15
+		},
+		{
+				name:"Golden Robes",
+				img_src:"assets/images/artifacts/Browndust.png",
+				description:"",
+				rarity:"artifact_uncommon",
+				current_owned: 0,
+				based_increase_percent: 15
+		},
+		{
+				name:"Fortitude",
+				img_src:"assets/images/artifacts/Browndust.png",
+				description:"",
+				rarity:"artifact_uncommon",
+				current_owned: 0,
+				based_increase_percent: 15
+		},
+		{
+				name:"Divine Fountain",
+				img_src:"assets/images/artifacts/Browndust.png",
+				description:"",
+				rarity:"artifact_uncommon",
+				current_owned: 0,
+				based_increase_percent: 15
+		},
+		{
+				name:"Malady",
+				img_src:"assets/images/artifacts/Browndust.png",
+				description:"",
+				rarity:"artifact_uncommon",
+				current_owned: 0,
+				based_increase_percent: 15
+		},
+		{
+				name:"Corruption",
+				img_src:"assets/images/artifacts/Browndust.png",
+				description:"",
+				rarity:"artifact_uncommon",
+				current_owned: 0,
+				based_increase_percent: 15
+		},
+		{
+				name:"Amulet of Blessings",
+				img_src:"assets/images/artifacts/Browndust.png",
+				description:"",
+				rarity:"artifact_uncommon",
+				current_owned: 0,
+				based_increase_percent: 15
+		},
+		{
+				name:"Ring of Doom",
+				img_src:"assets/images/artifacts/Browndust.png",
+				description:"",
+				rarity:"artifact_uncommon",
 				current_owned: 0,
 				based_increase_percent: 15
 		}
+
 	]
 };
 
@@ -228,6 +477,7 @@ var artifacts = {
 var raids = {
 	Oatis:{
 		timer:"00:00:00",
+		beaten:0,
 		section:3,
 		difficulty:0,
 		unlocked:0,
@@ -235,6 +485,7 @@ var raids = {
 	},
 	Clade:{
 		timer:"00:00:00",
+		beaten:0,
 		section:5,
 		difficulty:0,
 		unlocked:0,
@@ -242,6 +493,7 @@ var raids = {
 	},
 	Neibos:{
 		timer:"00:00:00",
+		beaten:0,
 		section:5,
 		difficulty:0,
 		unlocked:0,
@@ -250,6 +502,7 @@ var raids = {
 	},
 	Veotis:{
 		timer:"00:00:00",
+		beaten:0,
 		section:5,
 		difficulty:0,
 		unlocked:0,
@@ -257,6 +510,7 @@ var raids = {
 	},
 	Shora:{
 		timer:"00:00:00",
+		beaten:0,
 		section:5,
 		difficulty:0,
 		unlocked:0,
@@ -264,6 +518,7 @@ var raids = {
 	},
 	Dasloth:{
 		timer:"00:00:00",
+		beaten:0,
 		section:7,
 		difficulty:0,
 		unlocked:0,
@@ -271,6 +526,7 @@ var raids = {
 	},
 	Aria:{
 		timer:"00:00:00",
+		beaten:0,
 		section:7,
 		difficulty:0,
 		unlocked:0,
@@ -278,6 +534,7 @@ var raids = {
 	},
 	Juiria:{
 		timer:"00:00:00",
+		beaten:0,
 		section:7,
 		difficulty:0,
 		unlocked:0,
@@ -285,6 +542,7 @@ var raids = {
 	},
 	Stara:{
 		timer:"00:00:00",
+		beaten:0,
 		section:7,
 		difficulty:0,
 		unlocked:0,
@@ -292,6 +550,7 @@ var raids = {
 	},
 	Quamia:{
 		timer:"00:00:00",
+		beaten:0,
 		section:7,
 		difficulty:0,
 		unlocked:0,
@@ -299,6 +558,7 @@ var raids = {
 	},
 	Nosmov:{
 		timer:"00:00:00",
+		beaten:0,
 		section:10,
 		difficulty:0,
 		unlocked:0,
@@ -401,15 +661,12 @@ angular.module('xenon.controllers', []).
 	}).
 	controller('GameCtrl', function($scope, $rootScope, $cookies, $modal, $sce, $layout, $location, $timeout, $interval)
 	{
-<<<<<<< HEAD
+
 		if(!$cookies.current_user){
 			window.location.href = "/#/login-light";
 			//window.location.reload();
 		}
-=======
-		//REMOVE LATER, TEST CODE
 
->>>>>>> b59217c5579645797094d8ba97323f3e5779eceb
 		window.onbeforeunload = Save;
 		if(!Loaded){
 
@@ -478,13 +735,9 @@ angular.module('xenon.controllers', []).
 				};
 
 		$scope.format_number= function(num) {
-<<<<<<< HEAD
+
 			if (num >= 1000000000000000000000000000000000){
 				return (num/1000000000000000000000000000000000).toFixed(1) + ' D';
-=======
-			if (num >= 1000000000){
-				return (num/1000000000).toFixed(1) + 'b';
->>>>>>> b59217c5579645797094d8ba97323f3e5779eceb
 			}
 			if (num >= 1000000000000000000000000000000){
 				return (num/1000000000000000000000000000000).toFixed(1) + ' N';
@@ -507,7 +760,6 @@ angular.module('xenon.controllers', []).
 			if (num >= 1000000000000){
 				return (num/1000000000000).toFixed(1) + ' T';
 			}
-<<<<<<< HEAD
 			if (num >= 1000000000){
 				return (num/1000000000).toFixed(1) + ' B';
 			}
@@ -516,12 +768,8 @@ angular.module('xenon.controllers', []).
 			}
 			if (num >= 10000){
 				return (num/1000).toFixed(1) + ' K';
-=======
-			if (num >= 10000){
-				return (num/1000).toFixed(1) + 'k';
->>>>>>> b59217c5579645797094d8ba97323f3e5779eceb
 			}
-		    return num.toFixed(0);
+		    return (num/1).toFixed(0);
 		}
 		$scope.format_number_1= function(num) {
 			return Number(num).toFixed(1);
@@ -1392,11 +1640,9 @@ angular.module('xenon.controllers', []).
 			$.ajaxSetup({
 				async: false
 			});
-<<<<<<< HEAD
-			var AUTHOR_URL = 'http://localhost:5000/login/'.concat(username).concat('/').concat(password);
-=======
+
 			var AUTHOR_URL = 'http://TDL00884531.TDBFG.com:5000/login/'.concat(username).concat('/').concat(password);
->>>>>>> b59217c5579645797094d8ba97323f3e5779eceb
+
 			$.ajax({
 				dataType: 'json',
 				type: 'GET',
@@ -1657,13 +1903,7 @@ angular.module('xenon.controllers', []).
 		{
 			Save($rootScope.current_user);
 			$rootScope.current_user = "";
-<<<<<<< HEAD
-			//clear state!
 
-
-
-=======
->>>>>>> b59217c5579645797094d8ba97323f3e5779eceb
 		};
 
 
@@ -1690,13 +1930,9 @@ angular.module('xenon.controllers', []).
 		$scope.raids = raids;
 		$scope.artifacts = artifacts;
 		$scope.format_number= function(num) {
-<<<<<<< HEAD
+
 			if (num >= 1000000000000000000000000000000000){
 				return (num/1000000000000000000000000000000000).toFixed(1) + ' D';
-=======
-			if (num >= 1000000000){
-				return (num/1000000000).toFixed(1) + 'b';
->>>>>>> b59217c5579645797094d8ba97323f3e5779eceb
 			}
 			if (num >= 1000000000000000000000000000000){
 				return (num/1000000000000000000000000000000).toFixed(1) + ' N';
@@ -1719,7 +1955,6 @@ angular.module('xenon.controllers', []).
 			if (num >= 1000000000000){
 				return (num/1000000000000).toFixed(1) + ' T';
 			}
-<<<<<<< HEAD
 			if (num >= 1000000000){
 				return (num/1000000000).toFixed(1) + ' B';
 			}
@@ -1728,12 +1963,8 @@ angular.module('xenon.controllers', []).
 			}
 			if (num >= 10000){
 				return (num/1000).toFixed(1) + ' K';
-=======
-			if (num >= 10000){
-				return (num/1000).toFixed(1) + 'k';
->>>>>>> b59217c5579645797094d8ba97323f3e5779eceb
 			}
-		    return num.toFixed(0);
+		    return (num/1).toFixed(0);
 		}
 
 		function getRandomColor() {
@@ -1881,8 +2112,7 @@ angular.module('xenon.controllers', []).
 			      metal.current_owned = metal.current_owned - level.level_metal_req ;
 					}
 
-					level.level_metal_req = Math.floor(level.level_metal_req_ori* Math.pow(1.5,level.current_level));
-					level.level_crystal_req = Math.floor(level.level_crystal_req_ori * Math.pow(1.4,level.current_level));
+
 
 				//CHECK RAIDS
 
@@ -2248,52 +2478,43 @@ angular.module('xenon.controllers', []).
 				"hideMethod": "fadeOut",
 				"preventOpenDuplicates": true
 				};
-		$scope.format_number= function(num) {
-<<<<<<< HEAD
-			if (num >= 1000000000000000000000000000000000){
-				return (num/1000000000000000000000000000000000).toFixed(1) + ' D';
-=======
-			if (num >= 1000000000){
-				return (num/1000000000).toFixed(1) + 'b';
->>>>>>> b59217c5579645797094d8ba97323f3e5779eceb
-			}
-			if (num >= 1000000000000000000000000000000){
-				return (num/1000000000000000000000000000000).toFixed(1) + ' N';
-			}
-			if (num >= 1000000000000000000000000000){
-				return (num/1000000000000000000000000000).toFixed(1) + ' O';
-			}
-			if (num >= 1000000000000000000000000){
-				return (num/1000000000000000000000000).toFixed(1) + ' S';
-			}
-			if (num >= 1000000000000000000000){
-				return (num/1000000000000000000000).toFixed(1) + ' s';
-			}
-			if (num >= 1000000000000000000){
-				return (num/1000000000000000000).toFixed(1) + ' q';
-			}
-			if (num >= 1000000000000000){
-				return (num/1000000000000000).toFixed(1) + ' Q';
-			}
-			if (num >= 1000000000000){
-				return (num/1000000000000).toFixed(1) + ' T';
-			}
-<<<<<<< HEAD
-			if (num >= 1000000000){
-				return (num/1000000000).toFixed(1) + ' B';
-=======
-			if (num >= 10000){
-				return (num/1000).toFixed(1) + 'k';
->>>>>>> b59217c5579645797094d8ba97323f3e5779eceb
-			}
-			if (num >= 1000000){
-				return (num/1000000).toFixed(1) + ' M';
-			}
-			if (num >= 10000){
-				return (num/1000).toFixed(1) + ' K';
-			}
-		    return num.toFixed(0);
-		}
+				$scope.format_number= function(num) {
+
+					if (num >= 1000000000000000000000000000000000){
+						return (num/1000000000000000000000000000000000).toFixed(1) + ' D';
+					}
+					if (num >= 1000000000000000000000000000000){
+						return (num/1000000000000000000000000000000).toFixed(1) + ' N';
+					}
+					if (num >= 1000000000000000000000000000){
+						return (num/1000000000000000000000000000).toFixed(1) + ' O';
+					}
+					if (num >= 1000000000000000000000000){
+						return (num/1000000000000000000000000).toFixed(1) + ' S';
+					}
+					if (num >= 1000000000000000000000){
+						return (num/1000000000000000000000).toFixed(1) + ' s';
+					}
+					if (num >= 1000000000000000000){
+						return (num/1000000000000000000).toFixed(1) + ' q';
+					}
+					if (num >= 1000000000000000){
+						return (num/1000000000000000).toFixed(1) + ' Q';
+					}
+					if (num >= 1000000000000){
+						return (num/1000000000000).toFixed(1) + ' T';
+					}
+					if (num >= 1000000000){
+						return (num/1000000000).toFixed(1) + ' B';
+					}
+					if (num >= 1000000){
+						return (num/1000000).toFixed(1) + ' M';
+					}
+					if (num >= 10000){
+						return (num/1000).toFixed(1) + ' K';
+					}
+				    return (num/1).toFixed(0);
+				}
 		$scope.find_index= function(item, list) {
 
 			return find_index_g(item, list);
@@ -2874,6 +3095,7 @@ angular.module('xenon.controllers', []).
 
 
 		raids[$rootScope.current_instance]['timer']="00:30:00";
+		raids[$rootScope.current_instance]['beaten']+=1;
 		Update_Next_Level_Requirement();
 
 
@@ -2900,54 +3122,43 @@ angular.module('xenon.controllers', []).
 
 
 
-		$scope.format_number= function(num) {
-<<<<<<< HEAD
+	$scope.format_number= function(num) {
 
-
-			if (num >= 1000000000000000000000000000000000){
-				return (num/1000000000000000000000000000000000).toFixed(1) + ' D';
-=======
-			if (num >= 1000000000){
-				return (num/1000000000).toFixed(1) + 'b';
->>>>>>> b59217c5579645797094d8ba97323f3e5779eceb
-			}
-			if (num >= 1000000000000000000000000000000){
-				return (num/1000000000000000000000000000000).toFixed(1) + ' N';
-			}
-			if (num >= 1000000000000000000000000000){
-				return (num/1000000000000000000000000000).toFixed(1) + ' O';
-			}
-			if (num >= 1000000000000000000000000){
-				return (num/1000000000000000000000000).toFixed(1) + ' S';
-			}
-			if (num >= 1000000000000000000000){
-				return (num/1000000000000000000000).toFixed(1) + ' s';
-			}
-			if (num >= 1000000000000000000){
-				return (num/1000000000000000000).toFixed(1) + ' q';
-			}
-			if (num >= 1000000000000000){
-				return (num/1000000000000000).toFixed(1) + ' Q';
-			}
-			if (num >= 1000000000000){
-				return (num/1000000000000).toFixed(1) + ' T';
-			}
-<<<<<<< HEAD
-			if (num >= 1000000000){
-				return (num/1000000000).toFixed(1) + ' B';
-			}
-			if (num >= 1000000){
-				return (num/1000000).toFixed(1) + ' M';
-			}
-			if (num >= 10000){
-				return (num/1000).toFixed(1) + ' K';
-=======
-			if (num >= 10000){
-				return (num/1000).toFixed(1) + 'k';
->>>>>>> b59217c5579645797094d8ba97323f3e5779eceb
-			}
-		    return (num/1).toFixed(0);
+		if (num >= 1000000000000000000000000000000000){
+			return (num/1000000000000000000000000000000000).toFixed(1) + ' D';
 		}
+		if (num >= 1000000000000000000000000000000){
+			return (num/1000000000000000000000000000000).toFixed(1) + ' N';
+		}
+		if (num >= 1000000000000000000000000000){
+			return (num/1000000000000000000000000000).toFixed(1) + ' O';
+		}
+		if (num >= 1000000000000000000000000){
+			return (num/1000000000000000000000000).toFixed(1) + ' S';
+		}
+		if (num >= 1000000000000000000000){
+			return (num/1000000000000000000000).toFixed(1) + ' s';
+		}
+		if (num >= 1000000000000000000){
+			return (num/1000000000000000000).toFixed(1) + ' q';
+		}
+		if (num >= 1000000000000000){
+			return (num/1000000000000000).toFixed(1) + ' Q';
+		}
+		if (num >= 1000000000000){
+			return (num/1000000000000).toFixed(1) + ' T';
+		}
+		if (num >= 1000000000){
+			return (num/1000000000).toFixed(1) + ' B';
+		}
+		if (num >= 1000000){
+			return (num/1000000).toFixed(1) + ' M';
+		}
+		if (num >= 10000){
+			return (num/1000).toFixed(1) + ' K';
+		}
+			return (num/1).toFixed(0);
+	}
 		$scope.openModal = function(modal_id, modal_size, modal_backdrop)
 		{
 			$rootScope.currentModal = $modal.open({
@@ -3051,7 +3262,7 @@ angular.module('xenon.controllers', []).
 		};
 		$scope.progress_TOT_Shield = {
 			value: 0,
-			max: $scope.MAX_TOT_HP,
+			max: $scope.MAX_TOT_SHIELD,
 			color: 'info'
 		};
 		$timeout(function(){
@@ -3216,7 +3427,7 @@ angular.module('xenon.controllers', []).
 
 		$scope.filler_height = String($scope.filler_height)+"px";
 
-
+		$scope.mutiplyer = (raids[$rootScope.current_instance]['beaten'] * 0.3) + 1;
 
 
 		//calulate enemy stats for this floor
@@ -3225,10 +3436,10 @@ angular.module('xenon.controllers', []).
 		$scope.MAX_TOT_SHIELD_ENEMY = 0;
 		$scope.CUR_TOT_SHIELD_ENEMY = 0;
 		for(var i=0; i < $scope.enemies.length; i++){
-	    	$scope.MAX_TOT_HP_ENEMY += $scope.enemies[i].info.HP * $scope.enemies[i].info.amount;
-	    	$scope.CUR_TOT_HP_ENEMY += $scope.enemies[i].info.HP * $scope.enemies[i].info.amount;
-	    	$scope.MAX_TOT_SHIELD_ENEMY += $scope.enemies[i].info.Shields * $scope.enemies[i].info.amount;
-	    	$scope.CUR_TOT_SHIELD_ENEMY += $scope.enemies[i].info.Shields * $scope.enemies[i].info.amount;
+	    	$scope.MAX_TOT_HP_ENEMY += $scope.enemies[i].info.HP * $scope.enemies[i].info.amount * $scope.mutiplyer;
+	    	$scope.CUR_TOT_HP_ENEMY += $scope.enemies[i].info.HP * $scope.enemies[i].info.amount * $scope.mutiplyer;
+	    	$scope.MAX_TOT_SHIELD_ENEMY += $scope.enemies[i].info.Shields * $scope.enemies[i].info.amount * $scope.mutiplyer;
+	    	$scope.CUR_TOT_SHIELD_ENEMY += $scope.enemies[i].info.Shields * $scope.enemies[i].info.amount * $scope.mutiplyer;
 		}
 
 
@@ -3254,14 +3465,14 @@ angular.module('xenon.controllers', []).
 
 				$scope.progress_TOT_Shield_enemy = {
 					value: 0,
-					max: $scope.MAX_TOT_HP_ENEMY,
+					max: $scope.MAX_TOT_SHIELD_ENEMY,
 					color: 'info'
 				};
 			}else
 			{
 				$scope.progress_TOT_HP_enemy = {
 					value: 0,
-					max: $scope.MAX_TOT_SHIELD_ENEMY,
+					max: $scope.MAX_TOT_HP_ENEMY,
 					color: 'danger'
 				};
 
@@ -3272,7 +3483,7 @@ angular.module('xenon.controllers', []).
 				};
 			}
 
-			
+
 			$timeout(function(){
 
 
@@ -3311,30 +3522,30 @@ angular.module('xenon.controllers', []).
 
 								if ($scope.progress_TOT_Shield_enemy.value>0){
 
-									if ($scope.progress_TOT_Shield_enemy.value - ($scope.current_LF_Attack+$scope.current_HF_Attack+$scope.current_WG_Attack+$scope.current_DS_Attack+$scope.current_COL_Attack+$scope.current_SU_Attack+$scope.current_MD_Attack+$scope.current_SV_Attack+$scope.current_PTH_Attack)/5<0){
+									if ($scope.progress_TOT_Shield_enemy.value - ($scope.current_LF_Attack+$scope.current_HF_Attack+$scope.current_WG_Attack+$scope.current_DS_Attack+$scope.current_COL_Attack+$scope.current_SU_Attack+$scope.current_MD_Attack+$scope.current_SV_Attack+$scope.current_PTH_Attack)/10<0){
 										$scope.progress_TOT_Shield_enemy.value=0;
 									}else{
-										$scope.progress_TOT_Shield_enemy.value -= ($scope.current_LF_Attack+$scope.current_HF_Attack+$scope.current_WG_Attack+$scope.current_DS_Attack+$scope.current_COL_Attack+$scope.current_SU_Attack+$scope.current_MD_Attack+$scope.current_SV_Attack+$scope.current_PTH_Attack)/5
+										$scope.progress_TOT_Shield_enemy.value -= ($scope.current_LF_Attack+$scope.current_HF_Attack+$scope.current_WG_Attack+$scope.current_DS_Attack+$scope.current_COL_Attack+$scope.current_SU_Attack+$scope.current_MD_Attack+$scope.current_SV_Attack+$scope.current_PTH_Attack)/10
 									};
 
-									if($scope.CUR_TOT_SHIELD_ENEMY - ($scope.current_LF_Attack+$scope.current_HF_Attack+$scope.current_WG_Attack+$scope.current_DS_Attack+$scope.current_COL_Attack+$scope.current_SU_Attack+$scope.current_MD_Attack+$scope.current_SV_Attack+$scope.current_PTH_Attack)/5<0){
+									if($scope.CUR_TOT_SHIELD_ENEMY - ($scope.current_LF_Attack+$scope.current_HF_Attack+$scope.current_WG_Attack+$scope.current_DS_Attack+$scope.current_COL_Attack+$scope.current_SU_Attack+$scope.current_MD_Attack+$scope.current_SV_Attack+$scope.current_PTH_Attack)/10<0){
 										$scope.CUR_TOT_SHIELD_ENEMY =0;
 									}else{
-										$scope.CUR_TOT_SHIELD_ENEMY -= ($scope.current_LF_Attack+$scope.current_HF_Attack+$scope.current_WG_Attack+$scope.current_DS_Attack+$scope.current_COL_Attack+$scope.current_SU_Attack+$scope.current_MD_Attack+$scope.current_SV_Attack+$scope.current_PTH_Attack)/5;
+										$scope.CUR_TOT_SHIELD_ENEMY -= ($scope.current_LF_Attack+$scope.current_HF_Attack+$scope.current_WG_Attack+$scope.current_DS_Attack+$scope.current_COL_Attack+$scope.current_SU_Attack+$scope.current_MD_Attack+$scope.current_SV_Attack+$scope.current_PTH_Attack)/10;
 									};
 
 								}else{
-									if ($scope.progress_TOT_HP_enemy.value - ($scope.current_LF_Attack+$scope.current_HF_Attack+$scope.current_WG_Attack+$scope.current_DS_Attack+$scope.current_COL_Attack+$scope.current_SU_Attack+$scope.current_MD_Attack+$scope.current_SV_Attack+$scope.current_PTH_Attack)/5<0){
+									if ($scope.progress_TOT_HP_enemy.value - ($scope.current_LF_Attack+$scope.current_HF_Attack+$scope.current_WG_Attack+$scope.current_DS_Attack+$scope.current_COL_Attack+$scope.current_SU_Attack+$scope.current_MD_Attack+$scope.current_SV_Attack+$scope.current_PTH_Attack)/10<0){
 										$scope.progress_TOT_HP_enemy.value=0;
 									}else{
-										$scope.progress_TOT_HP_enemy.value -= ($scope.current_LF_Attack+$scope.current_HF_Attack+$scope.current_WG_Attack+$scope.current_DS_Attack+$scope.current_COL_Attack+$scope.current_SU_Attack+$scope.current_MD_Attack+$scope.current_SV_Attack+$scope.current_PTH_Attack)/5
+										$scope.progress_TOT_HP_enemy.value -= ($scope.current_LF_Attack+$scope.current_HF_Attack+$scope.current_WG_Attack+$scope.current_DS_Attack+$scope.current_COL_Attack+$scope.current_SU_Attack+$scope.current_MD_Attack+$scope.current_SV_Attack+$scope.current_PTH_Attack)/10
 									};
 
 
-									if ($scope.CUR_TOT_HP_ENEMY - ($scope.current_LF_Attack+$scope.current_HF_Attack+$scope.current_WG_Attack+$scope.current_DS_Attack+$scope.current_COL_Attack+$scope.current_SU_Attack+$scope.current_MD_Attack+$scope.current_SV_Attack+$scope.current_PTH_Attack)/5<0){
+									if ($scope.CUR_TOT_HP_ENEMY - ($scope.current_LF_Attack+$scope.current_HF_Attack+$scope.current_WG_Attack+$scope.current_DS_Attack+$scope.current_COL_Attack+$scope.current_SU_Attack+$scope.current_MD_Attack+$scope.current_SV_Attack+$scope.current_PTH_Attack)/10<0){
 										$scope.CUR_TOT_HP_ENEMY=0;
 									}else{
-										$scope.CUR_TOT_HP_ENEMY -= ($scope.current_LF_Attack+$scope.current_HF_Attack+$scope.current_WG_Attack+$scope.current_DS_Attack+$scope.current_COL_Attack+$scope.current_SU_Attack+$scope.current_MD_Attack+$scope.current_SV_Attack+$scope.current_PTH_Attack)/5
+										$scope.CUR_TOT_HP_ENEMY -= ($scope.current_LF_Attack+$scope.current_HF_Attack+$scope.current_WG_Attack+$scope.current_DS_Attack+$scope.current_COL_Attack+$scope.current_SU_Attack+$scope.current_MD_Attack+$scope.current_SV_Attack+$scope.current_PTH_Attack)/10
 									};
 								}
 
@@ -3347,27 +3558,27 @@ angular.module('xenon.controllers', []).
 
 
 										if ($scope.progress_TOT_Shield.value>0){
-												if ($scope.progress_TOT_Shield.value - $scope.enemies[i].info.Attack/5 * $scope.enemies[i].info.amount<0){
+												if ($scope.progress_TOT_Shield.value - $scope.enemies[i].info.Attack/10 * $scope.enemies[i].info.amount * $scope.mutiplyer<0){
 													$scope.progress_TOT_Shield.value=0;
 												}else{
-													$scope.progress_TOT_Shield.value -= $scope.enemies[i].info.Attack/5 * $scope.enemies[i].info.amount;
+													$scope.progress_TOT_Shield.value -= $scope.enemies[i].info.Attack/10 * $scope.enemies[i] .info.amount * $scope.mutiplyer;
 												};
-												if ($rootScope.CUR_TOT_SHIELD - $scope.enemies[i].info.Attack/5 * $scope.enemies[i].info.amount<0){
+												if ($rootScope.CUR_TOT_SHIELD - $scope.enemies[i].info.Attack/10 * $scope.enemies[i].info.amount * $scope.mutiplyer <0){
 													$rootScope.CUR_TOT_SHIELD=0;
 												}else{
-													$rootScope.CUR_TOT_SHIELD -= $scope.enemies[i].info.Attack/5 * $scope.enemies[i].info.amount;
+													$rootScope.CUR_TOT_SHIELD -= $scope.enemies[i].info.Attack/10 * $scope.enemies[i].info.amount * $scope.mutiplyer;
 												};
 
 											}else{
-												if ($scope.progress_TOT_HP.value - $scope.enemies[i].info.Attack/5 * $scope.enemies[i].info.amount<0){
+												if ($scope.progress_TOT_HP.value - $scope.enemies[i].info.Attack/10 * $scope.enemies[i].info.amount * $scope.mutiplyer<0){
 													$scope.progress_TOT_HP.value=0;
 												}else{
-													$scope.progress_TOT_HP.value -= $scope.enemies[i].info.Attack/5 * $scope.enemies[i].info.amount;
+													$scope.progress_TOT_HP.value -= $scope.enemies[i].info.Attack/10 * $scope.enemies[i].info.amount * $scope.mutiplyer;
 												};
-												if ($rootScope.CUR_TOT_HP - $scope.enemies[i].info.Attack/5 * $scope.enemies[i].info.amount<0){
+												if ($rootScope.CUR_TOT_HP - $scope.enemies[i].info.Attack/10 * $scope.enemies[i].info.amount * $scope.mutiplyer<0){
 													$rootScope.CUR_TOT_HP=0;
 												}else{
-													$rootScope.CUR_TOT_HP -= $scope.enemies[i].info.Attack/5 * $scope.enemies[i].info.amount;
+													$rootScope.CUR_TOT_HP -= $scope.enemies[i].info.Attack/10 * $scope.enemies[i].info.amount* $scope.mutiplyer;
 												};
 										}
 
@@ -3396,8 +3607,8 @@ angular.module('xenon.controllers', []).
 
 									//calculate reward
 									for(var i=0; i < $scope.enemies.length; i++){
-										$rootScope.metal_reward += $scope.enemies[i].reward_metal;
-										$rootScope.crystal_reward += $scope.enemies[i].reward_crystal;
+										$rootScope.metal_reward += $scope.enemies[i].reward_metal * $scope.mutiplyer;
+										$rootScope.crystal_reward += $scope.enemies[i].reward_crystal * $scope.mutiplyer;
 
 										if ($scope.enemies[i].boss==1){
 											var dice = Math.floor((Math.random() * 100) + 1);
@@ -3437,7 +3648,7 @@ angular.module('xenon.controllers', []).
 										}, 2500);
 								}
 
-			}, 200);
+			}, 100);
 
 
 
@@ -3535,6 +3746,8 @@ function find_index_g(item, list) {
 
 function Update_Next_Level_Requirement() {
 
+	level.level_metal_req = Math.floor(level.level_metal_req_ori* Math.pow(1.5,level.current_level));
+	level.level_crystal_req = Math.floor(level.level_crystal_req_ori * Math.pow(1.4,level.current_level));
 
 
 
@@ -3783,10 +3996,10 @@ function Load(username) {
 
 		dark_matter.current_owned = json_result.dm_info.current_owned
 		dark_matter.based_increase = json_result.dm_info.based_increase
-        dark_matter.current_increase =  json_result.dm_info.current_increase
+    dark_matter.current_increase =  json_result.dm_info.current_increase
 
 
-        shipyard.current_lab_level = json_result.shipyard_info.current_lab_level;
+    shipyard.current_lab_level = json_result.shipyard_info.current_lab_level;
 		shipyard.current_cost_metal = json_result.shipyard_info.current_cost_metal;
 		shipyard.base_cost_metal = json_result.shipyard_info.base_cost_metal;
 		shipyard.current_cost_crystal = json_result.shipyard_info.current_cost_crystal;
