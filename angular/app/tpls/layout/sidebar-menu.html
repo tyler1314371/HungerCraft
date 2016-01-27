@@ -430,14 +430,14 @@
 						<td style="width: 500px; position: relative;">
 							<h4>Light Fighter</h4>
 							<small>Light Fighers are the most basic unit of a fleet</small><br/>
-							<img ng-if="shipyard.current_lab_level<2 || research_lab.current_lab_level<3 || level.current_level<6" src="assets/images/Ships/light_fighter.jpg" class="ships_img image-grey" />
-							<div ng-if="shipyard.current_lab_level<2 || research_lab.current_lab_level<3 || level.current_level<6" class="ships_locked_image">
+							<img ng-if="shipyard.current_lab_level<2 || research_lab.current_lab_level<3 || level.current_level<7" src="assets/images/Ships/light_fighter.jpg" class="ships_img image-grey" />
+							<div ng-if="shipyard.current_lab_level<2 || research_lab.current_lab_level<3 || level.current_level<7" class="ships_locked_image">
 								<img src="assets/images/locked.png" width="50" />
 							</div>
-							<img ng-if="shipyard.current_lab_level>=2 && research_lab.current_lab_level>=3 && level.current_level>=6" src="assets/images/Ships/light_fighter.jpg" class="ships_img" />
+							<img ng-if="shipyard.current_lab_level>=2 && research_lab.current_lab_level>=3 && level.current_level>=7" src="assets/images/Ships/light_fighter.jpg" class="ships_img" />
 
 						</td>
-						<td ng-if="shipyard.current_lab_level>=2 && research_lab.current_lab_level>=3 && level.current_level>=6" class="ship_info" style="position: relative;">
+						<td ng-if="shipyard.current_lab_level>=2 && research_lab.current_lab_level>=3 && level.current_level>=7" class="ship_info" style="position: relative;">
 							<h5>
 							<b><img src="assets/images/heart.png" class="stat_img"/></b>: {{format_number(ships.light_fighter.stats.HP)}}<br/>
 							<b><img src="assets/images/shield.png" class="stat_img"/></b>: {{format_number(ships.light_fighter.stats.shield)}}<br/>
@@ -495,15 +495,15 @@
 								</button>
 							</div>
 						</td>
-						<td ng-if="shipyard.current_lab_level<2 || research_lab.current_lab_level<3 || level.current_level<6" class="ship_info">
+						<td ng-if="shipyard.current_lab_level<2 || research_lab.current_lab_level<3 || level.current_level<7" class="ship_info">
 							<h5>
 							<b>Requirements</b>:<br/>
 							<font ng-if="shipyard.current_lab_level>=2" color="#6AEB6A">Shipyard Level 2 <br/></font>
              				<font ng-if="shipyard.current_lab_level<2" color="#F63249">Shipyard Level 2 <br/></font>
              				<font ng-if="research_lab.current_lab_level>=3" color="#6AEB6A">Research Lab Level 3 <br/></font>
              				<font ng-if="research_lab.current_lab_level<3" color="#F63249">Research Lab Level 3 <br/></font>
-             				<font ng-if="level.current_level>=6" color="#6AEB6A">Zone Level 6 <br/></font>
-             				<font ng-if="level.current_level<6" color="#F63249">Zone Level 6 <br/></font>
+             				<font ng-if="level.current_level>=7" color="#6AEB6A">Zone Level 7 <br/></font>
+             				<font ng-if="level.current_level<7" color="#F63249">Zone Level 7 <br/></font>
 						</td>
 
 
@@ -1783,11 +1783,9 @@
 
 	<img src="{{item.icon}}" width="25" class ="artifact_img"/>
 
-	<span ng-if="item.title == 'M'" class="title"><div id="tooltip_hori_title" ng-controller="GameCtrl">{{ format_number(metal.current_owned) }}<span>Metal, the most basic resource for any space expedition</span></div></span>
+	<span ng-if="item.title == 'M'" class="title" id="tooltip_hori_title" ng-controller="GameCtrl"><div>{{ format_number(metal.current_owned) }}<span>Metal, the most basic resource for any space expedition</span></div></span>
 	<span ng-if="item.title == 'C'" class="title"><div id="tooltip_hori_title" ng-controller="GameCtrl">{{format_number(crystal.current_owned)}}<span>Crystal, rare resource that is used for research and trading</span></div></span>
-	<span ng-if="item.title == 'DM'" class="title"><div id="tooltip_hori_title" ng-controller="GameCtrl">{{format_number(dark_matter.current_owned)}}<span>Dark matter, a hypothetical kind of matter that cannot be seen with <br/>
-																																																						telescopes but accounts for most of the matter in the universe. <br/>
-																																																						Increase your mine and crystal mine income by <div id="attention">{{dark_matter.current_increase}}%</div> for each dark matter you have</span></div></span>
+	<span ng-if="item.title == 'DM'" class="title"><div id="tooltip_hori_title" ng-controller="GameCtrl">{{format_number(dark_matter.current_owned)}}<span>Dark matter, a hypothetical kind of matter that cannot be seen with human eyes. They have the power to alter space and time</span></span>
 	<span ng-if="item.label" class="label label-{{item.label.classname}} pull-right" ng-class="{'hidden-collapsed': item.label.collapsedHide}">{{item.label.text}}</span>
 </script>
 

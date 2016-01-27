@@ -29,10 +29,10 @@ var ships ={
 		current_owned:0,
 		assembled:0,
 		casualties:0,
-		metal_cost:500,
-		crystal_cost:270,
-		metal_cost_base:300,
-		crystal_cost_base:170,
+		metal_cost:1500,
+		crystal_cost:250,
+		metal_cost_base:1000,
+		crystal_cost_base:250,
 		stats:{
 			HP:1000,
 			shield:20,
@@ -42,7 +42,7 @@ var ships ={
 			attack_base:30
 		},
 		skills:[
-			
+
 		]
 	},
 	heavy_fighter:{
@@ -61,7 +61,7 @@ var ships ={
 			attack_base:100
 		},
 		skills:[
-			
+
 		]
 	},
 	worg:{
@@ -80,7 +80,7 @@ var ships ={
 			attack_base:80
 		},
 		skills:[
-			
+
 		]
 	},
 	destroyer:{
@@ -99,7 +99,7 @@ var ships ={
 			attack_base:450
 		},
 		skills:[
-			
+
 		]
 	},
 	succubus:{
@@ -118,7 +118,7 @@ var ships ={
 			attack_base:150
 		},
 		skills:[
-			
+
 		]
 	},
 	colossus:{
@@ -137,7 +137,7 @@ var ships ={
 			attack_base:200
 		},
 		skills:[
-			
+
 		]
 	},
 	medusa:{
@@ -156,7 +156,7 @@ var ships ={
 			attack_base:100
 		},
 		skills:[
-			
+
 		]
 	},
 	science_vessel:{
@@ -175,7 +175,7 @@ var ships ={
 			attack_base:140
 		},
 		skills:[
-			
+
 		]
 	},
 	pantheon:{
@@ -194,7 +194,7 @@ var ships ={
 			attack_base:400
 		},
 		skills:[
-			
+
 		]
 	}
 }
@@ -324,8 +324,8 @@ var metal = {
 var crystal = {
 	current_owned:0,
 	current_mine_level:0,
-	current_cost:60,
-	ori_cost: 60,
+	current_cost:65,
+	ori_cost: 65,
 	income: 4,
 	income_base: 4
 };
@@ -342,18 +342,18 @@ var dark_matter = {
 //BUILDING
 var shipyard = {
 	current_lab_level: 0,
-	current_cost_metal:150,
-	base_cost_metal: 150,
-	current_cost_crystal:70,
-	base_cost_crystal: 70
+	current_cost_metal:400,
+	base_cost_metal: 4000,
+	current_cost_crystal:270,
+	base_cost_crystal: 270
 };
 
 var research_lab = {
 	current_lab_level: 0,
-	current_cost_metal:150,
-	base_cost_metal: 150,
-	current_cost_crystal:70,
-	base_cost_crystal: 70
+	current_cost_metal:550,
+	base_cost_metal: 550,
+	current_cost_crystal:300,
+	base_cost_crystal: 300
 };
 
 var dm_lab = {
@@ -401,16 +401,18 @@ angular.module('xenon.controllers', []).
 	}).
 	controller('GameCtrl', function($scope, $rootScope, $cookies, $modal, $sce, $layout, $location, $timeout, $interval)
 	{
-		//REMOVE LATER, TEST CODE
-		
+		if(!$cookies.current_user){
+			window.location.href = "/#/login-light";
+			//window.location.reload();
+		}
 		window.onbeforeunload = Save;
 		if(!Loaded){
 
 			Load();
 			Loaded = 1;
 		}
-		
-		
+
+
 		$.ajaxSetup({
 	    async: false
 		});
@@ -439,7 +441,7 @@ angular.module('xenon.controllers', []).
 
 
 
-		
+
 
 
 		$rootScope.layoutOptions.horizontalMenu.isVisible = true;
@@ -466,18 +468,43 @@ angular.module('xenon.controllers', []).
 				"showEasing": "swing",
 				"hideEasing": "linear",
 				"showMethod": "fadeIn",
-				"hideMethod": "fadeOut"
+				"hideMethod": "fadeOut",
+				"preventOpenDuplicates": true
 				};
 
 		$scope.format_number= function(num) {
-			if (num >= 10000){
-				return (num/1000).toFixed(1) + 'k';
+			if (num >= 1000000000000000000000000000000000){
+				return (num/1000000000000000000000000000000000).toFixed(1) + ' D';
 			}
-			if (num >= 1000000){
-				return (num/1000000).toFixed(1) + 'm';
+			if (num >= 1000000000000000000000000000000){
+				return (num/1000000000000000000000000000000).toFixed(1) + ' N';
+			}
+			if (num >= 1000000000000000000000000000){
+				return (num/1000000000000000000000000000).toFixed(1) + ' O';
+			}
+			if (num >= 1000000000000000000000000){
+				return (num/1000000000000000000000000).toFixed(1) + ' S';
+			}
+			if (num >= 1000000000000000000000){
+				return (num/1000000000000000000000).toFixed(1) + ' s';
+			}
+			if (num >= 1000000000000000000){
+				return (num/1000000000000000000).toFixed(1) + ' q';
+			}
+			if (num >= 1000000000000000){
+				return (num/1000000000000000).toFixed(1) + ' Q';
+			}
+			if (num >= 1000000000000){
+				return (num/1000000000000).toFixed(1) + ' T';
 			}
 			if (num >= 1000000000){
-				return (num/1000000000).toFixed(1) + 'b';
+				return (num/1000000000).toFixed(1) + ' B';
+			}
+			if (num >= 1000000){
+				return (num/1000000).toFixed(1) + ' M';
+			}
+			if (num >= 10000){
+				return (num/1000).toFixed(1) + ' K';
 			}
 		    return num.toFixed(0);
 		}
@@ -548,7 +575,7 @@ angular.module('xenon.controllers', []).
 
 		         crystal.current_mine_level = crystal.current_mine_level + 1;
 		    	   crystal.current_owned = crystal.current_owned - crystal.current_cost;
-						 crystal.current_cost = Math.floor(crystal.ori_cost * Math.pow(1.4,crystal.current_mine_level));
+						 crystal.current_cost = Math.floor(crystal.ori_cost * Math.pow(1.55,crystal.current_mine_level));
 
 		    };
 		};
@@ -1180,18 +1207,21 @@ angular.module('xenon.controllers', []).
 		}, 2000);
 
 
-		
+
 */
+
+
+
 
 		$scope.Load = function(username)
 		{
 			Load(username);
 		};
-		
-		
+
+
 
 		//var current_user = $cookies['current_user'];;
-		$rootScope.setCurrentUser = function (user) {
+		$scope.setCurrentUser = function (user) {
 			$cookies.current_user= user;
 			$rootScope.current_user = user;
 		};
@@ -1220,7 +1250,8 @@ angular.module('xenon.controllers', []).
 								"showEasing": "swing",
 								"hideEasing": "linear",
 								"showMethod": "fadeIn",
-								"hideMethod": "fadeOut"
+								"hideMethod": "fadeOut",
+								"preventOpenDuplicates": true
 								};
 
 
@@ -1254,7 +1285,8 @@ angular.module('xenon.controllers', []).
 				"showEasing": "swing",
 				"hideEasing": "linear",
 				"showMethod": "fadeIn",
-				"hideMethod": "fadeOut"
+				"hideMethod": "fadeOut",
+				"preventOpenDuplicates": true
 				};
 
 			if (!username){
@@ -1283,7 +1315,7 @@ angular.module('xenon.controllers', []).
 				type: 'GET',
 				url: AUTHOR_URL,
 				success: function(message) {
-					
+
 					if(message=="ok"){
 						toastr.success("Account created", "Success", opts);
 			 			$rootScope.currentModal.close();
@@ -1301,7 +1333,86 @@ angular.module('xenon.controllers', []).
 			});
 
 
-			 
+
+		};
+
+
+
+
+
+		$scope.Login = function(){
+			var username = document.forms["LoginForm"]["username"].value;
+			var password = document.forms["LoginForm"]["password"].value;
+			var opts = {
+					"closeButton": true,
+					"debug": false,
+					"positionClass": "toast-top-full-width",
+					"onclick": null,
+					"showDuration": "300",
+					"hideDuration": "1000",
+					"timeOut": "5000",
+					"extendedTimeOut": "1000",
+					"showEasing": "swing",
+					"hideEasing": "linear",
+					"showMethod": "fadeIn",
+					"hideMethod": "fadeOut",
+					"preventOpenDuplicates": true
+					};
+
+			if (username == null || username == "") {
+						toastr.error("Please fill in Username"
+							, "Username is empty"
+							, opts);
+
+					return false;
+			}
+			if (password == null || password == "") {
+					toastr.error("Please fill in Password"
+					, "Password is empty"
+					, opts);
+				return false;
+			}
+
+			//connect to server
+			$.ajaxSetup({
+				async: false
+			});
+			var AUTHOR_URL = 'http://localhost:5000/login/'.concat(username).concat('/').concat(password);
+			$.ajax({
+				dataType: 'json',
+				type: 'GET',
+				url: AUTHOR_URL,
+				success: function(message) {
+
+					if(message=="ok"){
+						window.location.hash = '#/app/dashboard-variant-1';
+
+
+						$scope.setCurrentUser(username);
+						Load(username);
+						Loaded=1;
+
+					}else if(message == "error_wrong_password"){
+						toastr.error("please try again"
+						, "Wrong Password"
+						, opts);
+					}else if(message == "error_no_user"){
+						toastr.error("please register :)"
+						, "No Such User"
+						, opts);
+					}else if (message == "ok_new_user"){
+						window.location.hash = '#/app/dashboard-variant-1';
+
+
+						angular.element(document.getElementById('login')).scope().setCurrentUser(username);
+						angular.element(document.getElementById('login')).scope().Save(username);
+						angular.element(document.getElementById('login')).scope().Load(username);
+
+					}
+
+				}
+			});
+
 		};
 
 
@@ -1525,7 +1636,12 @@ angular.module('xenon.controllers', []).
 
 		$scope.logout = function()
 		{
-			Save();
+			Save($rootScope.current_user);
+			$rootScope.current_user = "";
+			//clear state!
+
+
+
 		};
 
 
@@ -1552,16 +1668,40 @@ angular.module('xenon.controllers', []).
 		$scope.raids = raids;
 		$scope.artifacts = artifacts;
 		$scope.format_number= function(num) {
-			if (num >= 10000){
-				return (num/1000).toFixed(1) + 'k';
+			if (num >= 1000000000000000000000000000000000){
+				return (num/1000000000000000000000000000000000).toFixed(1) + ' D';
 			}
-			if (num >= 1000000){
-				return (num/1000000).toFixed(1) + 'm';
+			if (num >= 1000000000000000000000000000000){
+				return (num/1000000000000000000000000000000).toFixed(1) + ' N';
+			}
+			if (num >= 1000000000000000000000000000){
+				return (num/1000000000000000000000000000).toFixed(1) + ' O';
+			}
+			if (num >= 1000000000000000000000000){
+				return (num/1000000000000000000000000).toFixed(1) + ' S';
+			}
+			if (num >= 1000000000000000000000){
+				return (num/1000000000000000000000).toFixed(1) + ' s';
+			}
+			if (num >= 1000000000000000000){
+				return (num/1000000000000000000).toFixed(1) + ' q';
+			}
+			if (num >= 1000000000000000){
+				return (num/1000000000000000).toFixed(1) + ' Q';
+			}
+			if (num >= 1000000000000){
+				return (num/1000000000000).toFixed(1) + ' T';
 			}
 			if (num >= 1000000000){
-				return (num/1000000000).toFixed(1) + 'b';
+				return (num/1000000000).toFixed(1) + ' B';
 			}
-		    return num;
+			if (num >= 1000000){
+				return (num/1000000).toFixed(1) + ' M';
+			}
+			if (num >= 10000){
+				return (num/1000).toFixed(1) + ' K';
+			}
+		    return num.toFixed(0);
 		}
 
 		function getRandomColor() {
@@ -2073,20 +2213,45 @@ angular.module('xenon.controllers', []).
 				"showEasing": "swing",
 				"hideEasing": "linear",
 				"showMethod": "fadeIn",
-				"hideMethod": "fadeOut"
+				"hideMethod": "fadeOut",
+				"preventOpenDuplicates": true
 				};
 		$scope.format_number= function(num) {
-			if (num >= 10000){
-				return (num/1000).toFixed(1) + 'k';
+			if (num >= 1000000000000000000000000000000000){
+				return (num/1000000000000000000000000000000000).toFixed(1) + ' D';
 			}
-			if (num >= 1000000){
-				return (num/1000000).toFixed(1) + 'm';
+			if (num >= 1000000000000000000000000000000){
+				return (num/1000000000000000000000000000000).toFixed(1) + ' N';
+			}
+			if (num >= 1000000000000000000000000000){
+				return (num/1000000000000000000000000000).toFixed(1) + ' O';
+			}
+			if (num >= 1000000000000000000000000){
+				return (num/1000000000000000000000000).toFixed(1) + ' S';
+			}
+			if (num >= 1000000000000000000000){
+				return (num/1000000000000000000000).toFixed(1) + ' s';
+			}
+			if (num >= 1000000000000000000){
+				return (num/1000000000000000000).toFixed(1) + ' q';
+			}
+			if (num >= 1000000000000000){
+				return (num/1000000000000000).toFixed(1) + ' Q';
+			}
+			if (num >= 1000000000000){
+				return (num/1000000000000).toFixed(1) + ' T';
 			}
 			if (num >= 1000000000){
-				return (num/1000000000).toFixed(1) + 'b';
+				return (num/1000000000).toFixed(1) + ' B';
 			}
-		    return num;
-		};
+			if (num >= 1000000){
+				return (num/1000000).toFixed(1) + ' M';
+			}
+			if (num >= 10000){
+				return (num/1000).toFixed(1) + ' K';
+			}
+		    return num.toFixed(0);
+		}
 		$scope.find_index= function(item, list) {
 
 			return find_index_g(item, list);
@@ -2143,7 +2308,7 @@ angular.module('xenon.controllers', []).
         		$scope.LF_Text = 0;
         		$scope.LF_Slider = 0;
         	}
-        	
+
         	$scope.LF_fleet_HP = ships.light_fighter.stats.HP * $scope.LF_Text;
         	$scope.LF_fleet_Shield = ships.light_fighter.stats.shield * $scope.LF_Text;
         	$scope.LF_fleet_Attk = ships.light_fighter.stats.attack * $scope.LF_Text;
@@ -2694,16 +2859,42 @@ angular.module('xenon.controllers', []).
 
 
 		$scope.format_number= function(num) {
-			if (num >= 10000){
-				return (num/1000).toFixed(1) + 'k';
+
+
+			if (num >= 1000000000000000000000000000000000){
+				return (num/1000000000000000000000000000000000).toFixed(1) + ' D';
 			}
-			if (num >= 1000000){
-				return (num/1000000).toFixed(1) + 'm';
+			if (num >= 1000000000000000000000000000000){
+				return (num/1000000000000000000000000000000).toFixed(1) + ' N';
+			}
+			if (num >= 1000000000000000000000000000){
+				return (num/1000000000000000000000000000).toFixed(1) + ' O';
+			}
+			if (num >= 1000000000000000000000000){
+				return (num/1000000000000000000000000).toFixed(1) + ' S';
+			}
+			if (num >= 1000000000000000000000){
+				return (num/1000000000000000000000).toFixed(1) + ' s';
+			}
+			if (num >= 1000000000000000000){
+				return (num/1000000000000000000).toFixed(1) + ' q';
+			}
+			if (num >= 1000000000000000){
+				return (num/1000000000000000).toFixed(1) + ' Q';
+			}
+			if (num >= 1000000000000){
+				return (num/1000000000000).toFixed(1) + ' T';
 			}
 			if (num >= 1000000000){
-				return (num/1000000000).toFixed(1) + 'b';
+				return (num/1000000000).toFixed(1) + ' B';
 			}
-		    return num;
+			if (num >= 1000000){
+				return (num/1000000).toFixed(1) + ' M';
+			}
+			if (num >= 10000){
+				return (num/1000).toFixed(1) + ' K';
+			}
+		    return (num/1).toFixed(0);
 		}
 		$scope.openModal = function(modal_id, modal_size, modal_backdrop)
 		{
@@ -3002,16 +3193,34 @@ angular.module('xenon.controllers', []).
 			//$( "#TOT_battle_enemy" ).animate({ "left": "-=150px", "opacity":"1" }, 500);
 
 
-			$scope.progress_TOT_HP_enemy = {
-				value: 0,
-				max: $scope.MAX_TOT_HP_ENEMY,
-				color: 'danger'
-			};
-			$scope.progress_TOT_Shield_enemy = {
-				value: 0,
-				max: $scope.MAX_TOT_HP_ENEMY,
-				color: 'info'
-			};
+			if($scope.MAX_TOT_HP_ENEMY >= $scope.MAX_TOT_SHIELD_ENEMY){
+				$scope.progress_TOT_HP_enemy = {
+					value: 0,
+					max: $scope.MAX_TOT_HP_ENEMY,
+					color: 'danger'
+				};
+
+				$scope.progress_TOT_Shield_enemy = {
+					value: 0,
+					max: $scope.MAX_TOT_HP_ENEMY,
+					color: 'info'
+				};
+			}else
+			{
+				$scope.progress_TOT_HP_enemy = {
+					value: 0,
+					max: $scope.MAX_TOT_SHIELD_ENEMY,
+					color: 'danger'
+				};
+
+				$scope.progress_TOT_Shield_enemy = {
+					value: 0,
+					max: $scope.MAX_TOT_SHIELD_ENEMY,
+					color: 'info'
+				};
+			}
+
+			
 			$timeout(function(){
 
 
@@ -3458,14 +3667,14 @@ function Save(username) {
 	var data = {
 	      data: JSON.stringify(formated_save_data)
 	   }
-	
+
 
 
 		$.ajax({
         type: "POST",
         url: AUTHOR_URL,
         data: data,
-        dataType: "json"            
+        dataType: "json"
     }).done(function(data){
         console.log(data);
     });
@@ -3483,14 +3692,14 @@ function Load(username) {
 	}else{
 		//error
 	}
-	
-	
 
-  	
+
+
+
 		 $.ajax({
         type: "GET",
         url: AUTHOR_URL,
-        dataType: "json"            
+        dataType: "json"
     }).done(function(data){
     	var json = JSON.stringify(eval("(" + data + ")"));
         var json_result = JSON.parse(json);
@@ -3530,7 +3739,7 @@ function Load(username) {
 		shipyard.base_cost_metal = json_result.shipyard_info.base_cost_metal;
 		shipyard.current_cost_crystal = json_result.shipyard_info.current_cost_crystal;
 		shipyard.base_cost_crystal = json_result.shipyard_info.base_cost_crystal;
-		
+
 
 		research_lab.current_lab_level = json_result.research_lab_info.current_lab_level;
 		research_lab.current_cost_metal = json_result.research_lab_info.current_cost_metal;
@@ -3553,7 +3762,7 @@ function Load(username) {
 		level.current_level = json_result.level_info.current_level;
 		level.color1 = json_result.level_info.color1;
 		level.color2 = json_result.level_info.color2;
-		
+
 		raids.Oatis.timer = json_result.raids_info.Oatis.timer;
 		raids.Oatis.unlocked = json_result.raids_info.Oatis.unlocked;
 		raids.Clade.timer = json_result.raids_info.Clade.timer;
@@ -3593,7 +3802,7 @@ function Load(username) {
 
 		for (var i=0; i<difference; i++)
 		{
-			
+
 
 			if (dm_lab.current_lab_level != 0){
 				var current_time = dm_lab["timer"].split(":");

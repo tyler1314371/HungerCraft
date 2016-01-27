@@ -1,7 +1,7 @@
 <style media="screen" type="text/css">
 
 #resource_page{
-
+  padding-left: 50px;
   color:white;
 }
 
@@ -97,9 +97,20 @@
  .upgrade_button_resource{
    padding-left: 125px;
  }
+
+
+#metal_resource{
+
+ background-image: url(assets/images/icon/metal_mine.jpg);
+ background-size: 100% 100%;
+ width: 1300px;
+ height: 700px;
+}
 </style>
 
 <div class="row" id="resource_page">
+
+
 
       <table style="width:100%">
         <tr>
@@ -107,7 +118,7 @@
               <h4><div id="attention"><b>Metal Mine (Level {{metal.current_mine_level}})</b></div></h4>
             </td>
             <td ng-if="metal.current_mine_level==0" style="text-align: center; width: auto">
-              <h4><div id="attention"><b>????????</b></div></h4>
+              <h4><div id="attention"><b>(Unknown Building)</b></div></h4>
             </td>
         </tr>
       </table>
@@ -139,7 +150,7 @@
 
 
               <div class= "upgrade_button_resource">
-                
+
 
 
 
@@ -195,7 +206,7 @@
               <h4><div id="attention"><b>Crystal Mine (Level {{crystal.current_mine_level}})</b></div></h4>
             </td>
             <td ng-if="crystal.current_mine_level==0" style="text-align: center; width: auto">
-              <h4><div id="attention"><b>????????</b></div></h4>
+              <h4><div id="attention"><b>(Unknown Building)</b></div></h4>
             </td>
         </tr>
       </table>
@@ -225,7 +236,7 @@
 
 
               <div class= "upgrade_button_resource">
-                
+
                 <button ng-if="crystal.current_cost > crystal.current_owned" class="btn btn-grey btn-icon btn-icon-standalone btn-icon-standalone-right disabled">
                     <i class="fa-bolt" style="color:black"></i>
                     <span><font color="black">Upgrade</font></span>
@@ -283,7 +294,7 @@
               <h4><div id="attention"><b>Shipyard (Level {{shipyard.current_lab_level}})</b></div></h4>
             </td>
             <td ng-if="shipyard.current_lab_level==0" style="text-align: center; width: auto">
-              <h4><div id="attention"><b>????????</b></div></h4>
+              <h4><div id="attention"><b>(Unknown Building)</b></div></h4>
             </td>
         </tr>
       </table>
@@ -366,7 +377,7 @@
               <h4><div id="attention"><b>Research Lab (Level {{research_lab.current_lab_level}})</b></div></h4>
             </td>
             <td ng-if="research_lab.current_lab_level==0" style="text-align: center; width: auto">
-              <h4><div id="attention"><b>????????</b></div></h4>
+              <h4><div id="attention"><b>(Unknown Building)</b></div></h4>
             </td>
         </tr>
       </table>
@@ -407,7 +418,7 @@
               <font ng-if="research_lab.current_cost_crystal <= crystal.current_owned" color="#6AEB6A">{{format_number(research_lab.current_cost_crystal)}}</font>
               <img src="assets/images/crystal.png" width="25" class ="artifact_img"/>
               </b>
-              
+
 
             </td>
           </tr>
@@ -427,15 +438,15 @@
              <font ng-if="metal.current_mine_level<10" color="#F63249">Metal Mine Level 10 <br/></font>
              <font ng-if="crystal.current_mine_level>=7" color="#6AEB6A">Crystal Mine Level 7 <br/></font>
              <font ng-if="crystal.current_mine_level<7" color="#F63249">Crystal Mine Level 7 <br/></font>
-             <font ng-if="level.current_level>=9" color="#6AEB6A">Zone Level 9 <br/></font>
-             <font ng-if="level.current_level<9" color="#F63249">Zone Level 9 <br/></font>
+             <font ng-if="level.current_level>=6" color="#6AEB6A">Zone Level 6 <br/></font>
+             <font ng-if="level.current_level<6" color="#F63249">Zone Level 6 <br/></font>
             </td>
             <td >
-              <button ng-if="metal.current_mine_level<10 || crystal.current_mine_level<7 || level.current_level<9" class="btn btn-grey btn-icon btn-icon-standalone btn-icon-standalone-right disabled">
+              <button ng-if="metal.current_mine_level<10 || crystal.current_mine_level<7 || level.current_level<6" class="btn btn-grey btn-icon btn-icon-standalone btn-icon-standalone-right disabled">
                   <i class="fa-upload" style="color:black"></i>
                   <span><font color="black">Build</font></span>
               </button>
-              <button ng-if="metal.current_mine_level>=10 && crystal.current_mine_level>=7 && level.current_level>=9" class="btn btn-success btn-icon btn-icon-standalone btn-icon-standalone-right" ng-click="Build('research_lab')">
+              <button ng-if="metal.current_mine_level>=10 && crystal.current_mine_level>=7 && level.current_level>=6" class="btn btn-success btn-icon btn-icon-standalone btn-icon-standalone-right" ng-click="Build('research_lab')">
                   <i class="fa-upload"></i>
                   <span>Build</span>
               </button>
@@ -453,7 +464,7 @@
               <h4><div id="attention"><b>Dark Matter Lab (Level {{dm_lab.current_lab_level}})</b></div></h4>
             </td>
             <td ng-if="dm_lab.current_lab_level==0" style="text-align: center; width: auto">
-              <h4><div id="attention"><b>????????</b></div></h4>
+              <h4><div id="attention"><b>(Unknown Building)</b></div></h4>
             </td>
         </tr>
       </table>
@@ -497,7 +508,7 @@
                 <font ng-if="dm_lab.current_cost_crystal <= crystal.current_owned" color="#6AEB6A">{{format_number(dm_lab.current_cost_crystal)}}</font>
                 <img src="assets/images/crystal.png" width="25" class ="artifact_img"/>
                 </b>
-                
+
               </div>
 
             </td>
