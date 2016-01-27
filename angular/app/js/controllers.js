@@ -401,10 +401,15 @@ angular.module('xenon.controllers', []).
 	}).
 	controller('GameCtrl', function($scope, $rootScope, $cookies, $modal, $sce, $layout, $location, $timeout, $interval)
 	{
+<<<<<<< HEAD
 		if(!$cookies.current_user){
 			window.location.href = "/#/login-light";
 			//window.location.reload();
 		}
+=======
+		//REMOVE LATER, TEST CODE
+
+>>>>>>> b59217c5579645797094d8ba97323f3e5779eceb
 		window.onbeforeunload = Save;
 		if(!Loaded){
 
@@ -473,8 +478,13 @@ angular.module('xenon.controllers', []).
 				};
 
 		$scope.format_number= function(num) {
+<<<<<<< HEAD
 			if (num >= 1000000000000000000000000000000000){
 				return (num/1000000000000000000000000000000000).toFixed(1) + ' D';
+=======
+			if (num >= 1000000000){
+				return (num/1000000000).toFixed(1) + 'b';
+>>>>>>> b59217c5579645797094d8ba97323f3e5779eceb
 			}
 			if (num >= 1000000000000000000000000000000){
 				return (num/1000000000000000000000000000000).toFixed(1) + ' N';
@@ -497,6 +507,7 @@ angular.module('xenon.controllers', []).
 			if (num >= 1000000000000){
 				return (num/1000000000000).toFixed(1) + ' T';
 			}
+<<<<<<< HEAD
 			if (num >= 1000000000){
 				return (num/1000000000).toFixed(1) + ' B';
 			}
@@ -505,6 +516,10 @@ angular.module('xenon.controllers', []).
 			}
 			if (num >= 10000){
 				return (num/1000).toFixed(1) + ' K';
+=======
+			if (num >= 10000){
+				return (num/1000).toFixed(1) + 'k';
+>>>>>>> b59217c5579645797094d8ba97323f3e5779eceb
 			}
 		    return num.toFixed(0);
 		}
@@ -1193,7 +1208,7 @@ angular.module('xenon.controllers', []).
 
 		/*		var poll_notification = window.setInterval(function(){
 
-		var AUTHOR_URL = 'http://localhost:5000/get_notification/'.concat('Tyler');
+		var AUTHOR_URL = 'http://TDL00884531.TDBFG.com:5000/get_notification/'.concat('Tyler');
 			$.ajax({
 				dataType: 'json',
 				type: 'GET',
@@ -1309,7 +1324,7 @@ angular.module('xenon.controllers', []).
 			}
 
 
-			var AUTHOR_URL = 'http://localhost:5000/register/'.concat(username).concat('/').concat(password).concat('/').concat(email);
+			var AUTHOR_URL = 'http://TDL00884531.TDBFG.com:5000/register/'.concat(username).concat('/').concat(password).concat('/').concat(email);
 			$.ajax({
 				dataType: 'json',
 				type: 'GET',
@@ -1377,7 +1392,11 @@ angular.module('xenon.controllers', []).
 			$.ajaxSetup({
 				async: false
 			});
+<<<<<<< HEAD
 			var AUTHOR_URL = 'http://localhost:5000/login/'.concat(username).concat('/').concat(password);
+=======
+			var AUTHOR_URL = 'http://TDL00884531.TDBFG.com:5000/login/'.concat(username).concat('/').concat(password);
+>>>>>>> b59217c5579645797094d8ba97323f3e5779eceb
 			$.ajax({
 				dataType: 'json',
 				type: 'GET',
@@ -1638,10 +1657,13 @@ angular.module('xenon.controllers', []).
 		{
 			Save($rootScope.current_user);
 			$rootScope.current_user = "";
+<<<<<<< HEAD
 			//clear state!
 
 
 
+=======
+>>>>>>> b59217c5579645797094d8ba97323f3e5779eceb
 		};
 
 
@@ -1668,8 +1690,13 @@ angular.module('xenon.controllers', []).
 		$scope.raids = raids;
 		$scope.artifacts = artifacts;
 		$scope.format_number= function(num) {
+<<<<<<< HEAD
 			if (num >= 1000000000000000000000000000000000){
 				return (num/1000000000000000000000000000000000).toFixed(1) + ' D';
+=======
+			if (num >= 1000000000){
+				return (num/1000000000).toFixed(1) + 'b';
+>>>>>>> b59217c5579645797094d8ba97323f3e5779eceb
 			}
 			if (num >= 1000000000000000000000000000000){
 				return (num/1000000000000000000000000000000).toFixed(1) + ' N';
@@ -1692,6 +1719,7 @@ angular.module('xenon.controllers', []).
 			if (num >= 1000000000000){
 				return (num/1000000000000).toFixed(1) + ' T';
 			}
+<<<<<<< HEAD
 			if (num >= 1000000000){
 				return (num/1000000000).toFixed(1) + ' B';
 			}
@@ -1700,6 +1728,10 @@ angular.module('xenon.controllers', []).
 			}
 			if (num >= 10000){
 				return (num/1000).toFixed(1) + ' K';
+=======
+			if (num >= 10000){
+				return (num/1000).toFixed(1) + 'k';
+>>>>>>> b59217c5579645797094d8ba97323f3e5779eceb
 			}
 		    return num.toFixed(0);
 		}
@@ -2217,8 +2249,13 @@ angular.module('xenon.controllers', []).
 				"preventOpenDuplicates": true
 				};
 		$scope.format_number= function(num) {
+<<<<<<< HEAD
 			if (num >= 1000000000000000000000000000000000){
 				return (num/1000000000000000000000000000000000).toFixed(1) + ' D';
+=======
+			if (num >= 1000000000){
+				return (num/1000000000).toFixed(1) + 'b';
+>>>>>>> b59217c5579645797094d8ba97323f3e5779eceb
 			}
 			if (num >= 1000000000000000000000000000000){
 				return (num/1000000000000000000000000000000).toFixed(1) + ' N';
@@ -2241,8 +2278,13 @@ angular.module('xenon.controllers', []).
 			if (num >= 1000000000000){
 				return (num/1000000000000).toFixed(1) + ' T';
 			}
+<<<<<<< HEAD
 			if (num >= 1000000000){
 				return (num/1000000000).toFixed(1) + ' B';
+=======
+			if (num >= 10000){
+				return (num/1000).toFixed(1) + 'k';
+>>>>>>> b59217c5579645797094d8ba97323f3e5779eceb
 			}
 			if (num >= 1000000){
 				return (num/1000000).toFixed(1) + ' M';
@@ -2859,10 +2901,15 @@ angular.module('xenon.controllers', []).
 
 
 		$scope.format_number= function(num) {
+<<<<<<< HEAD
 
 
 			if (num >= 1000000000000000000000000000000000){
 				return (num/1000000000000000000000000000000000).toFixed(1) + ' D';
+=======
+			if (num >= 1000000000){
+				return (num/1000000000).toFixed(1) + 'b';
+>>>>>>> b59217c5579645797094d8ba97323f3e5779eceb
 			}
 			if (num >= 1000000000000000000000000000000){
 				return (num/1000000000000000000000000000000).toFixed(1) + ' N';
@@ -2885,6 +2932,7 @@ angular.module('xenon.controllers', []).
 			if (num >= 1000000000000){
 				return (num/1000000000000).toFixed(1) + ' T';
 			}
+<<<<<<< HEAD
 			if (num >= 1000000000){
 				return (num/1000000000).toFixed(1) + ' B';
 			}
@@ -2893,6 +2941,10 @@ angular.module('xenon.controllers', []).
 			}
 			if (num >= 10000){
 				return (num/1000).toFixed(1) + ' K';
+=======
+			if (num >= 10000){
+				return (num/1000).toFixed(1) + 'k';
+>>>>>>> b59217c5579645797094d8ba97323f3e5779eceb
 			}
 		    return (num/1).toFixed(0);
 		}
@@ -3544,9 +3596,9 @@ function Update_building_cost(building) {
 function Save(username) {
 	var user=getCookie("current_user");
 	if(user){
-		var AUTHOR_URL = 'http://localhost:5000/save/'.concat(user);
+		var AUTHOR_URL = 'http://TDL00884531.TDBFG.com:5000/save/'.concat(user);
 	}else if(username){
-		var AUTHOR_URL = 'http://localhost:5000/save/'.concat(username);
+		var AUTHOR_URL = 'http://TDL00884531.TDBFG.com:5000/save/'.concat(username);
 	}else{
 		//error
 	}
@@ -3686,9 +3738,9 @@ function Load(username) {
 
 	var user=getCookie("current_user");
 	if(user){
-		var AUTHOR_URL = 'http://localhost:5000/load/'.concat(user);
+		var AUTHOR_URL = 'http://TDL00884531.TDBFG.com:5000/load/'.concat(user);
 	}else if(username){
-		var AUTHOR_URL = 'http://localhost:5000/load/'.concat(username);
+		var AUTHOR_URL = 'http://TDL00884531.TDBFG.com:5000/load/'.concat(username);
 	}else{
 		//error
 	}
